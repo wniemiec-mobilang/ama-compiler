@@ -25,7 +25,7 @@ public class App
         catch (InvalidPathException e) {
             System.out.println("Invalid filepath! " + e.getMessage());
         } 
-        catch (IOException e) {
+        catch (Exception e) {
             System.out.println("Error while parsing dotfile! " + e.getMessage());
         }
     }

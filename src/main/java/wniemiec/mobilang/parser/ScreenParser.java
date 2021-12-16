@@ -15,6 +15,9 @@ public class ScreenParser implements Parser {
     private Node structureNode;
     private Node styleNode;
     private Node behaviorNode;
+    private Parser structureParser;
+    private Parser styleParser;
+    private Parser behaviorParser;
 
     public ScreenParser(SortedMap<String, List<Node>> tree, Node screenNode) {
         this.tree = tree;
@@ -36,10 +39,17 @@ public class ScreenParser implements Parser {
     @Override
     public void parse() throws Exception {
         System.out.println("-----< SCREEN PARSER >-----");
+        
         System.out.println(id);
-        System.out.println(structureNode);
-        System.out.println(styleNode);
-        System.out.println(behaviorNode);
+        
+        structureParser = new StructureParser(tree, structureNode);
+        styleParser = new StyleParser(tree, styleNode);
+        behaviorParser = new BehaviorParser(tree, behaviorNode);
+
+        structureParser.parse();
+        styleParser.parse();
+        behaviorParser.parse();
+        
         System.out.println("-------------------------------\n");
     }
 }

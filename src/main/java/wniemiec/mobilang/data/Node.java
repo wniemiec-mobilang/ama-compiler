@@ -19,6 +19,10 @@ public class Node {
         return ((String) graphNode.getAttribute("label"));
     }
 
+    public String getId() {
+        return graphNode.getId();
+    }
+
     @Override
     public String toString() {
         return graphNode.toString();
@@ -48,7 +52,7 @@ public class Node {
             return;
 
         int indexFirstSpace = label.indexOf(" ");
-        String rawAttributes = label.substring(indexFirstSpace+1);
+        String rawAttributes = label.substring(indexFirstSpace+1, label.length()-1);
             
         attributes = new HashMap<>();
 

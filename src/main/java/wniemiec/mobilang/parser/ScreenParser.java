@@ -20,7 +20,7 @@ public class ScreenParser implements Parser {
         this.tree = tree;
         id = screenNode.getAttribute("id");
         
-        for (Node node : tree.get(screenNode.getLabel())) {
+        for (Node node : tree.get(screenNode.getId())) {
             if (node.getLabel().contains("structure")) {
                 structureNode = node;
             }

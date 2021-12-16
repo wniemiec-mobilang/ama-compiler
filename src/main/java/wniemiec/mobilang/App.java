@@ -27,6 +27,7 @@ public class App
         } 
         catch (Exception e) {
             System.out.println("Error while parsing dotfile! " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

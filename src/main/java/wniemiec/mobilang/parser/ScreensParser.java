@@ -12,7 +12,7 @@ public class ScreensParser implements Parser {
 
     public ScreensParser(SortedMap<String, List<Node>> tree, Node screensNode) {
         this.tree = tree;
-        screens = tree.get(screensNode.getLabel());
+        screens = tree.get(screensNode.getId());
     }
 
     @Override

@@ -11,7 +11,7 @@ public class PersistenceParser implements Parser {
     private String persistenceContent;
 
     public PersistenceParser(SortedMap<String, List<Node>> tree, Node persistenceNode) {
-        persistenceContent = tree.get(persistenceNode.getLabel()).get(0).getLabel();
+        persistenceContent = tree.get(persistenceNode.getId()).get(0).getLabel();
     }
 
     @Override

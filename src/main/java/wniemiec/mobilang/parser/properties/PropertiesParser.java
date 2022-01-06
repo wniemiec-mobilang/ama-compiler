@@ -1,9 +1,10 @@
-package wniemiec.mobilang.parser;
+package wniemiec.mobilang.parser.properties;
 
 import java.util.List;
 import java.util.SortedMap;
 
 import wniemiec.mobilang.data.Node;
+import wniemiec.mobilang.parser.Parser;
 
 public class PropertiesParser implements Parser {
 

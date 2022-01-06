@@ -1,9 +1,10 @@
-package wniemiec.mobilang.parser;
+package wniemiec.mobilang.parser.screens;
 
 import java.util.List;
 import java.util.SortedMap;
 
 import wniemiec.mobilang.data.Node;
+import wniemiec.mobilang.parser.Parser;
 
 public class ScreensParser implements Parser {
 
@@ -17,10 +18,14 @@ public class ScreensParser implements Parser {
 
     @Override
     public void parse() throws Exception {
-        for (Node screen : screens) {
+        /*for (Node screen : screens) {
             ScreenParser screenParser = new ScreenParser(tree, screen);
             
             screenParser.parse();
-        }
+        }*/
+
+        ScreenParser screenParser = new ScreenParser(tree, screens.get(0));
+            
+        screenParser.parse();
     }
 }

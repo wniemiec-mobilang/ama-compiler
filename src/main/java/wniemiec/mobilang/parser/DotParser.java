@@ -10,6 +10,9 @@ import java.util.SortedMap;
 import com.paypal.digraph.parser.GraphNode;
 
 import wniemiec.mobilang.data.Node;
+import wniemiec.mobilang.parser.persistence.PersistenceParser;
+import wniemiec.mobilang.parser.properties.PropertiesParser;
+import wniemiec.mobilang.parser.screens.ScreensParser;
 import wniemiec.mobilang.reader.DotReader;
 
 public class DotParser implements Parser {
@@ -32,13 +35,13 @@ public class DotParser implements Parser {
         /*for (String line : Files.readAllLines(dotFile)) {
             System.out.println(line);
         }*/
-        System.out.println("\n");
+        /*System.out.println("\n");
 
         for (Map.Entry<String, List<Node>> element : tree.entrySet()) {
             System.out.println(element.getKey() + " -> " + element.getValue());
         }
 
-        System.out.println("\n");
+        System.out.println("\n");*/
 
         //System.out.println(tree);
 
@@ -53,8 +56,8 @@ public class DotParser implements Parser {
         persistenceParser = new PersistenceParser(tree, persistenceNode);
 
         screensParser.parse();
-        propertiesParser.parse();
-        persistenceParser.parse();
+        //propertiesParser.parse();
+        //persistenceParser.parse();
     }
 
     private Node findNodeWithName(List<Node> root, String name) {

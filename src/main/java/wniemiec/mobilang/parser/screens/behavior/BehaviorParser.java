@@ -1,9 +1,10 @@
-package wniemiec.mobilang.parser;
+package wniemiec.mobilang.parser.screens.behavior;
 
 import java.util.List;
 import java.util.SortedMap;
 
 import wniemiec.mobilang.data.Node;
+import wniemiec.mobilang.parser.Parser;
 
 public class BehaviorParser implements Parser {
 

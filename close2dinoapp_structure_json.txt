@@ -1,0 +1,373 @@
+{
+  "nodeType": "document",
+  "content": {
+    "children": [
+      {
+        "nodeType": "tag",
+        "parentRef": "[Circular ~]",
+        "content": {
+          "openStart": {
+            "type": "token:open-tag-start",
+            "content": "<html",
+            "startPosition": 0,
+            "endPosition": 4
+          },
+          "name": "html",
+          "openEnd": {
+            "type": "token:open-tag-end",
+            "content": ">",
+            "startPosition": 5,
+            "endPosition": 5
+          },
+          "selfClosing": false,
+          "children": [
+            {
+              "nodeType": "tag",
+              "parentRef": "[Circular ~.content.children.0]",
+              "content": {
+                "openStart": {
+                  "type": "token:open-tag-start",
+                  "content": "<body",
+                  "startPosition": 6,
+                  "endPosition": 10
+                },
+                "name": "body",
+                "openEnd": {
+                  "type": "token:open-tag-end",
+                  "content": ">",
+                  "startPosition": 11,
+                  "endPosition": 11
+                },
+                "selfClosing": false,
+                "children": [
+                  {
+                    "nodeType": "tag",
+                    "parentRef": "[Circular ~.content.children.0.content.children.0]",
+                    "content": {
+                      "openStart": {
+                        "type": "token:open-tag-start",
+                        "content": "<div",
+                        "startPosition": 12,
+                        "endPosition": 15
+                      },
+                      "name": "div",
+                      "attributes": [
+                        {
+                          "key": {
+                            "type": "token:attribute-key",
+                            "content": "id",
+                            "startPosition": 17,
+                            "endPosition": 18
+                          },
+                          "startWrapper": {
+                            "type": "token:attribute-value-wrapper-start",
+                            "content": "\"",
+                            "startPosition": 20,
+                            "endPosition": 20
+                          },
+                          "value": {
+                            "type": "token:attribute-value",
+                            "content": "status-bar",
+                            "startPosition": 21,
+                            "endPosition": 30
+                          },
+                          "endWrapper": {
+                            "type": "token:attribute-value-wrapper-end",
+                            "content": "\"",
+                            "startPosition": 31,
+                            "endPosition": 31
+                          }
+                        }
+                      ],
+                      "openEnd": {
+                        "type": "token:open-tag-end",
+                        "content": ">",
+                        "startPosition": 32,
+                        "endPosition": 32
+                      },
+                      "selfClosing": false,
+                      "children": [
+                        {
+                          "nodeType": "tag",
+                          "parentRef": "[Circular ~.content.children.0.content.children.0.content.children.0]",
+                          "content": {
+                            "openStart": {
+                              "type": "token:open-tag-start",
+                              "content": "<button",
+                              "startPosition": 33,
+                              "endPosition": 39
+                            },
+                            "name": "button",
+                            "attributes": [
+                              {
+                                "key": {
+                                  "type": "token:attribute-key",
+                                  "content": "id",
+                                  "startPosition": 41,
+                                  "endPosition": 42
+                                },
+                                "startWrapper": {
+                                  "type": "token:attribute-value-wrapper-start",
+                                  "content": "\"",
+                                  "startPosition": 44,
+                                  "endPosition": 44
+                                },
+                                "value": {
+                                  "type": "token:attribute-value",
+                                  "content": "menu-btn",
+                                  "startPosition": 45,
+                                  "endPosition": 52
+                                },
+                                "endWrapper": {
+                                  "type": "token:attribute-value-wrapper-end",
+                                  "content": "\"",
+                                  "startPosition": 53,
+                                  "endPosition": 53
+                                }
+                              }
+                            ],
+                            "openEnd": {
+                              "type": "token:open-tag-end",
+                              "content": ">",
+                              "startPosition": 54,
+                              "endPosition": 54
+                            },
+                            "selfClosing": false,
+                            "children": [
+                              {
+                                "nodeType": "tag",
+                                "parentRef": "[Circular ~.content.children.0.content.children.0.content.children.0.content.children.0]",
+                                "content": {
+                                  "openStart": {
+                                    "type": "token:open-tag-start",
+                                    "content": "<img",
+                                    "startPosition": 55,
+                                    "endPosition": 58
+                                  },
+                                  "name": "img",
+                                  "attributes": [
+                                    {
+                                      "key": {
+                                        "type": "token:attribute-key",
+                                        "content": "height",
+                                        "startPosition": 60,
+                                        "endPosition": 65
+                                      },
+                                      "startWrapper": {
+                                        "type": "token:attribute-value-wrapper-start",
+                                        "content": "\"",
+                                        "startPosition": 67,
+                                        "endPosition": 67
+                                      },
+                                      "value": {
+                                        "type": "token:attribute-value",
+                                        "content": "25",
+                                        "startPosition": 68,
+                                        "endPosition": 69
+                                      },
+                                      "endWrapper": {
+                                        "type": "token:attribute-value-wrapper-end",
+                                        "content": "\"",
+                                        "startPosition": 70,
+                                        "endPosition": 70
+                                      }
+                                    },
+                                    {
+                                      "key": {
+                                        "type": "token:attribute-key",
+                                        "content": "src",
+                                        "startPosition": 72,
+                                        "endPosition": 74
+                                      },
+                                      "startWrapper": {
+                                        "type": "token:attribute-value-wrapper-start",
+                                        "content": "\"",
+                                        "startPosition": 76,
+                                        "endPosition": 76
+                                      },
+                                      "value": {
+                                        "type": "token:attribute-value",
+                                        "content": "https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png",
+                                        "startPosition": 77,
+                                        "endPosition": 148
+                                      },
+                                      "endWrapper": {
+                                        "type": "token:attribute-value-wrapper-end",
+                                        "content": "\"",
+                                        "startPosition": 149,
+                                        "endPosition": 149
+                                      }
+                                    }
+                                  ],
+                                  "openEnd": {
+                                    "type": "token:open-tag-end",
+                                    "content": "/>",
+                                    "startPosition": 151,
+                                    "endPosition": 152
+                                  },
+                                  "selfClosing": true
+                                }
+                              }
+                            ],
+                            "close": {
+                              "type": "token:close-tag",
+                              "content": "</button>",
+                              "startPosition": 153,
+                              "endPosition": 161
+                            }
+                          }
+                        }
+                      ],
+                      "close": {
+                        "type": "token:close-tag",
+                        "content": "</div>",
+                        "startPosition": 162,
+                        "endPosition": 167
+                      }
+                    }
+                  },
+                  {
+                    "nodeType": "tag",
+                    "parentRef": "[Circular ~.content.children.0.content.children.0]",
+                    "content": {
+                      "openStart": {
+                        "type": "token:open-tag-start",
+                        "content": "<div",
+                        "startPosition": 168,
+                        "endPosition": 171
+                      },
+                      "name": "div",
+                      "attributes": [
+                        {
+                          "key": {
+                            "type": "token:attribute-key",
+                            "content": "id",
+                            "startPosition": 173,
+                            "endPosition": 174
+                          },
+                          "startWrapper": {
+                            "type": "token:attribute-value-wrapper-start",
+                            "content": "\"",
+                            "startPosition": 176,
+                            "endPosition": 176
+                          },
+                          "value": {
+                            "type": "token:attribute-value",
+                            "content": "items",
+                            "startPosition": 177,
+                            "endPosition": 181
+                          },
+                          "endWrapper": {
+                            "type": "token:attribute-value-wrapper-end",
+                            "content": "\"",
+                            "startPosition": 182,
+                            "endPosition": 182
+                          }
+                        }
+                      ],
+                      "openEnd": {
+                        "type": "token:open-tag-end",
+                        "content": ">",
+                        "startPosition": 183,
+                        "endPosition": 183
+                      },
+                      "selfClosing": false,
+                      "children": [
+                        {
+                          "nodeType": "tag",
+                          "parentRef": "[Circular ~.content.children.0.content.children.0.content.children.1]",
+                          "content": {
+                            "openStart": {
+                              "type": "token:open-tag-start",
+                              "content": "<a",
+                              "startPosition": 184,
+                              "endPosition": 185
+                            },
+                            "name": "a",
+                            "attributes": [
+                              {
+                                "key": {
+                                  "type": "token:attribute-key",
+                                  "content": "href",
+                                  "startPosition": 187,
+                                  "endPosition": 190
+                                },
+                                "startWrapper": {
+                                  "type": "token:attribute-value-wrapper-start",
+                                  "content": "\"",
+                                  "startPosition": 192,
+                                  "endPosition": 192
+                                },
+                                "value": {
+                                  "type": "token:attribute-value",
+                                  "content": "mobilang:screen:glossary",
+                                  "startPosition": 193,
+                                  "endPosition": 216
+                                },
+                                "endWrapper": {
+                                  "type": "token:attribute-value-wrapper-end",
+                                  "content": "\"",
+                                  "startPosition": 217,
+                                  "endPosition": 217
+                                }
+                              }
+                            ],
+                            "openEnd": {
+                              "type": "token:open-tag-end",
+                              "content": ">",
+                              "startPosition": 218,
+                              "endPosition": 218
+                            },
+                            "selfClosing": false,
+                            "children": [
+                              {
+                                "nodeType": "text",
+                                "parentRef": "[Circular ~.content.children.0.content.children.0.content.children.1.content.children.0]",
+                                "content": {
+                                  "value": {
+                                    "type": "token:text",
+                                    "content": "Glossário",
+                                    "startPosition": 219,
+                                    "endPosition": 227
+                                  }
+                                }
+                              }
+                            ],
+                            "close": {
+                              "type": "token:close-tag",
+                              "content": "</a>",
+                              "startPosition": 228,
+                              "endPosition": 231
+                            }
+                          }
+                        }
+                      ],
+                      "close": {
+                        "type": "token:close-tag",
+                        "content": "</div>",
+                        "startPosition": 232,
+                        "endPosition": 237
+                      }
+                    }
+                  }
+                ],
+                "close": {
+                  "type": "token:close-tag",
+                  "content": "</body>",
+                  "startPosition": 238,
+                  "endPosition": 244
+                }
+              }
+            }
+          ],
+          "close": {
+            "type": "token:close-tag",
+            "content": "</html>",
+            "startPosition": 245,
+            "endPosition": 251
+          }
+        }
+      }
+    ]
+  }
+}

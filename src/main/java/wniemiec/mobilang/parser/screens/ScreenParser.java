@@ -1,4 +1,4 @@
-package wniemiec.mobilang.parser;
+package wniemiec.mobilang.parser.screens;
 
 import java.io.IOException;
 import java.util.List;
@@ -7,6 +7,10 @@ import java.util.SortedMap;
 import com.paypal.digraph.parser.GraphNode;
 
 import wniemiec.mobilang.data.Node;
+import wniemiec.mobilang.parser.Parser;
+import wniemiec.mobilang.parser.screens.behavior.BehaviorParser;
+import wniemiec.mobilang.parser.screens.structure.StructureParser;
+import wniemiec.mobilang.parser.screens.style.StyleParser;
 
 public class ScreenParser implements Parser {
 
@@ -47,8 +51,8 @@ public class ScreenParser implements Parser {
         behaviorParser = new BehaviorParser(tree, behaviorNode);
 
         structureParser.parse();
-        styleParser.parse();
-        behaviorParser.parse();
+        //styleParser.parse();
+        //behaviorParser.parse();
         
         System.out.println("-------------------------------\n");
     }

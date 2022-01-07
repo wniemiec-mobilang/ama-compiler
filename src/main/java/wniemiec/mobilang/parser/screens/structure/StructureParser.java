@@ -13,7 +13,7 @@ import wniemiec.mobilang.data.Node;
 import wniemiec.mobilang.parser.Parser;
 
 // Strategy: DFS
-public class StructureParser implements Parser {
+public class StructureParser /*implements Parser*/ {
 
     private String contentNode;
     
@@ -22,16 +22,16 @@ public class StructureParser implements Parser {
         contentNode = tree.get(structureNode.getId()).get(0).getLabel();
     }
 
-    @Override
-    public void parse() throws Exception {
+    //@Override
+    public Tag parse() throws Exception {
         //System.out.println("-----< STRUCTURE PARSER >-----");
         //System.out.println(contentNode);
         //System.out.println("-------------------------------\n");
 
-        parseJson(contentNode);
+        return parseJson(contentNode);
     }
 
-    private void parseJson(String json) throws Exception {
+    private Tag parseJson(String json) throws Exception {
         JSONObject obj = new JSONObject(json);
         //JSONObject root = obj.getJSONObject("content");
         //JSONArray child = root.getJSONArray("children");
@@ -57,13 +57,16 @@ public class StructureParser implements Parser {
         Tag rootTag = parseRootRawTag(bodyTag);
         
         System.out.println("Parse completed!");
+        rootTag.print();
         System.out.println("Converting to react native tags");
         
         ReactNativeStructureParser rnParser = new ReactNativeStructureParser(rootTag);
         Tag rnRootTag = rnParser.parse();
 
         System.out.println("Completed!");
-        //rnRootTag.print();
+        rnRootTag.print();
+
+        return rnRootTag;
     }
 
     private Tag parseRootRawTag(JSONObject rootRawTag) {

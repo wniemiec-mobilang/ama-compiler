@@ -1,6 +1,7 @@
 package wniemiec.mobilang.parser.screens.structure;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,7 @@ public class Tag {
 
     private String name;
     private String value;
-    private Map<String, String> attributes;
+    private Map<String, String> attributes = new HashMap<>();
     private List<Tag> children = new ArrayList<>();
 
     public Tag(String name, Map<String, String> tagAttributes) {
@@ -79,5 +80,13 @@ public class Tag {
 
     public Map<String, String> getAttributes() {
         return attributes;
+    }
+
+    public void addAttribute(String name, String value) {
+        attributes.put(name, value);
+    }
+
+    public boolean hasAttribute(String name) {
+        return attributes.containsKey(name);
     }
 }

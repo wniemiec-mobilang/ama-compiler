@@ -24,7 +24,7 @@ public class ScreensParser implements Parser {
             screenParser.parse();
         }*/
 
-        ScreenParser screenParser = new ScreenParser(tree, screens.get(0));
+        ScreenParser screenParser = new ScreenParser(tree, screens.get(1));
             
         screenParser.parse();
     }

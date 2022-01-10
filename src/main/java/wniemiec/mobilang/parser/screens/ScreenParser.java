@@ -51,8 +51,8 @@ public class ScreenParser implements Parser {
         behaviorParser = new BehaviorParser(tree, behaviorNode);
 
         //structureParser.parse();
-        styleParser.parse();
-        //behaviorParser.parse();
+        //styleParser.parse();
+        behaviorParser.parse();
         
         System.out.println("-------------------------------\n");
     }

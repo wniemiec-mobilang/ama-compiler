@@ -19,12 +19,17 @@ public class BehaviorParser  {
     }
 
     
-    public void parse() throws Exception {
+    public Behavior parse() throws Exception {
         //System.out.println("-----< BEHAVIOR PARSER >-----");
         //System.out.println(contentNode);
         //System.out.println("-------------------------------\n");
 
-        parseJson(contentNode);
+        List<Instruction> code = parseJson(contentNode);
+        Behavior behavior = new Behavior(code);
+
+        behavior.print();
+
+        return behavior;
     }
 
     private List<Instruction> parseJson(String json) throws Exception {
@@ -59,7 +64,6 @@ public class BehaviorParser  {
             instruction = parseBodyVariableDeclaration(bodyLine);
         }
 
-        System.out.println(instruction);
         return instruction;
     }
 

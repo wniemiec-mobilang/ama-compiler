@@ -55,18 +55,18 @@ public class StructureParser /*implements Parser*/ {
             throw new Exception("BODY tag not found");
 
         Tag rootTag = parseRootRawTag(bodyTag);
-        
-        System.out.println("Parse completed!");
-        rootTag.print();
-        System.out.println("Converting to react native tags");
+        return rootTag;
+        //System.out.println("Parse completed!");
+        //rootTag.print();
+        /*System.out.println("Converting to react native tags");
         
         ReactNativeStructureParser rnParser = new ReactNativeStructureParser(rootTag);
         Tag rnRootTag = rnParser.parse();
 
         System.out.println("Completed!");
-        rnRootTag.print();
+        rnRootTag.print();*/
 
-        return rnRootTag;
+        //return rnRootTag;
     }
 
     private Tag parseRootRawTag(JSONObject rootRawTag) {

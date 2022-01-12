@@ -1,7 +1,9 @@
 package wniemiec.mobilang.parser.screens.style;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StyleSheet {
 
@@ -14,6 +16,21 @@ public class StyleSheet {
     @Override
     public String toString() {
         return "StyleSheet [rules=" + rules + "]";
+    }
+
+    public Map<String, String> getRulesForSelector(List<String> selectors) {
+        Map<String, String> selectorRules = new HashMap<>();
+
+        for (StyleSheetRule rule : rules) {
+            for (String selector : selectors) {
+                if (rule.hasSelector(selector)) {
+                    selectorRules.putAll(rule.getDeclarations());
+                    //System.out.println();
+                }
+            }
+        }
+
+        return selectorRules;
     }
 
     

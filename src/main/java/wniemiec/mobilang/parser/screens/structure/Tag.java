@@ -11,6 +11,8 @@ public class Tag {
     private String value;
     private Map<String, String> attributes = new HashMap<>();
     private List<Tag> children = new ArrayList<>();
+    private Map<String, String> style = new HashMap<>();
+    private Tag father = null;
 
     public Tag(String name, Map<String, String> tagAttributes) {
         this.name = name;
@@ -27,7 +29,7 @@ public class Tag {
 
     @Override
     public String toString() {
-        return "Tag [name=" + name + ", attributes=" + attributes + ", value=" + value + "]";
+        return "Tag [name=" + name + ", attributes=" + attributes + ", value=" + value + ", style=" + style + "]";
     }
 
     public String getName() {
@@ -56,7 +58,10 @@ public class Tag {
 
     public void addChild(Tag child) {
         children.add(child);
+        child.setFather(this);
     }
+
+    
 
     public List<Tag> getChildren() {
         return children;
@@ -88,5 +93,21 @@ public class Tag {
 
     public boolean hasAttribute(String name) {
         return attributes.containsKey(name);
+    }
+
+    public void setStyle(Map<String, String> style) {
+        this.style = style;
+    }
+
+    public Tag getFather() {
+        return father;
+    }
+
+    public void setFather(Tag father) {
+        this.father = father;
+    }
+
+    public boolean hasFather() {
+        return (father != null);
     }
 }

@@ -47,7 +47,7 @@ public class StyleParser /*implements Parser*/ {
 
         //System.out.println(cssRules);
 
-        System.out.println(styleSheet);
+        //System.out.println(styleSheet);
 
         return styleSheet;
     }

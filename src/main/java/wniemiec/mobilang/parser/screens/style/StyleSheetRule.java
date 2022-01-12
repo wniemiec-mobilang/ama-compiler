@@ -23,5 +23,22 @@ public class StyleSheetRule {
         return "StyleSheetRule [declarations=" + declarations + ", selectors=" + selectors + "]";
     }
 
-    
+    public boolean hasSelector(String selector) {
+        /*
+        for (String s : selectors) {
+            if (s.contains(selector)) {
+                return true;
+            }
+        }
+
+        return false;
+        */
+        //System.out.println(selectors);
+        //System.out.println(selector + ": " + selectors.contains(selector));
+        return selectors.contains(selector);
+    }
+
+    public Map<String, String> getDeclarations() {
+        return declarations;
+    }
 }

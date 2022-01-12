@@ -27,7 +27,7 @@ public class BehaviorParser  {
         List<Instruction> code = parseJson(contentNode);
         Behavior behavior = new Behavior(code);
 
-        behavior.print();
+        //behavior.print();
 
         return behavior;
     }

@@ -8,9 +8,12 @@ import com.paypal.digraph.parser.GraphNode;
 
 import wniemiec.mobilang.data.Node;
 import wniemiec.mobilang.parser.Parser;
+import wniemiec.mobilang.parser.screens.behavior.Behavior;
 import wniemiec.mobilang.parser.screens.behavior.BehaviorParser;
 import wniemiec.mobilang.parser.screens.structure.StructureParser;
+import wniemiec.mobilang.parser.screens.structure.Tag;
 import wniemiec.mobilang.parser.screens.style.StyleParser;
+import wniemiec.mobilang.parser.screens.style.StyleSheet;
 
 public class ScreenParser implements Parser {
 
@@ -50,9 +53,17 @@ public class ScreenParser implements Parser {
         styleParser = new StyleParser(tree, styleNode);
         behaviorParser = new BehaviorParser(tree, behaviorNode);
 
-        //structureParser.parse();
-        //styleParser.parse();
-        behaviorParser.parse();
+        Tag structure = structureParser.parse();
+        StyleSheet style = styleParser.parse();
+        Behavior behavior = behaviorParser.parse();
+
+        ReactNativeScreenParser rnParser = new ReactNativeScreenParser(
+            structure,
+            style,
+            behavior
+        );
+
+        rnParser.parse();
         
         System.out.println("-------------------------------\n");
     }

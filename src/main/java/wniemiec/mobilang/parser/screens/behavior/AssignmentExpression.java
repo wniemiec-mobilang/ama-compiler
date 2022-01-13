@@ -1,6 +1,6 @@
 package wniemiec.mobilang.parser.screens.behavior;
 
-class AssignmentExpression extends Expression {
+public class AssignmentExpression extends Expression {
     String operator;
     Expression left;
     Expression right;

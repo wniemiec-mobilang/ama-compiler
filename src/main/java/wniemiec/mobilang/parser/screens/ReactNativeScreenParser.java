@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import wniemiec.mobilang.parser.screens.behavior.AssignmentExpression;
 import wniemiec.mobilang.parser.screens.behavior.Behavior;
 import wniemiec.mobilang.parser.screens.behavior.Instruction;
 import wniemiec.mobilang.parser.screens.structure.Tag;
@@ -20,6 +23,7 @@ public class ReactNativeScreenParser {
     List<String> styledTagDeclarations;
     List<String> stateDeclarations;
     Map<String, String> stateBody;
+    Map<String, String> symbolTable;
 
     public ReactNativeScreenParser(Tag structure, StyleSheet style, Behavior behavior) {
         this.structure = structure;
@@ -130,6 +134,56 @@ public class ReactNativeScreenParser {
     }
 
     private void parseBehaviorLine(Instruction line) {
+        // TODO: Compatibility with getElementsByClass or byQuery
         System.out.println(line.toCode());
+        String code = line.toCode();
+        //String rnCode = code;
+
+        
+        if (code.contains("window.location.href")) {
+            code = code.replace("window.location.href", "props.route.params.query");
+        }
+        else if (code.contains("innerHTML")) { 
+            // <id> = <attribution>
+            //   1. if <id> is in symbolTable
+            //   2. then replace <id> by its content obtained from symbolTable
+            //   3. create '_<id>' as string
+            //   4. setState: _<id> += <attribution>
+        }
+
+        if (code.matches("(const|var|let)[\\s\\t]+[A-z0-9_$]+.+document\\.getElementById\\(.+\\)")) { // const glossary=document.getElementById("glossary")
+            Pattern p = Pattern.compile("(getElementById\\(\\\"(.+)\\\"\\))");
+            Matcher m = p.matcher(code);
+
+            if (m.matches()) {
+                String id = m.group(2);
+                code = code.replace("document\\.getElementById\\(.+\\)", "mobilang:tag:id:" + id); // const glossary=mobilang:tag:id:glossary
+            }
+        }
+        else if (code.matches("document\\.getElementById\\(.+\\)\\.")) { //document.getElementById("back-btn").onclick=() =>
+            String tagId = extractIdFromGetElementById(code);
+            String tagProperty = code.substring(code.indexOf(")."));
+
+            // 1. find tag with id == tagId
+            // 2. tag.addProperty(tagProperty)
+            
+        }
+
+        if (code.matches("(const|var|let)[\\s\\t]+[A-z0-9_$]+.+")) {
+            String id = code.split(" ")[1].split("=")[0];
+            symbolTable.put(id, code);
+        }
+    }
+
+    private String extractIdFromGetElementById(String line) {
+        String id = "";
+        Pattern p = Pattern.compile("(getElementById\\(\\\"(.+)\\\"\\))");
+        Matcher m = p.matcher(line);
+
+        if (m.matches()) {
+            id = m.group(2);
+        }
+
+        return id;
     }
 }

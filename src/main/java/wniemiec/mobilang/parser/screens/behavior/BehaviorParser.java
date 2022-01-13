@@ -1,7 +1,9 @@
 package wniemiec.mobilang.parser.screens.behavior;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 
 import org.json.JSONArray;
@@ -88,10 +90,14 @@ public class BehaviorParser  {
             );
         }
         else if (expressionType.equals("MemberExpression")) {
+            JSONObject property = jsonObject.getJSONObject("property");
+            //Object value = property.get("")
+
             expression = new MemberExpression(
                 parseExpression(jsonObject.getJSONObject("object")),
-                jsonObject.getJSONObject("property").getString("type"),
-                jsonObject.getJSONObject("property").optString("name", ""),
+                property.getString("type"),
+                property.optString("name", ""),
+                property.optInt("value", -99),
                 jsonObject.getBoolean("computed"),
                 jsonObject.getBoolean("optional")
             );
@@ -107,6 +113,16 @@ public class BehaviorParser  {
                 jsonObject.getBoolean("async"),
                 parseExpressions(jsonObject.getJSONArray("params")),
                 parseExpression(jsonObject.getJSONObject("body"))
+            );
+        }
+        else if (expressionType.equals("ArrayExpression")) {
+            expression = new ArrayExpression(
+                parseExpressions(jsonObject.getJSONArray("elements"))
+            );
+        }
+        else if (expressionType.equals("ObjectExpression")) {
+            expression = new ObjectExpression(
+                parseProperties(jsonObject.getJSONArray("properties"))
             );
         }
         else if (expressionType.equals("TemplateLiteral")) {
@@ -125,10 +141,41 @@ public class BehaviorParser  {
             expression = new Identifier(jsonObject.getString("name"));
         }
         else if (expressionType.equals("Literal")) {
-            expression = new Literal(jsonObject.getString("value"));
+            Object value = jsonObject.get("value");
+
+            if (value instanceof String) {
+                expression = new Literal(jsonObject.getString("value"));
+            }
+            else if (value instanceof Integer) {
+                expression = new Literal(String.valueOf(jsonObject.getInt("value")));
+            }
+            else if (value instanceof Float) {
+                expression = new Literal(String.valueOf(jsonObject.getFloat("value")));
+            }
+            else if (value instanceof Double) {
+                expression = new Literal(String.valueOf(jsonObject.getDouble("value")));
+            }
+            //if ()
         }
 
         return expression;
+    }
+
+
+    private Map<String, Expression> parseProperties(JSONArray jsonProperties) {
+        Map<String, Expression> properties = new HashMap<>();
+
+        for (int i = 0; i < jsonProperties.length(); i++) {
+            JSONObject property = jsonProperties.getJSONObject(i);
+            
+            properties.put(
+                property.getJSONObject("key").getString("name"), 
+                parseExpression(property.getJSONObject("value"))
+            );
+            //expressions.add(parseExpression(jsonProperties.getJSONObject(i)));
+        }
+
+        return properties;
     }
 
 

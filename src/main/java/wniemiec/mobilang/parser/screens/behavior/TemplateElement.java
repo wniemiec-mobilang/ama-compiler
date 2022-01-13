@@ -10,7 +10,12 @@ class TemplateElement extends Expression {
     boolean tail;
 
     @Override
+    public String toString() {
+        return  "[TemplateElement] {" + "{value: " + value + "; tail: " + tail + "} }";
+    }
+
+    @Override
     public String toCode() {
-        return "{value: " + value + "; tail: " + tail + "}";
+        return  value;
     }
 }

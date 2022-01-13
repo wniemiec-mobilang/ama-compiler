@@ -9,6 +9,11 @@ class Literal extends Expression {
 
     @Override
     public String toCode() {
-        return "[Literal: " + value + "]";
+        return "\"" + value + "\"";
+    }
+    
+    public String toString() {
+        
+        return  "[LiteralExpression] {" +  "[Literal: " + value + "] }";
     }
 }

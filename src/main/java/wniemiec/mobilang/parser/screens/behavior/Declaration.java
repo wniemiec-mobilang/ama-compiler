@@ -2,6 +2,7 @@ package wniemiec.mobilang.parser.screens.behavior;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class Declaration extends Instruction {
 
@@ -21,5 +22,24 @@ class Declaration extends Instruction {
         return "Declaration [declarations=" + declarations + ", kind=" + kind + "]";
     }
     
+    public String toCode() {
+        return kind + " " + declarationsToCode();
+    }
     
+    private String declarationsToCode() {
+        StringBuilder sb = new StringBuilder();
+        List<String> argumentsAsCode = declarations.stream().map(a -> a.toCode()).collect(Collectors.toList());
+
+        for (int i = 0; i < argumentsAsCode.size(); i++) {
+            sb.append(argumentsAsCode.get(i));
+            sb.append(',');
+        }
+
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length()-1);
+        }
+
+        return sb.toString();
+        //return 
+    }
 }

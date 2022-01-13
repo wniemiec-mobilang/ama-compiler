@@ -8,6 +8,11 @@ class Identifier extends Expression {
     }
 
     public String toCode() {
-        return "[Identifier: " + name + "]";
+        return name;
     }    
+    
+    public String toString() {
+        
+        return  "[IdentifierExpression] {" + "[Identifier: " + name + "] }";
+    }
 }

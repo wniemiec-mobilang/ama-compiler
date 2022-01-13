@@ -13,8 +13,10 @@ class Statement extends Instruction {
 
     @Override
     public String toString() {
-        return "Statement [expression=" + expression.toCode() + "]";
+        return "Statement [expression=" + expression + "]";
     }
 
-    
+    public String toCode() {
+        return expression.toCode();
+    }
 }

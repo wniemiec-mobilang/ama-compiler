@@ -12,6 +12,11 @@ class AssignmentExpression extends Expression {
     }
 
     public String toCode() {
-        return "[" + left + " " + operator + right + "]";
-    }    
+        return left.toCode() + operator + right.toCode();
+    }
+    
+    public String toString() {
+        return  "[AssignmentExpression] {" + "[" + left + " " + operator + right + "] }";
+
+    }
 }

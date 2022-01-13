@@ -14,4 +14,8 @@ public class Behavior {
             System.out.println(instruction);
         }
     }
+
+    public List<Instruction> getCode() {
+        return code;
+    }
 }

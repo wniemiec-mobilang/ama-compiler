@@ -17,5 +17,11 @@ class Declarator {
         return "Declarator [idKind=" + idKind + ", idName=" + idName + ", init=" + init + ", type=" + type + "]";
     }
 
-    
+    public String toCode() {
+        if (init == null) {
+            return idName + "=" + "null";
+        }
+
+        return idName + "=" + init.toCode();
+    }
 }

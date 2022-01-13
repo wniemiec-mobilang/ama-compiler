@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import wniemiec.mobilang.parser.screens.behavior.Behavior;
+import wniemiec.mobilang.parser.screens.behavior.Instruction;
 import wniemiec.mobilang.parser.screens.structure.Tag;
 import wniemiec.mobilang.parser.screens.style.StyleSheet;
 
@@ -14,6 +15,11 @@ public class ReactNativeScreenParser {
     Tag structure;
     StyleSheet style;
     Behavior behavior;
+
+    List<String> imports;
+    List<String> styledTagDeclarations;
+    List<String> stateDeclarations;
+    Map<String, String> stateBody;
 
     public ReactNativeScreenParser(Tag structure, StyleSheet style, Behavior behavior) {
         this.structure = structure;
@@ -24,18 +30,21 @@ public class ReactNativeScreenParser {
     public void parse() {
         System.out.println("-----< React Native screen parser >-----");
         
-        structure.print();
-        System.out.println(style);
-        //behavior.print();
+        //structure.print();
+        //System.out.println(style);
         
-        System.out.println("\n\n");
-        stylize(structure, style);
-
-        structure.print();
+        //System.out.println("\n\n");
+        //stylize(structure, style);
+        //structure.print();
+        //behavior.print();
+        //System.out.println("\n\n");
+        parseBehavior();
+        System.out.println("\nState declarations: " + stateDeclarations);
+        System.out.println("State body: " + stateBody);
         System.out.println("----------");
     }
 
-    public void stylize(Tag tag, StyleSheet style) {
+    private void stylize(Tag tag, StyleSheet style) {
         Stack<Tag> tagsToParse = new Stack<>();
 
         tagsToParse.add(tag);
@@ -98,8 +107,11 @@ public class ReactNativeScreenParser {
             if (currentTag.getName().equals("body")) {
                 selectors.add("*");
             }
-            System.out.println(currentTag);
-            System.out.println(selectors);
+
+            // TODO: Compatibility with id and class mixed
+            // Ex: #glossary-content .item .item-content p
+            //System.out.println(currentTag);
+            //System.out.println(selectors);
 
             Map<String, String> rules = style.getRulesForSelector(selectors);
             currentTag.setStyle(rules);
@@ -110,13 +122,14 @@ public class ReactNativeScreenParser {
         }
     }
 
-    /*
-    private StyledTag stylize(Tag tag, StyleSheet style) {
-        StyledTag styledTag = new StyledTag(tag);
+    private void parseBehavior() {
+        for (Instruction line : behavior.getCode()) {
+            parseBehaviorLine(line);
+            //break;
+        }
+    }
 
-
-
-        return styledTag;
-    }*/
-
+    private void parseBehaviorLine(Instruction line) {
+        System.out.println(line.toCode());
+    }
 }

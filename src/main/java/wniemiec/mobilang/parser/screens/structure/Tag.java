@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 public class Tag {
 
@@ -110,4 +111,33 @@ public class Tag {
     public boolean hasFather() {
         return (father != null);
     }
+
+    // Searches for a tag with an id. Do a DFS in children if this tag does not have the provided id.
+    public Tag getTagWithId(String tagId) {
+        if (hasAttribute("id") && getAttribute("id").equals(tagId)) {
+            return this;
+        }
+
+        Tag refTag = null;
+        Stack<Tag> tagsToSearch = new Stack<>();
+
+        tagsToSearch.add(this);
+
+        while (!tagsToSearch.empty() && (refTag == null)) {
+            Tag currentTag = tagsToSearch.pop();
+
+            if (currentTag.hasAttribute("id") && currentTag.getAttribute("id").equals(tagId)) {
+                refTag = currentTag;
+            }
+            else {
+                for (Tag child : currentTag.getChildren()) {
+                    tagsToSearch.add(child);
+                }
+            }
+        }
+
+        return refTag;
+    }
+
+    //private Tag getAnyTagWithId(String tagId, )
 }

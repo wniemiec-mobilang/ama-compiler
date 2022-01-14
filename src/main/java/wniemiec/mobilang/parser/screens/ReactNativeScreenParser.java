@@ -1,8 +1,13 @@
 package wniemiec.mobilang.parser.screens;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,16 +24,21 @@ public class ReactNativeScreenParser {
     StyleSheet style;
     Behavior behavior;
 
-    List<String> imports;
-    List<String> styledTagDeclarations;
-    List<String> stateDeclarations;
-    Map<String, String> stateBody;
-    Map<String, String> symbolTable;
+    Set<String> imports;
+    Set<String> styledTagDeclarations;
+    Set<String> stateDeclarations;
+    Queue<String> stateBody;
+    Map<String, String> symbolTable; // key: var id; value: tag id
 
     public ReactNativeScreenParser(Tag structure, StyleSheet style, Behavior behavior) {
         this.structure = structure;
         this.style = style;
         this.behavior = behavior;
+        imports = new HashSet<>();
+        styledTagDeclarations = new HashSet<>();
+        stateDeclarations = new HashSet<>();
+        stateBody = new LinkedList<>();
+        symbolTable = new HashMap<>();
     }
 
     public void parse() {
@@ -147,8 +157,40 @@ public class ReactNativeScreenParser {
             // <id> = <attribution>
             //   1. if <id> is in symbolTable
             //   2. then replace <id> by its content obtained from symbolTable
-            //   3. create '_<id>' as string
-            //   4. setState: _<id> += <attribution>
+            //   3. create '<id>' as list if it has not been created
+            //   4. create local var '_<id>' as list if it has not been created
+            //   5. '_<id>'.push(<attribution>) 
+            //   6. set<id>(_<id>)
+
+            String id = code.split(".innerHTML")[0];
+            String tagId = "";
+
+            if (symbolTable.containsKey(id)) {
+                tagId = symbolTable.get(id);
+            }
+            else {
+                tagId = extractIdFromGetElementById(code);
+            }
+
+            tagId = tagId.replaceAll("-", "_");
+
+            if (!stateDeclarations.contains(tagId)) {
+                stateDeclarations.add(tagId);
+            }
+
+            String innerHtmlAssignment = code.substring(code.indexOf("=")+1);
+            innerHtmlAssignment = parseInnerHtml(innerHtmlAssignment); // (convert html to rn tags) }--> CONTENT CANNOT BE STRING OR TEMPLATE; IT MUST BE TAG!
+
+            stateBody.add("let _" + tagId + "=" + tagId);
+
+            if (code.contains(".innerHTML=")) { 
+                stateBody.add("_" + tagId + "=[" + innerHtmlAssignment + "]");
+            }
+            else if (code.contains(".innerHTML+=")) { 
+                stateBody.add("_" + tagId + ".push(" + innerHtmlAssignment + ")");
+            }
+
+            stateBody.add("set" + tagId + "(_" + tagId + ")");
         }
 
         if (code.matches("(const|var|let)[\\s\\t]+[A-z0-9_$]+.+document\\.getElementById\\(.+\\)")) { // const glossary=document.getElementById("glossary")
@@ -157,22 +199,41 @@ public class ReactNativeScreenParser {
 
             if (m.matches()) {
                 String id = m.group(2);
-                code = code.replace("document\\.getElementById\\(.+\\)", "mobilang:tag:id:" + id); // const glossary=mobilang:tag:id:glossary
+                code = code.replace("document\\.getElementById\\(.+\\)", id); // const glossary=mobilang:tag:id:glossary
             }
         }
         else if (code.matches("document\\.getElementById\\(.+\\)\\.")) { //document.getElementById("back-btn").onclick=() =>
             String tagId = extractIdFromGetElementById(code);
-            String tagProperty = code.substring(code.indexOf(")."));
+            String tagProperty = code.substring(code.indexOf(").")+1);
+            String tagPropertyName = tagProperty.split("=")[0];
+            String tagPropertyCode = tagProperty.split("=")[1];
 
             // 1. find tag with id == tagId
             // 2. tag.addProperty(tagProperty)
+            Tag refTag = structure.getTagWithId(tagId);
+            refTag.addAttribute(tagPropertyName, tagPropertyCode);
             
+            code = ""; // Skips this line
         }
 
         if (code.matches("(const|var|let)[\\s\\t]+[A-z0-9_$]+.+")) {
             String id = code.split(" ")[1].split("=")[0];
             symbolTable.put(id, code);
         }
+
+        if (!code.isEmpty()) {
+            stateBody.add(code);
+        }
+    }
+
+    // converts literal string or template string to string with rn tags
+    private String parseInnerHtml(String innerHtmlAssignment) {
+        String innerRnAssignment = "";
+        
+        // TODO: call RnStructureParser(innerHtmlAssignment)
+
+
+        return innerHtmlAssignment;
     }
 
     private String extractIdFromGetElementById(String line) {

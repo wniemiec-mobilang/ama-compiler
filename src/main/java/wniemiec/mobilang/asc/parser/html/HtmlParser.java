@@ -11,7 +11,10 @@ public class HtmlParser {
         //ProcessBuilder pb = new ProcessBuilder("node ./javascript/index.js");
             //System.getProperty("user.dir") + "/src/generate_list.sh", filename);
         //Process process = pb.start();
-        Process process = Runtime.getRuntime().exec("node ./src/main/javascript/acorn-parser/index.js \"" + html + "\"");
+        String normalizedHtml = html.replaceAll("\"", "\\\\\"");
+        normalizedHtml = normalizedHtml.replaceAll(" ", "&nbsp");
+        
+        Process process = Runtime.getRuntime().exec("node ./src/main/javascript/hyntax/index.js \"" + normalizedHtml + "\"");
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
         StringBuilder builder = new StringBuilder();

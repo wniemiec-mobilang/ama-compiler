@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.Stack;
 
+import javax.swing.plaf.synth.SynthSplitPaneUI;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,10 +18,16 @@ import wniemiec.mobilang.asc.parser.Parser;
 public class StructureParser /*implements Parser*/ {
 
     private String contentNode;
-    
+    private boolean astFromMobilang;
 
     public StructureParser(SortedMap<String, List<Node>> tree, Node structureNode) {
         contentNode = tree.get(structureNode.getId()).get(0).getLabel();
+        astFromMobilang = true;
+    }
+
+    public StructureParser(String ast) {
+        this.contentNode = ast;
+        astFromMobilang = false;
     }
 
     //@Override
@@ -27,8 +35,14 @@ public class StructureParser /*implements Parser*/ {
         //System.out.println("-----< STRUCTURE PARSER >-----");
         //System.out.println(contentNode);
         //System.out.println("-------------------------------\n");
+        if (astFromMobilang) {
+            return parseJson(contentNode);    
+        }
 
-        return parseJson(contentNode);
+        JSONObject obj = new JSONObject(contentNode);
+        System.out.println(contentNode);
+        //System.out.println(parseRootRawTag(obj));
+        return parseRootRawTag(obj);
     }
 
     private Tag parseJson(String json) throws Exception {
@@ -99,8 +113,9 @@ public class StructureParser /*implements Parser*/ {
                 if (currenRawTag.getParent() != null) {
                     currenRawTag.getParent().addChild(parsedTag);
                 }
-
-                if (parsedTag.getName().equals("body")) { // Gets root tag
+                
+                //if (parsedTag.getName().equals("body")) { // Gets root tag
+                if (bodyTag == null) {
                     bodyTag = parsedTag;
                 }
             }
@@ -124,7 +139,7 @@ public class StructureParser /*implements Parser*/ {
 
     private String parseTagName(JSONObject tagContent) {
         String tagName = "";
-
+        
         if (tagContent.has("name"))
             tagName = tagContent.getString("name");
         return tagName;

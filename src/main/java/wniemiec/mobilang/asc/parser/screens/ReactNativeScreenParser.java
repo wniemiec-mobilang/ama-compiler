@@ -1,5 +1,6 @@
 package wniemiec.mobilang.asc.parser.screens;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import wniemiec.mobilang.asc.parser.html.HtmlParser;
 import wniemiec.mobilang.asc.parser.screens.behavior.AssignmentExpression;
 import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 import wniemiec.mobilang.asc.parser.screens.behavior.Instruction;
@@ -232,17 +234,26 @@ public class ReactNativeScreenParser {
 
     // converts literal string or template string to string with rn tags
     private String parseInnerHtml(String innerHtmlAssignment) {
-        
-        //Tag root = HtmlUtils.parse(innerHtmlAssignment);
+        if (innerHtmlAssignment.matches("\"[\\s\\t]*\"")) {
+            return innerHtmlAssignment;
+        }
+
+        String rawHtml = innerHtmlAssignment.replaceAll("`", "");
+        System.out.println("# "  + rawHtml);
+                
+        Tag root = HtmlUtils.parse(rawHtml);
+        root.print();
+
+        return "`" + HtmlUtils.stringify(root) + "`";
         //ReactNativeStructureParser parser = new ReactNativeStructureParser(root);
         //Tag rnRoot = parser.parse();
 
-        // TODO: call RnStructureParser(innerHtmlAssignment)
+        // TODO: call RnStructureParser(rawHtml)
 
 
         //return HtmlUtils.stringify(rnRoot);
         //return "";
-        return innerHtmlAssignment;
+        //return "`" + rawHtml + "`";
     }
 
     private String extractIdFromGetElementById(String line) {

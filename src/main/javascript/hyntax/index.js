@@ -16,7 +16,8 @@ function main() {
         process.exit(1);
     }
 
-    const normalizedHtml = process.argv[2].replaceAll("&nbsp", " ", );
+    let normalizedHtml = process.argv[2].replaceAll("&nbsp;", " ");
+    normalizedHtml = normalizedHtml.replaceAll("&quot;", "\"");
 
     console.log(htmlToAst(normalizedHtml));
 }

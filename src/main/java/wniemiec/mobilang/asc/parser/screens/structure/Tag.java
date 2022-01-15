@@ -139,5 +139,64 @@ public class Tag {
         return refTag;
     }
 
+    public String toCode() {
+        StringBuilder sb = new StringBuilder();
+
+        Stack<Tag> tagsToParse = new Stack<>();
+        tagsToParse.add(this);
+
+        //while (!tagsToParse.isEmpty()) {
+            Tag currentTag = tagsToParse.pop();
+            //sb.append(currentTag.toCode());
+
+            
+            sb.append('<');
+            sb.append(name);
+
+            if (!attributes.isEmpty()) {
+                sb.append(' ');
+                sb.append(stringifyAttributes());
+            }
+            
+            sb.append('>');
+
+            if (currentTag.getValue() != null) {
+                sb.append(currentTag.getValue());
+            }
+            else {
+                List<Tag> children = currentTag.getChildren();
+
+                //for (int i = children.size()-1; i >= 0; i--) {
+                for (int i = 0; i < children.size(); i++) {
+                    //tagsToParse.add(children.get(i));
+                    sb.append(children.get(i).toCode());
+                }
+            }
+
+            sb.append("</");
+            sb.append(name);
+            sb.append('>');
+        //}
+
+        return sb.toString();
+    }
+
+    private String stringifyAttributes() {
+        StringBuilder sb = new StringBuilder();
+
+        for (Map.Entry<String, String> attribute : attributes.entrySet()) {
+            sb.append(attribute.getKey());
+            sb.append('=');
+            sb.append(attribute.getValue());
+            sb.append(' ');
+        }
+
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length()-1);
+        }
+
+        return sb.toString();
+    }
+
     //private Tag getAnyTagWithId(String tagId, )
 }

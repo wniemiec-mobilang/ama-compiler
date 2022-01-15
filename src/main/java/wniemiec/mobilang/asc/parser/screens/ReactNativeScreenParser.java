@@ -244,7 +244,12 @@ public class ReactNativeScreenParser {
         Tag root = HtmlUtils.parse(rawHtml);
         root.print();
 
-        return "`" + HtmlUtils.stringify(root) + "`";
+        System.out.println(root.toCode());
+        // TODO: mandar para o behavior parse 'root'
+        //return "`" + HtmlUtils.stringify(root) + "`";
+        
+        
+        
         //ReactNativeStructureParser parser = new ReactNativeStructureParser(root);
         //Tag rnRoot = parser.parse();
 
@@ -253,7 +258,7 @@ public class ReactNativeScreenParser {
 
         //return HtmlUtils.stringify(rnRoot);
         //return "";
-        //return "`" + rawHtml + "`";
+        return "`" + rawHtml + "`";
     }
 
     private String extractIdFromGetElementById(String line) {

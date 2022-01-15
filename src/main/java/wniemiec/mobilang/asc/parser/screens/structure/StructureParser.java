@@ -100,7 +100,9 @@ public class StructureParser /*implements Parser*/ {
                     .getJSONObject("value")
                     .getString("content");
                 
-                currenRawTag.getParent().setValue(tagContent);
+                if (!tagContent.matches("\"[\\s\\t]*(\")?")) {
+                    currenRawTag.getParent().setValue(tagContent);
+                }
             }
             else {
                 JSONObject tagContent = currentTag.getJSONObject("content");
@@ -140,8 +142,10 @@ public class StructureParser /*implements Parser*/ {
     private String parseTagName(JSONObject tagContent) {
         String tagName = "";
         
-        if (tagContent.has("name"))
+        if (tagContent.has("name")) {
             tagName = tagContent.getString("name");
+        }
+
         return tagName;
     }
 

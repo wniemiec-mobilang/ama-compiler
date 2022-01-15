@@ -1,6 +1,10 @@
 package wniemiec.mobilang.asc.parser.screens.structure;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;

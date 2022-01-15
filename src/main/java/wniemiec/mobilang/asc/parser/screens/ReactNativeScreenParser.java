@@ -239,14 +239,14 @@ public class ReactNativeScreenParser {
         }
 
         String rawHtml = innerHtmlAssignment.replaceAll("`", "");
-        System.out.println("# "  + rawHtml);
+        //System.out.println("# "  + rawHtml);
                 
         Tag root = HtmlUtils.parse(rawHtml);
-        root.print();
-
-        System.out.println(root.toCode());
-        // TODO: mandar para o behavior parse 'root'
-        //return "`" + HtmlUtils.stringify(root) + "`";
+        
+        // TODO: mandar para o behavior parse 'root' (pd ter behavior para alguma tag)
+        // TODO: tem q verificar se tem style para alguma tag do 'root'
+        // TODO: converter para tags React Native
+        return "`" + root.toCode() + "`";
         
         
         
@@ -258,7 +258,7 @@ public class ReactNativeScreenParser {
 
         //return HtmlUtils.stringify(rnRoot);
         //return "";
-        return "`" + rawHtml + "`";
+        //return "`" + rawHtml + "`";
     }
 
     private String extractIdFromGetElementById(String line) {

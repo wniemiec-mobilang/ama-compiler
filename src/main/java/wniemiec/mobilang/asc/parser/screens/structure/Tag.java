@@ -142,41 +142,38 @@ public class Tag {
     public String toCode() {
         StringBuilder sb = new StringBuilder();
 
-        Stack<Tag> tagsToParse = new Stack<>();
-        tagsToParse.add(this);
+        //Stack<Tag> tagsToParse = new Stack<>();
+        //tagsToParse.add(this);
 
         //while (!tagsToParse.isEmpty()) {
-            Tag currentTag = tagsToParse.pop();
-            //sb.append(currentTag.toCode());
+        //Tag currentTag = tagsToParse.pop();
+        //sb.append(currentTag.toCode());
 
-            
-            sb.append('<');
-            sb.append(name);
+        
+        sb.append('<');
+        sb.append(name);
 
-            if (!attributes.isEmpty()) {
-                sb.append(' ');
-                sb.append(stringifyAttributes());
+        if (!attributes.isEmpty()) {
+            sb.append(' ');
+            sb.append(stringifyAttributes());
+        }
+        
+        sb.append('>');
+
+        if (getValue() != null) {
+            sb.append(getValue());
+        }
+        else {
+            List<Tag> children = getChildren();
+
+            for (int i = 0; i < children.size(); i++) {
+                sb.append(children.get(i).toCode());
             }
-            
-            sb.append('>');
+        }
 
-            if (currentTag.getValue() != null) {
-                sb.append(currentTag.getValue());
-            }
-            else {
-                List<Tag> children = currentTag.getChildren();
-
-                //for (int i = children.size()-1; i >= 0; i--) {
-                for (int i = 0; i < children.size(); i++) {
-                    //tagsToParse.add(children.get(i));
-                    sb.append(children.get(i).toCode());
-                }
-            }
-
-            sb.append("</");
-            sb.append(name);
-            sb.append('>');
-        //}
+        sb.append("</");
+        sb.append(name);
+        sb.append('>');
 
         return sb.toString();
     }
@@ -197,6 +194,4 @@ public class Tag {
 
         return sb.toString();
     }
-
-    //private Tag getAnyTagWithId(String tagId, )
 }

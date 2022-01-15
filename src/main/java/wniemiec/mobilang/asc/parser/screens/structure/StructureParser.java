@@ -40,7 +40,7 @@ public class StructureParser /*implements Parser*/ {
         }
 
         JSONObject obj = new JSONObject(contentNode);
-        System.out.println(contentNode);
+        //System.out.println(contentNode);
         //System.out.println(parseRootRawTag(obj));
         return parseRootRawTag(obj);
     }

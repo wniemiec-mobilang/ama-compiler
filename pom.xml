@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>wniemiec.mobilang</groupId>
-  <artifactId>asc-compiler</artifactId>
+  <artifactId>asc</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>asc-compiler</name>
   <url>http://maven.apache.org</url>
   

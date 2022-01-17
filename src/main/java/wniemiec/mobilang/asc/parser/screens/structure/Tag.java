@@ -58,6 +58,10 @@ public class Tag {
     }
 
     public void addChild(Tag child) {
+        if (child == null) {
+            return;
+        }
+        
         children.add(child);
         child.setFather(this);
     }
@@ -142,14 +146,6 @@ public class Tag {
     public String toCode() {
         StringBuilder sb = new StringBuilder();
 
-        //Stack<Tag> tagsToParse = new Stack<>();
-        //tagsToParse.add(this);
-
-        //while (!tagsToParse.isEmpty()) {
-        //Tag currentTag = tagsToParse.pop();
-        //sb.append(currentTag.toCode());
-
-        
         sb.append('<');
         sb.append(name);
 
@@ -190,6 +186,17 @@ public class Tag {
 
         if (sb.length() > 0) {
             sb.deleteCharAt(sb.length()-1);
+        }
+
+        return sb.toString();
+    }
+
+    public String toChildrenCode() {
+        StringBuilder sb = new StringBuilder();
+        List<Tag> children = getChildren();
+
+        for (int i = 0; i < children.size(); i++) {
+            sb.append(children.get(i).toCode());
         }
 
         return sb.toString();

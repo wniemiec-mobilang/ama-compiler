@@ -37,7 +37,10 @@ public class ReactNativeStructureParser {
             TagContainer unparsedTag = tagsToParse.pop();
             
             Tag parsedTag = convertTagToReactNativeTag(unparsedTag.getChild());
-            unparsedTag.getParent().addChild(parsedTag);
+
+            if (unparsedTag.getParent() != null) {
+                unparsedTag.getParent().addChild(parsedTag);
+            }
             
             childrenToParse = unparsedTag.getChild().getChildren();
             for (int i = childrenToParse.size()-1; i >= 0; i--) {
@@ -86,10 +89,18 @@ public class ReactNativeStructureParser {
             rnTag = new Tag("TextInput");
             // TODO: parseDivAttributes(tag, rnTag);
         }
-        else if (tag.getName().equals("h1")) {
+        else if (tag.getName().matches("h[0-5]{1}")) {
             rnTag = new Tag("Text");
             rnTag.setValue(tag.getValue());
             // TODO: parseDivAttributes(tag, rnTag);
+        }
+        else if (tag.getName().equals("p")) {
+            rnTag = new Tag("Text");
+            rnTag.setValue(tag.getValue());
+            // TODO: parseDivAttributes(tag, rnTag);
+        }
+        else if (tag.getName().isBlank()) {
+            rnTag = new Tag("");
         }
 
         if (rnTag != null) {

@@ -32,6 +32,7 @@ public class ReactNativeScreenParser {
     Set<String> styledTagDeclarations;
     Set<String> stateDeclarations;
     Queue<String> stateBody;
+    Set<String> declaredStateBodyVariables;
     Map<String, String> symbolTable; // key: var id; value: tag id
 
     public ReactNativeScreenParser(Tag structure, StyleSheet style, Behavior behavior) {
@@ -43,6 +44,7 @@ public class ReactNativeScreenParser {
         stateDeclarations = new HashSet<>();
         stateBody = new LinkedList<>();
         symbolTable = new HashMap<>();
+        declaredStateBodyVariables = new HashSet<>();
     }
 
     public void parse() {
@@ -58,7 +60,10 @@ public class ReactNativeScreenParser {
         //System.out.println("\n\n");
         parseBehavior();
         System.out.println("\nState declarations: " + stateDeclarations);
-        System.out.println("State body: " + stateBody);
+        System.out.println("State body: ");
+        while (!stateBody.isEmpty()) {
+            System.out.println(stateBody.remove());
+        }
         System.out.println("----------");
     }
 
@@ -146,6 +151,9 @@ public class ReactNativeScreenParser {
             //break;
         }
 
+        for (String declaration : stateDeclarations) {
+            stateBody.add("set" + declaration + "(_" + declaration + ")");
+        }
         // createCode()
     }
 
@@ -171,10 +179,12 @@ public class ReactNativeScreenParser {
             String id = code.split(".innerHTML")[0];
             String tagId = "";
 
-            if (symbolTable.containsKey(id)) {
-                tagId = symbolTable.get(id);
+            if (stateDeclarations.contains(id)) {
+                //tagId = symbolTable.get(id);
+                tagId = id;
             }
             else {
+                //System.out.println("1 - " + code);
                 tagId = extractIdFromGetElementById(code);
             }
 
@@ -186,8 +196,13 @@ public class ReactNativeScreenParser {
 
             String innerHtmlAssignment = code.substring(code.indexOf("=")+1);
             innerHtmlAssignment = parseInnerHtml(innerHtmlAssignment); // (convert html to rn tags) }--> CONTENT CANNOT BE STRING OR TEMPLATE; IT MUST BE TAG!
+            
 
-            stateBody.add("let _" + tagId + "=" + tagId);
+            if (!declaredStateBodyVariables.contains("let _" + tagId)) {
+                Tag refTag = structure.getTagWithId(tagId);
+                stateBody.add("let _" + tagId + "=[" + refTag.toChildrenCode() + "]");
+                declaredStateBodyVariables.add("let _" + tagId);
+            }
 
             if (code.contains(".innerHTML=")) { 
                 stateBody.add("_" + tagId + "=[" + innerHtmlAssignment + "]");
@@ -196,19 +211,27 @@ public class ReactNativeScreenParser {
                 stateBody.add("_" + tagId + ".push(" + innerHtmlAssignment + ")");
             }
 
-            stateBody.add("set" + tagId + "(_" + tagId + ")");
+            //stateBody.add("set" + tagId + "(_" + tagId + ")");
+            code = "";
         }
 
         if (code.matches("(const|var|let)[\\s\\t]+[A-z0-9_$]+.+document\\.getElementById\\(.+\\)")) { // const glossary=document.getElementById("glossary")
-            Pattern p = Pattern.compile("(getElementById\\(\\\"(.+)\\\"\\))");
+            Pattern p = Pattern.compile(".*(getElementById\\(\\\"(.+)\\\"\\)).*");
             Matcher m = p.matcher(code);
 
             if (m.matches()) {
                 String id = m.group(2);
-                code = code.replace("document\\.getElementById\\(.+\\)", id); // const glossary=mobilang:tag:id:glossary
+                //code = code.replaceAll("document\\.getElementById\\(.+\\)", id); // const glossary=mobilang:tag:id:glossary
+                id = id.replaceAll("-", "_");
+
+                if (!stateDeclarations.contains(id)) {
+                    stateDeclarations.add(id);
+                }
+                //stateDeclarations.add(id, "[]");
+                code = "";
             }
         }
-        else if (code.matches("document\\.getElementById\\(.+\\)\\.")) { //document.getElementById("back-btn").onclick=() =>
+        else if (code.matches("document\\.getElementById\\(.+\\)\\..+")) { //document.getElementById("back-btn").onclick=() =>
             String tagId = extractIdFromGetElementById(code);
             String tagProperty = code.substring(code.indexOf(").")+1);
             String tagPropertyName = tagProperty.split("=")[0];
@@ -235,7 +258,7 @@ public class ReactNativeScreenParser {
     // converts literal string or template string to string with rn tags
     private String parseInnerHtml(String innerHtmlAssignment) {
         if (innerHtmlAssignment.matches("\"[\\s\\t]*\"")) {
-            return innerHtmlAssignment;
+            return "";
         }
 
         String rawHtml = innerHtmlAssignment.replaceAll("`", "");
@@ -246,7 +269,11 @@ public class ReactNativeScreenParser {
         // TODO: mandar para o behavior parse 'root' (pd ter behavior para alguma tag)
         // TODO: tem q verificar se tem style para alguma tag do 'root'
         // TODO: converter para tags React Native
-        return "`" + root.toCode() + "`";
+        ReactNativeStructureParser rnStructureParser = new ReactNativeStructureParser(root);
+        Tag rnTag = rnStructureParser.parse();
+
+
+        return rnTag.toCode();
         
         
         
@@ -263,7 +290,7 @@ public class ReactNativeScreenParser {
 
     private String extractIdFromGetElementById(String line) {
         String id = "";
-        Pattern p = Pattern.compile("(getElementById\\(\\\"(.+)\\\"\\))");
+        Pattern p = Pattern.compile(".*(getElementById\\(\\\"(.+)\\\"\\)).*");
         Matcher m = p.matcher(line);
 
         if (m.matches()) {

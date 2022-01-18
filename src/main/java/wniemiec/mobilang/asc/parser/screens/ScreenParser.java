@@ -58,6 +58,7 @@ public class ScreenParser implements Parser {
         Behavior behavior = behaviorParser.parse();
 
         ReactNativeScreenParser rnParser = new ReactNativeScreenParser(
+            id,
             structure,
             style,
             behavior

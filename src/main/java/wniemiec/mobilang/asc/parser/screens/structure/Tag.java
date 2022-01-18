@@ -201,4 +201,8 @@ public class Tag {
 
         return sb.toString();
     }
+
+    public Map<String, String> getStyle() {
+        return style;
+    }
 }

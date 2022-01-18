@@ -2,6 +2,7 @@ package wniemiec.mobilang.asc.parser.screens;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -22,8 +23,12 @@ import wniemiec.mobilang.asc.parser.screens.structure.ReactNativeStructureParser
 import wniemiec.mobilang.asc.parser.screens.structure.Tag;
 import wniemiec.mobilang.asc.parser.screens.style.StyleSheet;
 
+import wniemiec.data.java.Encryptors;
+import wniemiec.data.java.Encryptor;
+
 public class ReactNativeScreenParser {
 
+    String name;
     Tag structure;
     StyleSheet style;
     Behavior behavior;
@@ -35,7 +40,8 @@ public class ReactNativeScreenParser {
     Set<String> declaredStateBodyVariables;
     Map<String, String> symbolTable; // key: var id; value: tag id
 
-    public ReactNativeScreenParser(Tag structure, StyleSheet style, Behavior behavior) {
+    public ReactNativeScreenParser(String name, Tag structure, StyleSheet style, Behavior behavior) {
+        this.name = name;
         this.structure = structure;
         this.style = style;
         this.behavior = behavior;
@@ -54,17 +60,111 @@ public class ReactNativeScreenParser {
         //System.out.println(style);
         
         //System.out.println("\n\n");
-        //stylize(structure, style);
+        stylize(structure, style);
+        parseStructure(structure);
         //structure.print();
         //behavior.print();
         //System.out.println("\n\n");
         parseBehavior();
-        System.out.println("\nState declarations: " + stateDeclarations);
+        parseImports();
+        /*System.out.println("\nState declarations: " + stateDeclarations);
         System.out.println("State body: ");
         while (!stateBody.isEmpty()) {
             System.out.println(stateBody.remove());
         }
+        */
+        
+        generateCode();
         System.out.println("----------");
+    }
+
+    private void parseStructure(Tag root) {
+        // Converts html tags to React native tags
+        ReactNativeStructureParser rnStructureParser = new ReactNativeStructureParser(root);
+        structure = rnStructureParser.parse();
+    }
+
+    private void parseImports() {
+        imports.add("import React, { useEffect, useState } from 'react'");
+        imports.add("import styled from 'styled-components/native");
+    }
+
+    private void generateCode() {
+        // Aqui, tags estão com seu style e behavior já parseado
+        // stateBody e stateDeclarations estão ok
+        // Falta gerar codigo
+        // lembrar q todas as tags serão styled components
+        /*ReactNativeScreenCode rnCode = new ReactNativeScreenCode(
+            name, 
+            imports, 
+            declarations, 
+            stateDeclarations, 
+            stateBody, 
+            body
+        );*/
+        List<Variable> declarations = generateDeclarations(structure);
+        String body = structure.toCode();
+
+        System.out.println("NAME: " + name);
+        System.out.println("IMPORTS: " + imports);
+        System.out.println("DECLARATIONS: " + declarations);
+        System.out.println("STATE DECLARATIONS: " + stateDeclarations);
+        System.out.println("STATE BODY: " + stateBody);
+        System.out.println("BODY: " + body);
+    }
+
+    private List<Variable> generateDeclarations(Tag root) {
+        List<Variable> declarations = new ArrayList<>();
+
+        Stack<Tag> tagsToParse = new Stack<>();
+
+        tagsToParse.add(root);
+
+        while (!tagsToParse.empty()) {
+            Tag currentTag = tagsToParse.pop();
+            //String tagName = currentTag.getName();
+            String currentTagStyledComponent = generateStyledComponentFor(currentTag);
+
+            // Sets unique name for current tag
+            Encryptor md5Encryptor = Encryptors.md5();
+            String uniqueName = md5Encryptor.encrypt(String.valueOf(new Date().getTime() + Math.round(Math.random() * 9999)));
+            currentTag.setName(uniqueName);
+
+            // Add it to declarations as styled component
+            Variable tagDeclaration = new Variable(
+                currentTag.getName(), 
+                "const", 
+                currentTagStyledComponent
+            );
+            declarations.add(tagDeclaration);
+
+            for (Tag child : currentTag.getChildren()) {
+                tagsToParse.add(child);
+            }
+        }
+
+        return declarations;
+    }
+
+    private String generateStyledComponentFor(Tag tag) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("styled.");
+        sb.append(tag.getName());
+        sb.append('`');
+        sb.append('\n');
+        
+        for (Map.Entry<String, String> tagStyle : tag.getStyle().entrySet()) {
+            sb.append(tagStyle.getKey());
+            sb.append(": ");
+            sb.append(tagStyle.getValue());
+            sb.append(';');
+            sb.append('\n');
+        }
+        
+        sb.append("`");
+        
+        return sb.toString();
     }
 
     private void stylize(Tag tag, StyleSheet style) {
@@ -265,6 +365,7 @@ public class ReactNativeScreenParser {
         //System.out.println("# "  + rawHtml);
                 
         Tag root = HtmlUtils.parse(rawHtml);
+        stylize(root, style);
         
         // TODO: mandar para o behavior parse 'root' (pd ter behavior para alguma tag)
         // TODO: tem q verificar se tem style para alguma tag do 'root'

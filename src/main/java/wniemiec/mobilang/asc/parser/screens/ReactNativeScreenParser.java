@@ -73,7 +73,7 @@ public class ReactNativeScreenParser {
 
     private void parseImports() {
         imports.add("import React, { useEffect, useState } from 'react'");
-        imports.add("import styled from 'styled-components/native");
+        imports.add("import styled from 'styled-components/native'");
     }
 
     private List<Variable> generateDeclarations(Tag root) {

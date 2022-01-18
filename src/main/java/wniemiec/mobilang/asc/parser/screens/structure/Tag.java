@@ -143,8 +143,25 @@ public class Tag {
         return refTag;
     }
 
-    public String toCode() {
-        StringBuilder sb = new StringBuilder();
+    public List<String> toCode() {
+        List<String> code = new ArrayList<>();
+
+        code.add(buildTagOpen());
+        
+        if (getValue() != null) {
+            code.add(getValue());
+        }
+        else {
+            List<Tag> children = getChildren();
+
+            for (int i = 0; i < children.size(); i++) {
+                code.addAll(children.get(i).toCode());
+            }
+        }
+
+        code.add(buildTagClose());
+
+        /*StringBuilder sb = new StringBuilder();
 
         sb.append('<');
         sb.append(name);
@@ -166,6 +183,34 @@ public class Tag {
                 sb.append(children.get(i).toCode());
             }
         }
+
+        sb.append("</");
+        sb.append(name);
+        sb.append('>');
+        */
+        
+
+        return code;
+    }
+
+    private String buildTagOpen() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append('<');
+        sb.append(name);
+
+        if (!attributes.isEmpty()) {
+            sb.append(' ');
+            sb.append(stringifyAttributes());
+        }
+        
+        sb.append('>');
+
+        return sb.toString();
+    }
+
+    private String buildTagClose() {
+        StringBuilder sb = new StringBuilder();
 
         sb.append("</");
         sb.append(name);

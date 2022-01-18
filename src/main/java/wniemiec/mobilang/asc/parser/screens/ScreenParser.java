@@ -58,13 +58,28 @@ public class ScreenParser implements Parser {
         Behavior behavior = behaviorParser.parse();
 
         ReactNativeScreenParser rnParser = new ReactNativeScreenParser(
-            id,
             structure,
             style,
             behavior
         );
 
         rnParser.parse();
+
+        ReactNativeScreenCode rnCode = new ReactNativeScreenCode(
+            id, 
+            rnParser.getImports(), 
+            rnParser.getDeclarations(),
+            rnParser.getStateDeclarations(), 
+            rnParser.getStateBody(), 
+            rnParser.getBody()
+        );
+
+        List<String> code = rnCode.generateCode();
+
+        System.out.println("\n\n----- CODE ----");
+        for (String line : code) {
+            System.out.println(line);
+        }
         
         System.out.println("-------------------------------\n");
     }

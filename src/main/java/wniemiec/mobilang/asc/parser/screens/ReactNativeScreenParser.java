@@ -28,53 +28,40 @@ import wniemiec.data.java.Encryptor;
 
 public class ReactNativeScreenParser {
 
-    String name;
     Tag structure;
     StyleSheet style;
     Behavior behavior;
 
-    Set<String> imports;
-    Set<String> styledTagDeclarations;
-    Set<String> stateDeclarations;
-    Queue<String> stateBody;
-    Set<String> declaredStateBodyVariables;
+    List<String> imports;
+    List<Variable> stateDeclarations;
+    List<String> stateBody;
+    List<Variable> declarations;
+    List<String> body;
+    List<String> declaredStateBodyVariables;
     Map<String, String> symbolTable; // key: var id; value: tag id
 
-    public ReactNativeScreenParser(String name, Tag structure, StyleSheet style, Behavior behavior) {
-        this.name = name;
+    public ReactNativeScreenParser(Tag structure, StyleSheet style, Behavior behavior) {
         this.structure = structure;
         this.style = style;
         this.behavior = behavior;
-        imports = new HashSet<>();
-        styledTagDeclarations = new HashSet<>();
-        stateDeclarations = new HashSet<>();
-        stateBody = new LinkedList<>();
+        imports = new ArrayList<>();
+        stateDeclarations = new ArrayList<>();
+        stateBody = new ArrayList<>();
         symbolTable = new HashMap<>();
-        declaredStateBodyVariables = new HashSet<>();
+        declaredStateBodyVariables = new ArrayList<>();
     }
 
     public void parse() {
         System.out.println("-----< React Native screen parser >-----");
         
-        //structure.print();
-        //System.out.println(style);
-        
-        //System.out.println("\n\n");
         stylize(structure, style);
         parseStructure(structure);
-        //structure.print();
-        //behavior.print();
-        //System.out.println("\n\n");
+
         parseBehavior();
         parseImports();
-        /*System.out.println("\nState declarations: " + stateDeclarations);
-        System.out.println("State body: ");
-        while (!stateBody.isEmpty()) {
-            System.out.println(stateBody.remove());
-        }
-        */
-        
-        generateCode();
+
+        declarations = generateDeclarations(structure);
+        body = structure.toCode();
         System.out.println("----------");
     }
 
@@ -87,30 +74,6 @@ public class ReactNativeScreenParser {
     private void parseImports() {
         imports.add("import React, { useEffect, useState } from 'react'");
         imports.add("import styled from 'styled-components/native");
-    }
-
-    private void generateCode() {
-        // Aqui, tags estão com seu style e behavior já parseado
-        // stateBody e stateDeclarations estão ok
-        // Falta gerar codigo
-        // lembrar q todas as tags serão styled components
-        /*ReactNativeScreenCode rnCode = new ReactNativeScreenCode(
-            name, 
-            imports, 
-            declarations, 
-            stateDeclarations, 
-            stateBody, 
-            body
-        );*/
-        List<Variable> declarations = generateDeclarations(structure);
-        String body = structure.toCode();
-
-        System.out.println("NAME: " + name);
-        System.out.println("IMPORTS: " + imports);
-        System.out.println("DECLARATIONS: " + declarations);
-        System.out.println("STATE DECLARATIONS: " + stateDeclarations);
-        System.out.println("STATE BODY: " + stateBody);
-        System.out.println("BODY: " + body);
     }
 
     private List<Variable> generateDeclarations(Tag root) {
@@ -251,8 +214,8 @@ public class ReactNativeScreenParser {
             //break;
         }
 
-        for (String declaration : stateDeclarations) {
-            stateBody.add("set" + declaration + "(_" + declaration + ")");
+        for (Variable declaration : stateDeclarations) {
+            stateBody.add("set" + declaration.getId() + "(_" + declaration.getId() + ")");
         }
         // createCode()
     }
@@ -279,7 +242,8 @@ public class ReactNativeScreenParser {
             String id = code.split(".innerHTML")[0];
             String tagId = "";
 
-            if (stateDeclarations.contains(id)) {
+            //if (stateDeclarations.contains(id)) {
+            if (stateDeclarations.contains(new Variable(id, "state", "[]"))) {
                 //tagId = symbolTable.get(id);
                 tagId = id;
             }
@@ -289,9 +253,10 @@ public class ReactNativeScreenParser {
             }
 
             tagId = tagId.replaceAll("-", "_");
+            Variable stateVar = new Variable(tagId, "state", "[]");
 
-            if (!stateDeclarations.contains(tagId)) {
-                stateDeclarations.add(tagId);
+            if (!stateDeclarations.contains(stateVar)) {
+                stateDeclarations.add(stateVar);
             }
 
             String innerHtmlAssignment = code.substring(code.indexOf("=")+1);
@@ -323,9 +288,11 @@ public class ReactNativeScreenParser {
                 String id = m.group(2);
                 //code = code.replaceAll("document\\.getElementById\\(.+\\)", id); // const glossary=mobilang:tag:id:glossary
                 id = id.replaceAll("-", "_");
+                
+                Variable stateVar = new Variable(id, "state", "[]");
 
-                if (!stateDeclarations.contains(id)) {
-                    stateDeclarations.add(id);
+                if (!stateDeclarations.contains(stateVar)) {
+                    stateDeclarations.add(stateVar);
                 }
                 //stateDeclarations.add(id, "[]");
                 code = "";
@@ -373,8 +340,13 @@ public class ReactNativeScreenParser {
         ReactNativeStructureParser rnStructureParser = new ReactNativeStructureParser(root);
         Tag rnTag = rnStructureParser.parse();
 
+        StringBuilder sb = new StringBuilder();
 
-        return rnTag.toCode();
+        for (String line : rnTag.toCode()) {
+            sb.append(line);
+        }
+
+        return sb.toString();
         
         
         
@@ -399,5 +371,45 @@ public class ReactNativeScreenParser {
         }
 
         return id;
+    }
+
+    public Tag getStructure() {
+        return structure;
+    }
+
+    public StyleSheet getStyle() {
+        return style;
+    }
+
+    public Behavior getBehavior() {
+        return behavior;
+    }
+
+    public List<String> getImports() {
+        return imports;
+    }
+
+    public List<Variable> getStateDeclarations() {
+        return stateDeclarations;
+    }
+
+    public List<String> getStateBody() {
+        return stateBody;
+    }
+
+    public List<Variable> getDeclarations() {
+        return declarations;
+    }
+
+    public List<String> getBody() {
+        return body;
+    }
+
+    public List<String> getDeclaredStateBodyVariables() {
+        return declaredStateBodyVariables;
+    }
+
+    public Map<String, String> getSymbolTable() {
+        return symbolTable;
     }
 }

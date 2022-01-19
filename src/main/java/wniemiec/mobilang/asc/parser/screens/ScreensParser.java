@@ -8,6 +8,7 @@ import wniemiec.mobilang.asc.coder.framework.reactnative.ReactNativeFrameworkScr
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.parser.Parser;
+import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.framework.FrameworkParserFactory;
 
 public class ScreensParser implements Parser {
@@ -25,7 +26,7 @@ public class ScreensParser implements Parser {
     }
 
     @Override
-    public void parse() throws Exception {
+    public void parse() throws ParseException {
         /*for (Node screen : screens) {
             ScreenParser screenParser = new ScreenParser(tree, screen);
             

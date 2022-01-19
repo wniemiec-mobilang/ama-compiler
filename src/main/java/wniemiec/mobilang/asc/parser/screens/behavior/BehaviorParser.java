@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.parser.Parser;
+import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 public class BehaviorParser  {
 
@@ -21,7 +22,7 @@ public class BehaviorParser  {
     }
 
     
-    public Behavior parse() throws Exception {
+    public Behavior parse() throws ParseException {
         //System.out.println("-----< BEHAVIOR PARSER >-----");
         //System.out.println(contentNode);
         //System.out.println("-------------------------------\n");
@@ -34,7 +35,7 @@ public class BehaviorParser  {
         return behavior;
     }
 
-    private List<Instruction> parseJson(String json) throws Exception {
+    private List<Instruction> parseJson(String json) throws ParseException {
         List<Instruction> instructions = new ArrayList<>();
         JSONObject obj = new JSONObject(json);
         

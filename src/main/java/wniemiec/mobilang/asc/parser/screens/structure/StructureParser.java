@@ -15,6 +15,7 @@ import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.RawTag;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.parser.Parser;
+import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 // Strategy: DFS
 public class StructureParser /*implements Parser*/ {
@@ -33,12 +34,17 @@ public class StructureParser /*implements Parser*/ {
     }
 
     //@Override
-    public Tag parse() throws Exception {
+    public Tag parse() throws ParseException {
         //System.out.println("-----< STRUCTURE PARSER >-----");
         //System.out.println(contentNode);
         //System.out.println("-------------------------------\n");
         if (astFromMobilang) {
-            return parseJson(contentNode);    
+            try {
+                return parseJson(contentNode);
+            } 
+            catch (Exception e) {
+                throw new ParseException("JSON parsing - " + e.getMessage());
+            }    
         }
 
         JSONObject obj = new JSONObject(contentNode);

@@ -13,6 +13,7 @@ import wniemiec.mobilang.asc.models.StyleSheet;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.Variable;
 import wniemiec.mobilang.asc.parser.Parser;
+import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.framework.FrameworkParserFactory;
 import wniemiec.mobilang.asc.parser.framework.FrameworkScreenParser;
 import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
@@ -53,7 +54,7 @@ public class ScreenParser implements Parser {
     }
 
     @Override
-    public void parse() throws Exception {
+    public void parse() throws ParseException {
         System.out.println("-----< SCREEN PARSER >-----");
         
         System.out.println("Screen id: " + id);

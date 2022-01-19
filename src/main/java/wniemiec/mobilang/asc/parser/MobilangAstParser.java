@@ -11,6 +11,7 @@ import com.paypal.digraph.parser.GraphNode;
 
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
+import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.framework.FrameworkParserFactory;
 import wniemiec.mobilang.asc.parser.persistence.PersistenceParser;
 import wniemiec.mobilang.asc.parser.properties.PropertiesParser;
@@ -30,7 +31,7 @@ public class MobilangAstParser implements Parser {
         this.frameworkParserFactory = frameworkParserFactory;
     }
 
-    public void parse() throws Exception {
+    public void parse() throws ParseException {
         
 
         /*for (String line : Files.readAllLines(dotFile)) {

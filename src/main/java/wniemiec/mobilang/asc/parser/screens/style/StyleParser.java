@@ -14,6 +14,7 @@ import wniemiec.mobilang.asc.models.StyleSheet;
 import wniemiec.mobilang.asc.models.StyleSheetRule;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.parser.Parser;
+import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 public class StyleParser /*implements Parser*/ {
 
@@ -24,14 +25,14 @@ public class StyleParser /*implements Parser*/ {
     }
 
     
-    public StyleSheet parse() throws Exception {
+    public StyleSheet parse() throws ParseException {
         //System.out.println("-----< STYLE PARSER >-----");
         //System.out.println(contentNode);
         //System.out.println("-------------------------------\n");
         return parseJson(contentNode);
     }
 
-    private StyleSheet parseJson(String json) throws Exception {
+    private StyleSheet parseJson(String json) throws ParseException {
         StyleSheet styleSheet = new StyleSheet();
         JSONObject obj = new JSONObject(json);
         //JSONObject root = obj.getJSONObject("content");

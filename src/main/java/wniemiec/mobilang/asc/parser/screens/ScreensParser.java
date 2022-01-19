@@ -1,10 +1,12 @@
 package wniemiec.mobilang.asc.parser.screens;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 
 import wniemiec.mobilang.asc.coder.screens.ReactNativeScreenCode;
 import wniemiec.mobilang.asc.models.Node;
+import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.parser.Parser;
 import wniemiec.mobilang.asc.parser.framework.FrameworkParserFactory;
 
@@ -13,11 +15,13 @@ public class ScreensParser implements Parser {
     private SortedMap<String, List<Node>> tree;
     private List<Node> screens;
     private FrameworkParserFactory frameworkParserFactory;
+    private List<ScreenData> screensData;
 
     public ScreensParser(SortedMap<String, List<Node>> tree, Node screensNode, FrameworkParserFactory frameworkParserFactory) {
         this.tree = tree;
         screens = tree.get(screensNode.getId());
         this.frameworkParserFactory = frameworkParserFactory;
+        screensData = new ArrayList<>();
     }
 
     @Override
@@ -36,13 +40,11 @@ public class ScreensParser implements Parser {
             
         screenParser.parse();
 
-        ReactNativeScreenCode rnCode = new ReactNativeScreenCode(
-            screenParser.getName(), 
-            screenParser.getImports(), 
-            screenParser.getDeclarations(),
-            screenParser.getStateDeclarations(), 
-            screenParser.getStateBody(), 
-            screenParser.getBody()
+        screensData.add(screenParser.getScreenData());
+
+        /*
+        ReactNativeScreenCode rnCode = new ReactNativeScreenCode( // frameworkCoderFactory.getScreenCoder() {mover para App.java}
+            screenParser.getScreenData()
         );
 
         List<String> code = rnCode.generateCode();
@@ -51,7 +53,12 @@ public class ScreensParser implements Parser {
         for (String line : code) {
             System.out.println(line);
         }
+        */
 
         // frameworkParser = frameworkParserFactory.getScreensParser();
+    }
+
+    public List<ScreenData> getScreensData() {
+        return screensData;
     }
 }

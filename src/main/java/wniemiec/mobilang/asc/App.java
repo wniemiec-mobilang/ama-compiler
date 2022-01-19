@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.SortedMap;
 
 import wniemiec.io.java.Consolex;
+import wniemiec.mobilang.asc.coder.screens.ReactNativeScreenCode;
 import wniemiec.mobilang.asc.models.Node;
+import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.parser.DotParser;
 import wniemiec.mobilang.asc.parser.Parser;
 import wniemiec.mobilang.asc.parser.framework.reactnative.ReactNativeFrameworkParserFactory;
@@ -36,10 +38,21 @@ public class App
             SortedMap<String, List<Node>> tree = dotReader.read(dotFilePath);
 
             // Call dotParser
-            Parser dotParser = new DotParser(tree, new ReactNativeFrameworkParserFactory());
+            DotParser dotParser = new DotParser(tree, new ReactNativeFrameworkParserFactory());
             dotParser.parse();
 
             // Call coder
+            List<ScreenData> screensData = dotParser.getScreensData();
+            ReactNativeScreenCode rnCode = new ReactNativeScreenCode( // frameworkCoderFactory.getScreenCoder() {mover para App.java}
+                screensData.get(0)
+            );
+
+            List<String> code = rnCode.generateCode();
+
+            System.out.println("\n\n----- CODE ----");
+            for (String line : code) {
+                System.out.println(line);
+            }
 
 
             // Call export

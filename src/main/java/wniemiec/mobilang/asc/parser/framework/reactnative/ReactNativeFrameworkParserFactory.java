@@ -9,8 +9,8 @@ import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 public class ReactNativeFrameworkParserFactory implements FrameworkParserFactory {
 
     @Override
-    public FrameworkScreenParser getScreenParser(Tag structure, StyleSheet style, Behavior behavior) {
-        return new ReactNativeFrameworkScreenParser(structure, style, behavior);
+    public FrameworkScreenParser getScreenParser(String name, Tag structure, StyleSheet style, Behavior behavior) {
+        return new ReactNativeFrameworkScreenParser(name, structure, style, behavior);
     }
     
 }

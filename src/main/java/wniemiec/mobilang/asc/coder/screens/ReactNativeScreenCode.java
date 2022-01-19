@@ -3,6 +3,7 @@ package wniemiec.mobilang.asc.coder.screens;
 import java.util.ArrayList;
 import java.util.List;
 
+import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Variable;
 
 public class ReactNativeScreenCode {
@@ -14,20 +15,13 @@ public class ReactNativeScreenCode {
     List<String> effectBody;
     List<String> body;
     
-    public ReactNativeScreenCode(
-        String name, 
-        List<String> imports, 
-        List<Variable> declarations,
-        List<Variable> stateDeclarations, 
-        List<String> effectBody, 
-        List<String> body
-    ) {
-        this.name = name;
-        this.imports = imports;
-        this.declarations = declarations;
-        this.stateDeclarations = stateDeclarations;
-        this.effectBody = effectBody;
-        this.body = body;
+    public ReactNativeScreenCode(ScreenData screenData) {
+        this.name = screenData.getName();
+        this.imports = screenData.getImports();
+        this.declarations = screenData.getDeclarations();
+        this.stateDeclarations = screenData.getStateDeclarations();
+        this.effectBody = screenData.getStateBody();
+        this.body = screenData.getBody();
 
         System.out.println("NAME: " + name);
         System.out.println("IMPORTS: " + imports);

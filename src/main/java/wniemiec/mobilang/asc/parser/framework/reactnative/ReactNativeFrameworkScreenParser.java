@@ -14,6 +14,7 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.StyleSheet;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.Variable;
@@ -29,12 +30,22 @@ import wniemiec.data.java.Encryptor;
 
 public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
 
-    List<String> declaredStateBodyVariables;
-    Map<String, String> symbolTable; // key: var id; value: tag id
+    private List<String> imports;
+    private List<Variable> stateDeclarations;
+    private List<String> stateBody;
+    private List<Variable> declarations;
+    private List<String> body;
+    private List<String> declaredStateBodyVariables;
+    private Map<String, String> symbolTable; // key: var id; value: tag id
 
-    public ReactNativeFrameworkScreenParser(Tag structure, StyleSheet style, Behavior behavior) {
-        super(structure, style, behavior);
-        
+    public ReactNativeFrameworkScreenParser(String name, Tag structure, StyleSheet style, Behavior behavior) {
+        super(name, structure, style, behavior);
+    
+        imports = new ArrayList<>();
+        stateDeclarations = new ArrayList<>();
+        stateBody = new ArrayList<>();
+        declarations = new ArrayList<>();
+        body = new ArrayList<>();
         symbolTable = new HashMap<>();
         declaredStateBodyVariables = new ArrayList<>();
     }
@@ -368,5 +379,17 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
 
     public Map<String, String> getSymbolTable() {
         return symbolTable;
+    }
+
+    @Override
+    public ScreenData getScreenData() {
+        return new ScreenData(
+            name, 
+            imports, 
+            stateDeclarations, 
+            stateBody, 
+            declarations, 
+            body
+        );
     }
 }

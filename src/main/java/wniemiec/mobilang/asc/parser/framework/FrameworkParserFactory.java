@@ -6,6 +6,6 @@ import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 
 public interface FrameworkParserFactory {
 
-    FrameworkScreenParser getScreenParser(Tag structure, StyleSheet style, Behavior behavior);
+    FrameworkScreenParser getScreenParser(String name, Tag structure, StyleSheet style, Behavior behavior);
 
 }

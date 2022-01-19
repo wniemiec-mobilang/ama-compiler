@@ -10,6 +10,7 @@ import java.util.SortedMap;
 import com.paypal.digraph.parser.GraphNode;
 
 import wniemiec.mobilang.asc.models.Node;
+import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.parser.framework.FrameworkParserFactory;
 import wniemiec.mobilang.asc.parser.persistence.PersistenceParser;
 import wniemiec.mobilang.asc.parser.properties.PropertiesParser;
@@ -18,7 +19,7 @@ import wniemiec.mobilang.asc.reader.DotReader;
 
 public class DotParser implements Parser {
     
-    private Parser screensParser;
+    private ScreensParser screensParser;
     private Parser propertiesParser;
     private Parser persistenceParser;
     private SortedMap<String, List<Node>> tree;
@@ -76,5 +77,9 @@ public class DotParser implements Parser {
         }
         
         return searchedNode;
+    }
+
+    public List<ScreenData> getScreensData() {
+        return screensParser.getScreensData();
     }
 }

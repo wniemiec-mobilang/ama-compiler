@@ -8,6 +8,7 @@ import com.paypal.digraph.parser.GraphNode;
 
 import wniemiec.mobilang.asc.coder.screens.ReactNativeScreenCode;
 import wniemiec.mobilang.asc.models.Node;
+import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.StyleSheet;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.Variable;
@@ -31,6 +32,7 @@ public class ScreenParser implements Parser {
     private BehaviorParser behaviorParser;
     private FrameworkScreenParser frameworkParser;
     private FrameworkParserFactory frameworkParserFactory;
+    private ScreenData screenData;
 
     public ScreenParser(SortedMap<String, List<Node>> tree, Node screenNode, FrameworkParserFactory frameworkParserFactory) {
         this.tree = tree;
@@ -66,39 +68,22 @@ public class ScreenParser implements Parser {
 
         
         frameworkParser = frameworkParserFactory.getScreenParser(
+            id,
             structure,
             style,
             behavior
         );
         
         frameworkParser.parse();
+
+        this.screenData = frameworkParser.getScreenData();
         
         System.out.println("-------------------------------\n");
     }
 
-    public String getName() {
-        return id;
+   
+    public ScreenData getScreenData() {
+        return screenData;
     }
-
-    public List<String> getImports() {
-        return frameworkParser.getImports();
-    }
-
-    public List<Variable> getDeclarations() {
-        return frameworkParser.getDeclarations();
-    }
-
-    public List<Variable> getStateDeclarations() {
-        return frameworkParser.getStateDeclarations();
-    }
-
-    public List<String> getStateBody() {
-        return frameworkParser.getStateBody();
-    }
-
-    public List<String> getBody() {
-        return frameworkParser.getBody();
-    }
-
 
 }

@@ -1,12 +1,13 @@
-package wniemiec.mobilang.asc.coder.screens;
+package wniemiec.mobilang.asc.coder.framework.reactnative;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import wniemiec.mobilang.asc.coder.framework.FrameworkScreenCoder;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Variable;
 
-public class ReactNativeScreenCode {
+public class ReactNativeFrameworkScreenCoder extends FrameworkScreenCoder {
 
     String name;
     List<String> imports;
@@ -15,7 +16,8 @@ public class ReactNativeScreenCode {
     List<String> effectBody;
     List<String> body;
     
-    public ReactNativeScreenCode(ScreenData screenData) {
+    public ReactNativeFrameworkScreenCoder(ScreenData screenData) {
+        super(screenData);
         this.name = screenData.getName();
         this.imports = screenData.getImports();
         this.declarations = screenData.getDeclarations();
@@ -31,6 +33,7 @@ public class ReactNativeScreenCode {
         System.out.println("BODY: " + body);
     }
     
+    @Override
     public List<String> generateCode() {
         List<String> code = new ArrayList<>();
 

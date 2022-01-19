@@ -6,7 +6,7 @@ import java.util.SortedMap;
 
 import com.paypal.digraph.parser.GraphNode;
 
-import wniemiec.mobilang.asc.coder.screens.ReactNativeScreenCode;
+import wniemiec.mobilang.asc.coder.framework.reactnative.ReactNativeFrameworkScreenCoder;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.StyleSheet;

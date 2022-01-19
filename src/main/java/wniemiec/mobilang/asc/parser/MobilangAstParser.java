@@ -17,7 +17,7 @@ import wniemiec.mobilang.asc.parser.properties.PropertiesParser;
 import wniemiec.mobilang.asc.parser.screens.ScreensParser;
 import wniemiec.mobilang.asc.reader.DotReader;
 
-public class DotParser implements Parser {
+public class MobilangAstParser implements Parser {
     
     private ScreensParser screensParser;
     private Parser propertiesParser;
@@ -25,7 +25,7 @@ public class DotParser implements Parser {
     private SortedMap<String, List<Node>> tree;
     private FrameworkParserFactory frameworkParserFactory;
     
-    public DotParser(SortedMap<String, List<Node>> tree, FrameworkParserFactory frameworkParserFactory) {
+    public MobilangAstParser(SortedMap<String, List<Node>> tree, FrameworkParserFactory frameworkParserFactory) {
         this.tree = tree;
         this.frameworkParserFactory = frameworkParserFactory;
     }

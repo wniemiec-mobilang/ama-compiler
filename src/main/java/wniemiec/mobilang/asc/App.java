@@ -6,10 +6,14 @@ import java.util.List;
 import java.util.SortedMap;
 
 import wniemiec.io.java.Consolex;
-import wniemiec.mobilang.asc.coder.screens.ReactNativeScreenCode;
+import wniemiec.mobilang.asc.coder.MobilangCoder;
+import wniemiec.mobilang.asc.coder.framework.reactnative.ReactNativeFrameworkCoderFactory;
+import wniemiec.mobilang.asc.coder.framework.reactnative.ReactNativeFrameworkScreenCoder;
+import wniemiec.mobilang.asc.export.ConsoleMobilangCodeExport;
+import wniemiec.mobilang.asc.export.MobilangCodeExport;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
-import wniemiec.mobilang.asc.parser.DotParser;
+import wniemiec.mobilang.asc.parser.MobilangAstParser;
 import wniemiec.mobilang.asc.parser.Parser;
 import wniemiec.mobilang.asc.parser.framework.reactnative.ReactNativeFrameworkParserFactory;
 import wniemiec.mobilang.asc.reader.DotReader;
@@ -30,39 +34,36 @@ public class App
         
         try {
             parseArgs(args);
-            //Parser dotParser = new DotParser(dotFilePath, outputLocationPath);
-            //dotParser.parse();
 
             // Call dotReader
             DotReader dotReader = new DotReader();
             SortedMap<String, List<Node>> tree = dotReader.read(dotFilePath);
 
             // Call dotParser
-            DotParser dotParser = new DotParser(tree, new ReactNativeFrameworkParserFactory());
-            dotParser.parse();
+            MobilangAstParser mobilangAstParser = new MobilangAstParser(tree, new ReactNativeFrameworkParserFactory());
+            mobilangAstParser.parse();
 
             // Call coder
-            List<ScreenData> screensData = dotParser.getScreensData();
-            ReactNativeScreenCode rnCode = new ReactNativeScreenCode( // frameworkCoderFactory.getScreenCoder() {mover para App.java}
-                screensData.get(0)
+            MobilangCoder mobilangCoder = new MobilangCoder(
+                mobilangAstParser.getScreensData(),
+                new ReactNativeFrameworkCoderFactory()
             );
+            mobilangCoder.generateCode();
 
-            List<String> code = rnCode.generateCode();
-
-            System.out.println("\n\n----- CODE ----");
-            for (String line : code) {
-                System.out.println(line);
-            }
-
-
-            // Call export
+            // Call export (file generation)
+            MobilangCodeExport mobilangCodeExport = new ConsoleMobilangCodeExport(
+                mobilangCoder.getScreensCode(),
+                mobilangCoder.getPersistenceCode(),
+                mobilangCoder.getCoreCode()
+            );
+            mobilangCodeExport.export();
         }
         catch (InvalidPathException e) {
             Consolex.writeError("Invalid filepath! " + e.getMessage());
         } 
         catch (Exception e) {
-            Consolex.writeError(e.getMessage());
             e.printStackTrace();
+            Consolex.writeError(e.getMessage());
         }
     }
 

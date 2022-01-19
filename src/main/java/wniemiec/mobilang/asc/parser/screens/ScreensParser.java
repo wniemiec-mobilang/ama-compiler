@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 
-import wniemiec.mobilang.asc.coder.screens.ReactNativeScreenCode;
+import wniemiec.mobilang.asc.coder.framework.reactnative.ReactNativeFrameworkScreenCoder;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.parser.Parser;

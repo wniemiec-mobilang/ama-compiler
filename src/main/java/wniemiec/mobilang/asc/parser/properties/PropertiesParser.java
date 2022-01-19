@@ -3,7 +3,7 @@ package wniemiec.mobilang.asc.parser.properties;
 import java.util.List;
 import java.util.SortedMap;
 
-import wniemiec.mobilang.asc.data.Node;
+import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.parser.Parser;
 
 public class PropertiesParser implements Parser {

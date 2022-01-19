@@ -9,7 +9,7 @@ import java.util.SortedMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import wniemiec.mobilang.asc.data.Node;
+import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.parser.Parser;
 
 public class BehaviorParser  {

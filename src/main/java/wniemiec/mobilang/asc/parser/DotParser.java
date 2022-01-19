@@ -9,28 +9,28 @@ import java.util.SortedMap;
 
 import com.paypal.digraph.parser.GraphNode;
 
-import wniemiec.mobilang.asc.data.Node;
+import wniemiec.mobilang.asc.models.Node;
+import wniemiec.mobilang.asc.parser.framework.FrameworkParserFactory;
 import wniemiec.mobilang.asc.parser.persistence.PersistenceParser;
 import wniemiec.mobilang.asc.parser.properties.PropertiesParser;
 import wniemiec.mobilang.asc.parser.screens.ScreensParser;
 import wniemiec.mobilang.asc.reader.DotReader;
 
 public class DotParser implements Parser {
-
-    private Path dotFile;
-    private Path outputLocation;
-    private DotReader dotReader = new DotReader();
+    
     private Parser screensParser;
     private Parser propertiesParser;
     private Parser persistenceParser;
+    private SortedMap<String, List<Node>> tree;
+    private FrameworkParserFactory frameworkParserFactory;
     
-    public DotParser(Path dotFile, Path outputLocation) {
-        this.dotFile = dotFile;
-        this.outputLocation = outputLocation;
+    public DotParser(SortedMap<String, List<Node>> tree, FrameworkParserFactory frameworkParserFactory) {
+        this.tree = tree;
+        this.frameworkParserFactory = frameworkParserFactory;
     }
 
     public void parse() throws Exception {
-        SortedMap<String, List<Node>> tree = dotReader.read(dotFile);
+        
 
         /*for (String line : Files.readAllLines(dotFile)) {
             System.out.println(line);
@@ -51,7 +51,7 @@ public class DotParser implements Parser {
         Node propertiesNode = findNodeWithName(root, "properties");
         Node persistenceNode = findNodeWithName(root, "persistence");
         
-        screensParser = new ScreensParser(tree, screensNode);
+        screensParser = new ScreensParser(tree, screensNode, frameworkParserFactory);
         propertiesParser = new PropertiesParser(tree, propertiesNode);
         persistenceParser = new PersistenceParser(tree, persistenceNode);
 

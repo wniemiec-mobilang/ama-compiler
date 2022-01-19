@@ -2,6 +2,8 @@ package wniemiec.mobilang.asc.parser.screens.structure;
 
 import java.util.Map;
 
+import wniemiec.mobilang.asc.models.Tag;
+
 public class TagBuilder {
 
     private String tagName;

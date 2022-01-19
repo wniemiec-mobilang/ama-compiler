@@ -9,9 +9,11 @@ import java.util.SortedMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import wniemiec.mobilang.asc.data.Node;
+import wniemiec.mobilang.asc.models.Node;
+import wniemiec.mobilang.asc.models.StyleSheet;
+import wniemiec.mobilang.asc.models.StyleSheetRule;
+import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.parser.Parser;
-import wniemiec.mobilang.asc.parser.screens.structure.Tag;
 
 public class StyleParser /*implements Parser*/ {
 

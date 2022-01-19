@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.parser.screens.structure;
+package wniemiec.mobilang.asc.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;

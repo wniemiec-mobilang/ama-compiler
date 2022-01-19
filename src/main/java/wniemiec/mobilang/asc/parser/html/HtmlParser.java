@@ -14,7 +14,7 @@ public class HtmlParser {
         String normalizedHtml = html.replaceAll("\"", "&quot;");
         normalizedHtml = normalizedHtml.replaceAll(" ", "&nbsp;");
         
-        Process process = Runtime.getRuntime().exec("node ./src/main/javascript/hyntax/index.js \"" + normalizedHtml + "\"");
+        Process process = Runtime.getRuntime().exec("node ./src/main/javascript/html-parser/index.js \"" + normalizedHtml + "\"");
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
         StringBuilder builder = new StringBuilder();

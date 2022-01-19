@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.data;
+package wniemiec.mobilang.asc.models;
 
 import java.util.HashMap;
 import java.util.Map;

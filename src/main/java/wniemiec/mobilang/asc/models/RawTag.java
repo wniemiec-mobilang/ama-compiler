@@ -1,8 +1,8 @@
-package wniemiec.mobilang.asc.parser.screens.structure;
+package wniemiec.mobilang.asc.models;
 
 import org.json.JSONObject;
 
-class RawTag {
+public class RawTag {
 
     JSONObject jsonObject;
     Tag parent;

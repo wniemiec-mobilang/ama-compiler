@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.parser.screens;
+package wniemiec.mobilang.asc.parser.framework.reactnative;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,43 +14,32 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import wniemiec.mobilang.asc.models.StyleSheet;
+import wniemiec.mobilang.asc.models.Tag;
+import wniemiec.mobilang.asc.models.Variable;
+import wniemiec.mobilang.asc.parser.framework.FrameworkScreenParser;
 import wniemiec.mobilang.asc.parser.html.HtmlParser;
 import wniemiec.mobilang.asc.parser.screens.behavior.AssignmentExpression;
 import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 import wniemiec.mobilang.asc.parser.screens.behavior.Instruction;
 import wniemiec.mobilang.asc.parser.screens.structure.HtmlUtils;
 import wniemiec.mobilang.asc.parser.screens.structure.ReactNativeStructureParser;
-import wniemiec.mobilang.asc.parser.screens.structure.Tag;
-import wniemiec.mobilang.asc.parser.screens.style.StyleSheet;
-
 import wniemiec.data.java.Encryptors;
 import wniemiec.data.java.Encryptor;
 
-public class ReactNativeScreenParser {
+public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
 
-    Tag structure;
-    StyleSheet style;
-    Behavior behavior;
-
-    List<String> imports;
-    List<Variable> stateDeclarations;
-    List<String> stateBody;
-    List<Variable> declarations;
-    List<String> body;
     List<String> declaredStateBodyVariables;
     Map<String, String> symbolTable; // key: var id; value: tag id
 
-    public ReactNativeScreenParser(Tag structure, StyleSheet style, Behavior behavior) {
-        this.structure = structure;
-        this.style = style;
-        this.behavior = behavior;
-        imports = new ArrayList<>();
-        stateDeclarations = new ArrayList<>();
-        stateBody = new ArrayList<>();
+    public ReactNativeFrameworkScreenParser(Tag structure, StyleSheet style, Behavior behavior) {
+        super(structure, style, behavior);
+        
         symbolTable = new HashMap<>();
         declaredStateBodyVariables = new ArrayList<>();
     }
 
+    @Override
     public void parse() {
         System.out.println("-----< React Native screen parser >-----");
         
@@ -371,38 +360,6 @@ public class ReactNativeScreenParser {
         }
 
         return id;
-    }
-
-    public Tag getStructure() {
-        return structure;
-    }
-
-    public StyleSheet getStyle() {
-        return style;
-    }
-
-    public Behavior getBehavior() {
-        return behavior;
-    }
-
-    public List<String> getImports() {
-        return imports;
-    }
-
-    public List<Variable> getStateDeclarations() {
-        return stateDeclarations;
-    }
-
-    public List<String> getStateBody() {
-        return stateBody;
-    }
-
-    public List<Variable> getDeclarations() {
-        return declarations;
-    }
-
-    public List<String> getBody() {
-        return body;
     }
 
     public List<String> getDeclaredStateBodyVariables() {

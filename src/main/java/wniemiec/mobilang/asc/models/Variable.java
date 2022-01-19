@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.parser.screens;
+package wniemiec.mobilang.asc.models;
 
 public class Variable {
     private String id;

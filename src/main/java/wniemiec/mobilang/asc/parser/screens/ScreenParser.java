@@ -6,14 +6,18 @@ import java.util.SortedMap;
 
 import com.paypal.digraph.parser.GraphNode;
 
-import wniemiec.mobilang.asc.data.Node;
+import wniemiec.mobilang.asc.coder.screens.ReactNativeScreenCode;
+import wniemiec.mobilang.asc.models.Node;
+import wniemiec.mobilang.asc.models.StyleSheet;
+import wniemiec.mobilang.asc.models.Tag;
+import wniemiec.mobilang.asc.models.Variable;
 import wniemiec.mobilang.asc.parser.Parser;
+import wniemiec.mobilang.asc.parser.framework.FrameworkParserFactory;
+import wniemiec.mobilang.asc.parser.framework.FrameworkScreenParser;
 import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 import wniemiec.mobilang.asc.parser.screens.behavior.BehaviorParser;
 import wniemiec.mobilang.asc.parser.screens.structure.StructureParser;
-import wniemiec.mobilang.asc.parser.screens.structure.Tag;
 import wniemiec.mobilang.asc.parser.screens.style.StyleParser;
-import wniemiec.mobilang.asc.parser.screens.style.StyleSheet;
 
 public class ScreenParser implements Parser {
 
@@ -25,9 +29,12 @@ public class ScreenParser implements Parser {
     private StructureParser structureParser;
     private StyleParser styleParser;
     private BehaviorParser behaviorParser;
+    private FrameworkScreenParser frameworkParser;
+    private FrameworkParserFactory frameworkParserFactory;
 
-    public ScreenParser(SortedMap<String, List<Node>> tree, Node screenNode) {
+    public ScreenParser(SortedMap<String, List<Node>> tree, Node screenNode, FrameworkParserFactory frameworkParserFactory) {
         this.tree = tree;
+        this.frameworkParserFactory = frameworkParserFactory;
         id = screenNode.getAttribute("id");
         
         for (Node node : tree.get(screenNode.getId())) {
@@ -57,30 +64,41 @@ public class ScreenParser implements Parser {
         StyleSheet style = styleParser.parse();
         Behavior behavior = behaviorParser.parse();
 
-        ReactNativeScreenParser rnParser = new ReactNativeScreenParser(
+        
+        frameworkParser = frameworkParserFactory.getScreenParser(
             structure,
             style,
             behavior
         );
-
-        rnParser.parse();
-
-        ReactNativeScreenCode rnCode = new ReactNativeScreenCode(
-            id, 
-            rnParser.getImports(), 
-            rnParser.getDeclarations(),
-            rnParser.getStateDeclarations(), 
-            rnParser.getStateBody(), 
-            rnParser.getBody()
-        );
-
-        List<String> code = rnCode.generateCode();
-
-        System.out.println("\n\n----- CODE ----");
-        for (String line : code) {
-            System.out.println(line);
-        }
+        
+        frameworkParser.parse();
         
         System.out.println("-------------------------------\n");
     }
+
+    public String getName() {
+        return id;
+    }
+
+    public List<String> getImports() {
+        return frameworkParser.getImports();
+    }
+
+    public List<Variable> getDeclarations() {
+        return frameworkParser.getDeclarations();
+    }
+
+    public List<Variable> getStateDeclarations() {
+        return frameworkParser.getStateDeclarations();
+    }
+
+    public List<String> getStateBody() {
+        return frameworkParser.getStateBody();
+    }
+
+    public List<String> getBody() {
+        return frameworkParser.getBody();
+    }
+
+
 }

@@ -1,7 +1,9 @@
-package wniemiec.mobilang.asc.parser.screens;
+package wniemiec.mobilang.asc.coder.screens;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import wniemiec.mobilang.asc.models.Variable;
 
 public class ReactNativeScreenCode {
 

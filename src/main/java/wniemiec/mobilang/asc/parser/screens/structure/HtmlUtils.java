@@ -11,6 +11,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.parser.html.HtmlParser;
 
 public class HtmlUtils {

@@ -7,23 +7,34 @@ import java.util.stream.Collectors;
 class ArrowFunctionExpression extends Expression {
     boolean async;
     List<Expression> params = new ArrayList<>();
-    Expression body;
-    public ArrowFunctionExpression(boolean async, List<Expression> params, Expression body) {
+    String bodyCode;
+
+    private ArrowFunctionExpression(boolean async, List<Expression> params, String bodyCode) {
         this.async = async;
 
-        if (params != null)
+        if (params != null) {
             this.params = params;
+        }
 
-        this.body = body;
+        this.bodyCode = bodyCode;
+    }
+    
+    public ArrowFunctionExpression(boolean async, List<Expression> params, Instruction body) {
+        this(async, params, body.toCode());
+    }
+
+    public ArrowFunctionExpression(boolean async, List<Expression> params, Expression body) {
+        this(async, params, body.toCode());
     }
 
     public String toString() {
-        return  "[ArrowFunctionExpression] {" + body.toCode() + "(" + params + ")" + "{async: " + async + "} }";
+        return  "[ArrowFunctionExpression] {" + bodyCode + "(" + params + ")" + "{async: " + async + "} }";
     }
 
     public String toCode() {
+        String asyncField = async ? "async " : "";
         //return  "[ArrowFunctionExpression] {" + body.toCode() + "(" + params + ")" + "{async: " + async + "} }";
-        return "(" + paramsToCode() + ") => " + body.toCode();
+        return asyncField + "(" + paramsToCode() + ") => " + bodyCode;
     }        
 
     private String paramsToCode() {

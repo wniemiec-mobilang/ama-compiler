@@ -27,12 +27,18 @@ public class ScreensParser implements Parser {
 
     @Override
     public void parse() throws ParseException {
-        /*for (Node screen : screens) {
-            ScreenParser screenParser = new ScreenParser(tree, screen);
+        for (Node screen : screens) {
+            ScreenParser screenParser = new ScreenParser(
+                tree, 
+                screen,
+                frameworkParserFactory
+            );
             
             screenParser.parse();
-        }*/
+            screensData.add(screenParser.getScreenData());
+        }
 
+        /*
         ScreenParser screenParser = new ScreenParser(
             tree, 
             screens.get(1),
@@ -42,21 +48,7 @@ public class ScreensParser implements Parser {
         screenParser.parse();
 
         screensData.add(screenParser.getScreenData());
-
-        /*
-        ReactNativeScreenCode rnCode = new ReactNativeScreenCode( // frameworkCoderFactory.getScreenCoder() {mover para App.java}
-            screenParser.getScreenData()
-        );
-
-        List<String> code = rnCode.generateCode();
-
-        System.out.println("\n\n----- CODE ----");
-        for (String line : code) {
-            System.out.println(line);
-        }
         */
-
-        // frameworkParser = frameworkParserFactory.getScreensParser();
     }
 
     public List<ScreenData> getScreensData() {

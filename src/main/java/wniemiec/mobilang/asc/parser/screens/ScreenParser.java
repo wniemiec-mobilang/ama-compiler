@@ -1,17 +1,11 @@
 package wniemiec.mobilang.asc.parser.screens;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.SortedMap;
-
-import com.paypal.digraph.parser.GraphNode;
-
-import wniemiec.mobilang.asc.coder.framework.reactnative.ReactNativeFrameworkScreenCoder;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.StyleSheet;
 import wniemiec.mobilang.asc.models.Tag;
-import wniemiec.mobilang.asc.models.Variable;
 import wniemiec.mobilang.asc.parser.Parser;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.framework.FrameworkParserFactory;
@@ -55,9 +49,9 @@ public class ScreenParser implements Parser {
 
     @Override
     public void parse() throws ParseException {
-        System.out.println("-----< SCREEN PARSER >-----");
+        //System.out.println("-----< SCREEN PARSER >-----");
         
-        System.out.println("Screen id: " + id);
+        //System.out.println("Screen id: " + id);
         
         structureParser = new StructureParser(tree, structureNode);
         styleParser = new StyleParser(tree, styleNode);
@@ -79,7 +73,7 @@ public class ScreenParser implements Parser {
 
         this.screenData = frameworkParser.getScreenData();
         
-        System.out.println("-------------------------------\n");
+        //System.out.println("-------------------------------\n");
     }
 
    

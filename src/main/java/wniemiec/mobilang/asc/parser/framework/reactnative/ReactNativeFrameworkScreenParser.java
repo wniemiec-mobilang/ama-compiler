@@ -209,8 +209,10 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
     }
 
     private void parseBehavior() {
-        for (Instruction line : behavior.getCode()) {
-            parseBehaviorLine(line);
+        for (Instruction instr : behavior.getCode()) {
+            for (String line : instr.toCode().split("\n")) {
+                parseBehaviorLine(line);
+            }
             //break;
         }
 
@@ -220,10 +222,11 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
         // createCode()
     }
 
-    private void parseBehaviorLine(Instruction line) {
+    private void parseBehaviorLine(String code) {
         // TODO: Compatibility with getElementsByClass or byQuery
-        System.out.println(line.toCode());
-        String code = line.toCode();
+        //System.out.println(line.toCode());
+        //String code = line.toCode();
+        System.out.println(code);
         //String rnCode = code;
 
         
@@ -241,19 +244,24 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
 
             String id = code.split(".innerHTML")[0];
             String tagId = "";
+            //System.out.println("# " + code);
+            //System.out.println("# " + id);
 
             //if (stateDeclarations.contains(id)) {
-            if (stateDeclarations.contains(new Variable(id, "state", "[]"))) {
+            //if (stateDeclarations.contains(new Variable(id, "state", "[]"))) {
+            if (symbolTable.containsKey(id)) {
                 //tagId = symbolTable.get(id);
-                tagId = id;
+                tagId = symbolTable.get(id);
             }
             else {
                 //System.out.println("1 - " + code);
                 tagId = extractIdFromGetElementById(code);
+                //tagId = tagId.replaceAll("-", "_");
             }
 
-            tagId = tagId.replaceAll("-", "_");
-            Variable stateVar = new Variable(tagId, "state", "[]");
+            //tagId = tagId.replaceAll("-", "_");
+            String normalizedId = id.replaceAll("-", "_");
+            Variable stateVar = new Variable(normalizedId, "state", "[]");
 
             if (!stateDeclarations.contains(stateVar)) {
                 stateDeclarations.add(stateVar);
@@ -263,17 +271,18 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
             innerHtmlAssignment = parseInnerHtml(innerHtmlAssignment); // (convert html to rn tags) }--> CONTENT CANNOT BE STRING OR TEMPLATE; IT MUST BE TAG!
             
 
-            if (!declaredStateBodyVariables.contains("let _" + tagId)) {
+            if (!declaredStateBodyVariables.contains("let _" + normalizedId)) {
                 Tag refTag = structure.getTagWithId(tagId);
-                stateBody.add("let _" + tagId + "=[" + refTag.toChildrenCode() + "]");
-                declaredStateBodyVariables.add("let _" + tagId);
+
+                stateBody.add("let _" + normalizedId + "=[" + refTag.toChildrenCode() + "]");
+                declaredStateBodyVariables.add("let _" + normalizedId);
             }
 
             if (code.contains(".innerHTML=")) { 
-                stateBody.add("_" + tagId + "=[" + innerHtmlAssignment + "]");
+                stateBody.add("_" + normalizedId + "=[" + innerHtmlAssignment + "]");
             }
             else if (code.contains(".innerHTML+=")) { 
-                stateBody.add("_" + tagId + ".push(" + innerHtmlAssignment + ")");
+                stateBody.add("_" + normalizedId + ".push(" + innerHtmlAssignment + ")");
             }
 
             //stateBody.add("set" + tagId + "(_" + tagId + ")");
@@ -287,12 +296,15 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
             if (m.matches()) {
                 String id = m.group(2);
                 //code = code.replaceAll("document\\.getElementById\\(.+\\)", id); // const glossary=mobilang:tag:id:glossary
-                id = id.replaceAll("-", "_");
+                String normalizedId = id.replaceAll("-", "_");
                 
-                Variable stateVar = new Variable(id, "state", "[]");
+                Variable stateVar = new Variable(normalizedId, "state", "[]");
 
                 if (!stateDeclarations.contains(stateVar)) {
                     stateDeclarations.add(stateVar);
+                    
+                    String varName = code.split(" ")[1].split("=")[0];
+                    symbolTable.put(varName, id);
                 }
                 //stateDeclarations.add(id, "[]");
                 code = "";

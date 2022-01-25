@@ -35,9 +35,11 @@ public class App
         }
         catch (ParseException e) {
             Consolex.writeError("Error while parsing: " + e.getMessage());
+            e.printStackTrace();
         }
         catch (Exception e) {
-            Consolex.writeError(e.getMessage());
+            e.printStackTrace();
+            //Consolex.writeError(e.getMessage());
         }
     }
 

@@ -21,8 +21,8 @@ import wniemiec.mobilang.asc.reader.DotReader;
 public class MobilangAstParser implements Parser {
     
     private ScreensParser screensParser;
-    private Parser propertiesParser;
-    private Parser persistenceParser;
+    private PropertiesParser propertiesParser;
+    private PersistenceParser persistenceParser;
     private SortedMap<String, List<Node>> tree;
     private FrameworkParserFactory frameworkParserFactory;
     
@@ -32,22 +32,6 @@ public class MobilangAstParser implements Parser {
     }
 
     public void parse() throws ParseException {
-        
-
-        /*for (String line : Files.readAllLines(dotFile)) {
-            System.out.println(line);
-        }*/
-        /*System.out.println("\n");
-
-        for (Map.Entry<String, List<Node>> element : tree.entrySet()) {
-            System.out.println(element.getKey() + " -> " + element.getValue());
-        }
-
-        System.out.println("\n");*/
-
-        //System.out.println(tree);
-
-        
         List<Node> root = tree.get("n0");
         Node screensNode = findNodeWithName(root, "screens");
         Node propertiesNode = findNodeWithName(root, "properties");

@@ -19,7 +19,8 @@ class Declarator {
 
     public String toCode() {
         if (init == null) {
-            return idName + "=" + "null";
+            //return idName + "=" + "null";
+            return idName;
         }
 
         return idName + "=" + init.toCode();

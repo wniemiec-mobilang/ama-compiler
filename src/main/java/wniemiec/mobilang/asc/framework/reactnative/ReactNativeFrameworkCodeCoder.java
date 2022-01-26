@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.coder.framework.reactnative;
+package wniemiec.mobilang.asc.framework.reactnative;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import wniemiec.mobilang.asc.coder.framework.FrameworkCoreCoder;
+import wniemiec.mobilang.asc.framework.FrameworkCoreCoder;
 
 public class ReactNativeFrameworkCodeCoder extends FrameworkCoreCoder {
 

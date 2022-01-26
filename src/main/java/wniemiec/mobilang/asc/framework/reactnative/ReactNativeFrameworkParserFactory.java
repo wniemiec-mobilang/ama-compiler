@@ -1,9 +1,9 @@
-package wniemiec.mobilang.asc.parser.framework.reactnative;
+package wniemiec.mobilang.asc.framework.reactnative;
 
+import wniemiec.mobilang.asc.framework.FrameworkParserFactory;
+import wniemiec.mobilang.asc.framework.FrameworkScreenParser;
 import wniemiec.mobilang.asc.models.StyleSheet;
 import wniemiec.mobilang.asc.models.Tag;
-import wniemiec.mobilang.asc.parser.framework.FrameworkParserFactory;
-import wniemiec.mobilang.asc.parser.framework.FrameworkScreenParser;
 import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 
 public class ReactNativeFrameworkParserFactory implements FrameworkParserFactory {

@@ -1,9 +1,9 @@
-package wniemiec.mobilang.asc.coder.framework.reactnative;
+package wniemiec.mobilang.asc.framework.reactnative;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import wniemiec.mobilang.asc.coder.framework.FrameworkScreenCoder;
+import wniemiec.mobilang.asc.framework.FrameworkScreenCoder;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Variable;
 

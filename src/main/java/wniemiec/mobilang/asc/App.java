@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
-import wniemiec.mobilang.asc.framework.ReactNativeFrameworkFactory;
+import wniemiec.mobilang.asc.framework.reactnative.ReactNativeFrameworkFactory;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 

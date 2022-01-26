@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 
-import wniemiec.mobilang.asc.coder.framework.reactnative.ReactNativeFrameworkScreenCoder;
+import wniemiec.mobilang.asc.framework.FrameworkParserFactory;
+import wniemiec.mobilang.asc.framework.reactnative.ReactNativeFrameworkScreenCoder;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.parser.Parser;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.parser.framework.FrameworkParserFactory;
 
 public class ScreensParser implements Parser {
 

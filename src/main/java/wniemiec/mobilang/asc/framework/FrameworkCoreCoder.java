@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.coder.framework;
+package wniemiec.mobilang.asc.framework;
 
 import java.util.List;
 import java.util.Map;

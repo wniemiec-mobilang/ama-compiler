@@ -9,10 +9,10 @@ import java.util.SortedMap;
 
 import com.paypal.digraph.parser.GraphNode;
 
+import wniemiec.mobilang.asc.framework.FrameworkParserFactory;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.parser.framework.FrameworkParserFactory;
 import wniemiec.mobilang.asc.parser.persistence.PersistenceParser;
 import wniemiec.mobilang.asc.parser.properties.PropertiesParser;
 import wniemiec.mobilang.asc.parser.screens.ScreensParser;

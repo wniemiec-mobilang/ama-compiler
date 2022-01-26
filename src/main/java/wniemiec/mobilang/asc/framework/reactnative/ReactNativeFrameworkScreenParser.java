@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.parser.framework.reactnative;
+package wniemiec.mobilang.asc.framework.reactnative;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,11 +14,11 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import wniemiec.mobilang.asc.framework.FrameworkScreenParser;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.StyleSheet;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.Variable;
-import wniemiec.mobilang.asc.parser.framework.FrameworkScreenParser;
 import wniemiec.mobilang.asc.parser.html.HtmlParser;
 import wniemiec.mobilang.asc.parser.screens.behavior.AssignmentExpression;
 import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;

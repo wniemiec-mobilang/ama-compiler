@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import wniemiec.mobilang.asc.coder.framework.FrameworkCoderFactory;
-import wniemiec.mobilang.asc.coder.framework.FrameworkCoreCoder;
-import wniemiec.mobilang.asc.coder.framework.FrameworkScreenCoder;
+import wniemiec.mobilang.asc.framework.FrameworkCoderFactory;
+import wniemiec.mobilang.asc.framework.FrameworkCoreCoder;
+import wniemiec.mobilang.asc.framework.FrameworkScreenCoder;
 import wniemiec.mobilang.asc.models.ScreenData;
 
 public class MobilangCoder {

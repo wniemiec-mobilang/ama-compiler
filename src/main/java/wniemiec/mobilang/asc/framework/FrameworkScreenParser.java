@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.parser.framework;
+package wniemiec.mobilang.asc.framework;
 
 import java.util.ArrayList;
 import java.util.List;

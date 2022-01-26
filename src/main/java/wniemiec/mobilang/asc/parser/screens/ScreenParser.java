@@ -2,14 +2,15 @@ package wniemiec.mobilang.asc.parser.screens;
 
 import java.util.List;
 import java.util.SortedMap;
+
+import wniemiec.mobilang.asc.framework.FrameworkParserFactory;
+import wniemiec.mobilang.asc.framework.FrameworkScreenParser;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.StyleSheet;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.parser.Parser;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.parser.framework.FrameworkParserFactory;
-import wniemiec.mobilang.asc.parser.framework.FrameworkScreenParser;
 import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 import wniemiec.mobilang.asc.parser.screens.behavior.BehaviorParser;
 import wniemiec.mobilang.asc.parser.screens.structure.StructureParser;

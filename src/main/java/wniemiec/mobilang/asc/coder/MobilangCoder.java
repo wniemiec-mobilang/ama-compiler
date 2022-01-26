@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import wniemiec.mobilang.asc.coder.framework.FrameworkCoderFactory;
+import wniemiec.mobilang.asc.coder.framework.FrameworkCoreCoder;
 import wniemiec.mobilang.asc.coder.framework.FrameworkScreenCoder;
 import wniemiec.mobilang.asc.models.ScreenData;
 
@@ -31,6 +32,13 @@ public class MobilangCoder {
 
     public void generateCode() {
         generateCodeForScreens();
+        generateCodeForCore();
+    }
+
+    private void generateCodeForCore() {
+        FrameworkCoreCoder frameworkCoreCoder = frameworkCoderFactory.getCoreCoder(screensCode.keySet());
+
+        coreCode = frameworkCoreCoder.generateCode();        
     }
 
     private void generateCodeForScreens() {

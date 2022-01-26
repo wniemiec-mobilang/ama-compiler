@@ -52,7 +52,7 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
 
     @Override
     public void parse() {
-        System.out.println("-----< React Native screen parser >-----");
+        //System.out.println("-----< React Native screen parser >-----");
         
         stylize(structure, style);
         parseStructure(structure);
@@ -62,7 +62,7 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
 
         declarations = generateDeclarations(structure);
         body = structure.toCode();
-        System.out.println("----------");
+        //System.out.println("----------");
     }
 
     private void parseStructure(Tag root) {
@@ -226,7 +226,7 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
         // TODO: Compatibility with getElementsByClass or byQuery
         //System.out.println(line.toCode());
         //String code = line.toCode();
-        System.out.println(code);
+        //System.out.println(code);
         //String rnCode = code;
 
         

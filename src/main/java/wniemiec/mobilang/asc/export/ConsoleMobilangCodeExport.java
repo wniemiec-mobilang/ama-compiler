@@ -15,7 +15,15 @@ public class ConsoleMobilangCodeExport extends MobilangCodeExport {
 
     @Override
     protected void exportScreenCode(String filename, List<String> code) {
-        System.out.println("\n\n----- CODE FOR SCREEN " + filename + " ----");
+        System.out.println("-----< " + filename + " >-----");
+        for (String line : code) {
+            System.out.println(line);
+        }
+    }
+
+    @Override
+    protected void exportCoreCode(String filename, List<String> code) {
+        System.out.println("-----< " + filename + " >-----");
         for (String line : code) {
             System.out.println(line);
         }

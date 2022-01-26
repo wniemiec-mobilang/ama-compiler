@@ -42,7 +42,7 @@ public class Node {
         if (attributes == null)
             initializeAttributes();
 
-        return attributes.containsKey(attribute) ? attributes.get(attribute) : "";
+        return attributes.containsKey(attribute) ? attributes.get(attribute).replaceAll("\"", "") : "";
     }
 
     private void initializeAttributes() {

@@ -52,7 +52,7 @@ public class MobilangCoder {
         FrameworkScreenCoder frameworkScreenCoder = frameworkCoderFactory.getScreenCoder(screenData);
 
         List<String> code = frameworkScreenCoder.generateCode();
-        screensCode.put(screenData.getName(), code);
+        screensCode.put("src/screens/" + screenData.getName(), code);
 
         /*System.out.println("\n\n----- CODE FOR SCREEN " + screenData.getName() + " ----");
         for (String line : code) {

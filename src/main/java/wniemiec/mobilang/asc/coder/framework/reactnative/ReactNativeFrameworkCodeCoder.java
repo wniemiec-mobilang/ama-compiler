@@ -1,5 +1,6 @@
 package wniemiec.mobilang.asc.coder.framework.reactnative;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -29,19 +30,19 @@ public class ReactNativeFrameworkCodeCoder extends FrameworkCoreCoder {
     }
 
     private void generateIndexCode() {
-        List<String> code = Arrays.asList(
+        List<String> code = new ArrayList<>(Arrays.asList(
             "import {AppRegistry} from 'react-native';",
             "import App from './src/App';",
             "import {name as appName} from './app.json';",
             "",
             "AppRegistry.registerComponent(appName, () => App);"
-        );
+        ));
 
         coreCodes.put("index", code);
     }
 
     private void generateAppCode() {
-        List<String> code = Arrays.asList(
+        List<String> code = new ArrayList<>(Arrays.asList(
             "import 'react-native-gesture-handler';",
             "import React from 'react';",
             "import { NavigationContainer } from '@react-navigation/native';",
@@ -62,16 +63,16 @@ public class ReactNativeFrameworkCodeCoder extends FrameworkCoreCoder {
             "        <MainStack />",
             "    </NavigationContainer>",
             ");"
-        );
+        ));
 
-        coreCodes.put("app", code);
+        coreCodes.put("src/app", code);
     }
 
     private void generateNavigators() {
-        List<String> code = Arrays.asList(
+        List<String> code = new ArrayList<>(Arrays.asList(
             "import React from 'react';",
             "import { createStackNavigator } from '@react-navigation/stack';"
-        );
+        ));
 
         for (String screenName : screensName) {
             code.add("import " + screenName + " from ../screens/" + screenName);
@@ -116,7 +117,7 @@ public class ReactNativeFrameworkCodeCoder extends FrameworkCoreCoder {
         );
         */
 
-        coreCodes.put("navigators/MainStack", code);
+        coreCodes.put("src/navigators/MainStack", code);
     }
 
 }

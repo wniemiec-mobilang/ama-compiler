@@ -23,6 +23,12 @@ public class FileMobilangCodeExport extends MobilangCodeExport {
         // TODO Auto-generated method stub
         
     }
+
+    @Override
+    protected void exportCoreCode(String filename, List<String> code) {
+        // TODO Auto-generated method stub
+        
+    }
     
     
 }

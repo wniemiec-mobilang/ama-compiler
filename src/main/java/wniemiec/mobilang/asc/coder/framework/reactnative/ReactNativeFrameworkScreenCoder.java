@@ -25,12 +25,14 @@ public class ReactNativeFrameworkScreenCoder extends FrameworkScreenCoder {
         this.effectBody = screenData.getStateBody();
         this.body = screenData.getBody();
 
+        /*
         System.out.println("NAME: " + name);
         System.out.println("IMPORTS: " + imports);
         System.out.println("DECLARATIONS: " + declarations);
         System.out.println("STATE DECLARATIONS: " + stateDeclarations);
         System.out.println("STATE BODY: " + effectBody);
         System.out.println("BODY: " + body);
+        */
     }
     
     @Override
@@ -63,7 +65,7 @@ public class ReactNativeFrameworkScreenCoder extends FrameworkScreenCoder {
 
         code.add(""); // \n
 
-        code.add("function " + name + " (props) {");
+        code.add("function " + name + "(props) {");
         code.add("");
 
         for (Variable declaration : stateDeclarations) {

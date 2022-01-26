@@ -27,7 +27,7 @@ public class FunctionDeclaration extends Instruction {
     public String toCode() {
         String asyncField = async ? "async " : "";
 
-        return asyncField + name + "(" + paramsToCode() + ") " + body.toCode();
+        return asyncField + "function " + name + "(" + paramsToCode() + ") " + body.toCode();
     }
 
     private String paramsToCode() {

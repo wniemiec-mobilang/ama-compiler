@@ -21,6 +21,7 @@ public abstract class MobilangCodeExport {
 
     public final void export() {
         exportScreensCode();
+        exportCoreCode();
     }
 
     private void exportScreensCode() {
@@ -30,4 +31,12 @@ public abstract class MobilangCodeExport {
     }
 
     protected abstract void exportScreenCode(String filename, List<String> code);
+
+    private void exportCoreCode() {
+        for (Map.Entry<String, List<String>> core : coreCode.entrySet()) {
+            exportCoreCode(core.getKey(), core.getValue());
+        }
+    }
+
+    protected abstract void exportCoreCode(String filename, List<String> code);
 }

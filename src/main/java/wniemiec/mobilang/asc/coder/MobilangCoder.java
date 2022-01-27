@@ -6,7 +6,7 @@ import java.util.Map;
 
 import wniemiec.mobilang.asc.framework.FrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.FrameworkCoreCoder;
-import wniemiec.mobilang.asc.framework.FrameworkScreenCoder;
+import wniemiec.mobilang.asc.framework.FrameworkScreensCoder;
 import wniemiec.mobilang.asc.models.ScreenData;
 
 public class MobilangCoder {
@@ -42,13 +42,17 @@ public class MobilangCoder {
     }
 
     private void generateCodeForScreens() {
-        for (ScreenData screenData : screensData) {
-            generateCodeForScreen(screenData);
-            break; // TMP
-        }
+        FrameworkScreensCoder frameworkScreensCoder = frameworkCoderFactory.getScreensCoder(screensData);
+
+        screensCode = frameworkScreensCoder.generateCode();
+
+        //for (ScreenData screenData : screensData) {
+        //    generateCodeForScreen(screenData);
+        //    break; // TMP
+        //}
     }
 
-    private void generateCodeForScreen(ScreenData screenData) {
+    /*private void generateCodeForScreen(ScreenData screenData) {
         FrameworkScreenCoder frameworkScreenCoder = frameworkCoderFactory.getScreenCoder(screenData);
 
         List<String> code = frameworkScreenCoder.generateCode();
@@ -57,8 +61,9 @@ public class MobilangCoder {
         /*System.out.println("\n\n----- CODE FOR SCREEN " + screenData.getName() + " ----");
         for (String line : code) {
             System.out.println(line);
-        }*/
+        }
     }
+    */
 
     public Map<String, List<String>> getScreensCode() {
         return screensCode;

@@ -38,7 +38,7 @@ public class ReactNativeFrameworkCodeCoder extends FrameworkCoreCoder {
             "AppRegistry.registerComponent(appName, () => App);"
         ));
 
-        coreCodes.put("index", code);
+        coreCodes.put("index.js", code);
     }
 
     private void generateAppCode() {
@@ -65,7 +65,7 @@ public class ReactNativeFrameworkCodeCoder extends FrameworkCoreCoder {
             ");"
         ));
 
-        coreCodes.put("src/app", code);
+        coreCodes.put("src/App.js", code);
     }
 
     private void generateNavigators() {
@@ -117,7 +117,7 @@ public class ReactNativeFrameworkCodeCoder extends FrameworkCoreCoder {
         );
         */
 
-        coreCodes.put("src/navigators/MainStack", code);
+        coreCodes.put("src/navigators/MainStack.js", code);
     }
 
 }

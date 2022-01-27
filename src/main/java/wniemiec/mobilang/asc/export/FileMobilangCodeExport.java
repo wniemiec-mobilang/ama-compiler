@@ -16,19 +16,19 @@ public class FileMobilangCodeExport extends MobilangCodeExport {
     ) {
         super(screensCode, persistenceCode, coreCode);
         this.outputLocation = outputLocation;
+
+        System.out.println("@@ " + outputLocation);
     }
 
     @Override
     protected void exportScreenCode(String filename, List<String> code) {
         // TODO Auto-generated method stub
-        
+        System.out.println("Exporting " + filename);   
     }
 
     @Override
     protected void exportCoreCode(String filename, List<String> code) {
         // TODO Auto-generated method stub
-        
+        System.out.println("Exporting " + filename);   
     }
-    
-    
 }

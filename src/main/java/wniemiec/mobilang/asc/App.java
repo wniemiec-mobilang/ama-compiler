@@ -38,8 +38,8 @@ public class App
             e.printStackTrace();
         }
         catch (Exception e) {
+            Consolex.writeError("Fatal error");
             e.printStackTrace();
-            //Consolex.writeError(e.getMessage());
         }
     }
 

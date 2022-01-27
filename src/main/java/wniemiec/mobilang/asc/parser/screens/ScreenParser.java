@@ -34,7 +34,7 @@ public class ScreenParser implements Parser {
         this.tree = tree;
         this.frameworkParserFactory = frameworkParserFactory;
         id = screenNode.getAttribute("id");
-        id = capitalize(id) + "Screen";
+        id = normalize(id) + "Screen";
         
         
         for (Node node : tree.get(screenNode.getId())) {
@@ -50,8 +50,17 @@ public class ScreenParser implements Parser {
         }
     }
 
+    private String normalize(String str) {
+        String normalizedString = capitalize(str);
+
+        normalizedString = str.replaceAll("[\\-\\_]+", "");
+        normalizedString = capitalize(normalizedString);
+
+        return normalizedString;
+    }
+
     private String capitalize(String str) {
-        char firstChar = Character.toUpperCase(id.charAt(0));
+        char firstChar = Character.toUpperCase(str.charAt(0));
         
         return firstChar + str.substring(1).toLowerCase();
     }

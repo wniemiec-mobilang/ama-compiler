@@ -1,29 +1,36 @@
 package wniemiec.mobilang.asc.framework.reactnative;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import wniemiec.mobilang.asc.framework.FrameworkScreenCoder;
+import wniemiec.mobilang.asc.framework.FrameworkScreensCoder;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Variable;
 
-public class ReactNativeFrameworkScreenCoder extends FrameworkScreenCoder {
+public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
 
+    /*
     String name;
     List<String> imports;
     List<Variable> declarations;
     List<Variable> stateDeclarations;
     List<String> effectBody;
     List<String> body;
+    */
     
-    public ReactNativeFrameworkScreenCoder(ScreenData screenData) {
-        super(screenData);
+    public ReactNativeFrameworkScreensCoder(List<ScreenData> screensData) {
+        super(screensData);
+        
+        /*
         this.name = screenData.getName();
         this.imports = screenData.getImports();
         this.declarations = screenData.getDeclarations();
         this.stateDeclarations = screenData.getStateDeclarations();
         this.effectBody = screenData.getStateBody();
         this.body = screenData.getBody();
+        */
 
         /*
         System.out.println("NAME: " + name);
@@ -34,10 +41,31 @@ public class ReactNativeFrameworkScreenCoder extends FrameworkScreenCoder {
         System.out.println("BODY: " + body);
         */
     }
-    
+
     @Override
-    public List<String> generateCode() {
+    public Map<String, List<String>> generateCode() {
+        Map<String, List<String>> screensCode = new HashMap<>();
+
+        for (ScreenData screenData : screensData) {
+            String filename = screenData.getName() + ".js";
+
+            screensCode.put(filename, generateCodeForScreen(screenData));
+        }
+
+        return screensCode;
+    }
+    
+    
+
+    private List<String> generateCodeForScreen(ScreenData screenData) {
         List<String> code = new ArrayList<>();
+
+        String name = screenData.getName();
+        List<String> imports = screenData.getImports();
+        List<Variable> declarations = screenData.getDeclarations();
+        List<Variable> stateDeclarations = screenData.getStateDeclarations();
+        List<String> effectBody = screenData.getStateBody();
+        List<String> body = screenData.getBody();
 
         for (String declaration : imports) {
             code.add(declaration + ";");
@@ -121,4 +149,8 @@ public class ReactNativeFrameworkScreenCoder extends FrameworkScreenCoder {
 
         return Character.toUpperCase(str.charAt(0)) + str.substring(1);
     }
+
+
+
+    
 }

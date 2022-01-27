@@ -7,6 +7,7 @@ import java.util.SortedMap;
 
 import wniemiec.mobilang.asc.coder.MobilangCoder;
 import wniemiec.mobilang.asc.export.ConsoleMobilangCodeExport;
+import wniemiec.mobilang.asc.export.FileMobilangCodeExport;
 import wniemiec.mobilang.asc.export.MobilangCodeExport;
 import wniemiec.mobilang.asc.framework.FrameworkFactory;
 import wniemiec.mobilang.asc.models.Node;
@@ -59,10 +60,11 @@ public class Asc {
 
 
     private void exportMobilangCode() {
-        MobilangCodeExport mobilangCodeExport = new ConsoleMobilangCodeExport(
+        MobilangCodeExport mobilangCodeExport = new FileMobilangCodeExport(
             mobilangCoder.getScreensCode(),
             mobilangCoder.getPersistenceCode(),
-            mobilangCoder.getCoreCode()
+            mobilangCoder.getCoreCode(),
+            outputLocationPath
         );
         mobilangCodeExport.export();
     }

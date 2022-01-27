@@ -9,6 +9,8 @@ import wniemiec.mobilang.asc.coder.MobilangCoder;
 import wniemiec.mobilang.asc.export.ConsoleMobilangCodeExport;
 import wniemiec.mobilang.asc.export.FileMobilangCodeExport;
 import wniemiec.mobilang.asc.export.MobilangCodeExport;
+import wniemiec.mobilang.asc.export.exception.CodeExportException;
+import wniemiec.mobilang.asc.export.exception.OutputLocationException;
 import wniemiec.mobilang.asc.framework.FrameworkFactory;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.parser.MobilangAstParser;
@@ -30,7 +32,8 @@ public class Asc {
         this.frameworkFactory = frameworkFactory;
     }
 
-    public void run() throws ParseException, FileNotFoundException {
+    public void run() 
+    throws ParseException, FileNotFoundException, OutputLocationException, CodeExportException {
         readMobilangDotFile();
         parseMobilangAst();
         generateMobilangCode();
@@ -59,7 +62,8 @@ public class Asc {
     }
 
 
-    private void exportMobilangCode() {
+    private void exportMobilangCode() 
+    throws OutputLocationException, CodeExportException {
         MobilangCodeExport mobilangCodeExport = new FileMobilangCodeExport(
             mobilangCoder.getScreensCode(),
             mobilangCoder.getPersistenceCode(),

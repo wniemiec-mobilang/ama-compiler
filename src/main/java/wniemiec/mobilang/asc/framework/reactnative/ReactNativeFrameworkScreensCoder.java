@@ -47,7 +47,7 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
         Map<String, List<String>> screensCode = new HashMap<>();
 
         for (ScreenData screenData : screensData) {
-            String filename = screenData.getName() + ".js";
+            String filename = "src/screens/" + screenData.getName() + ".js";
 
             screensCode.put(filename, generateCodeForScreen(screenData));
         }

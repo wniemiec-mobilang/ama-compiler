@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
+import wniemiec.mobilang.asc.export.exception.CodeExportException;
+import wniemiec.mobilang.asc.export.exception.OutputLocationException;
 import wniemiec.mobilang.asc.framework.reactnative.ReactNativeFrameworkFactory;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
@@ -31,11 +33,17 @@ public class App
             runAsc();
         }
         catch (InvalidPathException e) {
-            Consolex.writeError("Invalid filepath! " + e.getMessage());
+            Consolex.writeError("Invalid dot file location: " + e.getMessage());
         }
         catch (ParseException e) {
             Consolex.writeError("Error while parsing: " + e.getMessage());
             e.printStackTrace();
+        }
+        catch (OutputLocationException e) {
+            Consolex.writeError("Invalid output location: " + e.getMessage());
+        }
+        catch (CodeExportException e) {
+            Consolex.writeError("Error while exporting code: " + e.getMessage());
         }
         catch (Exception e) {
             Consolex.writeError("Fatal error");
@@ -61,7 +69,8 @@ public class App
         }
     }
 
-    private static void runAsc() throws ParseException, FileNotFoundException {
+    private static void runAsc() 
+    throws ParseException, FileNotFoundException, OutputLocationException, CodeExportException {
         Asc asc = new Asc(
             dotFilePath, 
             outputLocationPath,

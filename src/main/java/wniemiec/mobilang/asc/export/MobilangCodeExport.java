@@ -3,6 +3,8 @@ package wniemiec.mobilang.asc.export;
 import java.util.List;
 import java.util.Map;
 
+import wniemiec.mobilang.asc.export.exception.CodeExportException;
+
 public abstract class MobilangCodeExport {
 
     private Map<String, List<String>> screensCode;
@@ -19,24 +21,26 @@ public abstract class MobilangCodeExport {
         this.coreCode = coreCode;
     }
 
-    public final void export() {
+    public final void export() throws CodeExportException {
         exportScreensCode();
         exportCoreCode();
     }
 
-    private void exportScreensCode() {
+    private void exportScreensCode() throws CodeExportException {
         for (Map.Entry<String, List<String>> screen : screensCode.entrySet()) {
             exportScreenCode(screen.getKey(), screen.getValue());
         }
     }
 
-    protected abstract void exportScreenCode(String filename, List<String> code);
+    protected abstract void exportScreenCode(String filename, List<String> code)
+    throws CodeExportException;
 
-    private void exportCoreCode() {
+    private void exportCoreCode() throws CodeExportException {
         for (Map.Entry<String, List<String>> core : coreCode.entrySet()) {
             exportCoreCode(core.getKey(), core.getValue());
         }
     }
 
-    protected abstract void exportCoreCode(String filename, List<String> code);
+    protected abstract void exportCoreCode(String filename, List<String> code)
+    throws CodeExportException;
 }

@@ -19,6 +19,7 @@ import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.StyleSheet;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.Variable;
+import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.html.HtmlParser;
 import wniemiec.mobilang.asc.parser.screens.behavior.AssignmentExpression;
 import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
@@ -51,7 +52,7 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
     }
 
     @Override
-    public void parse() {
+    public void parse() throws IOException, ParseException {
         //System.out.println("-----< React Native screen parser >-----");
         
         stylize(structure, style);
@@ -208,7 +209,7 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
         }
     }
 
-    private void parseBehavior() {
+    private void parseBehavior() throws IOException, ParseException {
         for (Instruction instr : behavior.getCode()) {
             for (String line : instr.toCode().split("\n")) {
                 parseBehaviorLine(line);
@@ -222,7 +223,7 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
         // createCode()
     }
 
-    private void parseBehaviorLine(String code) {
+    private void parseBehaviorLine(String code) throws IOException, ParseException {
         // TODO: Compatibility with getElementsByClass or byQuery
         //System.out.println(line.toCode());
         //String code = line.toCode();
@@ -335,7 +336,7 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
     }
 
     // converts literal string or template string to string with rn tags
-    private String parseInnerHtml(String innerHtmlAssignment) {
+    private String parseInnerHtml(String innerHtmlAssignment) throws IOException, ParseException {
         if (innerHtmlAssignment.matches("\"[\\s\\t]*\"")) {
             return "";
         }

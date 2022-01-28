@@ -1,5 +1,6 @@
 package wniemiec.mobilang.asc.parser.screens;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -66,7 +67,7 @@ public class ScreenParser implements Parser {
     }
 
     @Override
-    public void parse() throws ParseException {
+    public void parse() throws ParseException, IOException {
         //System.out.println("-----< SCREEN PARSER >-----");
         
         //System.out.println("Screen id: " + id);

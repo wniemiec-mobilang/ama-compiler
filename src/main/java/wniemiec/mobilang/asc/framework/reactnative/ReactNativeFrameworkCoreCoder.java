@@ -1,5 +1,6 @@
 package wniemiec.mobilang.asc.framework.reactnative;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,12 +9,13 @@ import java.util.Map;
 import java.util.Set;
 
 import wniemiec.mobilang.asc.framework.FrameworkCoreCoder;
+import wniemiec.mobilang.asc.utils.Shell;
 
-public class ReactNativeFrameworkCodeCoder extends FrameworkCoreCoder {
+public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
 
     private Map<String, List<String>> coreCodes;
 
-    public ReactNativeFrameworkCodeCoder(Set<String> screensName) {
+    public ReactNativeFrameworkCoreCoder(Set<String> screensName) {
         super(screensName);
         coreCodes = new HashMap<>();
     }
@@ -119,5 +121,4 @@ public class ReactNativeFrameworkCodeCoder extends FrameworkCoreCoder {
 
         coreCodes.put("src/navigators/MainStack.js", code);
     }
-
 }

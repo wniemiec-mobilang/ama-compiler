@@ -1,5 +1,6 @@
 package wniemiec.mobilang.asc.parser.screens;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
@@ -26,7 +27,7 @@ public class ScreensParser implements Parser {
     }
 
     @Override
-    public void parse() throws ParseException {
+    public void parse() throws ParseException, IOException {
         for (Node screen : screens) {
             ScreenParser screenParser = new ScreenParser(
                 tree, 

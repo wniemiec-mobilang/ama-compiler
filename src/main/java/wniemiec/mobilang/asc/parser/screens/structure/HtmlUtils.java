@@ -1,38 +1,27 @@
 package wniemiec.mobilang.asc.parser.screens.structure;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
-
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 import wniemiec.mobilang.asc.models.Tag;
+import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.html.HtmlParser;
 
 public class HtmlUtils {
 
-    public static Tag parse(String html) {
+    public static Tag parse(String html) throws IOException, ParseException {
         Tag root = null;
 
         // a solution could use acorn
 
         //return root;
-        try {
-            String ast = HtmlParser.parse(html);
+        
+            HtmlParser htmlParser = new HtmlParser();
+            String ast = htmlParser.parse(html);
             //System.out.println(html);
             //System.out.println("AST: " + ast);
             StructureParser structureParser = new StructureParser(ast);
             root = structureParser.parse();
-        } 
-        catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        
 
         return root;
     }

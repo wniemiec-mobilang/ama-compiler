@@ -4,27 +4,34 @@ import java.util.List;
 import java.util.Map;
 
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
+import wniemiec.mobilang.asc.models.PropertiesData;
 
 public abstract class MobilangCodeExport {
 
+    private PropertiesData propertiesData;
     private Map<String, List<String>> screensCode;
     private Map<String, List<String>> persistenceCode;
     private Map<String, List<String>> coreCode;
     
     protected MobilangCodeExport(
+        PropertiesData propertiesData,
         Map<String, List<String>> screensCode,
         Map<String, List<String>> persistenceCode,
         Map<String, List<String>> coreCode
     ) {
+        this.propertiesData = propertiesData;
         this.screensCode = screensCode;
         this.persistenceCode = persistenceCode;
         this.coreCode = coreCode;
     }
 
     public final void export() throws CodeExportException {
+        createProject(propertiesData);
         exportScreensCode();
         exportCoreCode();
     }
+
+    public abstract void createProject(PropertiesData propertiesData);
 
     private void exportScreensCode() throws CodeExportException {
         for (Map.Entry<String, List<String>> screen : screensCode.entrySet()) {

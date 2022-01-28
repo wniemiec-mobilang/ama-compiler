@@ -1,6 +1,7 @@
 package wniemiec.mobilang.asc;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.SortedMap;
@@ -33,7 +34,7 @@ public class Asc {
     }
 
     public void run() 
-    throws ParseException, FileNotFoundException, OutputLocationException, CodeExportException {
+    throws ParseException, OutputLocationException, CodeExportException, IOException {
         readMobilangDotFile();
         parseMobilangAst();
         generateMobilangCode();
@@ -47,7 +48,7 @@ public class Asc {
     }
 
 
-    private void parseMobilangAst() throws ParseException {
+    private void parseMobilangAst() throws ParseException, IOException {
         mobilangAstParser = new MobilangAstParser(ast, frameworkFactory.getParserFactory());
         mobilangAstParser.parse();
     }
@@ -55,6 +56,7 @@ public class Asc {
 
     private void generateMobilangCode() {
         mobilangCoder = new MobilangCoder(
+            mobilangAstParser.getPersistenceData(),
             mobilangAstParser.getScreensData(),
             frameworkFactory.getCoderFactory()
         );
@@ -65,6 +67,7 @@ public class Asc {
     private void exportMobilangCode() 
     throws OutputLocationException, CodeExportException {
         MobilangCodeExport mobilangCodeExport = new FileMobilangCodeExport(
+            mobilangAstParser.getPropertiesData(),
             mobilangCoder.getScreensCode(),
             mobilangCoder.getPersistenceCode(),
             mobilangCoder.getCoreCode(),

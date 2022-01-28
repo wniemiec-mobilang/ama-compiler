@@ -1,5 +1,6 @@
 package wniemiec.mobilang.asc.framework;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.StyleSheet;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.Variable;
+import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 
 public abstract class FrameworkScreenParser {
@@ -37,7 +39,7 @@ public abstract class FrameworkScreenParser {
         */
     }    
 
-    public abstract void parse();
+    public abstract void parse() throws ParseException, IOException;
     public abstract ScreenData getScreenData();
 
     /*

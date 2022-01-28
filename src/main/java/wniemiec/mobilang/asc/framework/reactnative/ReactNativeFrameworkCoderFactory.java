@@ -17,6 +17,6 @@ public class ReactNativeFrameworkCoderFactory implements FrameworkCoderFactory {
 
     @Override
     public FrameworkCoreCoder getCoreCoder(Set<String> screensName) {
-        return new ReactNativeFrameworkCodeCoder(screensName);
+        return new ReactNativeFrameworkCoreCoder(screensName);
     }
 }

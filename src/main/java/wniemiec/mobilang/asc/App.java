@@ -1,6 +1,7 @@
 package wniemiec.mobilang.asc;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
@@ -70,7 +71,7 @@ public class App
     }
 
     private static void runAsc() 
-    throws ParseException, FileNotFoundException, OutputLocationException, CodeExportException {
+    throws ParseException, OutputLocationException, CodeExportException, IOException {
         Asc asc = new Asc(
             dotFilePath, 
             outputLocationPath,

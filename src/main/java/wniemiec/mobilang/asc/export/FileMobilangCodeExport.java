@@ -9,21 +9,25 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 
+import wniemiec.io.java.Consolex;
 import wniemiec.io.java.TextFileManager;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.export.exception.OutputLocationException;
+import wniemiec.mobilang.asc.models.PropertiesData;
+import wniemiec.mobilang.asc.utils.Shell;
 
 public class FileMobilangCodeExport extends MobilangCodeExport {
 
     private Path outputLocation;
 
     public FileMobilangCodeExport(
+        PropertiesData propertiesData, 
         Map<String, List<String>> screensCode, 
         Map<String, List<String>> persistenceCode,
         Map<String, List<String>> coreCode,
         Path outputLocation
     ) throws OutputLocationException {
-        super(screensCode, persistenceCode, coreCode);
+        super(propertiesData, screensCode, persistenceCode, coreCode);
         this.outputLocation = outputLocation;
 
         System.out.println("@@ " + outputLocation);
@@ -60,5 +64,20 @@ public class FileMobilangCodeExport extends MobilangCodeExport {
     @Override
     protected void exportCoreCode(String filename, List<String> code) throws CodeExportException {
         exportCodeToFile(filename, code);
+    }
+
+
+
+    @Override
+    public void createProject(PropertiesData propertiesData) {
+        Shell shell = new Shell();
+        //shell.exec("cd " + outputLocation.toString(), "react-native init " + appName);
+        
+        if (shell.hasError()) {
+            Consolex.writeError(shell.getErrorOutput());
+        }
+        else {
+            Consolex.writeInfo(shell.getOutput());
+        }
     }
 }

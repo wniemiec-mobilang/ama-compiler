@@ -7,11 +7,13 @@ import java.util.Map;
 import wniemiec.mobilang.asc.framework.FrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.FrameworkCoreCoder;
 import wniemiec.mobilang.asc.framework.FrameworkScreensCoder;
+import wniemiec.mobilang.asc.models.PersistenceData;
 import wniemiec.mobilang.asc.models.ScreenData;
 
 public class MobilangCoder {
     
     private FrameworkCoderFactory frameworkCoderFactory;
+    private PersistenceData persistenceData;
 
     // key: filename; value: code
     private Map<String, List<String>> screensCode;
@@ -20,9 +22,11 @@ public class MobilangCoder {
     private List<ScreenData> screensData;
 
     public MobilangCoder(
+        PersistenceData persistenceData, 
         List<ScreenData> screensData,
         FrameworkCoderFactory frameworkCoderFactory
     ) {
+        this.persistenceData = persistenceData;
         this.screensData = screensData;
         this.frameworkCoderFactory = frameworkCoderFactory;
         screensCode = new HashMap<>();
@@ -33,6 +37,10 @@ public class MobilangCoder {
     public void generateCode() {
         generateCodeForScreens();
         generateCodeForCore();
+        generateCodeForPersistence();
+    }
+
+    private void generateCodeForPersistence() {
     }
 
     private void generateCodeForCore() {

@@ -11,6 +11,8 @@ import com.paypal.digraph.parser.GraphNode;
 
 import wniemiec.mobilang.asc.framework.FrameworkParserFactory;
 import wniemiec.mobilang.asc.models.Node;
+import wniemiec.mobilang.asc.models.PersistenceData;
+import wniemiec.mobilang.asc.models.PropertiesData;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.persistence.PersistenceParser;
@@ -31,7 +33,7 @@ public class MobilangAstParser implements Parser {
         this.frameworkParserFactory = frameworkParserFactory;
     }
 
-    public void parse() throws ParseException {
+    public void parse() throws ParseException, IOException {
         List<Node> root = tree.get("n0");
         Node screensNode = findNodeWithName(root, "screens");
         Node propertiesNode = findNodeWithName(root, "properties");
@@ -42,8 +44,8 @@ public class MobilangAstParser implements Parser {
         persistenceParser = new PersistenceParser(tree, persistenceNode);
 
         screensParser.parse();
-        //propertiesParser.parse();
-        //persistenceParser.parse();
+        propertiesParser.parse();
+        persistenceParser.parse();
     }
 
     private Node findNodeWithName(List<Node> root, String name) {
@@ -66,5 +68,13 @@ public class MobilangAstParser implements Parser {
 
     public List<ScreenData> getScreensData() {
         return screensParser.getScreensData();
+    }
+
+    public PropertiesData getPropertiesData() {
+        return propertiesParser.getPropertiesData();
+    }
+
+    public PersistenceData getPersistenceData() {
+        return persistenceParser.getPersistenceData();
     }
 }

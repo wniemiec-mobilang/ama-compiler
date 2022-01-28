@@ -9,7 +9,7 @@ import wniemiec.mobilang.asc.models.PropertiesData;
 
 public abstract class MobilangCodeExport {
 
-    private PropertiesData propertiesData;
+    protected PropertiesData propertiesData;
     private Map<String, List<String>> screensCode;
     private Map<String, List<String>> persistenceCode;
     private Map<String, List<String>> coreCode;
@@ -27,12 +27,12 @@ public abstract class MobilangCodeExport {
     }
 
     public final void export() throws CodeExportException {
-        createProject(propertiesData);
+        createProject();
         exportScreensCode();
         exportCoreCode();
     }
 
-    protected abstract void createProject(PropertiesData propertiesData) throws CodeExportException;
+    protected abstract void createProject() throws CodeExportException;
 
     private void exportScreensCode() throws CodeExportException {
         for (Map.Entry<String, List<String>> screen : screensCode.entrySet()) {

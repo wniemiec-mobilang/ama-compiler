@@ -53,7 +53,7 @@ public class FileMobilangCodeExport extends MobilangCodeExport {
     }
 
     private void exportCodeToFile(String filename, List<String> code) throws CodeExportException {
-        Path filepath = outputLocation.resolve(filename);
+        Path filepath = outputLocation.resolve(Path.of(propertiesData.getName(), filename));
         TextFileManager txtFileManager = new TextFileManager(filepath, StandardCharsets.ISO_8859_1);
         
         System.out.println("Exporting " + filepath);
@@ -74,7 +74,7 @@ public class FileMobilangCodeExport extends MobilangCodeExport {
 
 
     @Override
-    public void createProject(PropertiesData propertiesData) throws CodeExportException {
+    public void createProject() throws CodeExportException {
         FrameworkProjectManager projectManager = frameworkProjectManagerFactory.getProjectManager(outputLocation);
         try {
             projectManager.create(propertiesData);

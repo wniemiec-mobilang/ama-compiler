@@ -33,7 +33,7 @@ public class ConsoleMobilangCodeExport extends MobilangCodeExport {
     }
 
     @Override
-    public void createProject(PropertiesData propertiesData) {
-        System.out.println("Creating project <name>");
+    public void createProject() {
+        System.out.println("Creating project " + propertiesData.getName());
     }
 }

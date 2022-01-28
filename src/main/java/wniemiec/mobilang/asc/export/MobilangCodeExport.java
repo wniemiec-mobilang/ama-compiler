@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
+import wniemiec.mobilang.asc.framework.FrameworkProjectManager;
 import wniemiec.mobilang.asc.models.PropertiesData;
 
 public abstract class MobilangCodeExport {
@@ -31,7 +32,7 @@ public abstract class MobilangCodeExport {
         exportCoreCode();
     }
 
-    public abstract void createProject(PropertiesData propertiesData);
+    protected abstract void createProject(PropertiesData propertiesData) throws CodeExportException;
 
     private void exportScreensCode() throws CodeExportException {
         for (Map.Entry<String, List<String>> screen : screensCode.entrySet()) {

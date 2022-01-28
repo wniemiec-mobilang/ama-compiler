@@ -4,11 +4,21 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 
 public class Shell {
 
+    private Path workingDirectory;
     private String output = "";
     private String errorOutput = "";
+
+    public Shell() {
+        this(Path.of(System.getProperty("user.dir")));
+    }
+
+    public Shell(Path workingDirectory) {
+        this.workingDirectory = workingDirectory;
+    }
 
     public void exec(String... commands) throws IOException {
         //System.out.println(System.getProperty("user.dir"));
@@ -25,7 +35,13 @@ public class Shell {
             parsedCommand.deleteCharAt(parsedCommand.length()-1);
         }
 
-        Process process = Runtime.getRuntime().exec(parsedCommand.toString());
+        System.out.println(parsedCommand.toString());
+        
+        Process process = Runtime.getRuntime().exec(parsedCommand.toString(), null, workingDirectory.toFile());
+        
+        //ProcessBuilder pb = new ProcessBuilder(commands);
+        //pb.directory(workingDirectory.toAbsolutePath().toFile());
+        //Process process = pb.start();
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
         StringBuilder builder = new StringBuilder();

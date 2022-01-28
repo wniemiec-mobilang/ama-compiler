@@ -71,6 +71,7 @@ public class Asc {
             mobilangCoder.getScreensCode(),
             mobilangCoder.getPersistenceCode(),
             mobilangCoder.getCoreCode(),
+            frameworkFactory.getProjectManagerFactory(),
             outputLocationPath
         );
         mobilangCodeExport.export();

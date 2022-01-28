@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const 35e2b2ba92b8c2423817e3bebd2f90b1 = styled.View``;
+const 706d82759e3a3ead255ae8ad6d0ac413 = styled.View``;
 
-const d91b0c4fa91e5c6ebf03c37972c1a587 = styled.View``;
+const f7dbdc227b1c8583b9264a6eef2152d9 = styled.View``;
 
-const a6d2a4a4d7dc773f470a6e355c34c77e = styled.View``;
+const d8619a64a25e5e3447bfc7953a8dbfe8 = styled.View``;
 
-const 6f1456c7fadc2b098541dc5740f76bca = styled.TouchableOpacity``;
+const 14d89e99e428e85cd06d612d92dbefa8 = styled.TouchableOpacity``;
 
-const 3da122f7d595baba642535debc175b11 = styled.Image``;
+const e12a75deb0de1c3e3996d8f95477d807 = styled.Image``;
 
-const e58efb42fd03941e714206f657bb4d13 = styled.TouchableOpacity``;
+const f536cb46dd52eb612ed30e57a4826055 = styled.TouchableOpacity``;
 
-const 999effad0e96e862770d90c7c7a2a57c = styled.Image``;
+const 247ae5aff4f719b8ec1765be1b848adf = styled.Image``;
 
 
 function GlossarydescScreen(props) {
@@ -32,20 +32,20 @@ setglossary(_glossary);
 }, []);
 
 return (
-<35e2b2ba92b8c2423817e3bebd2f90b1>
-<a6d2a4a4d7dc773f470a6e355c34c77e id=status-bar>
-<e58efb42fd03941e714206f657bb4d13 id=menu-btn .onclick=() >
-<999effad0e96e862770d90c7c7a2a57c source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</999effad0e96e862770d90c7c7a2a57c>
-</e58efb42fd03941e714206f657bb4d13>
-<6f1456c7fadc2b098541dc5740f76bca id=back-btn .onclick=() >
-<3da122f7d595baba642535debc175b11 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</3da122f7d595baba642535debc175b11>
-</6f1456c7fadc2b098541dc5740f76bca>
-</a6d2a4a4d7dc773f470a6e355c34c77e>
-<d91b0c4fa91e5c6ebf03c37972c1a587 id=glossary>
-</d91b0c4fa91e5c6ebf03c37972c1a587>
-</35e2b2ba92b8c2423817e3bebd2f90b1>
+<706d82759e3a3ead255ae8ad6d0ac413>
+<d8619a64a25e5e3447bfc7953a8dbfe8 id=status-bar>
+<f536cb46dd52eb612ed30e57a4826055 id=menu-btn .onclick=() >
+<247ae5aff4f719b8ec1765be1b848adf source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</247ae5aff4f719b8ec1765be1b848adf>
+</f536cb46dd52eb612ed30e57a4826055>
+<14d89e99e428e85cd06d612d92dbefa8 id=back-btn .onclick=() >
+<e12a75deb0de1c3e3996d8f95477d807 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</e12a75deb0de1c3e3996d8f95477d807>
+</14d89e99e428e85cd06d612d92dbefa8>
+</d8619a64a25e5e3447bfc7953a8dbfe8>
+<f7dbdc227b1c8583b9264a6eef2152d9 id=glossary>
+</f7dbdc227b1c8583b9264a6eef2152d9>
+</706d82759e3a3ead255ae8ad6d0ac413>
 );
 }
 

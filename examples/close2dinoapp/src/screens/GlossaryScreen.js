@@ -2,27 +2,27 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const 9d95b2abdf2d4eaa6c0d7f431075cce9 = styled.View``;
+const e9e06a246d8e47df0d107fe923720b48 = styled.View``;
 
-const 3e0983b32bf5fc464f34533d2c556e53 = styled.View``;
+const dca12781b88487847428ef334428a90e = styled.View``;
 
-const 37a72647fae79e2c61a8dd521345084e = styled.View``;
+const e7ea67a3c735e4e593f8b220344da721 = styled.View``;
 
-const 52f2db7ac834ec0ef71e10ae5a93e853 = styled.Text``;
+const c6bdb22596430bc35065717beb646c5a = styled.Text``;
 
-const 273369066b7b8a9cb97a84c122a25d5a = styled.View``;
+const f52986d9f094ad64fcc5c7e71f516455 = styled.View``;
 
-const b2dd693708eb036cd039dd231e2edeb7 = styled.TextInput``;
+const ecb029b70b97bd96e4d28bd2819fdcff = styled.TextInput``;
 
-const d2164a44057d90255d92db4695390e1b = styled.View``;
+const 2e3245140c4bfe1244d2c89631bbca43 = styled.View``;
 
-const 5daa351002895400b42eae1ae3afa4ea = styled.TouchableOpacity``;
+const 6760314e16d008ea9e069ad77dddce6a = styled.TouchableOpacity``;
 
-const 885074b71f6576b66e81d1ecd97ae1d3 = styled.Image``;
+const d6594540f62500b9283f117c32afcd68 = styled.Image``;
 
-const 4a9774f0d2b6fa2915ccab8fb9970219 = styled.TouchableOpacity``;
+const 86720023bfc33019cfcd5026e8fc7a8f = styled.TouchableOpacity``;
 
-const d629b737747519953c17cf749431a203 = styled.Image``;
+const 83f6f24cf72542d06860bc9bbae4aec8 = styled.Image``;
 
 
 function GlossaryScreen(props) {
@@ -62,29 +62,29 @@ setglossaryContent(_glossaryContent);
 }, []);
 
 return (
-<9d95b2abdf2d4eaa6c0d7f431075cce9>
-<d2164a44057d90255d92db4695390e1b id=status-bar>
-<4a9774f0d2b6fa2915ccab8fb9970219 id=menu-btn .onclick=() >
-<d629b737747519953c17cf749431a203 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</d629b737747519953c17cf749431a203>
-</4a9774f0d2b6fa2915ccab8fb9970219>
-<5daa351002895400b42eae1ae3afa4ea id=back-btn .onclick=() >
-<885074b71f6576b66e81d1ecd97ae1d3 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</885074b71f6576b66e81d1ecd97ae1d3>
-</5daa351002895400b42eae1ae3afa4ea>
-</d2164a44057d90255d92db4695390e1b>
-<273369066b7b8a9cb97a84c122a25d5a id=search>
-<b2dd693708eb036cd039dd231e2edeb7>
-</b2dd693708eb036cd039dd231e2edeb7>
-</273369066b7b8a9cb97a84c122a25d5a>
-<3e0983b32bf5fc464f34533d2c556e53 id=glossary>
-<52f2db7ac834ec0ef71e10ae5a93e853>
+<e9e06a246d8e47df0d107fe923720b48>
+<2e3245140c4bfe1244d2c89631bbca43 id=status-bar>
+<86720023bfc33019cfcd5026e8fc7a8f id=menu-btn .onclick=() >
+<83f6f24cf72542d06860bc9bbae4aec8 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</83f6f24cf72542d06860bc9bbae4aec8>
+</86720023bfc33019cfcd5026e8fc7a8f>
+<6760314e16d008ea9e069ad77dddce6a id=back-btn .onclick=() >
+<d6594540f62500b9283f117c32afcd68 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</d6594540f62500b9283f117c32afcd68>
+</6760314e16d008ea9e069ad77dddce6a>
+</2e3245140c4bfe1244d2c89631bbca43>
+<f52986d9f094ad64fcc5c7e71f516455 id=search>
+<ecb029b70b97bd96e4d28bd2819fdcff>
+</ecb029b70b97bd96e4d28bd2819fdcff>
+</f52986d9f094ad64fcc5c7e71f516455>
+<dca12781b88487847428ef334428a90e id=glossary>
+<c6bdb22596430bc35065717beb646c5a>
 Glossário
-</52f2db7ac834ec0ef71e10ae5a93e853>
-<37a72647fae79e2c61a8dd521345084e id=glossary-content>
-</37a72647fae79e2c61a8dd521345084e>
-</3e0983b32bf5fc464f34533d2c556e53>
-</9d95b2abdf2d4eaa6c0d7f431075cce9>
+</c6bdb22596430bc35065717beb646c5a>
+<e7ea67a3c735e4e593f8b220344da721 id=glossary-content>
+</e7ea67a3c735e4e593f8b220344da721>
+</dca12781b88487847428ef334428a90e>
+</e9e06a246d8e47df0d107fe923720b48>
 );
 }
 

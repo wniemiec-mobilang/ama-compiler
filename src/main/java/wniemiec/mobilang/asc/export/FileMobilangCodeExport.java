@@ -13,21 +13,26 @@ import wniemiec.io.java.Consolex;
 import wniemiec.io.java.TextFileManager;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.export.exception.OutputLocationException;
+import wniemiec.mobilang.asc.framework.FrameworkProjectManager;
+import wniemiec.mobilang.asc.framework.FrameworkProjectManagerFactory;
 import wniemiec.mobilang.asc.models.PropertiesData;
 import wniemiec.mobilang.asc.utils.Shell;
 
 public class FileMobilangCodeExport extends MobilangCodeExport {
 
     private Path outputLocation;
+    private FrameworkProjectManagerFactory frameworkProjectManagerFactory;
 
     public FileMobilangCodeExport(
         PropertiesData propertiesData, 
         Map<String, List<String>> screensCode, 
         Map<String, List<String>> persistenceCode,
         Map<String, List<String>> coreCode,
+        FrameworkProjectManagerFactory frameworkProjectManagerFactory, 
         Path outputLocation
     ) throws OutputLocationException {
         super(propertiesData, screensCode, persistenceCode, coreCode);
+        this.frameworkProjectManagerFactory = frameworkProjectManagerFactory;
         this.outputLocation = outputLocation;
 
         System.out.println("@@ " + outputLocation);
@@ -69,15 +74,13 @@ public class FileMobilangCodeExport extends MobilangCodeExport {
 
 
     @Override
-    public void createProject(PropertiesData propertiesData) {
-        Shell shell = new Shell();
-        //shell.exec("cd " + outputLocation.toString(), "react-native init " + appName);
-        
-        if (shell.hasError()) {
-            Consolex.writeError(shell.getErrorOutput());
-        }
-        else {
-            Consolex.writeInfo(shell.getOutput());
+    public void createProject(PropertiesData propertiesData) throws CodeExportException {
+        FrameworkProjectManager projectManager = frameworkProjectManagerFactory.getProjectManager(outputLocation);
+        try {
+            projectManager.create(propertiesData);
+        } 
+        catch (IOException e) {
+            throw new CodeExportException(e.getMessage());
         }
     }
 }

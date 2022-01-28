@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const 16f5a50f8d51f000033bd057aa3c3db9 = styled.View``;
+const 29be60524f4a31afc39e51267e1755f9 = styled.View``;
 
-const 20f2a0b3b4f2ef63cab8e6678e034cb7 = styled.View``;
+const 9db174841558d5b893845b8a1f9a6260 = styled.View``;
 
-const 11ff5ae597dff4246393ce3fc67dacbc = styled.TouchableOpacity``;
+const 807821b9bbafa013b2ca667d2cb9ebbc = styled.TouchableOpacity``;
 
-const 97a91cc75c9ba302561473badbf4a61a = styled.Text``;
+const b3bee680b67fcc57a15c5b3002732fea = styled.Text``;
 
-const 5165c856c7730f6243450c66d77104d1 = styled.View``;
+const e0b693206a10ac26eef5285a6c197de8 = styled.View``;
 
-const b911c85de128c6e58fd63e3d1d2e5479 = styled.TouchableOpacity``;
+const f580ce270461ccf56a06e71195bee304 = styled.TouchableOpacity``;
 
-const d32db48319037f7e84d0120649272838 = styled.Image``;
+const 2599f5043231802c623fb0b388705329 = styled.Image``;
 
 
 function HomeScreen(props) {
@@ -24,21 +24,21 @@ useEffect(() => {
 }, []);
 
 return (
-<16f5a50f8d51f000033bd057aa3c3db9>
-<5165c856c7730f6243450c66d77104d1 id=status-bar>
-<b911c85de128c6e58fd63e3d1d2e5479 id=menu-btn .onclick=() >
-<d32db48319037f7e84d0120649272838 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</d32db48319037f7e84d0120649272838>
-</b911c85de128c6e58fd63e3d1d2e5479>
-</5165c856c7730f6243450c66d77104d1>
-<20f2a0b3b4f2ef63cab8e6678e034cb7 id=items>
-<11ff5ae597dff4246393ce3fc67dacbc onPress=() => redirectTo('mobilang:screen:glossary')>
-<97a91cc75c9ba302561473badbf4a61a>
+<29be60524f4a31afc39e51267e1755f9>
+<e0b693206a10ac26eef5285a6c197de8 id=status-bar>
+<f580ce270461ccf56a06e71195bee304 id=menu-btn .onclick=() >
+<2599f5043231802c623fb0b388705329 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</2599f5043231802c623fb0b388705329>
+</f580ce270461ccf56a06e71195bee304>
+</e0b693206a10ac26eef5285a6c197de8>
+<9db174841558d5b893845b8a1f9a6260 id=items>
+<807821b9bbafa013b2ca667d2cb9ebbc onPress=() => redirectTo('mobilang:screen:glossary')>
+<b3bee680b67fcc57a15c5b3002732fea>
 Glossário
-</97a91cc75c9ba302561473badbf4a61a>
-</11ff5ae597dff4246393ce3fc67dacbc>
-</20f2a0b3b4f2ef63cab8e6678e034cb7>
-</16f5a50f8d51f000033bd057aa3c3db9>
+</b3bee680b67fcc57a15c5b3002732fea>
+</807821b9bbafa013b2ca667d2cb9ebbc>
+</9db174841558d5b893845b8a1f9a6260>
+</29be60524f4a31afc39e51267e1755f9>
 );
 }
 

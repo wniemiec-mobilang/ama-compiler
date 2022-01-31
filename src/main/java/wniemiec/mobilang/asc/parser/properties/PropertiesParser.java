@@ -7,10 +7,9 @@ import org.json.JSONObject;
 
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.PropertiesData;
-import wniemiec.mobilang.asc.parser.Parser;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
-public class PropertiesParser implements Parser {
+public class PropertiesParser {
 
     private String propertiesContent;
     private PropertiesData propertiesData;
@@ -20,7 +19,6 @@ public class PropertiesParser implements Parser {
         propertiesData = new PropertiesData();
     }
     
-    @Override
     public void parse() throws ParseException {
         //System.out.println("-----< PROPERTIES PARSER >-----");
         //System.out.println(propertiesContent);

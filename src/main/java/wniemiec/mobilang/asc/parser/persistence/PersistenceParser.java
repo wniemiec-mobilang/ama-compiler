@@ -8,10 +8,9 @@ import org.json.JSONObject;
 
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.PersistenceData;
-import wniemiec.mobilang.asc.parser.Parser;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
-public class PersistenceParser implements Parser {
+public class PersistenceParser{
 
     private String persistenceContent;
     private PersistenceData persistenceData;
@@ -21,7 +20,6 @@ public class PersistenceParser implements Parser {
         persistenceData = new PersistenceData();
     }
 
-    @Override
     public void parse() throws ParseException {
         //System.out.println("-----< PERSISTENCE PARSER >-----");
         //System.out.println(persistenceContent);

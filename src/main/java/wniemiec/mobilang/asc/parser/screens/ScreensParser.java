@@ -9,10 +9,9 @@ import wniemiec.mobilang.asc.framework.FrameworkParserFactory;
 import wniemiec.mobilang.asc.framework.reactnative.ReactNativeFrameworkScreensCoder;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
-import wniemiec.mobilang.asc.parser.Parser;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
-public class ScreensParser implements Parser {
+public class ScreensParser {
 
     private SortedMap<String, List<Node>> tree;
     private List<Node> screens;
@@ -26,7 +25,6 @@ public class ScreensParser implements Parser {
         screensData = new ArrayList<>();
     }
 
-    @Override
     public void parse() throws ParseException, IOException {
         for (Node screen : screens) {
             ScreenParser screenParser = new ScreenParser(

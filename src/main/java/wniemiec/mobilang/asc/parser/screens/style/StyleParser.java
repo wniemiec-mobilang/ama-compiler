@@ -13,7 +13,6 @@ import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.StyleSheet;
 import wniemiec.mobilang.asc.models.StyleSheetRule;
 import wniemiec.mobilang.asc.models.Tag;
-import wniemiec.mobilang.asc.parser.Parser;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 public class StyleParser /*implements Parser*/ {

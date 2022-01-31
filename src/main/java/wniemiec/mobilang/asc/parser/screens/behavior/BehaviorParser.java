@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import wniemiec.mobilang.asc.models.Node;
-import wniemiec.mobilang.asc.parser.Parser;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 public class BehaviorParser  {

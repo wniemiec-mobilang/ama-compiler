@@ -10,14 +10,13 @@ import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.StyleSheet;
 import wniemiec.mobilang.asc.models.Tag;
-import wniemiec.mobilang.asc.parser.Parser;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 import wniemiec.mobilang.asc.parser.screens.behavior.BehaviorParser;
 import wniemiec.mobilang.asc.parser.screens.structure.StructureParser;
 import wniemiec.mobilang.asc.parser.screens.style.StyleParser;
 
-public class ScreenParser implements Parser {
+public class ScreenParser {
 
     private SortedMap<String, List<Node>> tree;
     private String id;
@@ -66,7 +65,7 @@ public class ScreenParser implements Parser {
         return firstChar + str.substring(1).toLowerCase();
     }
 
-    @Override
+
     public void parse() throws ParseException, IOException {
         //System.out.println("-----< SCREEN PARSER >-----");
         

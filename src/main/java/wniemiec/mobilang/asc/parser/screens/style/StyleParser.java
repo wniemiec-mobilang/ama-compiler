@@ -1,89 +1,107 @@
 package wniemiec.mobilang.asc.parser.screens.style;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import wniemiec.mobilang.asc.models.Node;
-import wniemiec.mobilang.asc.models.StyleSheet;
+import wniemiec.mobilang.asc.models.Style;
 import wniemiec.mobilang.asc.models.StyleSheetRule;
-import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
-public class StyleParser /*implements Parser*/ {
 
-    private String contentNode;
+/**
+ * Responsible for parsing style node from MobiLang AST.
+ */
+public class StyleParser {
 
-    public StyleParser(SortedMap<String, List<Node>> tree, Node styleNode) {
-        contentNode = tree.get(styleNode.getId()).get(0).getLabel();
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private Node styleNode;
+    private Style style;
+
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    /**
+     * Style parser for MobiLang AST.
+     * 
+     * @param       ast MobiLang AST
+     * @param       styleNode Style node
+     */
+    public StyleParser(SortedMap<String, List<Node>> ast, Node styleNode) {
+        styleNode = ast.get(styleNode.getId()).get(0);
     }
 
     
-    public StyleSheet parse() throws ParseException {
-        //System.out.println("-----< STYLE PARSER >-----");
-        //System.out.println(contentNode);
-        //System.out.println("-------------------------------\n");
-        return parseJson(contentNode);
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    public Style parse() {
+        style = new Style();
+
+        parseJson(getStyleNodeContent());
+
+        return style;
     }
 
-    private StyleSheet parseJson(String json) throws ParseException {
-        StyleSheet styleSheet = new StyleSheet();
-        JSONObject obj = new JSONObject(json);
-        //JSONObject root = obj.getJSONObject("content");
-        //JSONArray child = root.getJSONArray("children");
+    private String getStyleNodeContent() {
+        return styleNode.getLabel();
+    }
+
+    private void parseJson(String json) {
+        JSONArray cssRules = getCssRules(new JSONObject(json));
         
-        JSONArray cssRules = obj
+        parseCssRules(cssRules);
+    }
+
+    private JSONArray getCssRules(JSONObject styleRoot) {
+        return styleRoot
             .getJSONObject("stylesheet")
             .getJSONArray("rules");
+    }
 
+    private void parseCssRules(JSONArray cssRules) {
         for (int i = 0; i < cssRules.length(); i++) {
-            StyleSheetRule rule = parseCssRule(cssRules.getJSONObject(i));
-            styleSheet.addRule(rule);
+            parseCssRule(cssRules.getJSONObject(i));
         }
-        
+    }   
 
-        //System.out.println(cssRules);
-
-        //System.out.println(styleSheet);
-
-        return styleSheet;
-    }
-
-
-    private StyleSheetRule parseCssRule(JSONObject cssRule) {
+    private void parseCssRule(JSONObject cssRule) {
         StyleSheetRule rule = new StyleSheetRule();
-        JSONArray selectors = cssRule.getJSONArray("selectors");
-        JSONArray declarations = cssRule.getJSONArray("declarations");
         
-        parseRuleSelectors(rule, selectors);
-        parseRuleDeclarations(rule, declarations);
-        
-        //System.out.println("Selectors: " + parsedSelectors);
-        //System.out.println("Declarations: " + parsedCssDeclarations);
+        parseRuleSelectors(rule, cssRule);
+        parseRuleDeclarations(rule, cssRule);
 
-        return rule;
+        style.addRule(rule);
     }
 
+    private void parseRuleSelectors(StyleSheetRule rule, JSONObject cssRule) {
+        JSONArray selectors = cssRule.getJSONArray("selectors");
 
-    private void parseRuleSelectors(StyleSheetRule rule, JSONArray selectors) {
         for (int i = 0; i < selectors.length(); i++) {
-            String selector = selectors.getString(i);
-            rule.addSelector(selector);
+            rule.addSelector(selectors.getString(i));
         }
     }
 
+    private void parseRuleDeclarations(StyleSheetRule rule, JSONObject cssRule) {
+        JSONArray declarations = cssRule.getJSONArray("declarations");
 
-    private void parseRuleDeclarations(StyleSheetRule rule, JSONArray declarations) {
         for (int i = 0; i < declarations.length(); i++) {
-            String property = declarations.getJSONObject(i).getString("property");
-            String value = declarations.getJSONObject(i).getString("value");
+            String property = getDeclarationProperty(declarations.getJSONObject(i));
+            String value = getDeclarationValue(declarations.getJSONObject(i));
 
             rule.addDeclaration(property, value);
         }
+    }
+
+    private String getDeclarationProperty(JSONObject declaration) {
+        return declaration.getString("property");
+    }
+
+    private String getDeclarationValue(JSONObject declaration) {
+        return declaration.getString("value");
     }
 }

@@ -3,41 +3,83 @@ package wniemiec.mobilang.asc.parser.screens;
 import java.io.IOException;
 import java.util.List;
 import java.util.SortedMap;
-
 import wniemiec.mobilang.asc.framework.FrameworkParserFactory;
 import wniemiec.mobilang.asc.framework.FrameworkScreenParser;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
-import wniemiec.mobilang.asc.models.StyleSheet;
+import wniemiec.mobilang.asc.models.Style;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 import wniemiec.mobilang.asc.parser.screens.behavior.BehaviorParser;
 import wniemiec.mobilang.asc.parser.screens.structure.StructureParser;
 import wniemiec.mobilang.asc.parser.screens.style.StyleParser;
+import wniemiec.mobilang.asc.utils.StringUtils;
 
+
+/**
+ * Responsible for parsing screen node from MobiLang AST.
+ */
 public class ScreenParser {
 
-    private SortedMap<String, List<Node>> tree;
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private SortedMap<String, List<Node>> ast;
     private String id;
     private Node structureNode;
     private Node styleNode;
     private Node behaviorNode;
-    private StructureParser structureParser;
-    private StyleParser styleParser;
-    private BehaviorParser behaviorParser;
     private FrameworkScreenParser frameworkParser;
     private FrameworkParserFactory frameworkParserFactory;
-    private ScreenData screenData;
 
-    public ScreenParser(SortedMap<String, List<Node>> tree, Node screenNode, FrameworkParserFactory frameworkParserFactory) {
-        this.tree = tree;
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    /**
+     * Screen parser for MobiLang AST.
+     * 
+     * @param       ast MobiLang AST
+     * @param       screenNode Screen node
+     * @param       frameworkParserFactory Factory that will provide framework 
+     * parser
+     */
+    public ScreenParser(
+        SortedMap<String, List<Node>> ast, 
+        Node screenNode, 
+        FrameworkParserFactory frameworkParserFactory
+    ) {
+        this.ast = ast;
         this.frameworkParserFactory = frameworkParserFactory;
-        id = screenNode.getAttribute("id");
-        id = normalize(id) + "Screen";
+        id = buildScreenId(screenNode);
+
+        initializeStructureStyleAndBehaviorNodes(screenNode);
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    private String buildScreenId(Node screenNode) {
+        String screenId = screenNode.getAttribute("id");
         
-        
-        for (Node node : tree.get(screenNode.getId())) {
+        screenId = normalize(screenId) + "Screen";
+
+        return screenId;
+    }
+
+    private String normalize(String str) {
+        String normalizedString;
+
+        normalizedString = str.replaceAll("[\\-\\_]+", "");
+        normalizedString = StringUtils.capitalize(normalizedString);
+
+        return normalizedString;
+    }
+
+    private void initializeStructureStyleAndBehaviorNodes(Node screenNode) {
+        for (Node node : ast.get(screenNode.getId())) {
             if (node.getLabel().contains("structure")) {
                 structureNode = node;
             }
@@ -49,37 +91,35 @@ public class ScreenParser {
             }
         }
     }
-
-    private String normalize(String str) {
-        String normalizedString = capitalize(str);
-
-        normalizedString = str.replaceAll("[\\-\\_]+", "");
-        normalizedString = capitalize(normalizedString);
-
-        return normalizedString;
-    }
-
-    private String capitalize(String str) {
-        char firstChar = Character.toUpperCase(str.charAt(0));
-        
-        return firstChar + str.substring(1).toLowerCase();
-    }
-
-
+    
     public void parse() throws ParseException, IOException {
-        //System.out.println("-----< SCREEN PARSER >-----");
+        Tag structure = parseStructureNode();
+        Style style = parseStyleNode();
+        Behavior behavior = parseBehaviorNode();
         
-        //System.out.println("Screen id: " + id);
-        
-        structureParser = new StructureParser(tree, structureNode);
-        styleParser = new StyleParser(tree, styleNode);
-        behaviorParser = new BehaviorParser(tree, behaviorNode);
+        parseScreen(structure, style, behavior);
+    }
 
-        Tag structure = structureParser.parse();
-        StyleSheet style = styleParser.parse();
-        Behavior behavior = behaviorParser.parse();
-
+    private Tag parseStructureNode() throws ParseException {
+        StructureParser structureParser = new StructureParser(ast, structureNode);
         
+        return structureParser.parse();
+    }
+
+    private Style parseStyleNode() throws ParseException {
+        StyleParser styleParser = new StyleParser(ast, styleNode);
+        
+        return styleParser.parse();
+    }
+
+    private Behavior parseBehaviorNode() throws ParseException {
+        BehaviorParser behaviorParser = new BehaviorParser(ast, behaviorNode);
+        
+        return behaviorParser.parse();
+    }
+
+    private void parseScreen(Tag structure, Style style, Behavior behavior) 
+    throws ParseException, IOException {
         frameworkParser = frameworkParserFactory.getScreenParser(
             id,
             structure,
@@ -88,15 +128,14 @@ public class ScreenParser {
         );
         
         frameworkParser.parse();
-
-        this.screenData = frameworkParser.getScreenData();
-        
-        //System.out.println("-------------------------------\n");
     }
 
-   
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
     public ScreenData getScreenData() {
-        return screenData;
+        return frameworkParser.getScreenData();
     }
 
 }

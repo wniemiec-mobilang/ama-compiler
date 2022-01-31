@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StyleSheet {
+public class Style {
 
     List<StyleSheetRule> rules = new ArrayList<>();
     

@@ -33,7 +33,7 @@ public class MobiLangAstParser {
     //		Constructor
     //-------------------------------------------------------------------------
     /**
-     * MobiLang AST parser,
+     * MobiLang AST parser.
      * 
      * @param       ast MobiLang AST
      * @param       frameworkParserFactory Factory that will provide framework 

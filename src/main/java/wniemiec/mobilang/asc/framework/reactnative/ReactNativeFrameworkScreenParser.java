@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 import wniemiec.mobilang.asc.framework.FrameworkScreenParser;
 import wniemiec.mobilang.asc.models.ScreenData;
-import wniemiec.mobilang.asc.models.StyleSheet;
+import wniemiec.mobilang.asc.models.Style;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.Variable;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
@@ -39,7 +39,7 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
     private List<String> declaredStateBodyVariables;
     private Map<String, String> symbolTable; // key: var id; value: tag id
 
-    public ReactNativeFrameworkScreenParser(String name, Tag structure, StyleSheet style, Behavior behavior) {
+    public ReactNativeFrameworkScreenParser(String name, Tag structure, Style style, Behavior behavior) {
         super(name, structure, style, behavior);
     
         imports = new ArrayList<>();
@@ -131,7 +131,7 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
         return sb.toString();
     }
 
-    private void stylize(Tag tag, StyleSheet style) {
+    private void stylize(Tag tag, Style style) {
         Stack<Tag> tagsToParse = new Stack<>();
 
         tagsToParse.add(tag);

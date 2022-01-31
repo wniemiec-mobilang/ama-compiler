@@ -10,13 +10,24 @@ import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.PersistenceData;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
+
+/**
+ * Responsible for parsing persistence node from MobiLang AST.
+ */
 public class PersistenceParser{
 
     private String persistenceContent;
     private PersistenceData persistenceData;
 
-    public PersistenceParser(SortedMap<String, List<Node>> tree, Node persistenceNode) {
-        persistenceContent = tree.get(persistenceNode.getId()).get(0).getLabel();
+
+    /**
+     * Persistence parser for MobiLang AST.
+     * 
+     * @param       ast MobiLang AST
+     * @param       persistenceNode Persistence node
+     */
+    public PersistenceParser(SortedMap<String, List<Node>> ast, Node persistenceNode) {
+        persistenceContent = ast.get(persistenceNode.getId()).get(0).getLabel();
         persistenceData = new PersistenceData();
     }
 

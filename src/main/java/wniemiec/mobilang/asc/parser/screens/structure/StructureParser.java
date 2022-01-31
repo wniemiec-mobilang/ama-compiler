@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.Stack;
-
-import javax.swing.plaf.synth.SynthSplitPaneUI;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,12 +13,22 @@ import wniemiec.mobilang.asc.models.RawTag;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
-// Strategy: DFS
+/**
+ * Responsible for parsing structure node from MobiLang AST.
+ */
 public class StructureParser /*implements Parser*/ {
-
+    
+    // Strategy: DFS
     private String contentNode;
     private boolean astFromMobilang;
 
+
+    /**
+     * Structure parser for MobiLang AST.
+     * 
+     * @param       ast MobiLang AST
+     * @param       structureNode Screens node
+     */
     public StructureParser(SortedMap<String, List<Node>> tree, Node structureNode) {
         contentNode = tree.get(structureNode.getId()).get(0).getLabel();
         astFromMobilang = true;

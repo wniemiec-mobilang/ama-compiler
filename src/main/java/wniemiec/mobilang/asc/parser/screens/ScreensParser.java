@@ -4,31 +4,56 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
-
 import wniemiec.mobilang.asc.framework.FrameworkParserFactory;
-import wniemiec.mobilang.asc.framework.reactnative.ReactNativeFrameworkScreensCoder;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
+
+/**
+ * Responsible for parsing screens node from MobiLang AST.
+ */
 public class ScreensParser {
 
-    private SortedMap<String, List<Node>> tree;
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private SortedMap<String, List<Node>> ast;
     private List<Node> screens;
     private FrameworkParserFactory frameworkParserFactory;
     private List<ScreenData> screensData;
 
-    public ScreensParser(SortedMap<String, List<Node>> tree, Node screensNode, FrameworkParserFactory frameworkParserFactory) {
-        this.tree = tree;
-        screens = tree.get(screensNode.getId());
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    /**
+     * Screens parser for MobiLang AST.
+     * 
+     * @param       ast MobiLang AST
+     * @param       screensNode Screens node
+     * @param       frameworkParserFactory Factory that will provide framework 
+     * parser
+     */
+    public ScreensParser(
+        SortedMap<String, List<Node>> ast, 
+        Node screensNode, 
+        FrameworkParserFactory frameworkParserFactory
+    ) {
+        this.ast = ast;
+        screens = ast.get(screensNode.getId());
         this.frameworkParserFactory = frameworkParserFactory;
         screensData = new ArrayList<>();
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     public void parse() throws ParseException, IOException {
         for (Node screen : screens) {
             ScreenParser screenParser = new ScreenParser(
-                tree, 
+                ast, 
                 screen,
                 frameworkParserFactory
             );
@@ -36,20 +61,12 @@ public class ScreensParser {
             screenParser.parse();
             screensData.add(screenParser.getScreenData());
         }
-
-        /*
-        ScreenParser screenParser = new ScreenParser(
-            tree, 
-            screens.get(1),
-            frameworkParserFactory
-        );
-            
-        screenParser.parse();
-
-        screensData.add(screenParser.getScreenData());
-        */
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
     public List<ScreenData> getScreensData() {
         return screensData;
     }

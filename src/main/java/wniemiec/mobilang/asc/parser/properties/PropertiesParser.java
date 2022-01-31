@@ -9,13 +9,24 @@ import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.PropertiesData;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
+
+/**
+ * Responsible for parsing properties node from MobiLang AST.
+ */
 public class PropertiesParser {
 
     private String propertiesContent;
     private PropertiesData propertiesData;
 
-    public PropertiesParser(SortedMap<String, List<Node>> tree, Node propertiesNode) {
-        propertiesContent = tree.get(propertiesNode.getId()).get(0).getLabel();
+
+    /**
+     * Properties parser for MobiLang AST.
+     * 
+     * @param       ast MobiLang AST
+     * @param       propertiesNode Properties node
+     */
+    public PropertiesParser(SortedMap<String, List<Node>> ast, Node propertiesNode) {
+        propertiesContent = ast.get(propertiesNode.getId()).get(0).getLabel();
         propertiesData = new PropertiesData();
     }
     

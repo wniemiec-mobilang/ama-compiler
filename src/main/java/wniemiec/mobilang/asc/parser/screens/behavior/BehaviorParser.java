@@ -13,12 +13,23 @@ import org.json.JSONObject;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
+
+/**
+ * Responsible for parsing behavior node from MobiLang AST.
+ */
 public class BehaviorParser  {
 
     private String contentNode;
 
-    public BehaviorParser(SortedMap<String, List<Node>> tree, Node behaviorNode) {
-        contentNode = tree.get(behaviorNode.getId()).get(0).getLabel();
+
+    /**
+     * Behavior parser for MobiLang AST.
+     * 
+     * @param       ast MobiLang AST
+     * @param       behaviorNode Screens node
+     */
+    public BehaviorParser(SortedMap<String, List<Node>> ast, Node behaviorNode) {
+        contentNode = ast.get(behaviorNode.getId()).get(0).getLabel();
     }
 
     

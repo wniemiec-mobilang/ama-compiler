@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wniemiec.mobilang.asc.models.ScreenData;
-import wniemiec.mobilang.asc.models.StyleSheet;
+import wniemiec.mobilang.asc.models.Style;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.Variable;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
@@ -15,7 +15,7 @@ public abstract class FrameworkScreenParser {
 
     protected String name;
     protected Tag structure;
-    protected StyleSheet style;
+    protected Style style;
     protected Behavior behavior;
     /*
     protected List<String> imports;
@@ -25,7 +25,7 @@ public abstract class FrameworkScreenParser {
     protected List<String> body;
     */
 
-    protected FrameworkScreenParser(String name, Tag structure, StyleSheet style, Behavior behavior) {
+    protected FrameworkScreenParser(String name, Tag structure, Style style, Behavior behavior) {
         this.name = name;
         this.structure = structure;
         this.style = style;

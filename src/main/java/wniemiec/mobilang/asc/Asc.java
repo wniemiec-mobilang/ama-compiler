@@ -12,7 +12,7 @@ import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.export.exception.OutputLocationException;
 import wniemiec.mobilang.asc.framework.FrameworkFactory;
 import wniemiec.mobilang.asc.models.Node;
-import wniemiec.mobilang.asc.parser.MobilangAstParser;
+import wniemiec.mobilang.asc.parser.MobiLangAstParser;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.reader.DotReader;
 
@@ -29,7 +29,7 @@ public class Asc {
     private Path outputLocationPath;
     private FrameworkFactory frameworkFactory;
     private SortedMap<String, List<Node>> ast;
-    private MobilangAstParser mobilangAstParser;
+    private MobiLangAstParser mobilangAstParser;
     private MobilangCoder mobilangCoder;
     
 
@@ -41,7 +41,7 @@ public class Asc {
      * 
      * @param       dotFilePath MobiLang dot file
      * @param       outputLocationPath Path where compiler output will be put
-     * @param       frameworkFactory Factory that will provide framework services.
+     * @param       frameworkFactory Factory that will provide framework service
      */
     public Asc(Path dotFilePath, Path outputLocationPath, FrameworkFactory frameworkFactory) {
         this.dotFilePath = dotFilePath;
@@ -70,7 +70,7 @@ public class Asc {
     }
 
     private void parseMobilangAst() throws ParseException, IOException {
-        mobilangAstParser = new MobilangAstParser(
+        mobilangAstParser = new MobiLangAstParser(
             ast, 
             frameworkFactory.getParserFactory()
         );

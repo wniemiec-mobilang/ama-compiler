@@ -24,8 +24,7 @@ import wniemiec.mobilang.asc.parser.html.HtmlParser;
 import wniemiec.mobilang.asc.parser.screens.behavior.AssignmentExpression;
 import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 import wniemiec.mobilang.asc.parser.screens.behavior.Instruction;
-import wniemiec.mobilang.asc.parser.screens.structure.HtmlUtils;
-import wniemiec.mobilang.asc.parser.screens.structure.ReactNativeStructureParser;
+import wniemiec.mobilang.asc.parser.screens.structure.StructureParser;
 import wniemiec.data.java.Encryptors;
 import wniemiec.data.java.Encryptor;
 
@@ -344,7 +343,12 @@ public class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
         String rawHtml = innerHtmlAssignment.replaceAll("`", "");
         //System.out.println("# "  + rawHtml);
                 
-        Tag root = HtmlUtils.parse(rawHtml);
+        //Tag root = HtmlUtils.parse(rawHtml);
+        HtmlParser htmlParser = new HtmlParser();
+        String ast = htmlParser.parse(rawHtml);
+        StructureParser structureParser = new StructureParser(ast);
+        
+        Tag root = structureParser.parse();
         stylize(root, style);
         
         // TODO: mandar para o behavior parse 'root' (pd ter behavior para alguma tag)

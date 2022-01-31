@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.Style;
 import wniemiec.mobilang.asc.models.StyleSheetRule;
-import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 
 /**
@@ -18,7 +17,7 @@ public class StyleParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private Node styleNode;
+    private String styleNodeContent;
     private Style style;
 
 
@@ -32,7 +31,7 @@ public class StyleParser {
      * @param       styleNode Style node
      */
     public StyleParser(SortedMap<String, List<Node>> ast, Node styleNode) {
-        styleNode = ast.get(styleNode.getId()).get(0);
+        styleNodeContent = ast.get(styleNode.getId()).get(0).getLabel();
     }
 
     
@@ -42,17 +41,13 @@ public class StyleParser {
     public Style parse() {
         style = new Style();
 
-        parseJson(getStyleNodeContent());
+        parseJson(new JSONObject(styleNodeContent));
 
         return style;
     }
-
-    private String getStyleNodeContent() {
-        return styleNode.getLabel();
-    }
-
-    private void parseJson(String json) {
-        JSONArray cssRules = getCssRules(new JSONObject(json));
+    
+    private void parseJson(JSONObject json) {
+        JSONArray cssRules = getCssRules(json);
         
         parseCssRules(cssRules);
     }

@@ -26,7 +26,7 @@ public class BehaviorParser  {
      * Behavior parser for MobiLang AST.
      * 
      * @param       ast MobiLang AST
-     * @param       behaviorNode Screens node
+     * @param       behaviorNode behavior node
      */
     public BehaviorParser(SortedMap<String, List<Node>> ast, Node behaviorNode) {
         contentNode = ast.get(behaviorNode.getId()).get(0).getLabel();

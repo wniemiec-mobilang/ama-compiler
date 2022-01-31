@@ -7,153 +7,192 @@ import java.util.SortedMap;
 import java.util.Stack;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.RawTag;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
+
 /**
  * Responsible for parsing structure node from MobiLang AST.
  */
-public class StructureParser /*implements Parser*/ {
+public class StructureParser {
     
-    // Strategy: DFS
-    private String contentNode;
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private String structureNodeContent;
     private boolean astFromMobilang;
+    private Stack<RawTag> tagsToParse;
 
 
+    //-------------------------------------------------------------------------
+    //		Constructors
+    //-------------------------------------------------------------------------
     /**
      * Structure parser for MobiLang AST.
      * 
      * @param       ast MobiLang AST
-     * @param       structureNode Screens node
+     * @param       structureNode Structure node
      */
-    public StructureParser(SortedMap<String, List<Node>> tree, Node structureNode) {
-        contentNode = tree.get(structureNode.getId()).get(0).getLabel();
+    public StructureParser(SortedMap<String, List<Node>> ast, Node structureNode) {
+        structureNodeContent = ast.get(structureNode.getId()).get(0).getLabel();
         astFromMobilang = true;
     }
 
     public StructureParser(String ast) {
-        this.contentNode = ast;
+        this.structureNodeContent = ast;
         astFromMobilang = false;
     }
 
-    //@Override
+    
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     public Tag parse() throws ParseException {
-        //System.out.println("-----< STRUCTURE PARSER >-----");
-        //System.out.println(contentNode);
-        //System.out.println("-------------------------------\n");
-        if (astFromMobilang) {
-            try {
-                return parseJson(contentNode);
-            } 
-            catch (Exception e) {
-                throw new ParseException("JSON parsing - " + e.getMessage());
-            }    
-        }
-
-        JSONObject obj = new JSONObject(contentNode);
-        //System.out.println(contentNode);
-        //System.out.println(parseRootRawTag(obj));
-        return parseRootRawTag(obj);
+        JSONObject bodyTag = getBodyTag();
+        
+        return parseBodyTag(bodyTag);
     }
 
-    private Tag parseJson(String json) throws Exception {
-        JSONObject obj = new JSONObject(json);
-        //JSONObject root = obj.getJSONObject("content");
-        //JSONArray child = root.getJSONArray("children");
+    private JSONObject getBodyTag() throws ParseException {
+        if (astFromMobilang) {  
+            return getBodyTagFromStructureNodeContent();
+        }
+
+        return new JSONObject(structureNodeContent);
+    }
+
+    private JSONObject getBodyTagFromStructureNodeContent() 
+    throws ParseException {
+        try {
+            return getBodyTagFromStructureNode(new JSONObject(structureNodeContent));
+        } 
+        catch (Exception e) {
+            throw new ParseException("JSON parsing - " + e.getMessage());
+        }
+    }
+
+    private JSONObject getBodyTagFromStructureNode(JSONObject json) 
+    throws ParseException {
+        JSONObject htmlTag = getHtmlTag(json);
         
-        JSONObject htmlTagContent = obj
+        return getBodyTagFromHtmlTag(htmlTag);
+    }
+
+    private JSONObject getHtmlTag(JSONObject structureJson) throws ParseException {
+        JSONObject htmlTagContent = structureJson
             .getJSONObject("content")
             .getJSONArray("children")
             .getJSONObject(0)
             .getJSONObject("content");
 
-        if (!htmlTagContent.getString("name").equals("html"))
-            throw new Exception("HTML tag not found");
+        validateHtmlTag(htmlTagContent);
+        
+        return htmlTagContent;
+    }
 
+    private void validateHtmlTag(JSONObject htmlTagContent) throws ParseException {
+        if (!htmlTagContent.getString("name").equals("html")) {
+            throw new ParseException("HTML tag not found");
+        }
+    }
+
+    private JSONObject getBodyTagFromHtmlTag(JSONObject htmlTagContent) 
+    throws ParseException {
         JSONObject bodyTag = htmlTagContent
             .getJSONArray("children")
             .getJSONObject(0);
 
-        JSONObject bodyTagContent = bodyTag.getJSONObject("content");
+        validateBodyTag(bodyTag);
 
-        if (!bodyTagContent.getString("name").equals("body"))
-            throw new Exception("BODY tag not found");
-
-        Tag rootTag = parseRootRawTag(bodyTag);
-        return rootTag;
-        //System.out.println("Parse completed!");
-        //rootTag.print();
-        /*System.out.println("Converting to react native tags");
-        
-        ReactNativeStructureParser rnParser = new ReactNativeStructureParser(rootTag);
-        Tag rnRootTag = rnParser.parse();
-
-        System.out.println("Completed!");
-        rnRootTag.print();*/
-
-        //return rnRootTag;
+        return bodyTag;
     }
 
-    private Tag parseRootRawTag(JSONObject rootRawTag) {
-        Stack<RawTag> tagsToParse = new Stack<>();
+    private void validateBodyTag(JSONObject bodyTag) throws ParseException {
+        JSONObject bodyTagContent = bodyTag.getJSONObject("content");
 
-        tagsToParse.push(new RawTag(rootRawTag, null));
+        if (!bodyTagContent.getString("name").equals("body")) {
+            throw new ParseException("BODY tag not found");
+        }
+    }
+
+    private Tag parseBodyTag(JSONObject jsonBodyTag) {
         Tag bodyTag = null;
+        
+        tagsToParse = new Stack<>();
+        tagsToParse.push(new RawTag(jsonBodyTag, null));
 
         while (!tagsToParse.empty()) {
-            RawTag currenRawTag = tagsToParse.pop();
-            JSONObject currentTag = currenRawTag.getJsonObject();
-            String nodeType = currentTag.getString("nodeType");
+            RawTag currentRawTag = tagsToParse.pop();
 
-            if (nodeType.equals("text")) {
-                String tagContent = currentTag
-                    .getJSONObject("content")
-                    .getJSONObject("value")
-                    .getString("content");
-                
-                if (!tagContent.matches("\"[\\s\\t]*(\")?")) {
-                    currenRawTag.getParent().setValue(tagContent);
-                }
+            if (isValue(currentRawTag)) {
+                parseValue(currentRawTag);
             }
             else {
-                JSONObject tagContent = currentTag.getJSONObject("content");
-                String tagName = parseTagName(tagContent);
-                Map<String, String> tagAttributes = parseTagAttributes(tagContent);
-
-                Tag parsedTag = new Tag(tagName, tagAttributes);
-                parseTagChildren(tagsToParse, parsedTag, tagContent);
-
-                if (currenRawTag.getParent() != null) {
-                    currenRawTag.getParent().addChild(parsedTag);
-                }
-                
-                //if (parsedTag.getName().equals("body")) { // Gets root tag
-                if (bodyTag == null) {
-                    bodyTag = parsedTag;
-                }
+                bodyTag = parseTag(bodyTag, currentRawTag);
             }
         }
 
         return bodyTag;
     }
 
-    private void parseTagChildren(Stack<RawTag> tagsToParse, Tag parent, JSONObject tagContent) {
-        if (!tagContent.has("children"))
-            return;
+    private boolean isValue(RawTag currentRawTag) {
+        return getTagType(currentRawTag).equals("text");
+    }
 
-        JSONArray tagChildren = tagContent.getJSONArray("children");
+    private String getTagType(RawTag currentRawTag) {
+        JSONObject currentTag = currentRawTag.getJsonObject();
+        
+        return currentTag.getString("nodeType");
+    }
 
-        for (int i = tagChildren.length()-1; i >= 0; i--) {
-            //Tag childTag = new Tag(tagChildren.getJSONObject(i));
-            //parent.addChild(childTag);
-            tagsToParse.push(new RawTag(tagChildren.getJSONObject(i), parent));
+    private void parseValue(RawTag currentRawTag) {
+        String tagContent = extractTagContent(currentRawTag)
+            .getJSONObject("value")
+            .getString("content");
+        
+        if (!isEmpty(tagContent)) {
+            currentRawTag.getParent().setValue(tagContent);
         }
     }
 
-    private String parseTagName(JSONObject tagContent) {
+    private boolean isEmpty(String tagContent) {
+        return tagContent.matches("\"[\\s\\t]*(\")?");
+    }
+
+    private Tag parseTag(Tag bodyTag, RawTag currentRawTag) {
+        Tag parsedTag = parseTagContent(extractTagContent(currentRawTag));
+
+        if (currentRawTag.hasParent()) {
+            currentRawTag.addChild(parsedTag);
+        }
+        
+        if (bodyTag == null) {
+            bodyTag = parsedTag;
+        }
+
+        return bodyTag;
+    }
+
+    private JSONObject extractTagContent(RawTag currentRawTag) {
+        return currentRawTag.getJsonObject().getJSONObject("content");
+    }
+
+    private Tag parseTagContent(JSONObject tagContent) {
+        Tag parsedTag = new Tag(
+            extractTagName(tagContent), 
+            extractTagAttributes(tagContent)
+        );
+        
+        if (hasChildren(tagContent)) {
+            parseTagChildren(parsedTag, tagContent);
+        }
+        
+        return parsedTag;
+    }
+
+    private String extractTagName(JSONObject tagContent) {
         String tagName = "";
         
         if (tagContent.has("name")) {
@@ -163,23 +202,47 @@ public class StructureParser /*implements Parser*/ {
         return tagName;
     }
 
-    private Map<String, String> parseTagAttributes(JSONObject tag) {
-        if (!tag.has("attributes"))
+    private Map<String, String> extractTagAttributes(JSONObject tag) {
+        if (!tag.has("attributes")) {
             return new HashMap<>();
+        }
 
         Map<String, String> attributes = new HashMap<>();
-
         JSONArray jsonAttributes = tag.getJSONArray("attributes");
 
         for (int i = 0; i < jsonAttributes.length(); i++) {
-            JSONObject attributeObject = jsonAttributes.getJSONObject(i);
-            String key = attributeObject.getJSONObject("key").getString("content");
-            String value = attributeObject.getJSONObject("value").getString("content");
+            String key = extractKeyFromAttribute(jsonAttributes.getJSONObject(i));
+            String value = extractValueFromAttribute(jsonAttributes.getJSONObject(i));
             
             attributes.put(key, value);
         }
 
         return attributes;
+    }
+
+    private String extractKeyFromAttribute(JSONObject attributeObject) {
+        return attributeObject.getJSONObject("key").getString("content");
+    }
+
+    private String extractValueFromAttribute(JSONObject attributeObject) {
+        return attributeObject.getJSONObject("value").getString("content");
+    }
+
+    private boolean hasChildren(JSONObject jsonTag) {
+        return jsonTag.has("children");
+    }
+
+    private void parseTagChildren(Tag parent, JSONObject tagContent) {
+        JSONArray tagChildren = tagContent.getJSONArray("children");
+
+        for (int i = tagChildren.length()-1; i >= 0; i--) {
+            RawTag childRawTag = new RawTag(
+                tagChildren.getJSONObject(i), 
+                parent
+            );
+            
+            tagsToParse.push(childRawTag);
+        }
     }
 }
 

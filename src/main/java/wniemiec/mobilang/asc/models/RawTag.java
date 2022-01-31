@@ -20,4 +20,12 @@ public class RawTag {
         return parent;
     }
 
+    public boolean hasParent() {
+        return (parent != null);
+    }
+
+    public void addChild(Tag child) {
+        parent.addChild(child);
+    }
+
 }

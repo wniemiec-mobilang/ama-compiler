@@ -64,7 +64,9 @@ public class Asc {
     private void readMobilangDotFile() throws FileNotFoundException {
         DotReader dotReader = new DotReader();
         
-        ast = dotReader.read(dotFilePath);
+        dotReader.read(dotFilePath);
+        
+        ast = dotReader.getTree();
     }
 
     private void parseMobilangAst() throws ParseException, IOException {

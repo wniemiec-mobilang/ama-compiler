@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.SortedMap;
-
 import wniemiec.mobilang.asc.coder.MobilangCoder;
-import wniemiec.mobilang.asc.export.ConsoleMobilangCodeExport;
 import wniemiec.mobilang.asc.export.FileMobilangCodeExport;
 import wniemiec.mobilang.asc.export.MobilangCodeExport;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
@@ -18,8 +16,15 @@ import wniemiec.mobilang.asc.parser.MobilangAstParser;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.reader.DotReader;
 
+
+/**
+ * Responsible for managing ASC compiler pipeline.
+ */
 public class Asc {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private Path dotFilePath;
     private Path outputLocationPath;
     private FrameworkFactory frameworkFactory;
@@ -27,12 +32,27 @@ public class Asc {
     private MobilangAstParser mobilangAstParser;
     private MobilangCoder mobilangCoder;
     
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    /**
+     * Manager for ASC compiler pipeline.
+     * 
+     * @param       dotFilePath MobiLang dot file
+     * @param       outputLocationPath Path where compiler output will be put
+     * @param       frameworkFactory Factory that will provide framework services.
+     */
     public Asc(Path dotFilePath, Path outputLocationPath, FrameworkFactory frameworkFactory) {
         this.dotFilePath = dotFilePath;
         this.outputLocationPath = outputLocationPath;
         this.frameworkFactory = frameworkFactory;
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     public void run() 
     throws ParseException, OutputLocationException, CodeExportException, IOException {
         readMobilangDotFile();
@@ -47,12 +67,13 @@ public class Asc {
         ast = dotReader.read(dotFilePath);
     }
 
-
     private void parseMobilangAst() throws ParseException, IOException {
-        mobilangAstParser = new MobilangAstParser(ast, frameworkFactory.getParserFactory());
+        mobilangAstParser = new MobilangAstParser(
+            ast, 
+            frameworkFactory.getParserFactory()
+        );
         mobilangAstParser.parse();
     }
-
 
     private void generateMobilangCode() {
         mobilangCoder = new MobilangCoder(
@@ -62,7 +83,6 @@ public class Asc {
         );
         mobilangCoder.generateCode();
     }
-
 
     private void exportMobilangCode() 
     throws OutputLocationException, CodeExportException {

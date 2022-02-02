@@ -1,10 +1,7 @@
 package wniemiec.mobilang.asc.coder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import wniemiec.mobilang.asc.framework.FrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.FrameworkCoreCoder;
 import wniemiec.mobilang.asc.framework.FrameworkPersistenceCoder;
@@ -13,7 +10,11 @@ import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PersistenceData;
 import wniemiec.mobilang.asc.models.ScreenData;
 
-public class MobilangCoder {
+
+/**
+ * Responsible for MobiLang code generation.
+ */
+public class MobiLangCoder {
     
     //-------------------------------------------------------------------------
     //		Attributes
@@ -21,8 +22,6 @@ public class MobilangCoder {
     private PersistenceData persistenceData;
     private List<ScreenData> screensData;
     private FrameworkCoderFactory frameworkCoderFactory;
-
-    // key: filename; value: code
     private List<FileCode> screensCode;
     private List<FileCode> persistenceCode;
     private List<FileCode> coreCode;
@@ -31,7 +30,15 @@ public class MobilangCoder {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public MobilangCoder(
+    /**
+     * MobiLang code generator.
+     * 
+     * @param       persistenceData Persistence data
+     * @param       screensData Screens data
+     * @param       frameworkCoderFactory Factory that will provide framework 
+     * coder
+     */
+    public MobiLangCoder(
         PersistenceData persistenceData, 
         List<ScreenData> screensData,
         FrameworkCoderFactory frameworkCoderFactory

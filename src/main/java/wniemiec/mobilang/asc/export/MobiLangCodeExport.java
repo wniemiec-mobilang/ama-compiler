@@ -1,21 +1,30 @@
 package wniemiec.mobilang.asc.export;
 
 import java.util.List;
-import java.util.Map;
-
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
-import wniemiec.mobilang.asc.framework.FrameworkProjectManager;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PropertiesData;
 
-public abstract class MobilangCodeExport {
+
+/**
+ * Responsible for MobiLang code exportation.
+ */
+public abstract class MobiLangCodeExport {
 
     protected PropertiesData propertiesData;
     private List<FileCode> screensCode;
     private List<FileCode> persistenceCode;
     private List<FileCode> coreCode;
-    
-    protected MobilangCodeExport(
+
+    /**
+     * MobiLang code exportation.
+     * 
+     * @param       propertiesData Properties data
+     * @param       screensCode Screens code
+     * @param       persistenceCode Persistence code
+     * @param       coreCode Core code
+     */
+    protected MobiLangCodeExport(
         PropertiesData propertiesData,
         List<FileCode> screensCode,
         List<FileCode> persistenceCode,

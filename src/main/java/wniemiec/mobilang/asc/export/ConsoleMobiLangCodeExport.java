@@ -7,9 +7,9 @@ import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PropertiesData;
 
-public class ConsoleMobilangCodeExport extends MobilangCodeExport {
+public class ConsoleMobiLangCodeExport extends MobiLangCodeExport {
 
-    public ConsoleMobilangCodeExport(
+    public ConsoleMobiLangCodeExport(
         PropertiesData propertiesData, 
         List<FileCode> screensCode,
         List<FileCode> persistenceCode, 

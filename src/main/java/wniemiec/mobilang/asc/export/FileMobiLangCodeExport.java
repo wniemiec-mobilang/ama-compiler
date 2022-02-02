@@ -19,12 +19,12 @@ import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PropertiesData;
 import wniemiec.mobilang.asc.utils.Shell;
 
-public class FileMobilangCodeExport extends MobilangCodeExport {
+public class FileMobiLangCodeExport extends MobiLangCodeExport {
 
     private Path outputLocation;
     private FrameworkProjectManagerFactory frameworkProjectManagerFactory;
 
-    public FileMobilangCodeExport(
+    public FileMobiLangCodeExport(
         PropertiesData propertiesData, 
         List<FileCode> screensCode, 
         List<FileCode> persistenceCode,

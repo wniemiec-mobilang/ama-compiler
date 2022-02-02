@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.SortedMap;
-import wniemiec.mobilang.asc.coder.MobilangCoder;
-import wniemiec.mobilang.asc.export.FileMobilangCodeExport;
-import wniemiec.mobilang.asc.export.MobilangCodeExport;
+import wniemiec.mobilang.asc.coder.MobiLangCoder;
+import wniemiec.mobilang.asc.export.FileMobiLangCodeExport;
+import wniemiec.mobilang.asc.export.MobiLangCodeExport;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.export.exception.OutputLocationException;
 import wniemiec.mobilang.asc.framework.FrameworkFactory;
@@ -30,7 +30,7 @@ public class Asc {
     private FrameworkFactory frameworkFactory;
     private SortedMap<String, List<Node>> ast;
     private MobiLangAstParser mobilangAstParser;
-    private MobilangCoder mobilangCoder;
+    private MobiLangCoder mobilangCoder;
     
 
     //-------------------------------------------------------------------------
@@ -78,7 +78,7 @@ public class Asc {
     }
 
     private void generateMobilangCode() {
-        mobilangCoder = new MobilangCoder(
+        mobilangCoder = new MobiLangCoder(
             mobilangAstParser.getPersistenceData(),
             mobilangAstParser.getScreensData(),
             frameworkFactory.getCoderFactory()
@@ -88,7 +88,7 @@ public class Asc {
 
     private void exportMobilangCode() 
     throws OutputLocationException, CodeExportException {
-        MobilangCodeExport mobilangCodeExport = new FileMobilangCodeExport(
+        MobiLangCodeExport mobilangCodeExport = new FileMobiLangCodeExport(
             mobilangAstParser.getPropertiesData(),
             mobilangCoder.getScreensCode(),
             mobilangCoder.getPersistenceCode(),

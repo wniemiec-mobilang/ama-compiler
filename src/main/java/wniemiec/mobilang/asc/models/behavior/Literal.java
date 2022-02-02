@@ -1,6 +1,6 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.models.behavior;
 
-class Literal extends Expression {
+public class Literal extends Expression {
     public Literal(String value) {
         this.value = value;
     }

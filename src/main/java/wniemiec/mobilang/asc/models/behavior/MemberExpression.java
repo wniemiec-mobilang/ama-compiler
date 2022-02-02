@@ -1,6 +1,6 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.models.behavior;
 
-class MemberExpression extends Expression {
+public class MemberExpression extends Expression {
     Expression object;
     String propertyType;
     String propertyName;

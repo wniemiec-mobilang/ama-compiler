@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.models.behavior;
 
 public class IfStatement extends Instruction {
 

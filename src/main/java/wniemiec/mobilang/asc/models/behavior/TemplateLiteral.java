@@ -1,10 +1,10 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.models.behavior;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class TemplateLiteral extends Expression {
+public class TemplateLiteral extends Expression {
     List<Expression> expressions = new ArrayList<>();
     List<Expression> quasis = new ArrayList<>();
     public TemplateLiteral(List<Expression> expressions, List<Expression> quasis) {

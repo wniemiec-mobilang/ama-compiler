@@ -1,10 +1,10 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.models.behavior;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class CallExpression extends Expression {
+public class CallExpression extends Expression {
     Expression callee;
     List<Expression> arguments = new ArrayList<>();
     public CallExpression(Expression callee, List<Expression> arguments) {

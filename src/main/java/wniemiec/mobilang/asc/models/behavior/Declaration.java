@@ -1,10 +1,10 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.models.behavior;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class Declaration extends Instruction {
+public class Declaration extends Instruction {
 
     String kind;
     List<Declarator> declarations = new ArrayList<>();

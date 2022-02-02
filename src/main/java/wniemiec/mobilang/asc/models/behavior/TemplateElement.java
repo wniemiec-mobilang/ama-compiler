@@ -1,6 +1,6 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.models.behavior;
 
-class TemplateElement extends Expression {
+public class TemplateElement extends Expression {
     public TemplateElement(String value, boolean tail) {
         this.value = value;
         this.tail = tail;

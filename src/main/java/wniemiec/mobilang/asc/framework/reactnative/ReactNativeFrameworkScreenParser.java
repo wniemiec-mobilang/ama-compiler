@@ -15,15 +15,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import wniemiec.mobilang.asc.framework.FrameworkScreenParser;
+import wniemiec.mobilang.asc.models.Behavior;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Style;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.Variable;
+import wniemiec.mobilang.asc.models.behavior.AssignmentExpression;
+import wniemiec.mobilang.asc.models.behavior.Instruction;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.html.HtmlParser;
-import wniemiec.mobilang.asc.parser.screens.behavior.AssignmentExpression;
-import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
-import wniemiec.mobilang.asc.parser.screens.behavior.Instruction;
 import wniemiec.mobilang.asc.parser.screens.structure.StructureParser;
 import wniemiec.data.java.Encryptors;
 import wniemiec.data.java.Encryptor;

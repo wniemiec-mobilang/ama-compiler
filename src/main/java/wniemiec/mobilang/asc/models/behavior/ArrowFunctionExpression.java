@@ -1,10 +1,10 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.models.behavior;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class ArrowFunctionExpression extends Expression {
+public class ArrowFunctionExpression extends Expression {
     boolean async;
     List<Expression> params = new ArrayList<>();
     String bodyCode;

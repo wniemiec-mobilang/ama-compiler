@@ -1,6 +1,6 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.models.behavior;
 
-class Declarator {
+public class Declarator {
  
     String type;
     String idKind;

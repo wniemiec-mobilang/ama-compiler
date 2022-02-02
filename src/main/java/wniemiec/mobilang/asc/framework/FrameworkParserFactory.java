@@ -1,8 +1,8 @@
 package wniemiec.mobilang.asc.framework;
 
+import wniemiec.mobilang.asc.models.Behavior;
 import wniemiec.mobilang.asc.models.Style;
 import wniemiec.mobilang.asc.models.Tag;
-import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 
 public interface FrameworkParserFactory {
 

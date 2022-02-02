@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import wniemiec.mobilang.asc.models.Behavior;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Style;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.Variable;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.parser.screens.behavior.Behavior;
 
 public abstract class FrameworkScreenParser {
 

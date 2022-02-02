@@ -1,6 +1,8 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.models;
 
 import java.util.List;
+
+import wniemiec.mobilang.asc.models.behavior.Instruction;
 
 public class Behavior {
     List<Instruction> code;

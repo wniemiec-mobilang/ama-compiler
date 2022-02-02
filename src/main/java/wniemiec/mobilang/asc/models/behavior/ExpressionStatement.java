@@ -1,6 +1,6 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.models.behavior;
 
-class ExpressionStatement extends Instruction {
+public class ExpressionStatement extends Instruction {
 
     private Expression expression;
     

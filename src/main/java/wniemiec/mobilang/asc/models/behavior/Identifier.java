@@ -1,6 +1,6 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.models.behavior;
 
-class Identifier extends Expression {
+public class Identifier extends Expression {
     String name;
 
     public Identifier(String name) {

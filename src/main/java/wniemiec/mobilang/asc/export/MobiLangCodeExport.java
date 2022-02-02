@@ -11,11 +11,18 @@ import wniemiec.mobilang.asc.models.PropertiesData;
  */
 public abstract class MobiLangCodeExport {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     protected PropertiesData propertiesData;
     private List<FileCode> screensCode;
     private List<FileCode> persistenceCode;
     private List<FileCode> coreCode;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     /**
      * MobiLang code exportation.
      * 
@@ -36,6 +43,10 @@ public abstract class MobiLangCodeExport {
         this.coreCode = coreCode;
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     public final void export() throws CodeExportException {
         createProject();
         exportScreensCode();

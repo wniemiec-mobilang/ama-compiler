@@ -5,10 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.io.FileUtils;
-
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.TextFileManager;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
@@ -17,13 +14,36 @@ import wniemiec.mobilang.asc.framework.FrameworkProjectManager;
 import wniemiec.mobilang.asc.framework.FrameworkProjectManagerFactory;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PropertiesData;
-import wniemiec.mobilang.asc.utils.Shell;
 
+
+/**
+ * Responsible for exporting MobiLang code to files.
+ */
 public class FileMobiLangCodeExport extends MobiLangCodeExport {
 
-    private Path outputLocation;
-    private FrameworkProjectManagerFactory frameworkProjectManagerFactory;
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private Path appLocation;
+    private FrameworkProjectManager projectManager;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    /**
+     * Exports MobiLang code to files.
+     * 
+     * @param       propertiesData Properties data
+     * @param       screensCode Screens code
+     * @param       persistenceCode Persistence code
+     * @param       coreCode Core code
+     * @param       frameworkProjectManagerFactory Factory that will provide
+     * framework project management
+     * @param       outputLocation Location where the files will be exported
+     * 
+     * @throws      OutputLocationException If output location cannot be reached
+     */
     public FileMobiLangCodeExport(
         PropertiesData propertiesData, 
         List<FileCode> screensCode, 
@@ -33,31 +53,67 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
         Path outputLocation
     ) throws OutputLocationException {
         super(propertiesData, screensCode, persistenceCode, coreCode);
-        this.frameworkProjectManagerFactory = frameworkProjectManagerFactory;
-        this.outputLocation = outputLocation;
+        
+        setUpAppLocation(propertiesData, outputLocation);
+        setUpProjectManager(frameworkProjectManagerFactory, outputLocation);
+        setUpOutputLocation(outputLocation);
+    }
 
-        System.out.println("@@ " + outputLocation);
+    
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    private void setUpAppLocation(PropertiesData propertiesData, Path outputLocation) {
+        appLocation = outputLocation.resolve(propertiesData.getAppName());
+    }
+
+    private void setUpProjectManager(
+        FrameworkProjectManagerFactory projectManagerFactory,
+        Path outputLocation
+    ) {
+        projectManager = projectManagerFactory.getProjectManager(outputLocation);
+    }
+
+    private void setUpOutputLocation(Path outputLocation) 
+    throws OutputLocationException {
         try {
-            FileUtils.deleteDirectory(outputLocation.toFile());
-            Files.createDirectories(outputLocation);
+            cleanOutputLocation(outputLocation);
         } 
         catch (IOException e) {
             throw new OutputLocationException(e.getMessage());
         }
     }
 
-    
+    private void cleanOutputLocation(Path outputLocation) throws IOException {
+        FileUtils.deleteDirectory(outputLocation.toFile());
+        Files.createDirectories(outputLocation);
+    }
 
     @Override
-    protected void exportScreenCode(String filename, List<String> code) throws CodeExportException {
+    protected void exportScreenCode(String filename, List<String> code) 
+    throws CodeExportException {
         exportCodeToFile(filename, code);
     }
 
-    private void exportCodeToFile(String filename, List<String> code) throws CodeExportException {
-        Path filepath = outputLocation.resolve(Path.of(propertiesData.getName(), filename));
-        TextFileManager txtFileManager = new TextFileManager(filepath, StandardCharsets.ISO_8859_1);
+    private void exportCodeToFile(String filename, List<String> code) 
+    throws CodeExportException {
+        Path filepath = buildFilepath(filename);
         
-        System.out.println("Exporting " + filepath);
+        Consolex.writeInfo("Exporting " + filepath);
+        
+        writeLines(code, filepath);
+    }
+
+    private Path buildFilepath(String filename) {
+        return appLocation.resolve(filename);
+    }
+
+    private void writeLines(List<String> code, Path filepath) 
+    throws CodeExportException {
+        TextFileManager txtFileManager = new TextFileManager(
+            filepath, 
+            StandardCharsets.ISO_8859_1
+        );
         
         try {
             txtFileManager.writeLines(code);
@@ -66,29 +122,26 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
             throw new CodeExportException(e.getMessage());
         }
     }
-
+    
     @Override
-    protected void exportCoreCode(String filename, List<String> code) throws CodeExportException {
+    protected void exportCoreCode(String filename, List<String> code) 
+    throws CodeExportException {
         exportCodeToFile(filename, code);
     }
 
-
+    @Override
+    protected void exportPersistenceCode(String filename, List<String> code) 
+    throws CodeExportException {
+        exportCodeToFile(filename, code);
+    }
 
     @Override
     public void createProject() throws CodeExportException {
-        FrameworkProjectManager projectManager = frameworkProjectManagerFactory.getProjectManager(outputLocation);
         try {
             projectManager.create(propertiesData);
         } 
         catch (IOException e) {
             throw new CodeExportException(e.getMessage());
         }
-    }
-
-
-
-    @Override
-    protected void exportPersistenceCode(String filename, List<String> code) throws CodeExportException {
-        exportCodeToFile(filename, code);
-    }
+    }   
 }

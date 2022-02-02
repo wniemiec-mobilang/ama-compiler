@@ -48,7 +48,7 @@ public class PropertiesParser {
     }
 
     private void parseJson(JSONObject json) {
-        propertiesData.setName(json.getString("application_name"));
+        propertiesData.setAppName(json.getString("application_name"));
     }
 
 

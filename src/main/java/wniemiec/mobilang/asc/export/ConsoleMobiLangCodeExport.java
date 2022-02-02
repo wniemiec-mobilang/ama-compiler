@@ -1,14 +1,27 @@
 package wniemiec.mobilang.asc.export;
 
 import java.util.List;
-import java.util.Map;
-
-import wniemiec.mobilang.asc.export.exception.CodeExportException;
+import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PropertiesData;
 
+
+/**
+ * Responsible for exporting MobiLang code to console.
+ */
 public class ConsoleMobiLangCodeExport extends MobiLangCodeExport {
 
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    /**
+     * Exports MobiLang code to console.
+     * 
+     * @param       propertiesData Properties data
+     * @param       screensCode Screens code
+     * @param       persistenceCode Persistence code
+     * @param       coreCode Core code
+     */
     public ConsoleMobiLangCodeExport(
         PropertiesData propertiesData, 
         List<FileCode> screensCode,
@@ -18,15 +31,20 @@ public class ConsoleMobiLangCodeExport extends MobiLangCodeExport {
         super(propertiesData, screensCode, persistenceCode, coreCode);
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     protected void exportScreenCode(String filename, List<String> code) {
         printCode(filename, code);
     }
 
     private void printCode(String filename, List<String> code) {
-        System.out.println("-----< " + filename + " >-----");
+        Consolex.writeHeader(filename);
+        
         for (String line : code) {
-            System.out.println(line);
+            Consolex.writeLine(line);
         }
     }
 
@@ -42,6 +60,6 @@ public class ConsoleMobiLangCodeExport extends MobiLangCodeExport {
 
     @Override
     public void createProject() {
-        System.out.println("Creating project " + propertiesData.getName());
+        Consolex.writeLine("Creating project " + propertiesData.getAppName());
     }
 }

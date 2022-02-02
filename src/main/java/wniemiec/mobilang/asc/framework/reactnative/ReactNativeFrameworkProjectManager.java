@@ -17,7 +17,7 @@ public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager 
     @Override
     public void create(PropertiesData propertiesData) throws IOException {
         Shell shell = new Shell(workingDirectory);
-        shell.exec("react-native init " + propertiesData.getName());
+        shell.exec("react-native init " + propertiesData.getAppName());
         
         if (shell.hasError()) {
             Consolex.writeError(shell.getErrorOutput());

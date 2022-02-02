@@ -17,6 +17,7 @@ class LiteralExpressionJsonParser implements ExpressionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static LiteralExpressionJsonParser instance;
+    private static final String VALUE = "value";
 
 
     //-------------------------------------------------------------------------
@@ -44,19 +45,19 @@ class LiteralExpressionJsonParser implements ExpressionJsonParser {
     @Override
     public Expression parse(JSONObject jsonObject) throws JSONException, ParseException {
         Expression expression = null;
-        Object value = jsonObject.get("value");
+        Object value = jsonObject.get(VALUE);
 
         if (value instanceof String) {
-            expression = new Literal(jsonObject.getString("value"));
+            expression = new Literal(jsonObject.getString(VALUE));
         }
         else if (value instanceof Integer) {
-            expression = new Literal(String.valueOf(jsonObject.getInt("value")));
+            expression = new Literal(String.valueOf(jsonObject.getInt(VALUE)));
         }
         else if (value instanceof Float) {
-            expression = new Literal(String.valueOf(jsonObject.getFloat("value")));
+            expression = new Literal(String.valueOf(jsonObject.getFloat(VALUE)));
         }
         else if (value instanceof Double) {
-            expression = new Literal(String.valueOf(jsonObject.getDouble("value")));
+            expression = new Literal(String.valueOf(jsonObject.getDouble(VALUE)));
         }
 
         return expression;

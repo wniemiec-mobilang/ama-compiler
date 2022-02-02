@@ -3,25 +3,27 @@ package wniemiec.mobilang.asc.framework.reactnative;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import wniemiec.mobilang.asc.framework.FrameworkCoreCoder;
+import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.utils.Shell;
 
 public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
 
-    private Map<String, List<String>> coreCodes;
+    private List<FileCode> coreCodes;
 
-    public ReactNativeFrameworkCoreCoder(Set<String> screensName) {
+    public ReactNativeFrameworkCoreCoder(Collection<String> screensName) {
         super(screensName);
-        coreCodes = new HashMap<>();
+        coreCodes = new ArrayList<>();
     }
 
     @Override
-    public Map<String, List<String>> generateCode() {
+    public List<FileCode> generateCode() {
         generateIndexCode();
         generateAppCode();
         generateNavigators();
@@ -40,7 +42,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
             "AppRegistry.registerComponent(appName, () => App);"
         ));
 
-        coreCodes.put("index.js", code);
+        coreCodes.add(new FileCode("index.js", code));
     }
 
     private void generateAppCode() {
@@ -67,7 +69,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
             ");"
         ));
 
-        coreCodes.put("src/App.js", code);
+        coreCodes.add(new FileCode("src/App.js", code));
     }
 
     private void generateNavigators() {
@@ -119,6 +121,6 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         );
         */
 
-        coreCodes.put("src/navigators/MainStack.js", code);
+        coreCodes.add(new FileCode("src/navigators/MainStack.js", code));
     }
 }

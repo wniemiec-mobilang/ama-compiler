@@ -1,5 +1,6 @@
 package wniemiec.mobilang.asc.coder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,20 +8,28 @@ import java.util.Map;
 import wniemiec.mobilang.asc.framework.FrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.FrameworkCoreCoder;
 import wniemiec.mobilang.asc.framework.FrameworkScreensCoder;
+import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PersistenceData;
 import wniemiec.mobilang.asc.models.ScreenData;
 
 public class MobilangCoder {
     
-    private FrameworkCoderFactory frameworkCoderFactory;
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private PersistenceData persistenceData;
+    private List<ScreenData> screensData;
+    private FrameworkCoderFactory frameworkCoderFactory;
 
     // key: filename; value: code
-    private Map<String, List<String>> screensCode;
-    private Map<String, List<String>> persistenceCode;
-    private Map<String, List<String>> coreCode;
-    private List<ScreenData> screensData;
+    private List<FileCode> screensCode;
+    private List<FileCode> persistenceCode;
+    private List<FileCode> coreCode;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public MobilangCoder(
         PersistenceData persistenceData, 
         List<ScreenData> screensData,
@@ -29,59 +38,60 @@ public class MobilangCoder {
         this.persistenceData = persistenceData;
         this.screensData = screensData;
         this.frameworkCoderFactory = frameworkCoderFactory;
-        screensCode = new HashMap<>();
-        persistenceCode = new HashMap<>();
-        coreCode = new HashMap<>();
+        screensCode = new ArrayList<>();
+        persistenceCode = new ArrayList<>();
+        coreCode = new ArrayList<>();
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     public void generateCode() {
         generateCodeForScreens();
         generateCodeForCore();
         generateCodeForPersistence();
     }
 
-    private void generateCodeForPersistence() {
-    }
-
-    private void generateCodeForCore() {
-        FrameworkCoreCoder frameworkCoreCoder = frameworkCoderFactory.getCoreCoder(screensCode.keySet());
-
-        coreCode = frameworkCoreCoder.generateCode();        
-    }
-
     private void generateCodeForScreens() {
         FrameworkScreensCoder frameworkScreensCoder = frameworkCoderFactory.getScreensCoder(screensData);
 
         screensCode = frameworkScreensCoder.generateCode();
-
-        //for (ScreenData screenData : screensData) {
-        //    generateCodeForScreen(screenData);
-        //    break; // TMP
-        //}
     }
 
-    /*private void generateCodeForScreen(ScreenData screenData) {
-        FrameworkScreenCoder frameworkScreenCoder = frameworkCoderFactory.getScreenCoder(screenData);
+    private void generateCodeForCore() {
+        FrameworkCoreCoder frameworkCoreCoder = frameworkCoderFactory.getCoreCoder(extractScreensFilename());
 
-        List<String> code = frameworkScreenCoder.generateCode();
-        screensCode.put("src/screens/" + screenData.getName(), code);
+        coreCode = frameworkCoreCoder.generateCode();        
+    }
 
-        /*System.out.println("\n\n----- CODE FOR SCREEN " + screenData.getName() + " ----");
-        for (String line : code) {
-            System.out.println(line);
+
+    private List<String> extractScreensFilename() {
+        List<String> screensFilename = new ArrayList<>();
+
+        for (FileCode fileCode : screensCode) {
+            screensFilename.add(fileCode.getName());
         }
-    }
-    */
 
-    public Map<String, List<String>> getScreensCode() {
+        return screensFilename;
+    }
+
+    private void generateCodeForPersistence() {
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
+    public List<FileCode> getScreensCode() {
         return screensCode;
     }
 
-    public Map<String, List<String>> getPersistenceCode() {
+    public List<FileCode> getPersistenceCode() {
         return persistenceCode;
     }
 
-    public Map<String, List<String>> getCoreCode() {
+    public List<FileCode> getCoreCode() {
         return coreCode;
     }
 }

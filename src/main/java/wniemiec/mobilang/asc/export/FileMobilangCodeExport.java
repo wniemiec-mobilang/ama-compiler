@@ -15,6 +15,7 @@ import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.export.exception.OutputLocationException;
 import wniemiec.mobilang.asc.framework.FrameworkProjectManager;
 import wniemiec.mobilang.asc.framework.FrameworkProjectManagerFactory;
+import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PropertiesData;
 import wniemiec.mobilang.asc.utils.Shell;
 
@@ -25,9 +26,9 @@ public class FileMobilangCodeExport extends MobilangCodeExport {
 
     public FileMobilangCodeExport(
         PropertiesData propertiesData, 
-        Map<String, List<String>> screensCode, 
-        Map<String, List<String>> persistenceCode,
-        Map<String, List<String>> coreCode,
+        List<FileCode> screensCode, 
+        List<FileCode> persistenceCode,
+        List<FileCode> coreCode,
         FrameworkProjectManagerFactory frameworkProjectManagerFactory, 
         Path outputLocation
     ) throws OutputLocationException {

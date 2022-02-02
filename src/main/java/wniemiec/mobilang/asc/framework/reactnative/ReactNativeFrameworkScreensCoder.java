@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import wniemiec.mobilang.asc.framework.FrameworkScreensCoder;
+import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Variable;
 
@@ -43,13 +44,13 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     }
 
     @Override
-    public Map<String, List<String>> generateCode() {
-        Map<String, List<String>> screensCode = new HashMap<>();
+    public List<FileCode> generateCode() {
+        List<FileCode> screensCode = new ArrayList<>();
 
         for (ScreenData screenData : screensData) {
             String filename = "src/screens/" + screenData.getName() + ".js";
 
-            screensCode.put(filename, generateCodeForScreen(screenData));
+            screensCode.add(new FileCode(filename, generateCodeForScreen(screenData)));
         }
 
         return screensCode;

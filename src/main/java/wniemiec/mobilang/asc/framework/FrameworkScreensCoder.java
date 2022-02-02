@@ -3,6 +3,7 @@ package wniemiec.mobilang.asc.framework;
 import java.util.List;
 import java.util.Map;
 
+import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.ScreenData;
 
 public abstract class FrameworkScreensCoder {
@@ -13,5 +14,5 @@ public abstract class FrameworkScreensCoder {
         this.screensData = screensData;
     }
     
-    public abstract Map<String, List<String>> generateCode();
+    public abstract List<FileCode> generateCode();
 }

@@ -3,15 +3,16 @@ package wniemiec.mobilang.asc.export;
 import java.util.List;
 import java.util.Map;
 
+import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PropertiesData;
 
 public class ConsoleMobilangCodeExport extends MobilangCodeExport {
 
     public ConsoleMobilangCodeExport(
         PropertiesData propertiesData, 
-        Map<String, List<String>> screensCode,
-        Map<String, List<String>> persistenceCode, 
-        Map<String, List<String>> coreCode
+        List<FileCode> screensCode,
+        List<FileCode> persistenceCode, 
+        List<FileCode> coreCode
     ) {
         super(propertiesData, screensCode, persistenceCode, coreCode);
     }

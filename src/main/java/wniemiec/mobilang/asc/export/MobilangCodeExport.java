@@ -5,20 +5,21 @@ import java.util.Map;
 
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.framework.FrameworkProjectManager;
+import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PropertiesData;
 
 public abstract class MobilangCodeExport {
 
     protected PropertiesData propertiesData;
-    private Map<String, List<String>> screensCode;
-    private Map<String, List<String>> persistenceCode;
-    private Map<String, List<String>> coreCode;
+    private List<FileCode> screensCode;
+    private List<FileCode> persistenceCode;
+    private List<FileCode> coreCode;
     
     protected MobilangCodeExport(
         PropertiesData propertiesData,
-        Map<String, List<String>> screensCode,
-        Map<String, List<String>> persistenceCode,
-        Map<String, List<String>> coreCode
+        List<FileCode> screensCode,
+        List<FileCode> persistenceCode,
+        List<FileCode> coreCode
     ) {
         this.propertiesData = propertiesData;
         this.screensCode = screensCode;
@@ -35,8 +36,8 @@ public abstract class MobilangCodeExport {
     protected abstract void createProject() throws CodeExportException;
 
     private void exportScreensCode() throws CodeExportException {
-        for (Map.Entry<String, List<String>> screen : screensCode.entrySet()) {
-            exportScreenCode(screen.getKey(), screen.getValue());
+        for (FileCode fileCode : screensCode) {
+            exportScreenCode(fileCode.getName(), fileCode.getCode());
         }
     }
 
@@ -44,8 +45,8 @@ public abstract class MobilangCodeExport {
     throws CodeExportException;
 
     private void exportCoreCode() throws CodeExportException {
-        for (Map.Entry<String, List<String>> core : coreCode.entrySet()) {
-            exportCoreCode(core.getKey(), core.getValue());
+        for (FileCode fileCode : coreCode) {
+            exportCoreCode(fileCode.getName(), fileCode.getCode());
         }
     }
 

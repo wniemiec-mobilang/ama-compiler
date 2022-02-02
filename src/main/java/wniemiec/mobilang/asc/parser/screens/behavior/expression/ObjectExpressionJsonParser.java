@@ -11,15 +11,29 @@ import wniemiec.mobilang.asc.models.behavior.Expression;
 import wniemiec.mobilang.asc.models.behavior.ObjectExpression;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
+
+/**
+ * Responsible for parsing object expressions from behavior node from MobiLang 
+ * AST.
+ */
 public class ObjectExpressionJsonParser implements ExpressionJsonParser {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private static ObjectExpressionJsonParser instance;
-    private ExpressionParser expressionParser;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     private ObjectExpressionJsonParser() {
-        expressionParser = ExpressionParser.getInstance();
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Factory
+    //-------------------------------------------------------------------------
     public static ObjectExpressionJsonParser getInstance() {
         if (instance == null) {
             instance = new ObjectExpressionJsonParser();
@@ -28,6 +42,10 @@ public class ObjectExpressionJsonParser implements ExpressionJsonParser {
         return instance;
     }
     
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public Expression parse(JSONObject jsonObject) throws JSONException, ParseException {
         return new ObjectExpression(

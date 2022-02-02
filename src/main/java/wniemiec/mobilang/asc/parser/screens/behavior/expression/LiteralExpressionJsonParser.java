@@ -7,13 +7,28 @@ import wniemiec.mobilang.asc.models.behavior.Expression;
 import wniemiec.mobilang.asc.models.behavior.Literal;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
+
+/**
+ * Responsible for parsing literals from behavior node from MobiLang AST.
+ */
 public class LiteralExpressionJsonParser implements ExpressionJsonParser {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private static LiteralExpressionJsonParser instance;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     private LiteralExpressionJsonParser() {
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Factory
+    //-------------------------------------------------------------------------
     public static LiteralExpressionJsonParser getInstance() {
         if (instance == null) {
             instance = new LiteralExpressionJsonParser();
@@ -22,6 +37,10 @@ public class LiteralExpressionJsonParser implements ExpressionJsonParser {
         return instance;
     }
     
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public Expression parse(JSONObject jsonObject) throws JSONException, ParseException {
         Expression expression = null;

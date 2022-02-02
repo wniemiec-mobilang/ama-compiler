@@ -6,19 +6,34 @@ import org.json.JSONObject;
 import wniemiec.mobilang.asc.models.behavior.ArrowFunctionExpression;
 import wniemiec.mobilang.asc.models.behavior.Expression;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.parser.screens.behavior.InstructionParser;
+import wniemiec.mobilang.asc.parser.screens.behavior.instruction.InstructionParser;
 
+
+/**
+ * Responsible for parsing arrow functions from behavior node from MobiLang AST.
+ */
 public class ArrowFunctionExpressionJsonParser implements ExpressionJsonParser {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private static ArrowFunctionExpressionJsonParser instance;
     private ExpressionParser expressionParser;
     private InstructionParser instructionParser;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     private ArrowFunctionExpressionJsonParser() {
         expressionParser = ExpressionParser.getInstance();
         instructionParser = InstructionParser.getInstance();
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Factory
+    //-------------------------------------------------------------------------
     public static ArrowFunctionExpressionJsonParser getInstance() {
         if (instance == null) {
             instance = new ArrowFunctionExpressionJsonParser();
@@ -27,6 +42,10 @@ public class ArrowFunctionExpressionJsonParser implements ExpressionJsonParser {
         return instance;
     }
     
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public Expression parse(JSONObject jsonObject) throws JSONException, ParseException {
         if (!jsonObject.getJSONObject("body").get("type").equals("BlockStatement")) {

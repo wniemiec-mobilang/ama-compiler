@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import wniemiec.mobilang.asc.models.behavior.Instruction;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
+import wniemiec.mobilang.asc.parser.screens.behavior.instruction.InstructionParser;
 
 
 /**

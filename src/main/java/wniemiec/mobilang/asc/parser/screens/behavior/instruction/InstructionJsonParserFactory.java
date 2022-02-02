@@ -1,15 +1,16 @@
-package wniemiec.mobilang.asc.parser.screens.behavior.expression;
+package wniemiec.mobilang.asc.parser.screens.behavior.instruction;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import wniemiec.mobilang.asc.parser.exception.ParserFactoryException;
 
 
 /**
- * Responsible for providing ExpressionJsonParser instances.
+ * Responsible for providing InstructionJsonParser instances.
  */
-public class ExpressionJsonParserFactory {
-
+public class InstructionJsonParserFactory {
+    
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
@@ -21,25 +22,25 @@ public class ExpressionJsonParserFactory {
     //		Initialization block
     //-------------------------------------------------------------------------
     static {
-        EXPRESSION_PACKAGE = "wniemiec.mobilang.asc.parser.screens.behavior.expression.";
-        CLASS_SUFFIX = "ExpressionJsonParser";
+        EXPRESSION_PACKAGE = "wniemiec.mobilang.asc.parser.screens.behavior.instruction.";
+        CLASS_SUFFIX = "InstructionJsonParser";
     }
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    private ExpressionJsonParserFactory() {
+    private InstructionJsonParserFactory() {
     }
     
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public static ExpressionJsonParser get(String expressionType) 
+    public static InstructionJsonParser get(String instructionType) 
     throws ParserFactoryException {
         try {
-            Class<?> jsonParserClass = getExpressionJsonParserClass(expressionType);
+            Class<?> jsonParserClass = getExpressionJsonParserClass(instructionType);
             
             return invokeGetInstanceMethod(jsonParserClass);
         } 
@@ -48,16 +49,16 @@ public class ExpressionJsonParserFactory {
         }
     }
 
-    private static ExpressionJsonParser invokeGetInstanceMethod(Class<?> jsonParserClass)
+    private static InstructionJsonParser invokeGetInstanceMethod(Class<?> jsonParserClass)
     throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Method getInstance = jsonParserClass.getMethod("getInstance");
         
-        return ((ExpressionJsonParser) getInstance.invoke(jsonParserClass));
+        return ((InstructionJsonParser) getInstance.invoke(jsonParserClass));
     }
 
     private static Class<?> getExpressionJsonParserClass(String expressionType) 
     throws ClassNotFoundException {
-        String expressionName = expressionType.replace("Expression", "");
+        String expressionName = expressionType.replace("Instruction", "");
 
         return Class.forName(EXPRESSION_PACKAGE + expressionName + CLASS_SUFFIX);
     }

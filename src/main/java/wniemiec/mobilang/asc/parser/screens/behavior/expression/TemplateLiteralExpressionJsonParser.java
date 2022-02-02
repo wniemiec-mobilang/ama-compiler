@@ -7,15 +7,31 @@ import wniemiec.mobilang.asc.models.behavior.Expression;
 import wniemiec.mobilang.asc.models.behavior.TemplateLiteral;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
+
+/**
+ * Responsible for parsing template literals from behavior node from MobiLang 
+ * AST.
+ */
 public class TemplateLiteralExpressionJsonParser implements ExpressionJsonParser {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private static TemplateLiteralExpressionJsonParser instance;
     private ExpressionParser expressionParser;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     private TemplateLiteralExpressionJsonParser() {
         expressionParser = ExpressionParser.getInstance();
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Factory
+    //-------------------------------------------------------------------------
     public static TemplateLiteralExpressionJsonParser getInstance() {
         if (instance == null) {
             instance = new TemplateLiteralExpressionJsonParser();
@@ -24,6 +40,10 @@ public class TemplateLiteralExpressionJsonParser implements ExpressionJsonParser
         return instance;
     }
     
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public Expression parse(JSONObject jsonObject) throws JSONException, ParseException {
         return new TemplateLiteral(

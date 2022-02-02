@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.parser.screens.behavior;
+package wniemiec.mobilang.asc.parser.screens.behavior.instruction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import wniemiec.mobilang.asc.models.behavior.FunctionDeclaration;
 import wniemiec.mobilang.asc.models.behavior.IfStatement;
 import wniemiec.mobilang.asc.models.behavior.Instruction;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
+import wniemiec.mobilang.asc.parser.screens.behavior.BlockCodeParser;
 import wniemiec.mobilang.asc.parser.screens.behavior.expression.ExpressionParser;
 
 

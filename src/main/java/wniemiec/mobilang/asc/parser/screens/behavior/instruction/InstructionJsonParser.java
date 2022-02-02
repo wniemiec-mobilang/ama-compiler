@@ -12,5 +12,15 @@ import wniemiec.mobilang.asc.parser.exception.ParseException;
  */
 public interface InstructionJsonParser {
 
+    /**
+     * Parses an instruction from code of behavior node from MobiLang AST.
+     * 
+     * @param       jsonObject Code from behavior node
+     * 
+     * @return      Parsed instruction
+     * 
+     * @throws      JSONException If jsonObject cannot be parsed
+     * @throws      ParseException If an error occurs while parsing the code
+     */
     Instruction parse(JSONObject jsonObject) throws JSONException, ParseException;
 }

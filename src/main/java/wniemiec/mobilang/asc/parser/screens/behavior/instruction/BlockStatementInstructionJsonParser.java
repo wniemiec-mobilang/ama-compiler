@@ -2,35 +2,39 @@ package wniemiec.mobilang.asc.parser.screens.behavior.instruction;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import wniemiec.mobilang.asc.models.behavior.BlockStatement;
 import wniemiec.mobilang.asc.models.behavior.Instruction;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.parser.exception.ParserFactoryException;
+import wniemiec.mobilang.asc.parser.screens.behavior.BlockCodeParser;
 
 
 /**
- * Responsible for parsing instructions from behavior node from MobiLang AST.
+ * Responsible for parsing block statements from behavior node from MobiLang 
+ * AST.
  */
-public class InstructionParser {
+class BlockStatementInstructionJsonParser implements InstructionJsonParser {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private static InstructionParser instance;
+    private static BlockStatementInstructionJsonParser instance;
+    private BlockCodeParser blockCodeParser;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    private InstructionParser() {
+    private BlockStatementInstructionJsonParser() {
+        blockCodeParser = BlockCodeParser.getInstance();
     }
 
 
     //-------------------------------------------------------------------------
     //		Factory
     //-------------------------------------------------------------------------
-    public static InstructionParser getInstance() {
+    public static BlockStatementInstructionJsonParser getInstance() {
         if (instance == null) {
-            instance = new InstructionParser();
+            instance = new BlockStatementInstructionJsonParser();
         }
 
         return instance;
@@ -40,23 +44,11 @@ public class InstructionParser {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    @Override
     public Instruction parse(JSONObject jsonObject) 
     throws JSONException, ParseException {
-        String instructionType = extractInstructionType(jsonObject);
-        
-        try {
-            return InstructionJsonParserFactory
-                .get(instructionType)
-                .parse(jsonObject);
-        } 
-        catch (ParserFactoryException e) {
-            throw new ParseException("Behavior - type not supported: " + instructionType);
-        }
+        return new BlockStatement(
+            blockCodeParser.parse(jsonObject.getJSONArray("body"))
+        );
     }
-
-
-    private String extractInstructionType(JSONObject jsonObject) {
-        return jsonObject.getString("type");
-    }
-
 }

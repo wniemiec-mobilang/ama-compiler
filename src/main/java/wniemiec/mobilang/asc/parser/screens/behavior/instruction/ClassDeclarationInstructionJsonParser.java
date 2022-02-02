@@ -4,33 +4,33 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import wniemiec.mobilang.asc.models.behavior.Instruction;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.parser.exception.ParserFactoryException;
 
 
 /**
- * Responsible for parsing instructions from behavior node from MobiLang AST.
+ * Responsible for parsing class declarations from behavior node from MobiLang 
+ * AST.
  */
-public class InstructionParser {
+class ClassDeclarationInstructionJsonParser implements InstructionJsonParser {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private static InstructionParser instance;
+    private static ClassDeclarationInstructionJsonParser instance;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    private InstructionParser() {
+    private ClassDeclarationInstructionJsonParser() {
     }
 
 
     //-------------------------------------------------------------------------
     //		Factory
     //-------------------------------------------------------------------------
-    public static InstructionParser getInstance() {
+    public static ClassDeclarationInstructionJsonParser getInstance() {
         if (instance == null) {
-            instance = new InstructionParser();
+            instance = new ClassDeclarationInstructionJsonParser();
         }
 
         return instance;
@@ -40,23 +40,9 @@ public class InstructionParser {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    @Override
     public Instruction parse(JSONObject jsonObject) 
     throws JSONException, ParseException {
-        String instructionType = extractInstructionType(jsonObject);
-        
-        try {
-            return InstructionJsonParserFactory
-                .get(instructionType)
-                .parse(jsonObject);
-        } 
-        catch (ParserFactoryException e) {
-            throw new ParseException("Behavior - type not supported: " + instructionType);
-        }
+        throw new UnsupportedOperationException("Class declaration parser not implemented yet");
     }
-
-
-    private String extractInstructionType(JSONObject jsonObject) {
-        return jsonObject.getString("type");
-    }
-
 }

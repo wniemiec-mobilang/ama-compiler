@@ -16,8 +16,13 @@ import wniemiec.mobilang.asc.models.behavior.FunctionDeclaration;
 import wniemiec.mobilang.asc.models.behavior.IfStatement;
 import wniemiec.mobilang.asc.models.behavior.Instruction;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
+import wniemiec.mobilang.asc.parser.screens.behavior.expression.ExpressionParser;
 
-class InstructionParser {
+
+/**
+ * Responsible for parsing instructions from behavior node from MobiLang AST.
+ */
+public class InstructionParser {
 
     //-------------------------------------------------------------------------
     //		Attributes

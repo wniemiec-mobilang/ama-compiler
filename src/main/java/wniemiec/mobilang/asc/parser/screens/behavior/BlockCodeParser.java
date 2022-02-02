@@ -3,11 +3,15 @@ package wniemiec.mobilang.asc.parser.screens.behavior;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import wniemiec.mobilang.asc.models.behavior.Instruction;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 
-class BlockCodeParser {
+/**
+ * Responsible for parsing block codes from behavior node from MobiLang AST.
+ */
+public class BlockCodeParser {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -43,7 +47,9 @@ class BlockCodeParser {
         List<Instruction> instructions = new ArrayList<>();
 
         for (int i = 0; i < blockCode.length(); i++) {
-            Instruction instruction = instructionParser.parse(blockCode.getJSONObject(i));
+            JSONObject jsonInstruction = blockCode.getJSONObject(i);
+            Instruction instruction = instructionParser.parse(jsonInstruction);
+
             instructions.add(instruction);
         }
 

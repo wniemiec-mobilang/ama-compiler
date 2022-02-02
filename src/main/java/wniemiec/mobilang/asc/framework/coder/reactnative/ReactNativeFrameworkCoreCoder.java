@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.framework.reactnative;
+package wniemiec.mobilang.asc.framework.coder.reactnative;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import wniemiec.mobilang.asc.framework.FrameworkCoreCoder;
+import wniemiec.mobilang.asc.framework.coder.FrameworkCoreCoder;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.utils.Shell;
 

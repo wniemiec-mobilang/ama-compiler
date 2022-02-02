@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.framework.reactnative;
+package wniemiec.mobilang.asc.framework.parser.reactnative;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import wniemiec.mobilang.asc.framework.FrameworkScreenParser;
+import wniemiec.mobilang.asc.framework.parser.FrameworkScreenParser;
 import wniemiec.mobilang.asc.models.Behavior;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Style;

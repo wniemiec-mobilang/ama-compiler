@@ -1,9 +1,9 @@
-package wniemiec.mobilang.asc.framework.reactnative;
+package wniemiec.mobilang.asc.framework.coder.reactnative;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import wniemiec.mobilang.asc.framework.FrameworkPersistenceCoder;
+import wniemiec.mobilang.asc.framework.coder.FrameworkPersistenceCoder;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PersistenceData;
 

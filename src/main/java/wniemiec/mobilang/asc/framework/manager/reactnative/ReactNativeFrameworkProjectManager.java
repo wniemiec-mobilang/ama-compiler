@@ -1,10 +1,10 @@
-package wniemiec.mobilang.asc.framework.reactnative;
+package wniemiec.mobilang.asc.framework.manager.reactnative;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
 import wniemiec.io.java.Consolex;
-import wniemiec.mobilang.asc.framework.FrameworkProjectManager;
+import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManager;
 import wniemiec.mobilang.asc.models.PropertiesData;
 import wniemiec.mobilang.asc.utils.Shell;
 

@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.framework;
+package wniemiec.mobilang.asc.framework.parser;
 
 import wniemiec.mobilang.asc.models.Behavior;
 import wniemiec.mobilang.asc.models.Style;

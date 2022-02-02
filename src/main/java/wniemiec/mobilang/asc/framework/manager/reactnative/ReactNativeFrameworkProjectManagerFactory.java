@@ -1,9 +1,9 @@
-package wniemiec.mobilang.asc.framework.reactnative;
+package wniemiec.mobilang.asc.framework.manager.reactnative;
 
 import java.nio.file.Path;
 
-import wniemiec.mobilang.asc.framework.FrameworkProjectManager;
-import wniemiec.mobilang.asc.framework.FrameworkProjectManagerFactory;
+import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManager;
+import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManagerFactory;
 import wniemiec.mobilang.asc.models.PropertiesData;
 
 public class ReactNativeFrameworkProjectManagerFactory implements FrameworkProjectManagerFactory {

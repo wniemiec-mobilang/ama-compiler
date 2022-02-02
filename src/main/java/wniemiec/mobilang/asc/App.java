@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.export.exception.OutputLocationException;
-import wniemiec.mobilang.asc.framework.reactnative.ReactNativeFrameworkFactory;
+import wniemiec.mobilang.asc.framework.ReactNativeFrameworkFactory;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 

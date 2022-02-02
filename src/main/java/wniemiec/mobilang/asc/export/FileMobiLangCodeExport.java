@@ -10,8 +10,8 @@ import wniemiec.io.java.Consolex;
 import wniemiec.io.java.TextFileManager;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.export.exception.OutputLocationException;
-import wniemiec.mobilang.asc.framework.FrameworkProjectManager;
-import wniemiec.mobilang.asc.framework.FrameworkProjectManagerFactory;
+import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManager;
+import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManagerFactory;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PropertiesData;
 

@@ -3,7 +3,8 @@ package wniemiec.mobilang.asc.parser;
 import java.io.IOException;
 import java.util.List;
 import java.util.SortedMap;
-import wniemiec.mobilang.asc.framework.FrameworkParserFactory;
+
+import wniemiec.mobilang.asc.framework.parser.FrameworkParserFactory;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.PersistenceData;
 import wniemiec.mobilang.asc.models.PropertiesData;

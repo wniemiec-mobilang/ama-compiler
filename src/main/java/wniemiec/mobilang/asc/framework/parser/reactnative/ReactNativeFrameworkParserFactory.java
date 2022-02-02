@@ -1,7 +1,7 @@
-package wniemiec.mobilang.asc.framework.reactnative;
+package wniemiec.mobilang.asc.framework.parser.reactnative;
 
-import wniemiec.mobilang.asc.framework.FrameworkParserFactory;
-import wniemiec.mobilang.asc.framework.FrameworkScreenParser;
+import wniemiec.mobilang.asc.framework.parser.FrameworkParserFactory;
+import wniemiec.mobilang.asc.framework.parser.FrameworkScreenParser;
 import wniemiec.mobilang.asc.models.Behavior;
 import wniemiec.mobilang.asc.models.Style;
 import wniemiec.mobilang.asc.models.Tag;

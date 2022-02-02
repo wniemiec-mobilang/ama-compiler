@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.framework.reactnative;
+package wniemiec.mobilang.asc.framework.parser.reactnative;
 
 import java.util.HashMap;
 import java.util.List;

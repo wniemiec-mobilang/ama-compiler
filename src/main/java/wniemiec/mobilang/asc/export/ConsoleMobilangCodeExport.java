@@ -3,6 +3,7 @@ package wniemiec.mobilang.asc.export;
 import java.util.List;
 import java.util.Map;
 
+import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PropertiesData;
 
@@ -19,6 +20,10 @@ public class ConsoleMobilangCodeExport extends MobilangCodeExport {
 
     @Override
     protected void exportScreenCode(String filename, List<String> code) {
+        printCode(filename, code);
+    }
+
+    private void printCode(String filename, List<String> code) {
         System.out.println("-----< " + filename + " >-----");
         for (String line : code) {
             System.out.println(line);
@@ -27,10 +32,12 @@ public class ConsoleMobilangCodeExport extends MobilangCodeExport {
 
     @Override
     protected void exportCoreCode(String filename, List<String> code) {
-        System.out.println("-----< " + filename + " >-----");
-        for (String line : code) {
-            System.out.println(line);
-        }
+        printCode(filename, code);
+    }
+
+    @Override
+    protected void exportPersistenceCode(String filename, List<String> code) {
+        printCode(filename, code);
     }
 
     @Override

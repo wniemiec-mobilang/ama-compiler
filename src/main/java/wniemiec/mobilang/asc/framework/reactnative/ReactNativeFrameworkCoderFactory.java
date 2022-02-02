@@ -6,7 +6,9 @@ import java.util.Set;
 
 import wniemiec.mobilang.asc.framework.FrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.FrameworkCoreCoder;
+import wniemiec.mobilang.asc.framework.FrameworkPersistenceCoder;
 import wniemiec.mobilang.asc.framework.FrameworkScreensCoder;
+import wniemiec.mobilang.asc.models.PersistenceData;
 import wniemiec.mobilang.asc.models.ScreenData;
 
 public class ReactNativeFrameworkCoderFactory implements FrameworkCoderFactory {
@@ -19,5 +21,10 @@ public class ReactNativeFrameworkCoderFactory implements FrameworkCoderFactory {
     @Override
     public FrameworkCoreCoder getCoreCoder(Collection<String> screensName) {
         return new ReactNativeFrameworkCoreCoder(screensName);
+    }
+
+    @Override
+    public FrameworkPersistenceCoder getPersistenceCoder(PersistenceData persistenceData) {
+        return new ReactNativeFrameworkPersistenceCoder(persistenceData);
     }
 }

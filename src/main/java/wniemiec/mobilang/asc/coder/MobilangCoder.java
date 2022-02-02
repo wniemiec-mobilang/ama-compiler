@@ -7,6 +7,7 @@ import java.util.Map;
 
 import wniemiec.mobilang.asc.framework.FrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.FrameworkCoreCoder;
+import wniemiec.mobilang.asc.framework.FrameworkPersistenceCoder;
 import wniemiec.mobilang.asc.framework.FrameworkScreensCoder;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PersistenceData;
@@ -54,17 +55,26 @@ public class MobilangCoder {
     }
 
     private void generateCodeForScreens() {
-        FrameworkScreensCoder frameworkScreensCoder = frameworkCoderFactory.getScreensCoder(screensData);
+        FrameworkScreensCoder screensCoder = getScreensCoder();
 
-        screensCode = frameworkScreensCoder.generateCode();
+        screensCode = screensCoder.generateCode();
+    }
+
+    private FrameworkScreensCoder getScreensCoder() {
+        return frameworkCoderFactory.getScreensCoder(screensData);
     }
 
     private void generateCodeForCore() {
-        FrameworkCoreCoder frameworkCoreCoder = frameworkCoderFactory.getCoreCoder(extractScreensFilename());
+        FrameworkCoreCoder coreCoder = getCoreCoder();
 
-        coreCode = frameworkCoreCoder.generateCode();        
+        coreCode = coreCoder.generateCode();        
     }
 
+    private FrameworkCoreCoder getCoreCoder() {
+        List<String> screensFilename = extractScreensFilename();
+
+        return frameworkCoderFactory.getCoreCoder(screensFilename);
+    }
 
     private List<String> extractScreensFilename() {
         List<String> screensFilename = new ArrayList<>();
@@ -77,6 +87,13 @@ public class MobilangCoder {
     }
 
     private void generateCodeForPersistence() {
+        FrameworkPersistenceCoder persistenceCoder = getPersistenceCoder();
+
+        persistenceCode = persistenceCoder.generateCode();
+    }
+
+    private FrameworkPersistenceCoder getPersistenceCoder() {
+        return frameworkCoderFactory.getPersistenceCoder(persistenceData);
     }
 
 

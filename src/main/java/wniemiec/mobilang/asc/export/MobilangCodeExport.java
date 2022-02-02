@@ -31,6 +31,7 @@ public abstract class MobilangCodeExport {
         createProject();
         exportScreensCode();
         exportCoreCode();
+        exportPersistenceCode();
     }
 
     protected abstract void createProject() throws CodeExportException;
@@ -51,5 +52,14 @@ public abstract class MobilangCodeExport {
     }
 
     protected abstract void exportCoreCode(String filename, List<String> code)
+    throws CodeExportException;
+
+    private void exportPersistenceCode() throws CodeExportException {
+        for (FileCode fileCode : persistenceCode) {
+            exportPersistenceCode(fileCode.getName(), fileCode.getCode());
+        }
+    }
+
+    protected abstract void exportPersistenceCode(String filename, List<String> code)
     throws CodeExportException;
 }

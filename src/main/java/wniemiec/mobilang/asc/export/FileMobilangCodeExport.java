@@ -84,4 +84,11 @@ public class FileMobilangCodeExport extends MobilangCodeExport {
             throw new CodeExportException(e.getMessage());
         }
     }
+
+
+
+    @Override
+    protected void exportPersistenceCode(String filename, List<String> code) throws CodeExportException {
+        exportCodeToFile(filename, code);
+    }
 }

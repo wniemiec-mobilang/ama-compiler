@@ -2,9 +2,7 @@ package wniemiec.mobilang.asc.parser.properties;
 
 import java.util.List;
 import java.util.SortedMap;
-
 import org.json.JSONObject;
-
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.PropertiesData;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
@@ -15,10 +13,16 @@ import wniemiec.mobilang.asc.parser.exception.ParseException;
  */
 public class PropertiesParser {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private String propertiesContent;
     private PropertiesData propertiesData;
 
 
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     /**
      * Properties parser for MobiLang AST.
      * 
@@ -30,25 +34,27 @@ public class PropertiesParser {
         propertiesData = new PropertiesData();
     }
     
-    public void parse() throws ParseException {
-        //System.out.println("-----< PROPERTIES PARSER >-----");
-        //System.out.println(propertiesContent);
-        //System.out.println("-------------------------------\n");
 
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    public void parse() throws ParseException {
         try {
-            parseJson(propertiesContent);
+            parseJson(new JSONObject(propertiesContent));
         } 
         catch (Exception e) {
             throw new ParseException("JSON parsing - " + e.getMessage());
         }  
     }
 
-    private void parseJson(String json) throws Exception {
-        JSONObject obj = new JSONObject(json);
-
-        propertiesData.setName(obj.getString("application_name"));
+    private void parseJson(JSONObject json) {
+        propertiesData.setName(json.getString("application_name"));
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
     public PropertiesData getPropertiesData() {
         return propertiesData;
     }

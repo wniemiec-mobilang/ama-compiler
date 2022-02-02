@@ -28,8 +28,7 @@ public class Shell {
     public Shell() {
         this(Path.of(System.getProperty("user.dir")));
         runtime = Runtime.getRuntime();
-        output = "";
-        errorOutput = "";
+        clean();
     }
 
     public Shell(Path workingDirectory) {
@@ -40,6 +39,21 @@ public class Shell {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    /**
+     * Erases Shell output.
+     */
+    public void clean() {
+        output = "";
+        errorOutput = "";
+    }
+
+    /**
+     * Run Shell with some commands.
+     * 
+     * @param       commands Shell commands
+     * 
+     * @throws      IOException If Shell process cannot be created
+     */
     public void exec(String... commands) throws IOException {
         Process process = runShell(commands);
 

@@ -1,25 +1,64 @@
 package wniemiec.mobilang.asc.parser.html;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-
 import wniemiec.mobilang.asc.utils.Shell;
 
+
+/**
+ * Responsible for parsing HTML, generating an AST.
+ */
 public class HtmlParser {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private static final String HTML_PARSER_LOCATION;
     private Shell shell;
-    
-    public String parse(String html) throws IOException {
-        shell = new Shell();
-        //ProcessBuilder pb = new ProcessBuilder("node ./javascript/index.js");
-            //System.getProperty("user.dir") + "/src/generate_list.sh", filename);
-        //Process process = pb.start();
-        String normalizedHtml = html.replaceAll("\"", "&quot;");
-        normalizedHtml = normalizedHtml.replaceAll(" ", "&nbsp;");
-        
-        shell.exec("node ./src/main/javascript/html-parser/index.js \"" + normalizedHtml + "\"");
 
-        return shell.hasError() ? shell.getErrorOutput() : shell.getOutput();
+
+    //-------------------------------------------------------------------------
+    //		Initialization block
+    //-------------------------------------------------------------------------
+    static {
+        HTML_PARSER_LOCATION = "./src/main/javascript/html-parser/index.js";
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    public HtmlParser() {
+        shell = new Shell();
+    }
+    
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    public String parse(String html) throws IOException {
+        String normalizedHtml = normalizeHtml(html);
+        
+        runHtmlParser(normalizedHtml);
+
+        return parsedHtml();
+    }
+
+    private String normalizeHtml(String html) {
+        return html
+            .replace("\"", "&quot;")
+            .replace(" ", "&nbsp;");
+    }
+
+    private String parsedHtml() {
+        if (shell.hasError()) {
+            return shell.getErrorOutput();
+        }
+
+        return shell.getOutput();
+    }
+
+    private void runHtmlParser(String normalizedHtml) throws IOException {
+        shell.clean();
+        shell.exec("node " + HTML_PARSER_LOCATION + " \"" + normalizedHtml + "\"");
     }
 }

@@ -12,7 +12,7 @@ import wniemiec.mobilang.asc.parser.screens.behavior.instruction.InstructionPars
 /**
  * Responsible for parsing arrow functions from behavior node from MobiLang AST.
  */
-public class ArrowFunctionExpressionJsonParser implements ExpressionJsonParser {
+class ArrowFunctionExpressionJsonParser implements ExpressionJsonParser {
 
     //-------------------------------------------------------------------------
     //		Attributes

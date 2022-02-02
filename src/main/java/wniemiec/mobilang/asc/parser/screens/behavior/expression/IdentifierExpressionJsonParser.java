@@ -11,7 +11,7 @@ import wniemiec.mobilang.asc.parser.exception.ParseException;
 /**
  * Responsible for parsing identifiers from behavior node from MobiLang AST.
  */
-public class IdentifierExpressionJsonParser implements ExpressionJsonParser {
+class IdentifierExpressionJsonParser implements ExpressionJsonParser {
 
     //-------------------------------------------------------------------------
     //		Attributes

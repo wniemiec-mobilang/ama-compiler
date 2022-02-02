@@ -12,7 +12,7 @@ import wniemiec.mobilang.asc.parser.exception.ParseException;
  * Responsible for parsing template elements from behavior node from MobiLang 
  * AST.
  */
-public class TemplateElementExpressionJsonParser implements ExpressionJsonParser {
+class TemplateElementExpressionJsonParser implements ExpressionJsonParser {
 
     //-------------------------------------------------------------------------
     //		Attributes

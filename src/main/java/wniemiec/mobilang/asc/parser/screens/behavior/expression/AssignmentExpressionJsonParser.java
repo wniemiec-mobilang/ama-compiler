@@ -12,7 +12,7 @@ import wniemiec.mobilang.asc.parser.exception.ParseException;
  * Responsible for parsing assignment expressions from behavior node from 
  * MobiLang AST.
  */
-public class AssignmentExpressionJsonParser implements ExpressionJsonParser {
+class AssignmentExpressionJsonParser implements ExpressionJsonParser {
 
     //-------------------------------------------------------------------------
     //		Attributes

@@ -8,7 +8,7 @@ import wniemiec.mobilang.asc.parser.exception.ParserFactoryException;
 /**
  * Responsible for providing ExpressionJsonParser instances.
  */
-public class ExpressionJsonParserFactory {
+class ExpressionJsonParserFactory {
 
     //-------------------------------------------------------------------------
     //		Attributes

@@ -5,11 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
@@ -19,36 +17,37 @@ import wniemiec.mobilang.asc.parser.exception.ParseException;
  */
 public class BehaviorParser  {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private String contentNode;
 
 
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     /**
      * Behavior parser for MobiLang AST.
      * 
      * @param       ast MobiLang AST
-     * @param       behaviorNode behavior node
+     * @param       behaviorNode Behavior node
      */
     public BehaviorParser(SortedMap<String, List<Node>> ast, Node behaviorNode) {
         contentNode = ast.get(behaviorNode.getId()).get(0).getLabel();
     }
 
-    
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     public Behavior parse() throws ParseException {
-        //System.out.println("-----< BEHAVIOR PARSER >-----");
-        //System.out.println(contentNode);
-        //System.out.println("-------------------------------\n");
+        List<Instruction> code = parseJson(new JSONObject(contentNode));
 
-        List<Instruction> code = parseJson(contentNode);
-        Behavior behavior = new Behavior(code);
-
-        //behavior.print();
-
-        return behavior;
+        return new Behavior(code);
     }
 
-    private List<Instruction> parseJson(String json) throws ParseException {
-        JSONObject obj = new JSONObject(json);
-        JSONArray programBody = obj.getJSONArray("body");
+    private List<Instruction> parseJson(JSONObject json) throws ParseException {
+        JSONArray programBody = json.getJSONArray("body");
 
         return parseBlockCode(programBody);
     }
@@ -57,8 +56,6 @@ public class BehaviorParser  {
         List<Instruction> instructions = new ArrayList<>();
 
         for (int i = 0; i < body.length(); i++) {
-            //parseBodyLine(body.getJSONObject(i));
-
             Instruction instruction = parseInstruction(body.getJSONObject(i));
             instructions.add(instruction);
         }
@@ -96,11 +93,7 @@ public class BehaviorParser  {
         }
         else if (type.equals("BlockStatement")) {
             instruction = new BlockStatement(parseBlockCode(bodyLine.getJSONArray("body")));
-            //parseBodyBlockStatement(bodyLine);
         }
-            //    expression = new BlockStatement(
-            //        parseExpressions(jsonObject.getJSONArray("body"))
-            //    );
 
         if (instruction == null) {
             throw new ParseException("Behavior - type not supported: " + type);
@@ -109,7 +102,8 @@ public class BehaviorParser  {
         return instruction;
     }
 
-    private Instruction parseIfStatementDeclaration(JSONObject bodyLine) throws JSONException, ParseException {
+    private Instruction parseIfStatementDeclaration(JSONObject bodyLine) 
+    throws JSONException, ParseException {
         return new IfStatement(
             parseExpression(bodyLine.getJSONObject("test")), 
             parseInstruction(bodyLine.getJSONObject("consequent"))
@@ -117,7 +111,8 @@ public class BehaviorParser  {
     }
 
 
-    private Instruction parseForStatementDeclaration(JSONObject bodyLine) throws JSONException, ParseException {
+    private Instruction parseForStatementDeclaration(JSONObject bodyLine) 
+    throws JSONException, ParseException {
         return new ForDeclaration(
             parseInstruction(bodyLine.getJSONObject("init")), 
             parseExpression(bodyLine.getJSONObject("test")), 
@@ -126,7 +121,8 @@ public class BehaviorParser  {
         );
     }
 
-    private Instruction parseForOfStatementDeclaration(JSONObject bodyLine) throws JSONException, ParseException {
+    private Instruction parseForOfStatementDeclaration(JSONObject bodyLine) 
+    throws JSONException, ParseException {
         return new ForOfDeclaration(
             parseInstruction(bodyLine.getJSONObject("left")), 
             parseExpression(bodyLine.getJSONObject("right")), 
@@ -134,7 +130,8 @@ public class BehaviorParser  {
         );
     }
 
-    private Instruction parseForInStatementDeclaration(JSONObject bodyLine) throws JSONException, ParseException {
+    private Instruction parseForInStatementDeclaration(JSONObject bodyLine) 
+    throws JSONException, ParseException {
         return new ForInDeclaration(
             parseInstruction(bodyLine.getJSONObject("left")), 
             parseExpression(bodyLine.getJSONObject("right")), 
@@ -142,7 +139,8 @@ public class BehaviorParser  {
         );
     }
 
-    private Instruction parseFunctionDeclaration(JSONObject bodyLine) throws JSONException, ParseException {
+    private Instruction parseFunctionDeclaration(JSONObject bodyLine) 
+    throws JSONException, ParseException {
         return new FunctionDeclaration(
             bodyLine.getJSONObject("id").getString("name"), 
             bodyLine.getBoolean("async"),
@@ -152,14 +150,16 @@ public class BehaviorParser  {
     }
 
 
-    private Instruction parseExpressionStatement(JSONObject bodyLine) throws JSONException, ParseException {
+    private Instruction parseExpressionStatement(JSONObject bodyLine) 
+    throws JSONException, ParseException {
         return new ExpressionStatement(
             parseExpression(bodyLine.getJSONObject("expression"))
         );
     }
 
 
-    private Expression parseExpression(JSONObject jsonObject) throws ParseException {
+    private Expression parseExpression(JSONObject jsonObject) 
+    throws ParseException {
         Expression expression = null;
         String expressionType = jsonObject.getString("type");
 
@@ -197,9 +197,6 @@ public class BehaviorParser  {
                 jsonObject.getBoolean("optional")
             );
         }
-        //else if (expressionType.equals("ExpressionStatement")) {
-        //    expression = parseExpression(jsonObject.getJSONObject("expression"));
-        //}
         else if (expressionType.equals("CallExpression")) {
             expression = new CallExpression(
                 parseExpression(jsonObject.getJSONObject("callee")),
@@ -228,11 +225,6 @@ public class BehaviorParser  {
                 parseExpressions(jsonObject.getJSONArray("elements"))
             );
         }
-        //else if (expressionType.equals("BlockStatement")) {
-        //    expression = new BlockStatement(
-        //        parseExpressions(jsonObject.getJSONArray("body"))
-        //    );
-        //}
         else if (expressionType.equals("ObjectExpression")) {
             expression = new ObjectExpression(
                 parseProperties(jsonObject.getJSONArray("properties"))
@@ -268,7 +260,6 @@ public class BehaviorParser  {
             else if (value instanceof Double) {
                 expression = new Literal(String.valueOf(jsonObject.getDouble("value")));
             }
-            //if ()
         }
 
         if (expression == null) {
@@ -279,7 +270,8 @@ public class BehaviorParser  {
     }
 
 
-    private Map<String, Expression> parseProperties(JSONArray jsonProperties) throws JSONException, ParseException {
+    private Map<String, Expression> parseProperties(JSONArray jsonProperties) 
+    throws JSONException, ParseException {
         Map<String, Expression> properties = new HashMap<>();
 
         for (int i = 0; i < jsonProperties.length(); i++) {
@@ -289,14 +281,14 @@ public class BehaviorParser  {
                 property.getJSONObject("key").getString("name"), 
                 parseExpression(property.getJSONObject("value"))
             );
-            //expressions.add(parseExpression(jsonProperties.getJSONObject(i)));
         }
 
         return properties;
     }
 
 
-    private List<Expression> parseExpressions(JSONArray jsonExpressions) throws JSONException, ParseException {
+    private List<Expression> parseExpressions(JSONArray jsonExpressions) 
+    throws JSONException, ParseException {
         List<Expression> expressions = new ArrayList<>();
 
         for (int i = 0; i < jsonExpressions.length(); i++) {
@@ -311,7 +303,8 @@ public class BehaviorParser  {
     }
 
 
-    private Instruction parseVariableDeclaration(JSONObject bodyLine) throws JSONException, ParseException {
+    private Instruction parseVariableDeclaration(JSONObject bodyLine) 
+    throws JSONException, ParseException {
         return new Declaration(
             bodyLine.getString("type"), 
             bodyLine.getString("kind"), 
@@ -320,7 +313,8 @@ public class BehaviorParser  {
     }
 
 
-    private List<Declarator> parseDeclarations(JSONArray jsonDeclarations) throws JSONException, ParseException {
+    private List<Declarator> parseDeclarations(JSONArray jsonDeclarations) 
+    throws JSONException, ParseException {
         List<Declarator> declarations = new ArrayList<>();
 
         for (int i = 0; i < jsonDeclarations.length(); i++) {
@@ -331,7 +325,8 @@ public class BehaviorParser  {
     }
 
 
-    private Declarator parseDeclarator(JSONObject jsonDeclarator) throws JSONException, ParseException {
+    private Declarator parseDeclarator(JSONObject jsonDeclarator) throws 
+    JSONException, ParseException {
         if (jsonDeclarator.isNull("init")) {
             return new Declarator(
                 jsonDeclarator.getString("type"),

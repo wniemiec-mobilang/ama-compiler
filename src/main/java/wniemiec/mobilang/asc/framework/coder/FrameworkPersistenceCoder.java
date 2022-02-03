@@ -1,21 +1,31 @@
 package wniemiec.mobilang.asc.framework.coder;
 
-import java.nio.file.Path;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PersistenceData;
 
+
+/**
+ * Responsible for generating persistence code of a framework.
+ */
 public abstract class FrameworkPersistenceCoder {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     protected PersistenceData persistenceData;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     protected FrameworkPersistenceCoder(PersistenceData persistenceData) {
         this.persistenceData = persistenceData;
     }
     
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     public abstract List<FileCode> generateCode();
 }

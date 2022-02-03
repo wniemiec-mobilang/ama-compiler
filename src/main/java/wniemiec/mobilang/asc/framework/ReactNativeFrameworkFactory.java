@@ -7,8 +7,15 @@ import wniemiec.mobilang.asc.framework.manager.reactnative.ReactNativeFrameworkP
 import wniemiec.mobilang.asc.framework.parser.FrameworkParserFactory;
 import wniemiec.mobilang.asc.framework.parser.reactnative.ReactNativeFrameworkParserFactory;
 
+
+/**
+ * Provides factories of React Native framework.
+ */
 public class ReactNativeFrameworkFactory implements FrameworkFactory {
 
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public FrameworkParserFactory getParserFactory() {
         return new ReactNativeFrameworkParserFactory();
@@ -23,5 +30,4 @@ public class ReactNativeFrameworkFactory implements FrameworkFactory {
     public FrameworkProjectManagerFactory getProjectManagerFactory() {
         return new ReactNativeFrameworkProjectManagerFactory();
     }
-    
 }

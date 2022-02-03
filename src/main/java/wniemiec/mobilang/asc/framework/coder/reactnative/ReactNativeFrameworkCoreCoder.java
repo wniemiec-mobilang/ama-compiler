@@ -1,27 +1,36 @@
 package wniemiec.mobilang.asc.framework.coder.reactnative;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import wniemiec.mobilang.asc.framework.coder.FrameworkCoreCoder;
 import wniemiec.mobilang.asc.models.FileCode;
-import wniemiec.mobilang.asc.utils.Shell;
 
+
+/**
+ * Responsible for generating core code of React Native framework.
+ */
 public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private List<FileCode> coreCodes;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public ReactNativeFrameworkCoreCoder(Collection<String> screensName) {
         super(screensName);
         coreCodes = new ArrayList<>();
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public List<FileCode> generateCode() {
         generateIndexCode();

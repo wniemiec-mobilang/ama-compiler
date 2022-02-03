@@ -8,13 +8,23 @@ import java.util.Stack;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.TagBuilder;
 
-public class ReactNativeStructureParser {
+/**
+ * Responsible for parsing structure node from a screen.
+ */
+class ReactNativeStructureParser {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     Map<String, TagBuilder> mapping = new HashMap<>();
-    Tag root;
+    Tag structureRoot;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public ReactNativeStructureParser(Tag root) {
-        this.root = root;
+        this.structureRoot = root;
         mapping.put("body", TagBuilder.of("View"));
         mapping.put("div", TagBuilder.of("View"));
         mapping.put("button", TagBuilder.of("TouchableOpacity"));
@@ -22,16 +32,19 @@ public class ReactNativeStructureParser {
     }
 
     
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     // Returns root tag
     public Tag parse() {
         //parseTag(root);
-        Tag rnRoot = convertTagToReactNativeTag(root);
+        Tag rnRoot = convertTagToReactNativeTag(structureRoot);
         Stack<TagContainer> tagsToParse = new Stack<>();
 
         //for (Tag child : root.getChildren()) {
         //    tagsToParse.push(new TagContainer(child, rnRoot));
         //}
-        List<Tag> childrenToParse = root.getChildren();
+        List<Tag> childrenToParse = structureRoot.getChildren();
         for (int i = childrenToParse.size()-1; i >= 0; i--) {
             tagsToParse.push(new TagContainer(childrenToParse.get(i), rnRoot));
         }

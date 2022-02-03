@@ -8,12 +8,23 @@ import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManager;
 import wniemiec.mobilang.asc.models.PropertiesData;
 import wniemiec.mobilang.asc.utils.Shell;
 
+
+/**
+ * Responsible for project management of React Native framework.
+ */
 public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager {
 
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public ReactNativeFrameworkProjectManager(Path workingDirectory) {
         super(workingDirectory);
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public void create(PropertiesData propertiesData) throws IOException {
         Shell shell = new Shell(workingDirectory);

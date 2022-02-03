@@ -1,15 +1,16 @@
 package wniemiec.mobilang.asc.framework.coder.reactnative;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import wniemiec.mobilang.asc.framework.coder.FrameworkScreensCoder;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Variable;
 
+
+/**
+ * Responsible for generating screens code of React Native framework.
+ */
 public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
 
     /*
@@ -21,6 +22,9 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     List<String> body;
     */
     
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public ReactNativeFrameworkScreensCoder(List<ScreenData> screensData) {
         super(screensData);
         
@@ -43,6 +47,10 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
         */
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public List<FileCode> generateCode() {
         List<FileCode> screensCode = new ArrayList<>();

@@ -27,8 +27,6 @@ class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
     private List<String> stateBody;
     private ReactNativeStyleApplicator styleApplicator;
 
-    
-
 
     //-------------------------------------------------------------------------
     //		Constructor
@@ -62,14 +60,13 @@ class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
         setUpBody();
     }
 
-
     private void setUpBody() {
         body = structure.toCode();
     }
 
-
     private void setUpDeclarations() {
         ReactNativeDeclarationGenerator declarationGenerator = new ReactNativeDeclarationGenerator();
+
         declarations = declarationGenerator.generate(structure);
     }
 
@@ -79,14 +76,17 @@ class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
     }
 
     private void parseStructure() {
-        // Converts html tags to React native tags
         ReactNativeStructureParser rnStructureParser = new ReactNativeStructureParser(structure);
+        
         structure = rnStructureParser.parse();
     }   
  
-
     private void parseBehavior() throws IOException, ParseException {
-        ReactNativeBehaviorParser behaviorParser = new ReactNativeBehaviorParser(behavior.getCode(), structure, styleApplicator);
+        ReactNativeBehaviorParser behaviorParser = new ReactNativeBehaviorParser(
+            behavior.getCode(), 
+            structure, 
+            styleApplicator
+        );
         
         behaviorParser.parse();
         
@@ -94,14 +94,11 @@ class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
         stateBody = behaviorParser.getStateBody();
     }
 
-
     private void setUpImports() {
         ReactNativeImportGenerator importGenerator = new ReactNativeImportGenerator();
 
         imports = importGenerator.generate();
     }
-
-    
 
 
     //-------------------------------------------------------------------------

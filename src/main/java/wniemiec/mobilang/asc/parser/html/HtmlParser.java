@@ -35,6 +35,15 @@ public class HtmlParser {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
+    /**
+     * Generates AST from a HTML code
+     * 
+     * @param       html Html code
+     * 
+     * @return      AST
+     * 
+     * @throws      IOException If AST cannot be generated
+     */
     public String parse(String html) throws IOException {
         String normalizedHtml = normalizeHtml(html);
         

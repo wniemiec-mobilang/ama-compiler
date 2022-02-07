@@ -10,31 +10,47 @@ import wniemiec.mobilang.asc.models.Variable;
 import wniemiec.data.java.Encryptors;
 import wniemiec.data.java.Encryptor;
 
-public class ReactNativeDeclarationGenerator {
-    public List<Variable> generate(Tag root) {
+
+/**
+ * Responsible for generation tag declarations.
+ */
+class ReactNativeDeclarationGenerator {
+
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private Stack<Tag> tagsToParse;
+
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    /**
+     * Tag declaration generator.
+     */
+    public ReactNativeDeclarationGenerator() {
+        tagsToParse = new Stack<>();
+    }
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    /**
+     * Generates tag declarations for a tag and its children.
+     * 
+     * @param       root tag
+     * 
+     * @return      Declarations
+     */
+    public List<Variable> generate(Tag tag) {
         List<Variable> declarations = new ArrayList<>();
 
-        Stack<Tag> tagsToParse = new Stack<>();
-
-        tagsToParse.add(root);
+        tagsToParse.add(tag);
 
         while (!tagsToParse.empty()) {
             Tag currentTag = tagsToParse.pop();
-            //String tagName = currentTag.getName();
-            String currentTagStyledComponent = generateStyledComponentFor(currentTag);
 
-            // Sets unique name for current tag
-            Encryptor md5Encryptor = Encryptors.md5();
-            String uniqueName = md5Encryptor.encrypt(String.valueOf(new Date().getTime() + Math.round(Math.random() * 9999)));
-            currentTag.setName(uniqueName);
-
-            // Add it to declarations as styled component
-            Variable tagDeclaration = new Variable(
-                currentTag.getName(), 
-                "const", 
-                currentTagStyledComponent
-            );
-            declarations.add(tagDeclaration);
+            declarations.add(generateTagDeclaration(currentTag));
 
             for (Tag child : currentTag.getChildren()) {
                 tagsToParse.add(child);
@@ -44,24 +60,75 @@ public class ReactNativeDeclarationGenerator {
         return declarations;
     }
 
-    private String generateStyledComponentFor(Tag tag) {
-        StringBuilder sb = new StringBuilder();
+    private Variable generateTagDeclaration(Tag tag) {
+        String currentTagStyledComponent = generateStyledComponentFor(tag);
+        String uniqueName = generateIdentifier();
 
-        sb.append("styled.");
-        sb.append(tag.getName());
-        sb.append('`');
-        sb.append('\n');
+        tag.setName(uniqueName);
+
+        return new Variable(
+            uniqueName, 
+            "const", 
+            currentTagStyledComponent
+        );
+    }
+
+    private String generateStyledComponentFor(Tag tag) {
+        StringBuilder code = new StringBuilder();
+
+        code.append(buildStyledComponentDeclaration(tag));
+        code.append(buildStyledComponentBody(tag));
         
+        return code.toString();
+    }
+
+    private String buildStyledComponentDeclaration(Tag tag) {
+        StringBuilder code = new StringBuilder();
+
+        code.append("styled.");
+        code.append(tag.getName());
+
+        return code.toString();
+    }
+
+    private String buildStyledComponentBody(Tag tag) {
+        StringBuilder code = new StringBuilder();
+
+        code.append('`');
+        code.append('\n');
+        code.append(buildStyledComponentBodyRules(tag));
+        code.append("`");
+
+        return code.toString();
+    }
+
+    private String buildStyledComponentBodyRules(Tag tag) {
+        StringBuilder code = new StringBuilder();
+
         for (Map.Entry<String, String> tagStyle : tag.getStyle().entrySet()) {
-            sb.append(tagStyle.getKey());
-            sb.append(": ");
-            sb.append(tagStyle.getValue());
-            sb.append(';');
-            sb.append('\n');
+            code.append(buildStyledComponentBodyRule(tagStyle));
         }
+
+        return code.toString();
+    }
+
+    private String buildStyledComponentBodyRule(Map.Entry<String, String> tagStyle) {
+        StringBuilder code = new StringBuilder();
+
+        code.append(tagStyle.getKey());
+        code.append(": ");
+        code.append(tagStyle.getValue());
+        code.append(';');
+        code.append('\n');
+
+        return code.toString();
+    }
+
+    private String generateIdentifier() {
+        Encryptor md5Encryptor = Encryptors.md5();
+        Long currentTime = new Date().getTime();
+        Long randomNumber = Math.round(Math.random() * 9999);
         
-        sb.append("`");
-        
-        return sb.toString();
+        return md5Encryptor.encrypt(String.valueOf(currentTime + randomNumber));
     }
 }

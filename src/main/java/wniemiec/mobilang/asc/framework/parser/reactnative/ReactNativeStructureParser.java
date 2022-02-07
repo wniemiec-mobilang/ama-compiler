@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.TagBuilder;
+
 
 /**
  * Responsible for parsing structure node from a screen.

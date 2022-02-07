@@ -8,14 +8,29 @@ import wniemiec.mobilang.asc.models.Style;
 import wniemiec.mobilang.asc.models.Tag;
 
 
+/**
+ * Responsible for applying screen style in screen tags of React Native 
+ * framework.
+ */
 class ReactNativeStyleApplicator {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private Style style;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public ReactNativeStyleApplicator(Style style) {
         this.style = style;
     }
     
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     public void apply(Tag tag) {
         Stack<Tag> tagsToParse = new Stack<>();
 

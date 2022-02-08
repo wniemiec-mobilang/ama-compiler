@@ -1,0 +1,44 @@
+package wniemiec.mobilang.asc.framework.parser.reactnative.structure;
+
+import wniemiec.mobilang.asc.models.Tag;
+
+
+/**
+ * Responsible for parsing 'body' tags parsed from MobiLang AST, generating a 
+ * React Native tag.
+ */
+class BodyReactNativeTagParser extends ReactNativeTagParser {
+ 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private static BodyReactNativeTagParser instance;
+
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    private BodyReactNativeTagParser() {
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Factory
+    //-------------------------------------------------------------------------
+    public static BodyReactNativeTagParser getInstance() {
+        if (instance == null) {
+            instance = new BodyReactNativeTagParser();
+        }
+
+        return instance;
+    }
+    
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    @Override
+    protected Tag buildReactNativeTagFrom(Tag tag) {
+        return new Tag("View");
+    }
+}

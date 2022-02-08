@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import wniemiec.mobilang.asc.framework.parser.FrameworkScreenParser;
+import wniemiec.mobilang.asc.framework.parser.reactnative.structure.ReactNativeStructureParser;
 import wniemiec.mobilang.asc.models.Behavior;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Style;
@@ -75,7 +76,7 @@ class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
         styleApplicator.apply(structure);
     }
 
-    private void parseStructure() {
+    private void parseStructure() throws ParseException {
         ReactNativeStructureParser rnStructureParser = new ReactNativeStructureParser(structure);
         
         structure = rnStructureParser.parse();

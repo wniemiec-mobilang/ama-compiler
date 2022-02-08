@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import wniemiec.mobilang.asc.framework.parser.reactnative.structure.ReactNativeStructureParser;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.Variable;
 import wniemiec.mobilang.asc.models.behavior.Instruction;
@@ -305,7 +307,7 @@ class ReactNativeBehaviorParser {
         styleApplicator.apply(root);
     }
 
-    private Tag convertHtmlToReactNative(Tag htmlTag) {
+    private Tag convertHtmlToReactNative(Tag htmlTag) throws ParseException {
         ReactNativeStructureParser parser = new ReactNativeStructureParser(htmlTag);
         Tag rnTag = parser.parse();
         

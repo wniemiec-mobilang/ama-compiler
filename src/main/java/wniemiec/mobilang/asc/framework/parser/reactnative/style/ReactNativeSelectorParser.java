@@ -77,7 +77,7 @@ class ReactNativeSelectorParser {
         Tag parent = tag.getFather();
         String lastFatherSelector = "";
 
-        selectors.add("#" + tag.getAttribute("id"));
+        selectors.add("#" + tag.getAttribute(ID_LABEL));
 
         while (parent != null) {
             lastFatherSelector = parseParent(
@@ -122,7 +122,7 @@ class ReactNativeSelectorParser {
         StringBuilder selectionCode = new StringBuilder();
 
         selectionCode.append('#');
-        selectionCode.append(parent.getAttribute("id"));
+        selectionCode.append(parent.getAttribute(ID_LABEL));
         selectionCode.append(' ');
         selectionCode.append(lastFatherSelector);
 
@@ -139,7 +139,7 @@ class ReactNativeSelectorParser {
         StringBuilder selectionCode = new StringBuilder();
 
         selectionCode.append('.');
-        selectionCode.append(parent.getAttribute("class"));
+        selectionCode.append(parent.getAttribute(CLASS_LABEL));
         selectionCode.append(' ');
         selectionCode.append(lastFatherSelector);
 
@@ -156,7 +156,7 @@ class ReactNativeSelectorParser {
         Tag parent = tag.getFather();
         String lastFatherSelector = "";
 
-        selectors.add("." + tag.getAttribute("class"));
+        selectors.add("." + tag.getAttribute(CLASS_LABEL));
 
         while (parent != null) {
             lastFatherSelector = parseParent(

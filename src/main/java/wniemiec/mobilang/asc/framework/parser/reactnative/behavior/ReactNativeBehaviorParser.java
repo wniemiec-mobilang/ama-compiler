@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.framework.parser.reactnative;
+package wniemiec.mobilang.asc.framework.parser.reactnative.behavior;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import wniemiec.mobilang.asc.framework.parser.reactnative.structure.ReactNativeStructureParser;
+import wniemiec.mobilang.asc.framework.parser.reactnative.style.ReactNativeStyleApplicator;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.Variable;
 import wniemiec.mobilang.asc.models.behavior.Instruction;
@@ -18,9 +19,10 @@ import wniemiec.mobilang.asc.parser.screens.structure.StructureParser;
 
 
 /**
- * Responsible for parsing screen behavior of React Native framework.
+ * Responsible for parsing screen behavior of React Native framework, creating a 
+ * React Native code from it.
  */
-class ReactNativeBehaviorParser {
+public class ReactNativeBehaviorParser {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -43,6 +45,13 @@ class ReactNativeBehaviorParser {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
+    /**
+     * Behavior screen parser, creating a React Native code from it.
+     * 
+     * @param       behaviorCode Behavior code
+     * @param       structure Screen structure tag
+     * @param       styleApplicator Style applicator used at structure tag
+     */
     public ReactNativeBehaviorParser(
         List<Instruction> behaviorCode,
         Tag structure,
@@ -61,6 +70,12 @@ class ReactNativeBehaviorParser {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    /**
+     * Parses the behavior code, creating React Native code from it.
+     * 
+     * @throws      IOException If there is some error in behavior code
+     * @throws      ParseException If parsing failed
+     */
     public void parse() throws IOException, ParseException {
         parseCode();
         parseDeclarations();

@@ -1,18 +1,16 @@
 package wniemiec.mobilang.asc.framework.parser.reactnative.structure;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 import wniemiec.mobilang.asc.models.Tag;
-import wniemiec.mobilang.asc.models.TagBuilder;
 import wniemiec.mobilang.asc.models.TagContainer;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.exception.ParserFactoryException;
 
 
 /**
- * Responsible for parsing structure node from a screen.
+ * Responsible for parsing structure node from a screen, creating a React 
+ * Native tag from it.
  */
 public class ReactNativeStructureParser {
 
@@ -26,6 +24,11 @@ public class ReactNativeStructureParser {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
+    /**
+     * Structure node parser, creating a React Native tag from it.
+     * 
+     * @param       root Tag to be parsed.
+     */
     public ReactNativeStructureParser(Tag root) {
         this.structureRoot = root;
         tagsToParse = new Stack<>();
@@ -35,10 +38,19 @@ public class ReactNativeStructureParser {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    /**
+     * Parses the tag, creating a React Native tag from it.
+     * 
+     * @return      React native tag
+     * 
+     * @throws      ParseException If parsing failed
+     */
     public Tag parse() throws ParseException {
         Tag reactNativeTag = convertTagToReactNativeTag(structureRoot);
 
         parseTagChildren(reactNativeTag);
+        
+        tagsToParse = new Stack<>();
         
         while (!tagsToParse.empty()) {
             TagContainer unparsedTag = tagsToParse.pop();

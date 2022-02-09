@@ -36,11 +36,10 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         generateIndexCode();
         generateAppCode();
         generateNavigators();
-        //generateReducers();
-        //generateStoreCode();
 
         return coreCodes;
     }
+
 
     private void generateIndexCode() {
         List<String> code = new ArrayList<>(Arrays.asList(
@@ -58,6 +57,9 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         List<String> code = new ArrayList<>(Arrays.asList(
             "import 'react-native-gesture-handler';",
             "import React from 'react';",
+            "import { PersistGate } from 'redux-persist/es/integration/react';",
+            "import { Provider } from 'react-redux';",
+            "import { store, persistor } from './Store';",
             "import { NavigationContainer } from '@react-navigation/native';",
             "import MainStack from './navigators/MainStack';",
             "",
@@ -70,6 +72,14 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
             "  }",
             "",
             "export default App;",
+            "",
+            "const Storage = ({ children }) => (",
+            "  <Provider store={store}>",
+            "    <PersistGate loading={null} persistor={persistor}>",
+            "      { children }",
+            "    </PersistGate>",
+            "  </Provider>",
+            ");",
             "",
             "const Navigation = ({ children }) => (",
             "    <NavigationContainer>",
@@ -107,28 +117,6 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         code.add("}");
         code.add("");
         code.add("export default MainStack;");
-        
-        /*
-            "import AppScreen from './src/AppScreen';",
-            "import GlossaryDescScreen from './src/GlossaryDescScreen';",
-            "import GlossaryScreen from './src/GlossaryScreen';",
-            "",
-            "const Stack = createStackNavigator();",
-            "",
-            "const MainStack = () => {",
-            "    return (",
-            "        <Stack.Navigator screenOptions={{headerShown: false}}>",
-            "            <Stack.Screen name=\"AppScreen\" component={AppScreen} />",
-            "            <Stack.Screen name=\"GlossaryScreen\" component={GlossaryScreen} />",
-            "            <Stack.Screen name=\"GlossaryDescScreen\" component={GlossaryDescScreen} />",
-            "        </Stack.Navigator>",
-            "    );",
-            "}",
-            "",
-            "export default MainStack;"
-
-        );
-        */
 
         coreCodes.add(new FileCode("src/navigators/MainStack.js", code));
     }

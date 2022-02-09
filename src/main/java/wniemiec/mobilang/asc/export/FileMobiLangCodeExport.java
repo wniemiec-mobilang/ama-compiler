@@ -49,6 +49,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
         List<FileCode> screensCode, 
         List<FileCode> persistenceCode,
         List<FileCode> coreCode,
+        //Set<String> dependencies,
         FrameworkProjectManagerFactory frameworkProjectManagerFactory, 
         Path outputLocation
     ) throws OutputLocationException {
@@ -139,6 +140,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     public void createProject() throws CodeExportException {
         try {
             projectManager.create(propertiesData);
+            //projectManager.addDependencies(dependencies);
         } 
         catch (IOException e) {
             throw new CodeExportException(e.getMessage());

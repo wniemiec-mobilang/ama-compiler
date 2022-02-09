@@ -5,7 +5,7 @@ import java.util.List;
 import wniemiec.mobilang.asc.framework.coder.FrameworkPersistenceCoder;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PersistenceData;
-import wniemiec.mobilang.asc.models.PersistenceVariable;
+import wniemiec.mobilang.asc.models.PersistenceRecord;
 
 
 /**
@@ -76,12 +76,21 @@ public class ReactNativeFrameworkPersistenceCoder extends FrameworkPersistenceCo
     private void buildStandardReducerInitialState(List<String> code) {
         code.add("const initialState = {");
         
-        for (PersistenceVariable persistence : persistenceData.getVariables()) {
-            code.add("  " + persistence.getName() + ": " + persistence.getInitialValue());
+        for (PersistenceRecord<?> persistence : persistenceData.getVariables()) {
+            code.add("  " + persistence.getName() + ": " + parseInitialValue(persistence));
         }
 
         code.add("};");
         code.add("");
+    }
+
+
+    private String parseInitialValue(PersistenceRecord<?> persistence) {
+        if (persistence.hasNoInitialValue()) {
+            return "null";
+        }
+
+        return persistence.getInitialValue().toString();
     }
 
     private void buildStandardReducerExport(List<String> code) {
@@ -89,7 +98,7 @@ public class ReactNativeFrameworkPersistenceCoder extends FrameworkPersistenceCo
         code.add("");
         code.add("  switch(action.type) {");
 
-        for (PersistenceVariable variable : persistenceData.getVariables()) {
+        for (PersistenceRecord<?> variable : persistenceData.getVariables()) {
             code.add("    case SET_" + variable.getName().toUpperCase() + ":");
             code.add("      return { ...state, " + variable.getName() + ": " + "action.payload" + ";");
         }

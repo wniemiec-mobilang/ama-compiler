@@ -6,45 +6,35 @@ import wniemiec.mobilang.asc.framework.coder.FrameworkScreensCoder;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Variable;
+import wniemiec.mobilang.asc.utils.StringUtils;
 
 
 /**
- * Responsible for generating screens code of React Native framework.
+ * Responsible for generating React Native framework code for screens.
  */
 public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
 
-    /*
-    String name;
-    List<String> imports;
-    List<Variable> declarations;
-    List<Variable> stateDeclarations;
-    List<String> effectBody;
-    List<String> body;
-    */
-    
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    private static final String SCREEN_NAME_PREFIX;
+    private static final String SCREEN_NAME_SUFFIX;
+
+
+    //-------------------------------------------------------------------------
+    //		Initialization block
+    //-------------------------------------------------------------------------
+    static {
+        SCREEN_NAME_PREFIX = "src/screens/";
+        SCREEN_NAME_SUFFIX = ".js";
+    }
+
+
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
     public ReactNativeFrameworkScreensCoder(List<ScreenData> screensData) {
         super(screensData);
-        
-        /*
-        this.name = screenData.getName();
-        this.imports = screenData.getImports();
-        this.declarations = screenData.getDeclarations();
-        this.stateDeclarations = screenData.getStateDeclarations();
-        this.effectBody = screenData.getStateBody();
-        this.body = screenData.getBody();
-        */
-
-        /*
-        System.out.println("NAME: " + name);
-        System.out.println("IMPORTS: " + imports);
-        System.out.println("DECLARATIONS: " + declarations);
-        System.out.println("STATE DECLARATIONS: " + stateDeclarations);
-        System.out.println("STATE BODY: " + effectBody);
-        System.out.println("BODY: " + body);
-        */
     }
 
 
@@ -56,35 +46,41 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
         List<FileCode> screensCode = new ArrayList<>();
 
         for (ScreenData screenData : screensData) {
-            String filename = "src/screens/" + screenData.getName() + ".js";
-
-            screensCode.add(new FileCode(filename, generateCodeForScreen(screenData)));
+            screensCode.add(generateCodeForScreen(screenData));
         }
 
         return screensCode;
     }
     
-    
-
-    private List<String> generateCodeForScreen(ScreenData screenData) {
+    private FileCode generateCodeForScreen(ScreenData screenData) {
         List<String> code = new ArrayList<>();
 
-        String name = screenData.getName();
-        List<String> imports = screenData.getImports();
-        List<Variable> declarations = screenData.getDeclarations();
-        List<Variable> stateDeclarations = screenData.getStateDeclarations();
-        List<String> effectBody = screenData.getStateBody();
-        List<String> body = screenData.getBody();
+        putImports(code, screenData);
+        putScreenDeclarations(code, screenData);
+        putFunctionHeader(code, screenData);
+        putStateDeclarations(code, screenData);
+        putUseEffect(code, screenData);
+        putFunctionReturn(code, screenData);
+        putExportDefault(code, screenData);
 
-        for (String declaration : imports) {
+        return buildFileCode(code, screenData);
+    }
+
+    private void putImports(List<String> code, ScreenData screenData) {
+        for (String declaration : screenData.getImports()) {
             code.add(declaration + ";");
         }
 
-        // \n\n
-        code.add("");
-        code.add("");
+        putNewLine(code);
+        putNewLine(code);
+    }
 
-        for (Variable declaration : declarations) {
+    private void putNewLine(List<String> code) {
+        code.add("");
+    }
+
+    private void putScreenDeclarations(List<String> code, ScreenData screenData) {
+        for (Variable declaration : screenData.getDeclarations()) {
             StringBuilder declarationCode = new StringBuilder();
 
             declarationCode.append(declaration.getKind());
@@ -97,21 +93,27 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
             declarationCode.append(';');
 
             code.add(declarationCode.toString());
-            code.add(""); // \n
+            putNewLine(code);
         }
 
-        code.add(""); // \n
+        putNewLine(code);
+    }
 
-        code.add("function " + name + "(props) {");
-        code.add("");
 
-        for (Variable declaration : stateDeclarations) {
+    private void putFunctionHeader(List<String> code, ScreenData screenData) {
+        code.add("function " + screenData.getName() + "(props) {");
+        
+        putNewLine(code);
+    }
+
+    private void putStateDeclarations(List<String> code, ScreenData screenData) {
+        for (Variable declaration : screenData.getStateDeclarations()) {
             StringBuilder declarationCode = new StringBuilder();
 
             declarationCode.append('[');
             declarationCode.append(declaration.getId());
             declarationCode.append(',');
-            declarationCode.append("set" + normalize(declaration.getId()));
+            declarationCode.append("set" + StringUtils.capitalize(declaration.getId()));
             declarationCode.append(']');
             declarationCode.append(" = useState(");
             declarationCode.append(declaration.getContent());
@@ -119,47 +121,55 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
 
             code.add(declarationCode.toString());
         }
+        
+        putNewLine(code);
+    }
 
-        code.add("");
+    private void putUseEffect(List<String> code, ScreenData screenData) {
         code.add("useEffect(() => {");
-
-        for (String statement : effectBody) {
+        
+        for (String statement : screenData.getStateBody()) {
             code.add(statement + ";");
         }
-
+        
         code.add("}, []);");
+        
+        putNewLine(code);
+    }
 
-        code.add("");
+    private void putFunctionReturn(List<String> code, ScreenData screenData) {
         code.add("return (");
-
-        for (String statement : body) {
+        
+        for (String statement : screenData.getBody()) {
             code.add(statement);
         }
-
+        
         code.add(");");
-
-
         code.add("}");
-        code.add("");
-        code.add("export default " + name + ";");
-        code.add("");
-
-        return code;
-    }
-
-    private String normalize(String id) {
-        return capitalize(id.toLowerCase());
-    }
-
-    private String capitalize(String str) {
-        if (str.isBlank()) {
-            return str;
-        }
-
-        return Character.toUpperCase(str.charAt(0)) + str.substring(1);
+        
+        putNewLine(code);
     }
 
 
+    private void putExportDefault(List<String> code, ScreenData screenData) {
+        code.add("export default " + screenData.getName() + ";");
+        
+        putNewLine(code);
+    }    
 
-    
+    private FileCode buildFileCode(List<String> code, ScreenData screenData) {
+        String filename = generateScreenFilename(screenData);
+        
+        return new FileCode(filename, code);
+    }
+
+    private String generateScreenFilename(ScreenData screenData) {
+        StringBuilder filename = new StringBuilder();
+
+        filename.append(SCREEN_NAME_PREFIX);
+        filename.append(screenData.getName());
+        filename.append(SCREEN_NAME_SUFFIX);
+
+        return filename.toString();
+    }
 }

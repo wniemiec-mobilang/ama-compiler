@@ -2,7 +2,6 @@ package wniemiec.mobilang.asc.framework.manager;
 
 import java.io.IOException;
 import java.nio.file.Path;
-
 import wniemiec.mobilang.asc.models.PropertiesData;
 
 

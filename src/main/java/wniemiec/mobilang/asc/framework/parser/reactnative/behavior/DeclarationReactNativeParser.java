@@ -6,7 +6,7 @@ import wniemiec.mobilang.asc.models.Variable;
 
 
 /**
- * Responsible for parsing declarations from behavior code on React Native 
+ * Responsible for parsing declaration code from behavior code on React Native 
  * framework.
  */
 class DeclarationReactNativeParser {

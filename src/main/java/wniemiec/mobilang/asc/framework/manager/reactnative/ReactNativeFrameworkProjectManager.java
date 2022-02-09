@@ -2,7 +2,6 @@ package wniemiec.mobilang.asc.framework.manager.reactnative;
 
 import java.io.IOException;
 import java.nio.file.Path;
-
 import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManager;
 import wniemiec.mobilang.asc.models.PropertiesData;
@@ -27,8 +26,13 @@ public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager 
     //-------------------------------------------------------------------------
     @Override
     public void create(PropertiesData propertiesData) throws IOException {
+        exec("react-native init " + propertiesData.getAppName());
+    }
+
+
+    private void exec(String command) throws IOException {
         Shell shell = new Shell(workingDirectory);
-        shell.exec("react-native init " + propertiesData.getAppName());
+        shell.exec(command);
         
         if (shell.hasError()) {
             Consolex.writeError(shell.getErrorOutput());
@@ -40,8 +44,6 @@ public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager 
 
     @Override
     public void addDependency(String dependency) throws IOException {
-        // TODO Auto-generated method stub
-        
+        exec("npm install --save " + dependency);
     }
-
 }

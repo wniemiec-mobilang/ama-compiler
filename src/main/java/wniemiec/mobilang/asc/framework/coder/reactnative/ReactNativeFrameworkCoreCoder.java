@@ -9,7 +9,7 @@ import wniemiec.mobilang.asc.models.FileCode;
 
 
 /**
- * Responsible for generating core code of React Native framework.
+ * Responsible for generating React Native framework code for core.
  */
 public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
 

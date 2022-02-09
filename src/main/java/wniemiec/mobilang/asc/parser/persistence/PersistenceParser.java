@@ -2,6 +2,8 @@ package wniemiec.mobilang.asc.parser.persistence;
 
 import java.util.List;
 import java.util.SortedMap;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.PersistenceData;
@@ -48,7 +50,13 @@ public class PersistenceParser{
     }
 
     private void parseJson(JSONObject json) {
-        persistenceData.setType(json.getString("type"));
+        if (json.has("type")) {
+            persistenceData.setType(json.getString("type"));
+        }
+
+        if (json.has("variables")) {
+            JSONArray variables = json.getJSONArray("variables");
+        }
     }
     
 

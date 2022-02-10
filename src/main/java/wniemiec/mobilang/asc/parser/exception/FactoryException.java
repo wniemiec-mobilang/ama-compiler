@@ -4,15 +4,15 @@ package wniemiec.mobilang.asc.parser.exception;
 /**
  * Signals that there is no desired instance in a parser factory.
  */
-public class ParserFactoryException extends Exception {
+public class FactoryException extends Exception {
     
     //-------------------------------------------------------------------------
     //		Constructors
     //-------------------------------------------------------------------------
-    public ParserFactoryException() {
+    public FactoryException() {
     }
 
-    public ParserFactoryException(String message) {
+    public FactoryException(String message) {
         super(message);
     }
 }

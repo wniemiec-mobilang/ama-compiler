@@ -3,7 +3,7 @@ package wniemiec.mobilang.asc.parser.screens.behavior.instruction;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import wniemiec.mobilang.asc.parser.exception.ParserFactoryException;
+import wniemiec.mobilang.asc.parser.exception.FactoryException;
 
 
 /**
@@ -38,14 +38,14 @@ public class InstructionJsonParserFactory {
     //		Methods
     //-------------------------------------------------------------------------
     public static InstructionJsonParser get(String instructionType) 
-    throws ParserFactoryException {
+    throws FactoryException {
         try {
             Class<?> jsonParserClass = getExpressionJsonParserClass(instructionType);
             
             return invokeGetInstanceMethod(jsonParserClass);
         } 
         catch (Exception e) {
-            throw new ParserFactoryException(e.getMessage());
+            throw new FactoryException(e.getMessage());
         }
     }
 

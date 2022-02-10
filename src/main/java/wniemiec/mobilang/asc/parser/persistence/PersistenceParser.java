@@ -3,6 +3,7 @@ package wniemiec.mobilang.asc.parser.persistence;
 import java.util.List;
 import java.util.SortedMap;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.PersistenceData;
@@ -49,7 +50,7 @@ public class PersistenceParser {
         }  
     }
 
-    private void parseJson(JSONObject json) {
+    private void parseJson(JSONObject json) throws JSONException, ParseException {
         if (json.has("type")) {
             persistenceData.setType(json.getString("type"));
         }
@@ -59,87 +60,17 @@ public class PersistenceParser {
         }
     }
 
-    private void parseData(JSONArray data) {
+    private void parseData(JSONArray data) throws JSONException, ParseException {
         for (int i = 0; i < data.length(); i++) {
             parseDataRecord(data.getJSONObject(i));
         }
     }
     
-    // TODO: Refactor
-    private void parseDataRecord(JSONObject dataRecord) {
-        String type = dataRecord.getString("type");
-        String name = dataRecord.getString("name");
+    private void parseDataRecord(JSONObject dataRecord) throws ParseException {
+        DataRecordParser parser = new DataRecordParser(dataRecord);
+        PersistenceRecord<?> persistenceRecord = parser.parse();
         
-        if (type.equals("int")) {
-            Integer intValue = null;
-
-            if (!dataRecord.isNull("initialValue")) {
-                intValue = dataRecord.getInt("initialValue");
-            }
-
-            PersistenceRecord<Integer> record = new PersistenceRecord<>(
-                name,
-                intValue
-            );
-            persistenceData.addRecord(record);
-        }
-        else if (type.equals("float")) {
-            Double floatValue = null;
-
-            if (!dataRecord.isNull("initialValue")) {
-                floatValue = dataRecord.getDouble("initialValue");
-            }
-
-            PersistenceRecord<Double> record = new PersistenceRecord<>(
-                name,
-                floatValue
-            );
-
-            persistenceData.addRecord(record);
-        }
-        else if (type.equals("string")) {
-            String strValue = null;
-
-            if (!dataRecord.isNull("initialValue")) {
-                strValue = dataRecord.getString("initialValue");
-            }
-
-            PersistenceRecord<String> record = new PersistenceRecord<>(
-                name,
-                strValue
-            );
-
-            persistenceData.addRecord(record);
-        }
-        else if (type.equals("object")) {
-            JSONObject objValue = null;
-
-            if (!dataRecord.isNull("initialValue")) {
-                objValue = dataRecord.getJSONObject("initialValue");
-            }
-
-            PersistenceRecord<JSONObject> record = new PersistenceRecord<>(
-                name,
-                objValue
-            );
-
-            persistenceData.addRecord(record);
-        }
-        else if (type.equals("array")) {
-            JSONArray arrValue = null;
-
-            if (!dataRecord.isNull("initialValue")) {
-                arrValue = dataRecord.getJSONArray("initialValue");
-            }
-
-            PersistenceRecord<JSONArray> record = new PersistenceRecord<>(
-                name,
-                arrValue
-            );
-
-            persistenceData.addRecord(record);
-        }
-
+        persistenceData.addRecord(persistenceRecord);
     }
 
 

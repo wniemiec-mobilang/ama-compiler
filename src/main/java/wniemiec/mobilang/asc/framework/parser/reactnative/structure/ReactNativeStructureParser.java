@@ -5,7 +5,7 @@ import java.util.Stack;
 import wniemiec.mobilang.asc.models.Tag;
 import wniemiec.mobilang.asc.models.TagContainer;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.parser.exception.ParserFactoryException;
+import wniemiec.mobilang.asc.parser.exception.FactoryException;
 
 
 /**
@@ -93,7 +93,7 @@ public class ReactNativeStructureParser {
                 .get(tagType)
                 .parse(tag);
         } 
-        catch (ParserFactoryException e) {
+        catch (FactoryException e) {
             throw new ParseException("No suitable conversion for tag with name: " + tagType);
         }
     }

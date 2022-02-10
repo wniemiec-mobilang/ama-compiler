@@ -10,6 +10,9 @@ public class PersistenceRecord<T> {
         this.initialValue = initialValue;
     }
 
+    public PersistenceRecord() {
+    }
+
     public String getName() {
         return name;
     }
@@ -21,6 +24,8 @@ public class PersistenceRecord<T> {
     public boolean hasNoInitialValue() {
         return (initialValue == null);
     }
-    
-    
+
+    public PersistenceRecord<T> with(String name, T initialValue) {
+        return new PersistenceRecord<>(name, initialValue);
+    }
 }

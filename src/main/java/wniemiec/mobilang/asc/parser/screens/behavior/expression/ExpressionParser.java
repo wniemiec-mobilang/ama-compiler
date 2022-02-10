@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import wniemiec.mobilang.asc.models.behavior.Expression;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.parser.exception.ParserFactoryException;
+import wniemiec.mobilang.asc.parser.exception.FactoryException;
 
 
 /**
@@ -63,7 +63,7 @@ public class ExpressionParser {
                 .get(expressionType)
                 .parse(jsonObject);
         } 
-        catch (ParserFactoryException e) {
+        catch (FactoryException e) {
             throw new ParseException("Behavior - type not supported: " + expressionType);
         }
     }

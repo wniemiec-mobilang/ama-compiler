@@ -2,7 +2,7 @@ package wniemiec.mobilang.asc.framework.parser.reactnative.structure;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import wniemiec.mobilang.asc.parser.exception.ParserFactoryException;
+import wniemiec.mobilang.asc.parser.exception.FactoryException;
 import wniemiec.mobilang.asc.utils.StringUtils;
 
 
@@ -38,14 +38,14 @@ class ReactNativeTagFactory {
     //		Methods
     //-------------------------------------------------------------------------
     public static ReactNativeTagParser get(String tagType) 
-    throws ParserFactoryException {
+    throws FactoryException {
         try {
             Class<?> jsonParserClass = getJsonParserClass(tagType);
             
             return invokeGetInstanceMethod(jsonParserClass);
         } 
         catch (Exception e) {
-            throw new ParserFactoryException(e.getMessage());
+            throw new FactoryException(e.getMessage());
         }
     }
 

@@ -2,7 +2,7 @@ package wniemiec.mobilang.asc.parser.screens.behavior.expression;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import wniemiec.mobilang.asc.parser.exception.ParserFactoryException;
+import wniemiec.mobilang.asc.parser.exception.FactoryException;
 
 
 /**
@@ -37,14 +37,14 @@ class ExpressionJsonParserFactory {
     //		Methods
     //-------------------------------------------------------------------------
     public static ExpressionJsonParser get(String expressionType) 
-    throws ParserFactoryException {
+    throws FactoryException {
         try {
             Class<?> jsonParserClass = getExpressionJsonParserClass(expressionType);
             
             return invokeGetInstanceMethod(jsonParserClass);
         } 
         catch (Exception e) {
-            throw new ParserFactoryException(e.getMessage());
+            throw new FactoryException(e.getMessage());
         }
     }
 

@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import wniemiec.mobilang.asc.models.behavior.Instruction;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.parser.exception.ParserFactoryException;
+import wniemiec.mobilang.asc.parser.exception.FactoryException;
 
 
 /**
@@ -49,7 +49,7 @@ public class InstructionParser {
                 .get(instructionType)
                 .parse(jsonObject);
         } 
-        catch (ParserFactoryException e) {
+        catch (FactoryException e) {
             throw new ParseException("Behavior - type not supported: " + instructionType);
         }
     }

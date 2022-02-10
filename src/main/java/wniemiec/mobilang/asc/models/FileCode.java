@@ -9,9 +9,16 @@ import java.util.List;
  */
 public class FileCode {
     
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private String name;
     private List<String> code;
     
+
+    //-------------------------------------------------------------------------
+    //		Constructors
+    //-------------------------------------------------------------------------
     public FileCode(String name, List<String> code) {
         this.name = name;
         this.code = code;
@@ -21,6 +28,10 @@ public class FileCode {
         this("", new ArrayList<>());
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
     public String getName() {
         return name;
     }

@@ -2,7 +2,6 @@ package wniemiec.mobilang.asc.models;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import com.paypal.digraph.parser.GraphNode;
 
 
@@ -11,22 +10,25 @@ import com.paypal.digraph.parser.GraphNode;
  */
 public class Node {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private GraphNode graphNode;
     private Map<String, String> attributes;
     
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public Node(GraphNode node) {
         this.graphNode = node;
         this.attributes = null;
     }
 
-    public String getLabel() {
-        return ((String) graphNode.getAttribute("label"));
-    }
 
-    public String getId() {
-        return graphNode.getId();
-    }
-
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public String toString() {
         return graphNode.toString();
@@ -42,29 +44,58 @@ public class Node {
         return graphNode.equals(obj);
     }
 
-    public String getAttribute(String attribute) {
-        if (attributes == null)
-            initializeAttributes();
-
-        return attributes.containsKey(attribute) ? attributes.get(attribute).replaceAll("\"", "") : "";
-    }
-
     private void initializeAttributes() {
         String label = getLabel();
 
-        if (!label.contains(" "))
+        if (!label.contains(" ")) {
             return;
+        }
 
-        int indexFirstSpace = label.indexOf(" ");
-        String rawAttributes = label.substring(indexFirstSpace+1, label.length()-1);
-            
+        String rawAttributes = extractAttributesFrom(label);
+        
+        parseRawAttributes(rawAttributes);
+    }
+
+    private void parseRawAttributes(String rawAttributes) {
         attributes = new HashMap<>();
-
+        
         for (String unparsedAttribute : rawAttributes.split(" ")) {
-            String key = unparsedAttribute.split("=")[0];
-            String value = unparsedAttribute.split("=")[1];
-
-            attributes.put(key, value);
+            parseAttribute(unparsedAttribute);
         }
     }
+
+    private void parseAttribute(String unparsedAttribute) {
+        String key = unparsedAttribute.split("=")[0];
+        String value = unparsedAttribute.split("=")[1];
+
+        attributes.put(key, value);
+    }
+
+    private String extractAttributesFrom(String label) {
+        int indexFirstSpace = label.indexOf(" ");
+        
+        return label.substring(indexFirstSpace+1, label.length()-1);
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
+    public String getLabel() {
+        return ((String) graphNode.getAttribute("label"));
+    }
+
+    public String getId() {
+        return graphNode.getId();
+    }
+
+    public String getAttribute(String attribute) {
+        if (attributes == null) {
+            initializeAttributes();
+        }
+
+        return attributes.containsKey(attribute) 
+            ? attributes.get(attribute).replace("\"", "") 
+            : "";
+    }   
 }

@@ -6,8 +6,15 @@ package wniemiec.mobilang.asc.models;
  */
 public class PropertiesData {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private String name;
 
+
+    //-------------------------------------------------------------------------
+    //		Getters & Setters
+    //-------------------------------------------------------------------------
     public String getAppName() {
         return name;
     }
@@ -15,5 +22,4 @@ public class PropertiesData {
     public void setAppName(String name) {
         this.name = name;
     }
-    
 }

@@ -1,5 +1,9 @@
 package wniemiec.mobilang.asc.models.behavior;
 
+
+/**
+ * Responsible for representing an update expression from behavior code.
+ */
 public class UpdateExpression extends Expression {
 
     private String operator;

@@ -1,5 +1,9 @@
 package wniemiec.mobilang.asc.models.behavior;
 
+
+/**
+ * Responsible for representing an assignment expression from behavior code.
+ */
 public class AssignmentExpression extends Expression {
     String operator;
     Expression left;

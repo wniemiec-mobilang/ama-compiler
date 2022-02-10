@@ -1,50 +1,53 @@
-package wniemiec.mobilang.asc.models.persistence;
+package wniemiec.mobilang.asc.models.tag;
+
+import org.json.JSONObject;
 
 
 /**
- * Responsible for representing a record from persistence data.
+ * Responsible for representing a json tag in json format along with its parent.
  */
-public class PersistenceRecord<T> {
+public class JsonTag {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private String name;
-    private T initialValue;
+    private final JSONObject jsonObject;
+    private final Tag parent;
 
 
     //-------------------------------------------------------------------------
-    //		Constructors
+    //		Constructor
     //-------------------------------------------------------------------------
-    public PersistenceRecord(String name, T initialValue) {
-        this.name = name;
-        this.initialValue = initialValue;
-    }
-
-    public PersistenceRecord() {
+    public JsonTag(JSONObject jsonObject, Tag parent) {
+        this.jsonObject = jsonObject;
+        this.parent = parent;
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public boolean hasNoInitialValue() {
-        return (initialValue == null);
+    public void addChild(Tag child) {
+        if (!hasParent()) {
+            return;
+        }
+
+        parent.addChild(child);
     }
 
-    public PersistenceRecord<T> with(String name, T initialValue) {
-        return new PersistenceRecord<>(name, initialValue);
+    public boolean hasParent() {
+        return (parent != null);
     }
 
 
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public String getName() {
-        return name;
+    public JSONObject getTag() {
+        return jsonObject;
     }
 
-    public T getInitialValue() {
-        return initialValue;
+    public Tag getParent() {
+        return parent;
     }
 }

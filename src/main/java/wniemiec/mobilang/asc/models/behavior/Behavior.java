@@ -2,6 +2,10 @@ package wniemiec.mobilang.asc.models.behavior;
 
 import java.util.List;
 
+
+/**
+ * Responsible for representing behavior code.
+ */
 public class Behavior {
     List<Instruction> code;
 

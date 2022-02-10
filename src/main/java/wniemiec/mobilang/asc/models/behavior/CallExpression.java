@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * Responsible for representing a call expression from behavior code.
+ */
 public class CallExpression extends Expression {
     Expression callee;
     List<Expression> arguments = new ArrayList<>();

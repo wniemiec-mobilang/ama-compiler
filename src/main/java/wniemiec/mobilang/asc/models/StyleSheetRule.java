@@ -14,8 +14,8 @@ public class StyleSheetRule {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private List<String> selectors = new ArrayList<>();
-    private Map<String, String> declarations = new HashMap<>();
+    private final List<String> selectors;
+    private final Map<String, String> declarations;
 
 
     //-------------------------------------------------------------------------

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * Responsible for representing a template literal from behavior code.
+ */
 public class TemplateLiteral extends Expression {
     List<Expression> expressions = new ArrayList<>();
     List<Expression> quasis = new ArrayList<>();

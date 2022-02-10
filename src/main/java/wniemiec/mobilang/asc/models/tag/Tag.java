@@ -6,90 +6,66 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import wniemiec.io.java.Consolex;
+
+
+/**
+ * Responsible for representing a tag.
+ */
 public class Tag {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final List<Tag> children;
     private String name;
     private String value;
-    private Map<String, String> attributes = new HashMap<>();
-    private List<Tag> children = new ArrayList<>();
-    private Map<String, String> style = new HashMap<>();
-    private Tag father = null;
+    private Tag parent;
+    private Map<String, String> attributes;
+    private Map<String, String> style;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructors
+    //-------------------------------------------------------------------------
     public Tag(String name, Map<String, String> tagAttributes) {
         this.name = name;
         this.attributes = tagAttributes;
+        children = new ArrayList<>();
+        style = new HashMap<>();
     }
     
     public Tag(String name) {
-        this.name = name;
+        this(name, new HashMap<>());
     }
     
 
-
-
-
-    @Override
-    public String toString() {
-        return "Tag [name=" + name + ", attributes=" + attributes + ", value=" + value + ", style=" + style + "]";
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAttribute(String name) {
-        return attributes.get(name);
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-    
-    public String getValue() {
-        return value;
-    }
-
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     public void addChild(Tag child) {
         if (child == null) {
             return;
         }
         
         children.add(child);
-        child.setFather(this);
-    }
-
-    
-
-    public List<Tag> getChildren() {
-        return children;
+        child.setParent(this);
     }
 
     public void print() {
-        parseTag(this, 0);
+        print(this, 0);
     }
 
-    private static void parseTag(Tag tag, int level) {
+    private static void print(Tag tag, int level) {
         for (int i = 0; i < level; i++) {
-            System.out.print("  ");
+            Consolex.writeLine("  ");
         }
 
-        System.out.println(tag);
+        Consolex.writeLine(tag);
 
         for (Tag child : tag.getChildren()) {
-            parseTag(child, level+1);
+            print(child, level+1);
         }
-    }
-
-    public Map<String, String> getAttributes() {
-        return attributes;
     }
 
     public void addAttribute(String name, String value) {
@@ -100,25 +76,17 @@ public class Tag {
         return attributes.containsKey(name);
     }
 
-    public void setStyle(Map<String, String> style) {
-        this.style = style;
-    }
-
-    public Tag getFather() {
-        return father;
-    }
-
-    public void setFather(Tag father) {
-        this.father = father;
-    }
-
-    public boolean hasFather() {
-        return (father != null);
-    }
-
-    // Searches for a tag with an id. Do a DFS in children if this tag does not have the provided id.
+    /**
+     * Searches for a tag with an id. Do a DFS in children if this tag does not 
+     * have the provided id.
+     * 
+     * @param       tagId Tag identifier
+     * 
+     * @return      Tag with specified id or null if there is no tag with such 
+     * identifier
+     */
     public Tag getTagWithId(String tagId) {
-        if (hasAttribute("id") && getAttribute("id").equals(tagId)) {
+        if (isIdEqualTo(tagId)) {
             return this;
         }
 
@@ -130,17 +98,37 @@ public class Tag {
         while (!tagsToSearch.empty() && (refTag == null)) {
             Tag currentTag = tagsToSearch.pop();
 
-            if (currentTag.hasAttribute("id") && currentTag.getAttribute("id").equals(tagId)) {
-                refTag = currentTag;
-            }
-            else {
-                for (Tag child : currentTag.getChildren()) {
-                    tagsToSearch.add(child);
-                }
+            refTag = parseTag(currentTag, tagsToSearch, tagId);
+        }
+
+        return refTag;
+    }
+
+    private Tag parseTag(Tag currentTag, Stack<Tag> tagsToSearch, String tagId) {
+        Tag refTag = null;
+
+        if (currentTag.isIdEqualTo(tagId)) {
+            refTag = currentTag;
+        }
+        else {
+            for (Tag child : currentTag.getChildren()) {
+                tagsToSearch.add(child);
             }
         }
 
         return refTag;
+    }
+
+    public boolean isIdEqualTo(String text) {
+        if (!hasAttribute("id")) {
+            return false;
+        }
+
+        return getAttribute("id").equals(text);
+    }
+
+    public boolean hasParent() {
+        return (parent != null);
     }
 
     public List<String> toCode() {
@@ -152,102 +140,121 @@ public class Tag {
             code.add(getValue());
         }
         else {
-            List<Tag> children = getChildren();
-
-            for (int i = 0; i < children.size(); i++) {
-                code.addAll(children.get(i).toCode());
+            for (Tag child : getChildren()) {
+                code.addAll(child.toCode());
             }
         }
 
         code.add(buildTagClose());
 
-        /*StringBuilder sb = new StringBuilder();
-
-        sb.append('<');
-        sb.append(name);
-
-        if (!attributes.isEmpty()) {
-            sb.append(' ');
-            sb.append(stringifyAttributes());
-        }
-        
-        sb.append('>');
-
-        if (getValue() != null) {
-            sb.append(getValue());
-        }
-        else {
-            List<Tag> children = getChildren();
-
-            for (int i = 0; i < children.size(); i++) {
-                sb.append(children.get(i).toCode());
-            }
-        }
-
-        sb.append("</");
-        sb.append(name);
-        sb.append('>');
-        */
-        
-
         return code;
     }
 
     private String buildTagOpen() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder code = new StringBuilder();
 
-        sb.append('<');
-        sb.append(name);
+        code.append('<');
+        code.append(name);
 
         if (!attributes.isEmpty()) {
-            sb.append(' ');
-            sb.append(stringifyAttributes());
+            code.append(' ');
+            code.append(stringifyAttributes());
         }
         
-        sb.append('>');
+        code.append('>');
 
-        return sb.toString();
-    }
-
-    private String buildTagClose() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("</");
-        sb.append(name);
-        sb.append('>');
-
-        return sb.toString();
+        return code.toString();
     }
 
     private String stringifyAttributes() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder code = new StringBuilder();
 
         for (Map.Entry<String, String> attribute : attributes.entrySet()) {
-            sb.append(attribute.getKey());
-            sb.append('=');
-            sb.append(attribute.getValue());
-            sb.append(' ');
+            code.append(attribute.getKey());
+            code.append('=');
+            code.append(attribute.getValue());
+            code.append(' ');
         }
 
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length()-1);
+        if (code.length() > 0) {
+            code.deleteCharAt(code.length()-1);
         }
 
-        return sb.toString();
+        return code.toString();
+    }
+
+    private String buildTagClose() {
+        StringBuilder code = new StringBuilder();
+
+        code.append("</");
+        code.append(name);
+        code.append('>');
+
+        return code.toString();
     }
 
     public String toChildrenCode() {
-        StringBuilder sb = new StringBuilder();
-        List<Tag> children = getChildren();
+        StringBuilder code = new StringBuilder();
 
-        for (int i = 0; i < children.size(); i++) {
-            sb.append(children.get(i).toCode());
+        for (Tag child : getChildren()) {
+            code.append(child.toCode());
         }
 
-        return sb.toString();
+        return code.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "Tag [" 
+                + "name=" + name 
+                + ", parent=" + ((parent == null) ? "null" : parent) 
+                + ", attributes=" + attributes 
+                + ", value=" + value 
+                + ", style=" + style 
+            + "]";
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Getters & Setters
+    //-------------------------------------------------------------------------
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public List<Tag> getChildren() {
+        return children;
+    }
+
+    public String getAttribute(String name) {
+        return attributes.get(name);
     }
 
     public Map<String, String> getStyle() {
         return style;
+    }
+
+    public void setStyle(Map<String, String> style) {
+        this.style = style;
+    }
+
+    public Tag getParent() {
+        return parent;
+    }
+
+    public void setParent(Tag father) {
+        this.parent = father;
     }
 }

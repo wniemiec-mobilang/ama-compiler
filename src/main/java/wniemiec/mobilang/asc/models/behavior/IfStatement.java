@@ -1,5 +1,9 @@
 package wniemiec.mobilang.asc.models.behavior;
 
+
+/**
+ * Responsible for representing a if statement from behavior code.
+ */
 public class IfStatement extends Instruction {
 
     private Expression test;

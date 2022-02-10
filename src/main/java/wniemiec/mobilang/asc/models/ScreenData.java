@@ -13,12 +13,12 @@ public class ScreenData {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private String name;
-    private List<String> imports;
-    private List<Variable> stateDeclarations;
-    private List<String> stateBody;
-    private List<Variable> declarations;
-    private List<String> body;
+    private final String name;
+    private final List<String> imports;
+    private final List<Variable> stateDeclarations;
+    private final List<String> stateBody;
+    private final List<Variable> declarations;
+    private final List<String> body;
 
 
     //-------------------------------------------------------------------------

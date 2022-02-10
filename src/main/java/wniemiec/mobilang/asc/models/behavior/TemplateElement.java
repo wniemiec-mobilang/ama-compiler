@@ -1,5 +1,9 @@
 package wniemiec.mobilang.asc.models.behavior;
 
+
+/**
+ * Responsible for representing a template element from behavior code.
+ */
 public class TemplateElement extends Expression {
     public TemplateElement(String value, boolean tail) {
         this.value = value;

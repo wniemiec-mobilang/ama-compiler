@@ -1,5 +1,9 @@
 package wniemiec.mobilang.asc.models.behavior;
 
+
+/**
+ * Responsible for representing a member expression from behavior code.
+ */
 public class MemberExpression extends Expression {
     Expression object;
     String propertyType;

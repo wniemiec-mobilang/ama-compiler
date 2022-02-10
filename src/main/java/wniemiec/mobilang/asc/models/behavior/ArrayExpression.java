@@ -3,6 +3,10 @@ package wniemiec.mobilang.asc.models.behavior;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * Responsible for representing an array expression from behavior code.
+ */
 public class ArrayExpression extends Expression {
 
     private List<Expression> elements;

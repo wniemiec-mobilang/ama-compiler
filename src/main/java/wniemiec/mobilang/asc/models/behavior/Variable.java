@@ -2,7 +2,7 @@ package wniemiec.mobilang.asc.models.behavior;
 
 
 /**
- * Responsible for representing behavior variables.
+ * Responsible for representing a variable from behavior code.
  */
 public class Variable {
 

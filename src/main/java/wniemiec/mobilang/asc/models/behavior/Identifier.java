@@ -1,5 +1,9 @@
 package wniemiec.mobilang.asc.models.behavior;
 
+
+/**
+ * Responsible for representing an identifier from behavior code.
+ */
 public class Identifier extends Expression {
     String name;
 

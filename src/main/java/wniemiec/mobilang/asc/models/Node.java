@@ -13,7 +13,7 @@ public class Node {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private GraphNode graphNode;
+    private final GraphNode graphNode;
     private Map<String, String> attributes;
     
 

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * Responsible for representing an arrow function expression from behavior code.
+ */
 public class ArrowFunctionExpression extends Expression {
     boolean async;
     List<Expression> params = new ArrayList<>();

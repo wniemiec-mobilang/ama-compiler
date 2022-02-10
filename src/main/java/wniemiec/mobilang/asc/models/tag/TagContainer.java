@@ -1,35 +1,51 @@
 package wniemiec.mobilang.asc.models.tag;
 
+
+/**
+ * Responsible for representing a tag along with its parent.
+ */
 public class TagContainer {
-    private Tag child;
-    private Tag parent;
+
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final Tag tag;
+    private final Tag parent;
     
-    public TagContainer(Tag child, Tag parent) {
-        this.child = child;
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    public TagContainer(Tag tag, Tag parent) {
+        this.tag = tag;
         this.parent = parent;
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    public void addSibling(Tag sibling) {
+        if (!hasParent()) {
+            return;
+        }
+
+        parent.addChild(sibling);
     }
 
     public boolean hasParent() {
         return (parent != null);
     }
 
-    public Tag getChild() {
-        return child;
-    }
 
-    public void setChild(Tag child) {
-        this.child = child;
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
+    public Tag getTag() {
+        return tag;
     }
 
     public Tag getParent() {
         return parent;
-    }
-
-    public void addSibling(Tag sibling) {
-        parent.addChild(sibling);
-    }
-
-    public void setParent(Tag parent) {
-        this.parent = parent;
     }
 }

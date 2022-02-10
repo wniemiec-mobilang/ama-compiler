@@ -1,5 +1,9 @@
 package wniemiec.mobilang.asc.models.behavior;
 
+
+/**
+ * Responsible for representing a declarator from behavior code.
+ */
 public class Declarator {
  
     String type;

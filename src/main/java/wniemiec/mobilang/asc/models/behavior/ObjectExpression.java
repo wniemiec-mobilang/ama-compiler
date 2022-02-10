@@ -1,9 +1,11 @@
 package wniemiec.mobilang.asc.models.behavior;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+
+/**
+ * Responsible for representing an object expression from behavior code.
+ */
 public class ObjectExpression extends Expression {
 
     private Map<String, Expression> properties;

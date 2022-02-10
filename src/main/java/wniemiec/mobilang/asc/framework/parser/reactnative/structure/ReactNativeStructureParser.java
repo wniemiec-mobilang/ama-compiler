@@ -77,13 +77,13 @@ public class ReactNativeStructureParser {
     }
 
     private void parseTag(TagContainer unparsedTag) throws ParseException {
-        Tag parsedTag = convertTagToReactNativeTag(unparsedTag.getChild());
+        Tag parsedTag = convertTagToReactNativeTag(unparsedTag.getTag());
 
         if (unparsedTag.hasParent()) {
             unparsedTag.addSibling(parsedTag);
         }
 
-        parseTagChildren(unparsedTag.getChild());
+        parseTagChildren(unparsedTag.getTag());
     }
 
     private Tag convertTagToReactNativeTag(Tag tag) throws ParseException {

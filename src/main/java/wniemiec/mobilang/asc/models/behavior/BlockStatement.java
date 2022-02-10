@@ -2,6 +2,10 @@ package wniemiec.mobilang.asc.models.behavior;
 
 import java.util.List;
 
+
+/**
+ * Responsible for representing a block statement from behavior code.
+ */
 public class BlockStatement extends Instruction {
 
     private List<Instruction> body;

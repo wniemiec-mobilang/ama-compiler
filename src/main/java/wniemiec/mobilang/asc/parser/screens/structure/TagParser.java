@@ -6,7 +6,7 @@ import java.util.Stack;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import wniemiec.mobilang.asc.models.tag.RawTag;
+import wniemiec.mobilang.asc.models.tag.JsonTag;
 import wniemiec.mobilang.asc.models.tag.Tag;
 
 
@@ -18,7 +18,7 @@ class TagParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private Stack<RawTag> tagsToParse;
+    private Stack<JsonTag> tagsToParse;
     
 
     //-------------------------------------------------------------------------
@@ -36,10 +36,10 @@ class TagParser {
         Tag bodyTag = null;
         
         
-        tagsToParse.push(new RawTag(jsonBodyTag, null));
+        tagsToParse.push(new JsonTag(jsonBodyTag, null));
 
         while (!tagsToParse.empty()) {
-            RawTag currentRawTag = tagsToParse.pop();
+            JsonTag currentRawTag = tagsToParse.pop();
 
             if (isValue(currentRawTag)) {
                 parseValue(currentRawTag);
@@ -52,17 +52,17 @@ class TagParser {
         return bodyTag;
     }
 
-    private boolean isValue(RawTag currentRawTag) {
+    private boolean isValue(JsonTag currentRawTag) {
         return getTagType(currentRawTag).equals("text");
     }
 
-    private String getTagType(RawTag currentRawTag) {
-        JSONObject currentTag = currentRawTag.getJsonObject();
+    private String getTagType(JsonTag currentRawTag) {
+        JSONObject currentTag = currentRawTag.getTag();
         
         return currentTag.getString("nodeType");
     }
 
-    private void parseValue(RawTag currentRawTag) {
+    private void parseValue(JsonTag currentRawTag) {
         String tagContent = extractTagContent(currentRawTag)
             .getJSONObject("value")
             .getString("content");
@@ -76,7 +76,7 @@ class TagParser {
         return tagContent.matches("\"[\\s\\t]*(\")?");
     }
 
-    private Tag parseTag(Tag bodyTag, RawTag currentRawTag) {
+    private Tag parseTag(Tag bodyTag, JsonTag currentRawTag) {
         Tag parsedTag = parseTagContent(extractTagContent(currentRawTag));
 
         if (currentRawTag.hasParent()) {
@@ -90,8 +90,8 @@ class TagParser {
         return bodyTag;
     }
 
-    private JSONObject extractTagContent(RawTag currentRawTag) {
-        return currentRawTag.getJsonObject().getJSONObject("content");
+    private JSONObject extractTagContent(JsonTag currentRawTag) {
+        return currentRawTag.getTag().getJSONObject("content");
     }
 
     private Tag parseTagContent(JSONObject tagContent) {
@@ -151,7 +151,7 @@ class TagParser {
         JSONArray tagChildren = tagContent.getJSONArray("children");
 
         for (int i = tagChildren.length()-1; i >= 0; i--) {
-            RawTag childRawTag = new RawTag(
+            JsonTag childRawTag = new JsonTag(
                 tagChildren.getJSONObject(i), 
                 parent
             );

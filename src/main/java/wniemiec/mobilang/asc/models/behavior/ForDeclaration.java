@@ -1,5 +1,9 @@
 package wniemiec.mobilang.asc.models.behavior;
 
+
+/**
+ * Responsible for representing a for declaration from behavior code.
+ */
 public class ForDeclaration extends Instruction {
 
     private Instruction init; 

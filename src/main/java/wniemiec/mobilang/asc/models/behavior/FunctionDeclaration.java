@@ -3,6 +3,10 @@ package wniemiec.mobilang.asc.models.behavior;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * Responsible for representing a function declaration from behavior code.
+ */
 public class FunctionDeclaration extends Instruction {
 
     private String name;

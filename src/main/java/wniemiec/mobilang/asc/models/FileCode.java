@@ -12,8 +12,8 @@ public class FileCode {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private String name;
-    private List<String> code;
+    private final String name;
+    private final List<String> code;
     
 
     //-------------------------------------------------------------------------

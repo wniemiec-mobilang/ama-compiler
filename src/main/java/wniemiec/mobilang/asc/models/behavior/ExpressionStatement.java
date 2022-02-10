@@ -1,5 +1,9 @@
 package wniemiec.mobilang.asc.models.behavior;
 
+
+/**
+ * Responsible for representing an expression statement from behavior code.
+ */
 public class ExpressionStatement extends Instruction {
 
     private Expression expression;

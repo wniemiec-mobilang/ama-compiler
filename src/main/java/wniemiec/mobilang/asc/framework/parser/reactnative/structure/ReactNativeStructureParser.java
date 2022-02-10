@@ -2,9 +2,10 @@ package wniemiec.mobilang.asc.framework.parser.reactnative.structure;
 
 import java.util.List;
 import java.util.Stack;
-import wniemiec.mobilang.asc.models.Tag;
-import wniemiec.mobilang.asc.models.TagContainer;
+
 import wniemiec.mobilang.asc.parser.exception.ParseException;
+import wniemiec.mobilang.asc.models.tag.Tag;
+import wniemiec.mobilang.asc.models.tag.TagContainer;
 import wniemiec.mobilang.asc.parser.exception.FactoryException;
 
 

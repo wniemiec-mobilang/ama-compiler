@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.models;
+package wniemiec.mobilang.asc.models.persistence;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

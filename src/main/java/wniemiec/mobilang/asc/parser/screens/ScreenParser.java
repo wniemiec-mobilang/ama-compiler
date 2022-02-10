@@ -6,11 +6,11 @@ import java.util.SortedMap;
 
 import wniemiec.mobilang.asc.framework.parser.FrameworkParserFactory;
 import wniemiec.mobilang.asc.framework.parser.FrameworkScreenParser;
-import wniemiec.mobilang.asc.models.Behavior;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Style;
-import wniemiec.mobilang.asc.models.Tag;
+import wniemiec.mobilang.asc.models.behavior.Behavior;
+import wniemiec.mobilang.asc.models.tag.Tag;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.screens.behavior.BehaviorParser;
 import wniemiec.mobilang.asc.parser.screens.structure.StructureParser;

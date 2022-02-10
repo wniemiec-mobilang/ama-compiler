@@ -14,8 +14,8 @@ import wniemiec.mobilang.asc.parser.exception.ParseException;
  * Application point entry. Responsible for parsing CLI arguments and running 
  * ASC compiler.
  */
-public class App 
-{
+public class App {
+    
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
@@ -26,8 +26,7 @@ public class App
     //-------------------------------------------------------------------------
     //		Main
     //-------------------------------------------------------------------------
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         try {
             parseArgs(args);
             runAsc();

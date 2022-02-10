@@ -2,7 +2,8 @@ package wniemiec.mobilang.asc.framework.parser.reactnative.style;
 
 import java.util.ArrayList;
 import java.util.List;
-import wniemiec.mobilang.asc.models.Tag;
+
+import wniemiec.mobilang.asc.models.tag.Tag;
 
 
 /**

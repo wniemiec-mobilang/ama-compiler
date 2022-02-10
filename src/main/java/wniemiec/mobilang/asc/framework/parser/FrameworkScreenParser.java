@@ -1,10 +1,11 @@
 package wniemiec.mobilang.asc.framework.parser;
 
 import java.io.IOException;
-import wniemiec.mobilang.asc.models.Behavior;
+
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Style;
-import wniemiec.mobilang.asc.models.Tag;
+import wniemiec.mobilang.asc.models.behavior.Behavior;
+import wniemiec.mobilang.asc.models.tag.Tag;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 

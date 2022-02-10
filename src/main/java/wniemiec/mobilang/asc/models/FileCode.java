@@ -3,6 +3,10 @@ package wniemiec.mobilang.asc.models;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Responsible for representing a file code.
+ */
 public class FileCode {
     
     private String name;

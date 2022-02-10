@@ -6,8 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import wniemiec.mobilang.asc.models.Node;
-import wniemiec.mobilang.asc.models.PersistenceData;
-import wniemiec.mobilang.asc.models.PersistenceRecord;
+import wniemiec.mobilang.asc.models.persistence.PersistenceData;
+import wniemiec.mobilang.asc.models.persistence.PersistenceRecord;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 

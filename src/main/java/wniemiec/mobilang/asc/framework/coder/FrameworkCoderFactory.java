@@ -2,8 +2,9 @@ package wniemiec.mobilang.asc.framework.coder;
 
 import java.util.Collection;
 import java.util.List;
-import wniemiec.mobilang.asc.models.PersistenceData;
+
 import wniemiec.mobilang.asc.models.ScreenData;
+import wniemiec.mobilang.asc.models.persistence.PersistenceData;
 
 
 /**

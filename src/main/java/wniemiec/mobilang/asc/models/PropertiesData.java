@@ -1,5 +1,9 @@
 package wniemiec.mobilang.asc.models;
 
+
+/**
+ * Responsible for representing data from properties tag.
+ */
 public class PropertiesData {
 
     private String name;

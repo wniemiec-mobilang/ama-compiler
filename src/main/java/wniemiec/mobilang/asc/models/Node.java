@@ -5,6 +5,10 @@ import java.util.Map;
 
 import com.paypal.digraph.parser.GraphNode;
 
+
+/**
+ * Responsible for representing an AST node.
+ */
 public class Node {
 
     private GraphNode graphNode;

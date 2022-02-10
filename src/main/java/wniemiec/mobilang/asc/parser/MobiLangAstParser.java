@@ -6,9 +6,9 @@ import java.util.SortedMap;
 
 import wniemiec.mobilang.asc.framework.parser.FrameworkParserFactory;
 import wniemiec.mobilang.asc.models.Node;
-import wniemiec.mobilang.asc.models.PersistenceData;
 import wniemiec.mobilang.asc.models.PropertiesData;
 import wniemiec.mobilang.asc.models.ScreenData;
+import wniemiec.mobilang.asc.models.persistence.PersistenceData;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.persistence.PersistenceParser;
 import wniemiec.mobilang.asc.parser.properties.PropertiesParser;

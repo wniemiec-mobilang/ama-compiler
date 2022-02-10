@@ -7,11 +7,11 @@ import wniemiec.mobilang.asc.framework.parser.FrameworkScreenParser;
 import wniemiec.mobilang.asc.framework.parser.reactnative.behavior.ReactNativeBehaviorParser;
 import wniemiec.mobilang.asc.framework.parser.reactnative.structure.ReactNativeStructureParser;
 import wniemiec.mobilang.asc.framework.parser.reactnative.style.ReactNativeStyleApplicator;
-import wniemiec.mobilang.asc.models.Behavior;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Style;
-import wniemiec.mobilang.asc.models.Tag;
-import wniemiec.mobilang.asc.models.Variable;
+import wniemiec.mobilang.asc.models.behavior.Behavior;
+import wniemiec.mobilang.asc.models.behavior.Variable;
+import wniemiec.mobilang.asc.models.tag.Tag;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 
@@ -109,13 +109,13 @@ class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
     //-------------------------------------------------------------------------
     @Override
     public ScreenData getScreenData() {
-        return new ScreenData(
-            name, 
-            imports, 
-            stateDeclarations, 
-            stateBody, 
-            declarations, 
-            body
-        );
+        return new ScreenData.Builder()
+            .name(name) 
+            .imports(imports)
+            .stateDeclarations(stateDeclarations)
+            .stateBody(stateBody)
+            .declarations(declarations)
+            .body(body)
+            .build();
     }
 }

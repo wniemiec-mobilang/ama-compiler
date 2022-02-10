@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import wniemiec.mobilang.asc.models.Tag;
-import wniemiec.mobilang.asc.models.Variable;
+
+import wniemiec.mobilang.asc.models.behavior.Variable;
+import wniemiec.mobilang.asc.models.tag.Tag;
 
 
 /**

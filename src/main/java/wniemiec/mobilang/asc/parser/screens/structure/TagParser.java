@@ -5,8 +5,9 @@ import java.util.Map;
 import java.util.Stack;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import wniemiec.mobilang.asc.models.RawTag;
-import wniemiec.mobilang.asc.models.Tag;
+
+import wniemiec.mobilang.asc.models.tag.RawTag;
+import wniemiec.mobilang.asc.models.tag.Tag;
 
 
 /**

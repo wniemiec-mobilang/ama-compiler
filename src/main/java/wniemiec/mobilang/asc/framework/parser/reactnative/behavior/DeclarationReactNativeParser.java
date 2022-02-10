@@ -2,7 +2,8 @@ package wniemiec.mobilang.asc.framework.parser.reactnative.behavior;
 
 import java.util.List;
 import java.util.Map;
-import wniemiec.mobilang.asc.models.Variable;
+
+import wniemiec.mobilang.asc.models.behavior.Variable;
 
 
 /**

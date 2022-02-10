@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.SortedMap;
 import org.json.JSONObject;
 import wniemiec.mobilang.asc.models.Node;
-import wniemiec.mobilang.asc.models.Tag;
+import wniemiec.mobilang.asc.models.tag.Tag;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 

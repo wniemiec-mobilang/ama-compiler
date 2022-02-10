@@ -5,11 +5,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Responsible for representing style rule.
+ */
 public class StyleSheetRule {
 
-    List<String> selectors = new ArrayList<>();
-    Map<String, String> declarations = new HashMap<>();
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private List<String> selectors = new ArrayList<>();
+    private Map<String, String> declarations = new HashMap<>();
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    public StyleSheetRule() {
+        selectors = new ArrayList<>();
+        declarations = new HashMap<>();
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     public void addSelector(String selector) {
         selectors.add(selector);
     }
@@ -18,26 +38,22 @@ public class StyleSheetRule {
         declarations.put(property, value);
     }
 
-    @Override
-    public String toString() {
-        return "StyleSheetRule [declarations=" + declarations + ", selectors=" + selectors + "]";
-    }
-
     public boolean hasSelector(String selector) {
-        /*
-        for (String s : selectors) {
-            if (s.contains(selector)) {
-                return true;
-            }
-        }
-
-        return false;
-        */
-        //System.out.println(selectors);
-        //System.out.println(selector + ": " + selectors.contains(selector));
         return selectors.contains(selector);
     }
 
+    @Override
+    public String toString() {
+        return "StyleSheetRule [" 
+                + "declarations=" + declarations 
+                + ", selectors=" + selectors 
+            + "]";
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
     public Map<String, String> getDeclarations() {
         return declarations;
     }

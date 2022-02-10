@@ -5,8 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-import wniemiec.mobilang.asc.models.Tag;
-import wniemiec.mobilang.asc.models.Variable;
+
+import wniemiec.mobilang.asc.models.behavior.Variable;
+import wniemiec.mobilang.asc.models.tag.Tag;
 import wniemiec.data.java.Encryptors;
 import wniemiec.data.java.Encryptor;
 

@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.SortedMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import wniemiec.mobilang.asc.models.Behavior;
+
 import wniemiec.mobilang.asc.models.Node;
+import wniemiec.mobilang.asc.models.behavior.Behavior;
 import wniemiec.mobilang.asc.models.behavior.Instruction;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 

@@ -1,8 +1,6 @@
-package wniemiec.mobilang.asc.models;
+package wniemiec.mobilang.asc.models.behavior;
 
 import java.util.List;
-
-import wniemiec.mobilang.asc.models.behavior.Instruction;
 
 public class Behavior {
     List<Instruction> code;

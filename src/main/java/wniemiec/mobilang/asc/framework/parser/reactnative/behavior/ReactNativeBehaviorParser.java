@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import wniemiec.mobilang.asc.framework.parser.reactnative.style.ReactNativeStyleApplicator;
-import wniemiec.mobilang.asc.models.Tag;
-import wniemiec.mobilang.asc.models.Variable;
 import wniemiec.mobilang.asc.models.behavior.Instruction;
+import wniemiec.mobilang.asc.models.behavior.Variable;
+import wniemiec.mobilang.asc.models.tag.Tag;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 

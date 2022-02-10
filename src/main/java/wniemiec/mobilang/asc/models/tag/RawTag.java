@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.models;
+package wniemiec.mobilang.asc.models.tag;
 
 import org.json.JSONObject;
 

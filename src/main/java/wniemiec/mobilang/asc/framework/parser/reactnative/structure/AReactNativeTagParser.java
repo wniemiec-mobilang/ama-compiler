@@ -1,6 +1,6 @@
 package wniemiec.mobilang.asc.framework.parser.reactnative.structure;
 
-import wniemiec.mobilang.asc.models.Tag;
+import wniemiec.mobilang.asc.models.tag.Tag;
 
 
 /**

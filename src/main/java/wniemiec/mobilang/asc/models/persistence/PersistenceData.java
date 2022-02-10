@@ -1,4 +1,4 @@
-package wniemiec.mobilang.asc.models;
+package wniemiec.mobilang.asc.models.persistence;
 
 import java.util.ArrayList;
 import java.util.List;

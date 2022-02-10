@@ -5,17 +5,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Responsible for representing data from style tag.
+ */
 public class Style {
 
-    List<StyleSheetRule> rules = new ArrayList<>();
-    
-    public void addRule(StyleSheetRule rule) {
-        rules.add(rule);
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private List<StyleSheetRule> rules;
+
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    public Style() {
+        rules = new ArrayList<>();
     }
 
-    @Override
-    public String toString() {
-        return "StyleSheet [rules=" + rules + "]";
+    
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    public void addRule(StyleSheetRule rule) {
+        rules.add(rule);
     }
 
     public Map<String, String> getRulesForSelector(List<String> selectors) {
@@ -25,7 +39,6 @@ public class Style {
             for (String selector : selectors) {
                 if (rule.hasSelector(selector)) {
                     selectorRules.putAll(rule.getDeclarations());
-                    //System.out.println();
                 }
             }
         }
@@ -33,5 +46,8 @@ public class Style {
         return selectorRules;
     }
 
-    
+    @Override
+    public String toString() {
+        return "StyleSheet [rules=" + rules + "]";
+    }
 }

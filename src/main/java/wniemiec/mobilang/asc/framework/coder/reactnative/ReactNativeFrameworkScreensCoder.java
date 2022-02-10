@@ -5,7 +5,7 @@ import java.util.List;
 import wniemiec.mobilang.asc.framework.coder.FrameworkScreensCoder;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.ScreenData;
-import wniemiec.mobilang.asc.models.Variable;
+import wniemiec.mobilang.asc.models.behavior.Variable;
 import wniemiec.mobilang.asc.utils.StringUtils;
 
 

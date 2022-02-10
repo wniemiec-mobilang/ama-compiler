@@ -3,7 +3,8 @@ package wniemiec.mobilang.asc.parser.persistence;
 import java.lang.reflect.Method;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import wniemiec.mobilang.asc.models.PersistenceRecord;
+
+import wniemiec.mobilang.asc.models.persistence.PersistenceRecord;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.utils.StringUtils;
 

@@ -18,7 +18,7 @@ class BlockStatementInstructionJsonParser implements InstructionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static BlockStatementInstructionJsonParser instance;
-    private BlockCodeParser blockCodeParser;
+    private final BlockCodeParser blockCodeParser;
 
 
     //-------------------------------------------------------------------------

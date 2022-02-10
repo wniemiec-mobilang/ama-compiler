@@ -18,8 +18,8 @@ class ForOfStatementInstructionJsonParser implements InstructionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static ForOfStatementInstructionJsonParser instance;
-    private InstructionParser instructionParser;
-    private ExpressionParser expressionParser;
+    private final InstructionParser instructionParser;
+    private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------

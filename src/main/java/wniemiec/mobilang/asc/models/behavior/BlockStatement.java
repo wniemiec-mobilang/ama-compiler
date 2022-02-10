@@ -6,15 +6,25 @@ import java.util.List;
 /**
  * Responsible for representing a block statement from behavior code.
  */
-public class BlockStatement extends Instruction {
+public class BlockStatement implements Instruction {
 
-    private List<Instruction> body;
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final List<Instruction> body;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public BlockStatement(List<Instruction> body) {
-        super("BlockStatement");
         this.body = body;
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public String toCode() {
         return "{" + bodyToCode() + "}";

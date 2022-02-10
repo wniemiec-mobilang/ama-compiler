@@ -20,9 +20,9 @@ public class MobiLangCoder {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private PersistenceData persistenceData;
-    private List<ScreenData> screensData;
-    private FrameworkCoderFactory frameworkCoderFactory;
+    private final PersistenceData persistenceData;
+    private final List<ScreenData> screensData;
+    private final FrameworkCoderFactory frameworkCoderFactory;
     private List<FileCode> screensCode;
     private List<FileCode> persistenceCode;
     private List<FileCode> coreCode;

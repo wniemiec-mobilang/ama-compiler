@@ -23,8 +23,8 @@ public class MobiLangAstParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private SortedMap<String, List<Node>> ast;
-    private FrameworkParserFactory frameworkParserFactory;
+    private final SortedMap<String, List<Node>> ast;
+    private final FrameworkParserFactory frameworkParserFactory;
     private ScreensParser screensParser;
     private PropertiesParser propertiesParser;
     private PersistenceParser persistenceParser;

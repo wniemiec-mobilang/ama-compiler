@@ -18,7 +18,7 @@ public class BlockCodeParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static BlockCodeParser instance;
-    private InstructionParser instructionParser;
+    private final InstructionParser instructionParser;
 
 
     //-------------------------------------------------------------------------

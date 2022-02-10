@@ -19,10 +19,10 @@ public class ScreensParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private SortedMap<String, List<Node>> ast;
-    private List<Node> screens;
-    private FrameworkParserFactory frameworkParserFactory;
-    private List<ScreenData> screensData;
+    private final SortedMap<String, List<Node>> ast;
+    private final List<Node> screens;
+    private final FrameworkParserFactory frameworkParserFactory;
+    private final List<ScreenData> screensData;
 
 
     //-------------------------------------------------------------------------

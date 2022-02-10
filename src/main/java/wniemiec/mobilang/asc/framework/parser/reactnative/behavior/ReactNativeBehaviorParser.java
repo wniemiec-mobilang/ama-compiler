@@ -21,13 +21,13 @@ public class ReactNativeBehaviorParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private InnerHtmlReactNativeParser innerHtmlParser;
-    private GetElementByIdReactNativeParser getElementByIdParser;
-    private WindowReactNativeParser windowParser;
-    private DeclarationReactNativeParser declarationParser;
-    private List<Variable> stateDeclarations;
-    private List<String> stateBody;
-    private List<Instruction> behaviorCode;
+    private final InnerHtmlReactNativeParser innerHtmlParser;
+    private final GetElementByIdReactNativeParser getElementByIdParser;
+    private final WindowReactNativeParser windowParser;
+    private final DeclarationReactNativeParser declarationParser;
+    private final List<Variable> stateDeclarations;
+    private final List<String> stateBody;
+    private final List<Instruction> behaviorCode;
 
     /**
      * key:     Variable id

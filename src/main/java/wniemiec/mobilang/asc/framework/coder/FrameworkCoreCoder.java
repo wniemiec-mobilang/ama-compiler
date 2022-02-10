@@ -14,7 +14,8 @@ public abstract class FrameworkCoreCoder {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    protected Collection<String> screensName;
+    protected final Collection<String> screensName;
+    
 
     //-------------------------------------------------------------------------
     //		Constructor

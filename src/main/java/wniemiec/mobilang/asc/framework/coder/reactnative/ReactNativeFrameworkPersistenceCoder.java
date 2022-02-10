@@ -16,7 +16,7 @@ public class ReactNativeFrameworkPersistenceCoder extends FrameworkPersistenceCo
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private List<FileCode> coreCodes;
+    private final List<FileCode> coreCodes;
     
 
     //-------------------------------------------------------------------------

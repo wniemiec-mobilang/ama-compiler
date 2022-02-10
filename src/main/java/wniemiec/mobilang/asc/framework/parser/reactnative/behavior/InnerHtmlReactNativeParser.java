@@ -24,12 +24,12 @@ class InnerHtmlReactNativeParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private List<String> declaredStateBodyVariables;
-    private List<Variable> stateDeclarations;
-    private List<String> stateBody;
-    private Tag structure;
-    private Map<String, String> symbolTable;
-    private ReactNativeStyleApplicator styleApplicator;
+    private final List<String> declaredStateBodyVariables;
+    private final List<Variable> stateDeclarations;
+    private final List<String> stateBody;
+    private final Tag structure;
+    private final Map<String, String> symbolTable;
+    private final ReactNativeStyleApplicator styleApplicator;
 
 
     //-------------------------------------------------------------------------

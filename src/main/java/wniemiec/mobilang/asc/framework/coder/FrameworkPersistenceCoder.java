@@ -13,7 +13,7 @@ public abstract class FrameworkPersistenceCoder {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    protected PersistenceData persistenceData;
+    protected final PersistenceData persistenceData;
 
 
     //-------------------------------------------------------------------------

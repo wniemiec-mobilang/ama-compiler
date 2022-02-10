@@ -18,9 +18,9 @@ class GetElementByIdReactNativeParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private List<Variable> stateDeclarations;
-    private Tag structure;
-    private Map<String, String> symbolTable;
+    private final List<Variable> stateDeclarations;
+    private final Tag structure;
+    private final Map<String, String> symbolTable;
 
 
     //-------------------------------------------------------------------------

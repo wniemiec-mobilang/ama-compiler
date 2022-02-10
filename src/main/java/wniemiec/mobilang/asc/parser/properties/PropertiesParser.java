@@ -16,8 +16,8 @@ public class PropertiesParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private String propertiesContent;
-    private PropertiesData propertiesData;
+    private final String propertiesContent;
+    private final PropertiesData propertiesData;
 
 
     //-------------------------------------------------------------------------

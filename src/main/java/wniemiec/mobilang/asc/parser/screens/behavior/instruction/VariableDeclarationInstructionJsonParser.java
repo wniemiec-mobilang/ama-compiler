@@ -23,7 +23,7 @@ class VariableDeclarationInstructionJsonParser implements InstructionJsonParser 
     //		Attributes
     //-------------------------------------------------------------------------
     private static VariableDeclarationInstructionJsonParser instance;
-    private ExpressionParser expressionParser;
+    private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------
@@ -53,7 +53,6 @@ class VariableDeclarationInstructionJsonParser implements InstructionJsonParser 
     public Instruction parse(JSONObject jsonObject) 
     throws JSONException, ParseException {
         return new Declaration(
-            jsonObject.getString("type"), 
             jsonObject.getString("kind"), 
             parseDeclarations(jsonObject.getJSONArray("declarations"))
         );

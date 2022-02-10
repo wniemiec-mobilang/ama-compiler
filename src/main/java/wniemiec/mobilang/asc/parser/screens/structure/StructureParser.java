@@ -16,9 +16,9 @@ public class StructureParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private String structureNodeContent;
-    private boolean astFromMobilang;
-    private TagParser tagParser;
+    private final String structureNodeContent;
+    private final boolean astFromMobilang;
+    private final TagParser tagParser;
 
 
     //-------------------------------------------------------------------------

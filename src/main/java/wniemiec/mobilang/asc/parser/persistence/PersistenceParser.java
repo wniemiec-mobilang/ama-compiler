@@ -19,8 +19,8 @@ public class PersistenceParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private String persistenceContent;
-    private PersistenceData persistenceData;
+    private final String persistenceContent;
+    private final PersistenceData persistenceData;
 
 
     //-------------------------------------------------------------------------

@@ -17,10 +17,10 @@ public abstract class FrameworkScreenParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    protected String name;
+    protected final String name;
+    protected final Style style;
+    protected final Behavior behavior;
     protected Tag structure;
-    protected Style style;
-    protected Behavior behavior;
 
 
     //-------------------------------------------------------------------------

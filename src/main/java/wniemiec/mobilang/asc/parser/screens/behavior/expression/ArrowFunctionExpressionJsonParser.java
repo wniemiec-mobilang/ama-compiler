@@ -18,8 +18,8 @@ class ArrowFunctionExpressionJsonParser implements ExpressionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static ArrowFunctionExpressionJsonParser instance;
-    private ExpressionParser expressionParser;
-    private InstructionParser instructionParser;
+    private final ExpressionParser expressionParser;
+    private final InstructionParser instructionParser;
 
 
     //-------------------------------------------------------------------------

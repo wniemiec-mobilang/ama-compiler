@@ -8,42 +8,57 @@ import java.util.stream.Collectors;
 /**
  * Responsible for representing a declaration from behavior code.
  */
-public class Declaration extends Instruction {
+public class Declaration implements Instruction {
 
-    String kind;
-    List<Declarator> declarations = new ArrayList<>();
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final String kind;
+    private final List<Declarator> declarations;
 
-    public Declaration(String type, String kind, List<Declarator> declarations) {
-        super(type);
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    public Declaration(String kind, List<Declarator> declarations) {
         this.kind = kind;
-
-        if (declarations != null)
-            this.declarations = declarations;
+        this.declarations = (declarations == null) ? new ArrayList<>() : declarations;
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------    
     @Override
-    public String toString() {
-        return "Declaration [declarations=" + declarations + ", kind=" + kind + "]";
-    }
-    
     public String toCode() {
         return kind + " " + declarationsToCode();
     }
     
     private String declarationsToCode() {
-        StringBuilder sb = new StringBuilder();
-        List<String> argumentsAsCode = declarations.stream().map(a -> a.toCode()).collect(Collectors.toList());
+        StringBuilder code = new StringBuilder();
+        List<String> declarationsAsCode = getDeclarationsAsCode();
 
-        for (int i = 0; i < argumentsAsCode.size(); i++) {
-            sb.append(argumentsAsCode.get(i));
-            sb.append(',');
+        for (int i = 0; i < declarationsAsCode.size(); i++) {
+            code.append(declarationsAsCode.get(i));
+            code.append(',');
         }
 
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length()-1);
+        if (code.length() > 0) {
+            code.deleteCharAt(code.length()-1);
         }
 
-        return sb.toString();
-        //return 
+        return code.toString();
+    }
+
+    private List<String> getDeclarationsAsCode() {
+        return declarations
+            .stream()
+            .map(Declarator::toCode)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return "Declaration [declarations=" + declarations + ", kind=" + kind + "]";
     }
 }

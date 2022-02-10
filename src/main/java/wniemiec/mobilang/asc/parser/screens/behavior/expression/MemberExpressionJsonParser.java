@@ -18,7 +18,7 @@ class MemberExpressionJsonParser implements ExpressionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static MemberExpressionJsonParser instance;
-    private ExpressionParser expressionParser;
+    private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------

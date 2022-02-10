@@ -13,7 +13,7 @@ public abstract class FrameworkProjectManager {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    protected Path workingDirectory;
+    protected final Path workingDirectory;
 
 
     //-------------------------------------------------------------------------

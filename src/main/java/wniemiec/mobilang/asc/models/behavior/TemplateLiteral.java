@@ -8,43 +8,69 @@ import java.util.stream.Collectors;
 /**
  * Responsible for representing a template literal from behavior code.
  */
-public class TemplateLiteral extends Expression {
-    List<Expression> expressions = new ArrayList<>();
-    List<Expression> quasis = new ArrayList<>();
-    public TemplateLiteral(List<Expression> expressions, List<Expression> quasis) {
-        if (expressions != null)
-            this.expressions = expressions;
+public class TemplateLiteral implements Expression {
 
-        if (quasis != null)
-            this.quasis = quasis;
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final List<Expression> expressions;
+    private final List<Expression> quasis;
+
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    public TemplateLiteral(List<Expression> expressions, List<Expression> quasis) {
+        this.expressions = (expressions == null) ? new ArrayList<>() : expressions;
+        this.quasis = (quasis == null) ? new ArrayList<>() : quasis;
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public String toCode() {
         return "`" + expressionsToCode() + "`";
     }
 
     private String expressionsToCode() {
-        StringBuilder sb = new StringBuilder();
-        List<String> expressionsAsCode = expressions.stream().map(a -> a.toCode()).collect(Collectors.toList());
-        List<String> quasisAsCode = quasis.stream().map(a -> a.toCode()).collect(Collectors.toList());
+        StringBuilder code = new StringBuilder();
+        List<String> expressionsAsCode = getExpressionCode();
+        List<String> quasisAsCode = getQuasisCode();
 
         for (int i = 0; i < expressionsAsCode.size(); i++) {
-            sb.append(quasisAsCode.get(i));
-            sb.append("${");
-            sb.append(expressionsAsCode.get(i));
-            sb.append('}');
+            code.append(quasisAsCode.get(i));
+            code.append("${");
+            code.append(expressionsAsCode.get(i));
+            code.append('}');
         }
 
-        if ((sb.length() > 0) || (expressionsAsCode.isEmpty())) {
-            sb.append(quasisAsCode.get(quasisAsCode.size()-1));
+        if ((code.length() > 0) || (expressionsAsCode.isEmpty())) {
+            code.append(quasisAsCode.get(quasisAsCode.size()-1));
         }
 
-        return sb.toString();
+        return code.toString();
+    }
+
+    private List<String> getExpressionCode() {
+        return expressions
+            .stream()
+            .map(Expression::toCode)
+            .collect(Collectors.toList());
+    }
+
+    private List<String> getQuasisCode() {
+        return quasis
+            .stream()
+            .map(Expression::toCode)
+            .collect(Collectors.toList());
     }
 
     @Override
     public String toString() {
-        return  "[TemplateLiteral] {" + "[TemplateLiteral:" + expressions + " | " + quasis + "] }";
+        return  "[TemplateLiteral] {" 
+            + "[TemplateLiteral:" + expressions + " | " + quasis + "] " 
+        + "}";
     }
 }

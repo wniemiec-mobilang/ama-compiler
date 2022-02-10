@@ -26,13 +26,13 @@ public class ScreenParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private SortedMap<String, List<Node>> ast;
-    private String id;
+    private final SortedMap<String, List<Node>> ast;
+    private final String id;
     private Node structureNode;
     private Node styleNode;
     private Node behaviorNode;
     private FrameworkScreenParser frameworkParser;
-    private FrameworkParserFactory frameworkParserFactory;
+    private final FrameworkParserFactory frameworkParserFactory;
 
 
     //-------------------------------------------------------------------------

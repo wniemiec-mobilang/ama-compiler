@@ -18,7 +18,7 @@ class TemplateLiteralExpressionJsonParser implements ExpressionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static TemplateLiteralExpressionJsonParser instance;
-    private ExpressionParser expressionParser;
+    private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------

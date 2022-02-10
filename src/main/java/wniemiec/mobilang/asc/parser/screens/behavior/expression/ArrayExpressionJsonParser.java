@@ -18,7 +18,7 @@ class ArrayExpressionJsonParser implements ExpressionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static ArrayExpressionJsonParser instance;
-    private ExpressionParser expressionParser;
+    private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------

@@ -18,7 +18,7 @@ class UpdateExpressionJsonParser implements ExpressionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static UpdateExpressionJsonParser instance;
-    private ExpressionParser expressionParser;
+    private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------

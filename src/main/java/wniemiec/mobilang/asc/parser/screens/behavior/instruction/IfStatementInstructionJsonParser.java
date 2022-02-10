@@ -17,8 +17,8 @@ class IfStatementInstructionJsonParser implements InstructionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static IfStatementInstructionJsonParser instance;
-    private InstructionParser instructionParser;
-    private ExpressionParser expressionParser;
+    private final InstructionParser instructionParser;
+    private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------

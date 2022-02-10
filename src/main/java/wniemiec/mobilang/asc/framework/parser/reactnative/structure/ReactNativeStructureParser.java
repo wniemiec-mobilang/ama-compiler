@@ -19,7 +19,7 @@ public class ReactNativeStructureParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private Stack<TagContainer> tagsToParse;
-    private Tag structureRoot;
+    private final Tag structureRoot;
 
 
     //-------------------------------------------------------------------------

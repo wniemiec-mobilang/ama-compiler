@@ -16,7 +16,7 @@ public class ReactNativeStyleApplicator {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private Style style;
+    private final Style style;
     private Stack<Tag> tagsToParse;
 
 

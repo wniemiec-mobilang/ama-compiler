@@ -19,8 +19,8 @@ public class BehaviorParser  {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private String contentNode;
-    private BlockCodeParser blockCodeParser;
+    private final String contentNode;
+    private final BlockCodeParser blockCodeParser;
 
 
     //-------------------------------------------------------------------------

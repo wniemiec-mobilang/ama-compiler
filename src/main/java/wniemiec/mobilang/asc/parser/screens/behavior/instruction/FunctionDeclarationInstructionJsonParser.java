@@ -18,8 +18,8 @@ class FunctionDeclarationInstructionJsonParser implements InstructionJsonParser 
     //		Attributes
     //-------------------------------------------------------------------------
     private static FunctionDeclarationInstructionJsonParser instance;
-    private InstructionParser instructionParser;
-    private ExpressionParser expressionParser;
+    private final InstructionParser instructionParser;
+    private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------

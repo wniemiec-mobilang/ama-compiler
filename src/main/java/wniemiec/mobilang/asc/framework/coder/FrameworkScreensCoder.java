@@ -13,7 +13,7 @@ public abstract class FrameworkScreensCoder {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    protected List<ScreenData> screensData;
+    protected final List<ScreenData> screensData;
 
 
     //-------------------------------------------------------------------------

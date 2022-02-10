@@ -18,7 +18,7 @@ public class DataRecordParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static final String LABEL_INITIAL_VALUE;
-    private JSONObject dataRecord;
+    private final JSONObject dataRecord;
 
 
     //-------------------------------------------------------------------------

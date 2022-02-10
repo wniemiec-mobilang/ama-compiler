@@ -4,18 +4,29 @@ package wniemiec.mobilang.asc.models.behavior;
 /**
  * Responsible for representing an update expression from behavior code.
  */
-public class UpdateExpression extends Expression {
+public class UpdateExpression implements Expression {
 
-    private String operator;
-    private boolean prefix; 
-    private Expression argument;
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final String operator;
+    private final boolean prefix; 
+    private final Expression argument;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public UpdateExpression(String operator, boolean prefix, Expression argument) {
         this.operator = operator;
         this.prefix = prefix;
         this.argument = argument;
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public String toCode() {
         if (prefix) {
@@ -24,5 +35,4 @@ public class UpdateExpression extends Expression {
 
         return argument.toCode() + operator;
     }
-
 }

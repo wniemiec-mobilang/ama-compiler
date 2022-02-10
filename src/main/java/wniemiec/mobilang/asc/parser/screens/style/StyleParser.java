@@ -16,8 +16,8 @@ public class StyleParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private String styleNodeContent;
-    private CssRulesParser cssRulesParser;
+    private final String styleNodeContent;
+    private final CssRulesParser cssRulesParser;
 
 
     //-------------------------------------------------------------------------

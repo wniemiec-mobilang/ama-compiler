@@ -17,13 +17,14 @@ class CallExpressionJsonParser implements ExpressionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static CallExpressionJsonParser instance;
-    private ExpressionParser expressionParser;
+    private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
     private CallExpressionJsonParser() {
+        expressionParser = ExpressionParser.getInstance();
     }
 
 

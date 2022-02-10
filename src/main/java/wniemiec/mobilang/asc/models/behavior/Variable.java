@@ -9,21 +9,14 @@ public class Variable {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private String id;
-    private String type;
-    private String content;
+    private final String id;
+    private final String type;
+    private final String content;
     
     
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    /**
-     * Behavior variable.
-     * 
-     * @param       id Variable identifier
-     * @param       type Variable type
-     * @param       content Variable content
-     */
     public Variable(String id, String type, String content) {
         this.id = id;
         this.type = type;

@@ -8,18 +8,22 @@ import java.util.stream.Collectors;
 /**
  * Responsible for representing an arrow function expression from behavior code.
  */
-public class ArrowFunctionExpression extends Expression {
-    boolean async;
-    List<Expression> params = new ArrayList<>();
-    String bodyCode;
+public class ArrowFunctionExpression implements Expression {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final boolean async;
+    private final List<Expression> params;
+    private final String bodyCode;
+
+
+    //-------------------------------------------------------------------------
+    //		Constructors
+    //-------------------------------------------------------------------------
     private ArrowFunctionExpression(boolean async, List<Expression> params, String bodyCode) {
         this.async = async;
-
-        if (params != null) {
-            this.params = params;
-        }
-
+        this.params = (params == null) ? new ArrayList<>() : params;
         this.bodyCode = bodyCode;
     }
     
@@ -31,30 +35,51 @@ public class ArrowFunctionExpression extends Expression {
         this(async, params, body.toCode());
     }
 
-    public String toString() {
-        return  "[ArrowFunctionExpression] {" + bodyCode + "(" + params + ")" + "{async: " + async + "} }";
-    }
 
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    @Override
     public String toCode() {
-        String asyncField = async ? "async " : "";
-        //return  "[ArrowFunctionExpression] {" + body.toCode() + "(" + params + ")" + "{async: " + async + "} }";
-        return asyncField + "(" + paramsToCode() + ") => " + bodyCode;
+        StringBuilder code = new StringBuilder();
+
+        code.append(async ? "async " : "");
+        code.append('(');
+        code.append(paramsToCode());
+        code.append(") => " );
+        code.append(bodyCode);
+
+        return code.toString();
     }        
 
     private String paramsToCode() {
-        StringBuilder sb = new StringBuilder();
-        List<String> argumentsAsCode = params.stream().map(a -> a.toCode()).collect(Collectors.toList());
+        StringBuilder code = new StringBuilder();
+        List<String> paramsAsCode = getParamsAsCode();
 
-        for (int i = 0; i < argumentsAsCode.size(); i++) {
-            sb.append(argumentsAsCode.get(i));
-            sb.append(',');
+        for (int i = 0; i < paramsAsCode.size(); i++) {
+            code.append(paramsAsCode.get(i));
+            code.append(',');
         }
 
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length()-1);
+        if (code.length() > 0) {
+            code.deleteCharAt(code.length()-1);
         }
 
-        return sb.toString();
-        //return 
+        return code.toString();
+    }
+
+    private List<String> getParamsAsCode() {
+        return params
+            .stream().map(Expression::toCode)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return  "[ArrowFunctionExpression] {" 
+            + bodyCode 
+            + "(" + params + ")" 
+            + "{async: " + async 
+        + "} }";
     }
 }

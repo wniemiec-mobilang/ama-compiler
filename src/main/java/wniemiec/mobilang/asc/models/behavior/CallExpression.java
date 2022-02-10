@@ -8,39 +8,58 @@ import java.util.stream.Collectors;
 /**
  * Responsible for representing a call expression from behavior code.
  */
-public class CallExpression extends Expression {
-    Expression callee;
-    List<Expression> arguments = new ArrayList<>();
+public class CallExpression implements Expression {
+
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final Expression callee;
+    private final List<Expression> arguments;
+
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public CallExpression(Expression callee, List<Expression> arguments) {
         this.callee = callee;
-
-        if (arguments != null)
-            this.arguments = arguments;
+        this.arguments = (arguments == null) ? new ArrayList<>() : arguments;
     }
 
-    public String toString() {
-        return "[CallExpression] {" + callee + "(" + arguments + ") }";
 
-    }
-
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    @Override
     public String toCode() {
         return callee.toCode() + "(" + argumentsToCode() + ")";
     }
 
     private String argumentsToCode() {
-        StringBuilder sb = new StringBuilder();
-        List<String> argumentsAsCode = arguments.stream().map(a -> a.toCode()).collect(Collectors.toList());
+        StringBuilder code = new StringBuilder();
+        List<String> argumentsAsCode = getArgumentsAsCode();
 
         for (int i = 0; i < argumentsAsCode.size(); i++) {
-            sb.append(argumentsAsCode.get(i));
-            sb.append(',');
+            code.append(argumentsAsCode.get(i));
+            code.append(',');
         }
 
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length()-1);
+        if (code.length() > 0) {
+            code.deleteCharAt(code.length()-1);
         }
 
-        return sb.toString();
-        //return 
+        return code.toString();
+    }
+
+    private List<String> getArgumentsAsCode() {
+        return arguments
+            .stream()
+            .map(Expression::toCode)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return "[CallExpression] {" + callee + "(" + arguments + ") }";
+
     }
 }

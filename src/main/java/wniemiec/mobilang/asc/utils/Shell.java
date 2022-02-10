@@ -16,7 +16,7 @@ public class Shell {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private Path workingDirectory;
+    private final Path workingDirectory;
     private Runtime runtime;
     private String output;
     private String errorOutput;

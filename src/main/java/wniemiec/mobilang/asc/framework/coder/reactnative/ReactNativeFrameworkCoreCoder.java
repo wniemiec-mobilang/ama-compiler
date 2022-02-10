@@ -15,7 +15,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private List<FileCode> coreCodes;
+    private final List<FileCode> coreCodes;
 
 
     //-------------------------------------------------------------------------

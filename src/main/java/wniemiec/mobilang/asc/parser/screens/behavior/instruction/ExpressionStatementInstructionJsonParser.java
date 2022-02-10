@@ -18,7 +18,7 @@ class ExpressionStatementInstructionJsonParser implements InstructionJsonParser 
     //		Attributes
     //-------------------------------------------------------------------------
     private static ExpressionStatementInstructionJsonParser instance;
-    private ExpressionParser expressionParser;
+    private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------

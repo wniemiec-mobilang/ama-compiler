@@ -7,38 +7,55 @@ import java.util.stream.Collectors;
 /**
  * Responsible for representing an array expression from behavior code.
  */
-public class ArrayExpression extends Expression {
+public class ArrayExpression implements Expression {
 
-    private List<Expression> elements;
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final List<Expression> elements;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public ArrayExpression(List<Expression> elements) {
         this.elements = elements;
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public String toCode() {
         return "[" + elementsToCode() + "]";
     }
 
+    private String elementsToCode() {
+        StringBuilder code = new StringBuilder();
+        List<String> elementsAsCode = getElementsAsCode();
+
+        for (int i = 0; i < elementsAsCode.size(); i++) {
+            code.append(elementsAsCode.get(i));
+            code.append(',');
+        }
+
+        if (code.length() > 0) {
+            code.deleteCharAt(code.length()-1);
+        }
+
+        return code.toString();
+    }
+
+    private List<String> getElementsAsCode() {
+        return elements
+            .stream()
+            .map(Expression::toCode)
+            .collect(Collectors.toList());
+    }
+
     @Override
     public String toString() {
         return "ArrayExpression [elements=" + elements + "]";
-    }
-
-    private String elementsToCode() {
-        StringBuilder sb = new StringBuilder();
-        List<String> elementsAsCode = elements.stream().map(a -> a.toCode()).collect(Collectors.toList());
-
-        for (int i = 0; i < elementsAsCode.size(); i++) {
-            sb.append(elementsAsCode.get(i));
-            sb.append(',');
-        }
-
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length()-1);
-        }
-
-        return sb.toString();
-        //return 
     }
 }

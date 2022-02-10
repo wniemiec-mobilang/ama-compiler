@@ -12,8 +12,8 @@ public class PersistenceData {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private String type = "";
-    private List<PersistenceRecord<?>> records;
+    private final List<PersistenceRecord<?>> records;
+    private String type;
 
 
     //-------------------------------------------------------------------------
@@ -21,6 +21,7 @@ public class PersistenceData {
     //-------------------------------------------------------------------------
     public PersistenceData() {
         records = new ArrayList<>();
+        type = "";
     }
 
 

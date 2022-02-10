@@ -4,22 +4,34 @@ package wniemiec.mobilang.asc.models.behavior;
 /**
  * Responsible for representing a template element from behavior code.
  */
-public class TemplateElement extends Expression {
+public class TemplateElement implements Expression {
+
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final String value;
+    private final boolean tail;
+
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public TemplateElement(String value, boolean tail) {
         this.value = value;
         this.tail = tail;
     }
 
-    String value;
-    boolean tail;
 
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
-    public String toString() {
-        return  "[TemplateElement] {" + "{value: " + value + "; tail: " + tail + "} }";
+    public String toCode() {
+        return value;
     }
 
     @Override
-    public String toCode() {
-        return  value;
+    public String toString() {
+        return "[TemplateElement] {" + "{value: " + value + "; tail: " + tail + "} }";
     }
 }

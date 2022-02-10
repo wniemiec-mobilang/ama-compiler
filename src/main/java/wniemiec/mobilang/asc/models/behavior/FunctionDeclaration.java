@@ -7,47 +7,71 @@ import java.util.stream.Collectors;
 /**
  * Responsible for representing a function declaration from behavior code.
  */
-public class FunctionDeclaration extends Instruction {
+public class FunctionDeclaration implements Instruction {
 
-    private String name;
-    private boolean async; 
-    private List<Expression> params;
-    private Instruction body;
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final String name;
+    private final boolean async; 
+    private final List<Expression> params;
+    private final Instruction body;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public FunctionDeclaration(
         String name, 
         boolean async, 
         List<Expression> params,
         Instruction body
     ) {
-        super("FunctionDeclaration");
         this.name = name;
         this.async = async;
         this.params = params;
         this.body = body;
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public String toCode() {
-        String asyncField = async ? "async " : "";
+        StringBuilder code = new StringBuilder();
 
-        return asyncField + "function " + name + "(" + paramsToCode() + ") " + body.toCode();
+        code.append(async ? "async " : "");
+        code.append("function ");
+        code.append(name);
+        code.append('(');
+        code.append(paramsToCode());
+        code.append(") " );
+        code.append(body.toCode());
+
+        return code.toString();
     }
 
     private String paramsToCode() {
-        StringBuilder sb = new StringBuilder();
-        List<String> argumentsAsCode = params.stream().map(a -> a.toCode()).collect(Collectors.toList());
+        StringBuilder code = new StringBuilder();
+        List<String> paramsAsCode = getParamsAsCode();
 
-        for (int i = 0; i < argumentsAsCode.size(); i++) {
-            sb.append(argumentsAsCode.get(i));
-            sb.append(',');
+        for (int i = 0; i < paramsAsCode.size(); i++) {
+            code.append(paramsAsCode.get(i));
+            code.append(',');
         }
 
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length()-1);
+        if (code.length() > 0) {
+            code.deleteCharAt(code.length()-1);
         }
 
-        return sb.toString();
-        //return 
+        return code.toString();
+    }
+
+    private List<String> getParamsAsCode() {
+        return params
+            .stream()
+            .map(Expression::toCode)
+            .collect(Collectors.toList());
     }
 }

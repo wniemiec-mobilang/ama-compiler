@@ -15,8 +15,8 @@ class DeclarationReactNativeParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private List<String> stateBody;
-    private Map<String, String> symbolTable;
+    private final List<String> stateBody;
+    private final Map<String, String> symbolTable;
 
 
     //-------------------------------------------------------------------------

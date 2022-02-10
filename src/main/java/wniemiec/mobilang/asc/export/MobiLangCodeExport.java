@@ -14,10 +14,10 @@ public abstract class MobiLangCodeExport {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    protected PropertiesData propertiesData;
-    private List<FileCode> screensCode;
-    private List<FileCode> persistenceCode;
-    private List<FileCode> coreCode;
+    protected final PropertiesData propertiesData;
+    private final List<FileCode> screensCode;
+    private final List<FileCode> persistenceCode;
+    private final List<FileCode> coreCode;
 
 
     //-------------------------------------------------------------------------

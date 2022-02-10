@@ -4,26 +4,45 @@ package wniemiec.mobilang.asc.models.behavior;
 /**
  * Responsible for representing a for of declaration from behavior code.
  */
-public class ForOfDeclaration extends Instruction {
+public class ForOfDeclaration implements Instruction {
 
-    private Instruction left;
-    private Expression right; 
-    private Instruction body;
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final Instruction left;
+    private final Expression right; 
+    private final Instruction body;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public ForOfDeclaration(
         Instruction left, 
         Expression right, 
         Instruction body
     ) {
-        super("ForOfDeclaration");
         this.left = left;
         this.right = right;
         this.body = body;
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public String toCode() {
-        return "for (" + left.toCode() + " of " + right.toCode() + ") " + body.toCode();
+        StringBuilder code = new StringBuilder();
+
+        code.append("for (");
+        code.append(left.toCode());
+        code.append(" of ");
+        code.append(right.toCode());
+        code.append(") ");
+        code.append(body.toCode());
+
+        return code.toString();
     }
 
 }

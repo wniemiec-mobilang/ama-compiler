@@ -4,8 +4,12 @@ package wniemiec.mobilang.asc.models.behavior;
 /**
  * Responsible for representing an expression from behavior code.
  */
-public abstract class Expression {
+public interface Expression {
 
-    public abstract String toCode();
-
+    /**
+     * Generates code for expression.
+     * 
+     * @return      Code
+     */
+    String toCode();
 }

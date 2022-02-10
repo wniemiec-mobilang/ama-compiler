@@ -25,9 +25,9 @@ public class Asc {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private Path dotFilePath;
-    private Path outputLocationPath;
-    private FrameworkFactory frameworkFactory;
+    private final Path dotFilePath;
+    private final Path outputLocationPath;
+    private final FrameworkFactory frameworkFactory;
     private SortedMap<String, List<Node>> ast;
     private MobiLangAstParser mobilangAstParser;
     private MobiLangCoder mobilangCoder;

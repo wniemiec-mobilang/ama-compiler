@@ -13,7 +13,7 @@ public class HtmlParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static final String HTML_PARSER_LOCATION;
-    private Shell shell;
+    private final Shell shell;
 
 
     //-------------------------------------------------------------------------

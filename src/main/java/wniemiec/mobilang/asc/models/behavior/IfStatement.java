@@ -4,20 +4,36 @@ package wniemiec.mobilang.asc.models.behavior;
 /**
  * Responsible for representing a if statement from behavior code.
  */
-public class IfStatement extends Instruction {
+public class IfStatement implements Instruction {
 
-    private Expression test;
-    private Instruction body;
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private final Expression test;
+    private final Instruction body;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public IfStatement(Expression test, Instruction body) {
-        super("IfStatement");
         this.test = test;
         this.body = body;
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     @Override
     public String toCode() {
-        return "if (" + test.toCode() + ") " + body.toCode();
-    }
+        StringBuilder code = new StringBuilder();
 
+        code.append("if (");
+        code.append(test.toCode());
+        code.append(") " );
+        code.append(body.toCode());
+
+        return code.toString();
+    }
 }

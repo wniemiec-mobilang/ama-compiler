@@ -9,8 +9,8 @@ public class PersistenceRecord<T> {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private String name;
-    private T initialValue;
+    private final String name;
+    private final T initialValue;
 
 
     //-------------------------------------------------------------------------
@@ -22,6 +22,7 @@ public class PersistenceRecord<T> {
     }
 
     public PersistenceRecord() {
+        this("", null);
     }
 
 

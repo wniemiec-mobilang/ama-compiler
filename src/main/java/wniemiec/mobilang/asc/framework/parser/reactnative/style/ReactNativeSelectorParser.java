@@ -16,7 +16,7 @@ class ReactNativeSelectorParser {
     //-------------------------------------------------------------------------
     private static final String ID_LABEL;
     private static final String CLASS_LABEL;
-    private Tag tag;
+    private final Tag tag;
 
 
     //-------------------------------------------------------------------------

@@ -1,17 +1,17 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import src/screens/HomeScreen.js from ../screens/src/screens/HomeScreen.js
-import src/screens/GlossarydescScreen.js from ../screens/src/screens/GlossarydescScreen.js
-import src/screens/GlossaryScreen.js from ../screens/src/screens/GlossaryScreen.js
+import HomeScreen from '../screens/HomeScreen.js'
+import GlossarydescScreen from '../screens/GlossarydescScreen.js'
+import GlossaryScreen from '../screens/GlossaryScreen.js'
 
 const Stack = createStackNavigator();
 
 const MainStack = () => {
     return (
         <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="src/screens/HomeScreen.js" component={src/screens/HomeScreen.js} />
-            <Stack.Screen name="src/screens/GlossarydescScreen.js" component={src/screens/GlossarydescScreen.js} />
-            <Stack.Screen name="src/screens/GlossaryScreen.js" component={src/screens/GlossaryScreen.js} />
+            <Stack.Screen name="HomeScreen" component={HomeScreen} />
+            <Stack.Screen name="GlossarydescScreen" component={GlossarydescScreen} />
+            <Stack.Screen name="GlossaryScreen" component={GlossaryScreen} />
         </Stack.Navigator>
     );
 }

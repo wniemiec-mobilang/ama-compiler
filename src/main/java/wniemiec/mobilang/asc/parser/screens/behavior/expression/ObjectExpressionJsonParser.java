@@ -50,7 +50,6 @@ class ObjectExpressionJsonParser implements ExpressionJsonParser {
     //-------------------------------------------------------------------------
     @Override
     public Expression parse(JSONObject jsonObject) throws JSONException, ParseException {
-
         return new ObjectExpression(
             parseProperties(jsonObject.getJSONArray("properties"))
         );

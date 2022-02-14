@@ -118,10 +118,10 @@ class GetElementByIdReactNativeParser {
     }
 
     private String extractVariableFromAssignment(String tagProperty) {
-        return tagProperty.split("=")[0];
+        return tagProperty.substring(0, tagProperty.indexOf('='));
     }
 
     private String extractValueFromAssignment(String tagProperty) {
-        return tagProperty.split("=")[1];
+        return tagProperty.substring(tagProperty.indexOf('=')+1);
     }
 }

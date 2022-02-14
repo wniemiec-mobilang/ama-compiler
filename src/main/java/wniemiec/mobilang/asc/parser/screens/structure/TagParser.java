@@ -34,7 +34,6 @@ class TagParser {
     public Tag parseBodyTag(JSONObject jsonBodyTag) {
         Tag bodyTag = null;
         
-        
         tagsToParse.push(new JsonTag(jsonBodyTag, null));
 
         while (!tagsToParse.empty()) {

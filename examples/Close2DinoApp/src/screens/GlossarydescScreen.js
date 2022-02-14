@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const 29b44272f6091cd2473443e4924639f0 = styled.View``;
+const _50a6edee23e6efe9f1ef83386700e5f0 = styled.View``;
 
-const 25c825f01c8bf352435c44fa5245a2ec = styled.div`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
+const _cae4e59f87c04e6c22e7ea098f872a9a = styled.div`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
 
-const a5c06c10a621816c824f2914a486dac4 = styled.div`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
+const _27f55491159712258f0cee766a26dd91 = styled.div`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
 
-const 1af336723050ec46539c7c4360211edc = styled.button`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _8e022fa14a97a8d1069b7cdb7430da67 = styled.button`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const 87774edc329979096351934dbae77def = styled.img``;
+const _227eb523f040fcee649b02dd63cf445b = styled.img``;
 
-const e32e9853855ed04d06676c38209c908c = styled.button`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _408387c38d1a68423a487b879210dbe = styled.button`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const 73d54409064be73ca97c336e4c9cd45e = styled.img``;
+const _968d0fd9f1f354df9e3813808221da22 = styled.img``;
 
 
 function GlossarydescScreen(props) {
@@ -27,25 +27,25 @@ const id=props.route.params.query.split("?")[1].split("=")[1];
 const glossaryItem=data.find((item) => item.id==id);
 let _glossary=[];
 _glossary=[];
-_glossary.push(<><div id=glossary><div class=header><h1>${glossaryItem.name}</h1><h2>${glossaryItem.type}</h2></div><p>${glossaryItem.description}</p></div></>);
+_glossary.push(<><div id='glossary'><div class='header'><h1>${glossaryItem.name}</h1><h2>${glossaryItem.type}</h2></div><p>${glossaryItem.description}</p></div></>);
 setglossary(_glossary);
 }, []);
 
 return (
-<29b44272f6091cd2473443e4924639f0>
-<a5c06c10a621816c824f2914a486dac4 id=status-bar>
-<e32e9853855ed04d06676c38209c908c id=menu-btn .onclick=() >
-<73d54409064be73ca97c336e4c9cd45e src=https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png height=25>
-</73d54409064be73ca97c336e4c9cd45e>
-</e32e9853855ed04d06676c38209c908c>
-<1af336723050ec46539c7c4360211edc id=back-btn .onclick=() >
-<87774edc329979096351934dbae77def src=http://cdn.onlinewebfonts.com/svg/img_259786.png height=25>
-</87774edc329979096351934dbae77def>
-</1af336723050ec46539c7c4360211edc>
-</a5c06c10a621816c824f2914a486dac4>
-<25c825f01c8bf352435c44fa5245a2ec id=glossary>
-</25c825f01c8bf352435c44fa5245a2ec>
-</29b44272f6091cd2473443e4924639f0>
+<_50a6edee23e6efe9f1ef83386700e5f0>
+<_27f55491159712258f0cee766a26dd91 id='status-bar'>
+<_408387c38d1a68423a487b879210dbe onclick='() ' id='menu-btn'>
+<_968d0fd9f1f354df9e3813808221da22 src='https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png' height='25'>
+</_968d0fd9f1f354df9e3813808221da22>
+</_408387c38d1a68423a487b879210dbe>
+<_8e022fa14a97a8d1069b7cdb7430da67 onclick='() ' id='back-btn'>
+<_227eb523f040fcee649b02dd63cf445b src='http://cdn.onlinewebfonts.com/svg/img_259786.png' height='25'>
+</_227eb523f040fcee649b02dd63cf445b>
+</_8e022fa14a97a8d1069b7cdb7430da67>
+</_27f55491159712258f0cee766a26dd91>
+<_cae4e59f87c04e6c22e7ea098f872a9a id='glossary'>
+</_cae4e59f87c04e6c22e7ea098f872a9a>
+</_50a6edee23e6efe9f1ef83386700e5f0>
 );
 }
 

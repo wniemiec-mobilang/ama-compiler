@@ -90,7 +90,7 @@ class GetElementByIdReactNativeParser {
         String attributeValue = extractValueFromAssignment(attributeAssignment);
         Tag tag = getReferedTag(code);
 
-        tag.addAttribute(attributeName, attributeValue);
+        tag.addAttribute(attributeName, "{" + attributeValue + "}");
 
         return "";
     }

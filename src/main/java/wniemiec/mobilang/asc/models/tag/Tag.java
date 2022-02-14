@@ -176,9 +176,16 @@ public class Tag {
         for (Map.Entry<String, String> attribute : attributes.entrySet()) {
             code.append(attribute.getKey());
             code.append('=');
-            code.append('\'');
-            code.append(attribute.getValue());
-            code.append('\'');
+
+            if (attribute.getValue().startsWith("{")) {
+                code.append(attribute.getValue());
+            }
+            else {
+                code.append('\'');
+                code.append(attribute.getValue());
+                code.append('\'');
+            }
+
             code.append(' ');
         }
 
@@ -266,5 +273,9 @@ public class Tag {
 
     public void setParent(Tag father) {
         this.parent = father;
+    }
+
+    Map<String, String> getAttributes() {
+        return attributes;
     }
 }

@@ -108,7 +108,7 @@ class InnerHtmlReactNativeParser {
         if (!identifier.contains("-")) {
             return identifier;
         }
-        
+
         StringBuilder normalizedId = new StringBuilder();
 
         for (String term : identifier.split("-")) {
@@ -192,7 +192,9 @@ class InnerHtmlReactNativeParser {
         code.append('_');
         code.append(target);
         code.append("=[");
+        code.append('`');
         code.append(assignment);
+        code.append('`');
         code.append(']');
 
         return code.toString();
@@ -204,7 +206,9 @@ class InnerHtmlReactNativeParser {
         code.append('_');
         code.append(target);
         code.append(".push(");
+        code.append('`');
         code.append(assignment);
+        code.append('`');
         code.append(')');
 
         return code.toString();

@@ -80,7 +80,7 @@ public class ReactNativeStructureParser {
         Tag parsedTag = convertTagToReactNativeTag(unparsedTag.getTag());
 
         if (unparsedTag.hasParent()) {
-            unparsedTag.addSibling(parsedTag);
+            unparsedTag.replaceTagTo(parsedTag);
         }
 
         parseTagChildren(unparsedTag.getTag());

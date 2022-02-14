@@ -52,6 +52,10 @@ public class Tag {
         child.setParent(this);
     }
 
+    public void replaceChild(Tag tag, Tag newTag) {
+        children.set(children.indexOf(tag), newTag);
+    }
+
     public void print() {
         print(this, 0);
     }

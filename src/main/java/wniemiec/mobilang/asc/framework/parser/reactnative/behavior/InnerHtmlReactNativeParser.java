@@ -105,6 +105,10 @@ class InnerHtmlReactNativeParser {
     }
 
     private String normalizeIdentifier(String identifier) {
+        if (!identifier.contains("-")) {
+            return identifier;
+        }
+        
         StringBuilder normalizedId = new StringBuilder();
 
         for (String term : identifier.split("-")) {

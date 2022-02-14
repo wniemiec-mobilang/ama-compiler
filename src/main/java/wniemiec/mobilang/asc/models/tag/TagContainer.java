@@ -37,6 +37,10 @@ public class TagContainer {
         return (parent != null);
     }
 
+    public void replaceTagTo(Tag newTag) {
+        parent.replaceChild(tag, newTag);
+    }
+
 
     //-------------------------------------------------------------------------
     //		Getters

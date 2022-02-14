@@ -48,7 +48,7 @@ public class ReactNativeFrameworkPersistenceCoder extends FrameworkPersistenceCo
         List<String> code = new ArrayList<>();
 
         code.add("import { combineReducers } from 'redux';");
-        code.add("import StandardReducer from './StandardReducer'';");
+        code.add("import StandardReducer from './StandardReducer';");
         code.add("");
         code.add("export default combineReducers({");
         code.add("  StandardReducer");

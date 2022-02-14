@@ -130,7 +130,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         code.add("import { createStackNavigator } from '@react-navigation/stack';");
 
         for (String screenName : screensName) {
-            code.add("import " + screenName + " from ../screens/" + screenName);
+            code.add("import " + screenName + " from '../screens/" + screenName + ".js'");
         }
         
         code.add("");

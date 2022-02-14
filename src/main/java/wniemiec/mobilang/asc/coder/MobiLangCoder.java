@@ -86,8 +86,8 @@ public class MobiLangCoder {
     private List<String> extractScreensFilename() {
         List<String> screensFilename = new ArrayList<>();
 
-        for (FileCode fileCode : screensCode) {
-            screensFilename.add(fileCode.getName());
+        for (ScreenData screenData : screensData) {
+            screensFilename.add(screenData.getName());
         }
 
         return screensFilename;

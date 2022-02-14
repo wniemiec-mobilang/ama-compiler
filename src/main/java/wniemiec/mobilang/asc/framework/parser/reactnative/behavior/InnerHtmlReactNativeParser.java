@@ -13,6 +13,7 @@ import wniemiec.mobilang.asc.models.tag.Tag;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.html.HtmlParser;
 import wniemiec.mobilang.asc.parser.screens.structure.StructureParser;
+import wniemiec.mobilang.asc.utils.StringUtils;
 
 
 /**
@@ -104,7 +105,15 @@ class InnerHtmlReactNativeParser {
     }
 
     private String normalizeIdentifier(String identifier) {
-        return identifier.replace("-", "_");
+        StringBuilder normalizedId = new StringBuilder();
+
+        for (String term : identifier.split("-")) {
+            normalizedId.append(StringUtils.capitalize(term));
+        }
+
+        normalizedId.setCharAt(0, Character.toUpperCase(normalizedId.charAt(0)));
+
+        return normalizedId.toString();
     }
 
     private String getTagIdFromHtmlTarget(String htmlTarget, String code) {

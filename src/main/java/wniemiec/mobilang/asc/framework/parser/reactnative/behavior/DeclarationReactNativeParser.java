@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import wniemiec.mobilang.asc.models.behavior.Variable;
+import wniemiec.mobilang.asc.utils.StringUtils;
 
 
 /**
@@ -58,7 +59,7 @@ class DeclarationReactNativeParser {
         StringBuilder code = new StringBuilder();
 
         code.append("set");
-        code.append(declaration.getId());
+        code.append(StringUtils.capitalize(declaration.getId()));
         code.append("(_");
         code.append(declaration.getId());
         code.append(')');

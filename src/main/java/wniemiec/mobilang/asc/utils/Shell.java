@@ -17,7 +17,8 @@ public class Shell {
     //		Attributes
     //-------------------------------------------------------------------------
     private final Path workingDirectory;
-    private Runtime runtime;
+    private final boolean displayOutput;
+    private final Runtime runtime;
     private String output;
     private String errorOutput;
 
@@ -25,14 +26,26 @@ public class Shell {
     //-------------------------------------------------------------------------
     //		Constructors
     //-------------------------------------------------------------------------
+    /**
+     * Run shell commands. Using this constructor, working directory will be
+     * user current directory and output will be displayed on console.
+     */
     public Shell() {
-        this(Path.of(System.getProperty("user.dir")));
-        runtime = Runtime.getRuntime();
-        clean();
+        this(Path.of(System.getProperty("user.dir")), true);
     }
 
-    public Shell(Path workingDirectory) {
+    /**
+     * Run shell commands.
+     * 
+     * @param       workingDirectory Working directory
+     * @param       displayOutput True if output should be printed on console;
+     * false otherwise.
+     */
+    public Shell(Path workingDirectory, boolean displayOutput) {
         this.workingDirectory = workingDirectory;
+        this.displayOutput = displayOutput;
+        runtime = Runtime.getRuntime();
+        clean();
     }
 
 
@@ -81,6 +94,10 @@ public class Shell {
         while ((line = reader.readLine()) != null) {
             builder.append(line);
             builder.append(System.getProperty("line.separator"));
+
+            if (displayOutput) {
+                System.out.println(line);
+            }
         }
 
         return builder.toString();

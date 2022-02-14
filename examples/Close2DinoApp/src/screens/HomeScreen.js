@@ -2,19 +2,17 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const f0b1f2dccf38a777d2965de59156f7a5 = styled.View``;
+const d581d75a259782a9720852f3b832f1a4 = styled.View``;
 
-const a45123db8ea20e3765f305b0e84ceb91 = styled.View``;
+const 620d2d2ef4d72cbd1caf9938676404b8 = styled.div``;
 
-const 73448eeb73368d7a2616fca94000ff09 = styled.TouchableOpacity``;
+const 76f1e82ba3dfa1f257f85669e8538946 = styled.a``;
 
-const 6027952618e93dc961a1168862a9c5c3 = styled.Text``;
+const 4c6a1a73d92b4524703bc4679862f96c = styled.div`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
 
-const fdbe19a879372507d77b93bd44ab0c8b = styled.View``;
+const f1f9753809a54f73f25fafd644f59a01 = styled.button`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const 1d9b36e9e70a7728f112fe93830d5fa6 = styled.TouchableOpacity``;
-
-const a5697cef519a3dd13fc3017d90abf3d6 = styled.Image``;
+const fa8fcf35f6df62ef0c7f4a917803524e = styled.img``;
 
 
 function HomeScreen(props) {
@@ -24,21 +22,19 @@ useEffect(() => {
 }, []);
 
 return (
-<f0b1f2dccf38a777d2965de59156f7a5>
-<fdbe19a879372507d77b93bd44ab0c8b id=status-bar>
-<1d9b36e9e70a7728f112fe93830d5fa6 id=menu-btn .onclick=() >
-<a5697cef519a3dd13fc3017d90abf3d6 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</a5697cef519a3dd13fc3017d90abf3d6>
-</1d9b36e9e70a7728f112fe93830d5fa6>
-</fdbe19a879372507d77b93bd44ab0c8b>
-<a45123db8ea20e3765f305b0e84ceb91 id=items>
-<73448eeb73368d7a2616fca94000ff09 onPress=() => redirectTo('mobilang:screen:glossary')>
-<6027952618e93dc961a1168862a9c5c3>
+<d581d75a259782a9720852f3b832f1a4>
+<4c6a1a73d92b4524703bc4679862f96c id=status-bar>
+<f1f9753809a54f73f25fafd644f59a01 id=menu-btn .onclick=() >
+<fa8fcf35f6df62ef0c7f4a917803524e src=https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png height=25>
+</fa8fcf35f6df62ef0c7f4a917803524e>
+</f1f9753809a54f73f25fafd644f59a01>
+</4c6a1a73d92b4524703bc4679862f96c>
+<620d2d2ef4d72cbd1caf9938676404b8 id=items>
+<76f1e82ba3dfa1f257f85669e8538946 href=mobilang:screen:glossary>
 Glossário
-</6027952618e93dc961a1168862a9c5c3>
-</73448eeb73368d7a2616fca94000ff09>
-</a45123db8ea20e3765f305b0e84ceb91>
-</f0b1f2dccf38a777d2965de59156f7a5>
+</76f1e82ba3dfa1f257f85669e8538946>
+</620d2d2ef4d72cbd1caf9938676404b8>
+</d581d75a259782a9720852f3b832f1a4>
 );
 }
 

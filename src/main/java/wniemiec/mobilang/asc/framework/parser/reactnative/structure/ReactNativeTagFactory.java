@@ -60,6 +60,16 @@ class ReactNativeTagFactory {
     throws ClassNotFoundException {
         String normalizedType = StringUtils.capitalize(type);
 
-        return Class.forName(EXPRESSION_PACKAGE + normalizedType + CLASS_SUFFIX);
+        return buildTagParserClass(normalizedType);
+    }
+
+
+    private static Class<?> buildTagParserClass(String tagType) 
+    throws ClassNotFoundException {
+        if (tagType.isBlank()) {
+            return Class.forName(EXPRESSION_PACKAGE + "Empty" + CLASS_SUFFIX);
+        }
+
+        return Class.forName(EXPRESSION_PACKAGE + tagType + CLASS_SUFFIX);
     }
 }

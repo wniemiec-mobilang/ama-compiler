@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _ec502e9b0184ee61d51bef556e8d150f = styled.View``;
+const _985c2f6f14c462704a5e3d8399e84749 = styled.View`background-color: #444;margin: 0;`;
 
-const _dba107313da28e61f26bf90775d0396f = styled.View``;
+const _85b14bd7dfd4d58ac6080e9e263e36dc = styled.View``;
 
-const _34e64f8c95bf04cffea029738675115d = styled.TouchableOpacity``;
+const _ba64d03caafacf512faa88e697e591f = styled.TouchableOpacity``;
 
-const _e7c911db53df20b271a84b1d764b7eb6 = styled.View``;
+const _a927da888294dc493179c723123abdbb = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
 
-const _a83ab2b91b00d3953a5250b9ae3499a0 = styled.TouchableOpacity``;
+const _842044f0cd8620d446f1dce0a3b0e0b0 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _39f737c02dce81dd528ca4642aff756b = styled.Image``;
+const _a97c7d939278ae8d9c92e8b5aec69dbf = styled.Image``;
 
 
 function HomeScreen(props) {
@@ -22,18 +22,18 @@ useEffect(() => {
 }, []);
 
 return (
-<_ec502e9b0184ee61d51bef556e8d150f>
-<_e7c911db53df20b271a84b1d764b7eb6 id='status-bar'>
-<_a83ab2b91b00d3953a5250b9ae3499a0 onclick={() => props.route.params.query="mobilang:screen:home"} id='menu-btn'>
-<_39f737c02dce81dd528ca4642aff756b source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_39f737c02dce81dd528ca4642aff756b>
-</_a83ab2b91b00d3953a5250b9ae3499a0>
-</_e7c911db53df20b271a84b1d764b7eb6>
-<_dba107313da28e61f26bf90775d0396f id='items'>
-<_34e64f8c95bf04cffea029738675115d onPress='() => redirectTo('mobilang:screen:glossary')'>
-</_34e64f8c95bf04cffea029738675115d>
-</_dba107313da28e61f26bf90775d0396f>
-</_ec502e9b0184ee61d51bef556e8d150f>
+<_985c2f6f14c462704a5e3d8399e84749>
+<_a927da888294dc493179c723123abdbb id='status-bar'>
+<_842044f0cd8620d446f1dce0a3b0e0b0 onclick={() => props.route.params.query="mobilang:screen:home"} id='menu-btn'>
+<_a97c7d939278ae8d9c92e8b5aec69dbf source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_a97c7d939278ae8d9c92e8b5aec69dbf>
+</_842044f0cd8620d446f1dce0a3b0e0b0>
+</_a927da888294dc493179c723123abdbb>
+<_85b14bd7dfd4d58ac6080e9e263e36dc id='items'>
+<_ba64d03caafacf512faa88e697e591f onPress='() => redirectTo('mobilang:screen:glossary')'>
+</_ba64d03caafacf512faa88e697e591f>
+</_85b14bd7dfd4d58ac6080e9e263e36dc>
+</_985c2f6f14c462704a5e3d8399e84749>
 );
 }
 

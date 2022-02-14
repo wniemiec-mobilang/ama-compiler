@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _5bacbf462f1f818e50976ecdf0cd1ccb = styled.View``;
+const _64dcf6de29750254027ecd0079452467 = styled.View`background-color: #222;margin: 0;`;
 
-const _4c49b02b12279b81e47d6145b0e358c4 = styled.View``;
+const _25983b9b5418d91b6e0f721ad66368c1 = styled.View`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
 
-const _2dc66414cf0449b861cee95f7828ecae = styled.View``;
+const _651ba7ebd4cb78af4f637c95457e95fa = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
 
-const _9eea2dcf23709199a1616d5b43d0d279 = styled.TouchableOpacity``;
+const _e9666cee95c517b0d26901e5d365fbb3 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _72713f8c3e6efecab9fd69b719921884 = styled.Image``;
+const _3727dc5cbabfce8cdfc807ea673d1aca = styled.Image``;
 
-const _6e60a83ab449ef17c6ae68667d952977 = styled.TouchableOpacity``;
+const _79f424a286071a7a14ce7a0f129f23d5 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _5ac0762e0f681c83a692fca7d7d28d3f = styled.Image``;
+const _e498e1551c34359c5ff7d2160ebb3b61 = styled.Image``;
 
 
 function GlossarydescScreen(props) {
@@ -26,26 +26,26 @@ const data=[{name: "Adenomegalia",description: "Linfonodos ou gânglios aumentado
 const id=props.route.params.query.split("?")[1].split("=")[1];
 const glossaryItem=data.find((item) => item.id==id);
 let _glossary=[];
-_glossary=[];
-_glossary.push(<><View id='glossary'><View class='header'><Text>${glossaryItem.name}</Text><Text>${glossaryItem.type}</Text></View><Text>${glossaryItem.description}</Text></View></>);
+_glossary=[``];
+_glossary.push(`<><View id='glossary'><View class='header'><Text>${glossaryItem.name}</Text><Text>${glossaryItem.type}</Text></View><Text>${glossaryItem.description}</Text></View></>`);
 setGlossary(_glossary);
 }, []);
 
 return (
-<_5bacbf462f1f818e50976ecdf0cd1ccb>
-<_2dc66414cf0449b861cee95f7828ecae id='status-bar'>
-<_6e60a83ab449ef17c6ae68667d952977 onclick={() => props.route.params.query="mobilang:screen:home"} id='menu-btn'>
-<_5ac0762e0f681c83a692fca7d7d28d3f source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_5ac0762e0f681c83a692fca7d7d28d3f>
-</_6e60a83ab449ef17c6ae68667d952977>
-<_9eea2dcf23709199a1616d5b43d0d279 onclick={() => props.route.params.query="mobilang:screen:glossary"} id='back-btn'>
-<_72713f8c3e6efecab9fd69b719921884 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_72713f8c3e6efecab9fd69b719921884>
-</_9eea2dcf23709199a1616d5b43d0d279>
-</_2dc66414cf0449b861cee95f7828ecae>
-<_4c49b02b12279b81e47d6145b0e358c4 id='glossary'>
-</_4c49b02b12279b81e47d6145b0e358c4>
-</_5bacbf462f1f818e50976ecdf0cd1ccb>
+<_64dcf6de29750254027ecd0079452467>
+<_651ba7ebd4cb78af4f637c95457e95fa id='status-bar'>
+<_79f424a286071a7a14ce7a0f129f23d5 onclick={() => props.route.params.query="mobilang:screen:home"} id='menu-btn'>
+<_e498e1551c34359c5ff7d2160ebb3b61 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_e498e1551c34359c5ff7d2160ebb3b61>
+</_79f424a286071a7a14ce7a0f129f23d5>
+<_e9666cee95c517b0d26901e5d365fbb3 onclick={() => props.route.params.query="mobilang:screen:glossary"} id='back-btn'>
+<_3727dc5cbabfce8cdfc807ea673d1aca source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_3727dc5cbabfce8cdfc807ea673d1aca>
+</_e9666cee95c517b0d26901e5d365fbb3>
+</_651ba7ebd4cb78af4f637c95457e95fa>
+<_25983b9b5418d91b6e0f721ad66368c1 id='glossary'>
+</_25983b9b5418d91b6e0f721ad66368c1>
+</_64dcf6de29750254027ecd0079452467>
 );
 }
 

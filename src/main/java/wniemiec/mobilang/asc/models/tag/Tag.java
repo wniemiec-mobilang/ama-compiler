@@ -181,9 +181,9 @@ public class Tag {
                 code.append(attribute.getValue());
             }
             else {
-                code.append('\'');
+                code.append('\"');
                 code.append(attribute.getValue());
-                code.append('\'');
+                code.append('\"');
             }
 
             code.append(' ');

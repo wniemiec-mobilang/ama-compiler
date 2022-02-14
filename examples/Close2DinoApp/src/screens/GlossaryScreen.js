@@ -2,27 +2,27 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _94508b84420558c620768ba0e022fcdc = styled.View``;
+const _951bd8d72d2304af345f8b1b8dfc80f6 = styled.View`background-color: #444;margin: 0;`;
 
-const _6f11f4ad8627bcd73e8a4d4ef36bf9bd = styled.View``;
+const _11bbb2bcb186e3ba39d13a5c457a9fd5 = styled.View`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
 
-const _e3159b355ce198da81d806770432908f = styled.View``;
+const _27c51228711da480c7ba9324434e1cb4 = styled.View`background-color: #222;`;
 
-const _3908b27c0fa434fbdac8ea3765eea105 = styled.Text``;
+const _9af6ca607e7fe2ac5f3442c9dd7340fc = styled.Text``;
 
-const _34ee9666ef2e35f313b04819cd7010a4 = styled.View``;
+const _5cd1dbae6b0ca8947e5b39781e379231 = styled.View`margin: 10px;`;
 
-const _80cf32d21ad018fdf485f48d34ef8e47 = styled.TextInput``;
+const _9e6415269ad2f524400eeb9eb8606739 = styled.TextInput``;
 
-const _cb1fc127f03c1ae9e239bffe953081ee = styled.View``;
+const _962fb354e15e02deb418f2f8d9c89021 = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
 
-const _28325361996eca039b2337ebc59ef139 = styled.TouchableOpacity``;
+const _a94bd367f5fada0d71f5f73c05ed39c8 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _9c007c0494ffc36e7b0f8563763432bc = styled.Image``;
+const _b6ccec9f32a8f9a25c589113dd510bc5 = styled.Image``;
 
-const _3f13d29de00679c7c56b8ba534ae56c3 = styled.TouchableOpacity``;
+const _45f4c0cb7a2da633369befbf01a35fad = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _b2da65d059886365ce5e3b85b18a8e15 = styled.Image``;
+const _e5175d5a90401274566c36397abddb53 = styled.Image``;
 
 
 function GlossaryScreen(props) {
@@ -44,10 +44,10 @@ makeGlossaryItemsClickable();
 const data=[{name: "Adenomegalia",description: "Linfonodos ou gânglios aumentados, também conhecidos como ínguas.",id: "1",type: "Condição",content: "Adenomegalia é o aumento dos linfonodos (ínguas). Pode estar presente em crianças e, na maior parte dos casos, é causada por infecções virais. Mais raramente podem ser causadas por doenças oncológicas tais como leucemias ou linfomas."},{name: "Alopécia",description: "Queda de cabelos",id: "2",type: "Condição",content: "A alopécia é a perda de cabelos do couro cabeludo ou de qualquer outra região do corpo. Em crianças em tratamento oncológico (quimioterapia ou radioterapia) a queda do cabelo pode acontecer. Nestes casos, uma vez terminado o tratamento o cabelo volta a crescer."}];
 function loadGlossaryWithName(name="") {;
 let _glossaryContent=[];
-_glossaryContent=[];
+_glossaryContent=[``];
 for (let item of data) {;
 if (item.name.toLowerCase().startsWith(name.toLowerCase())) {;
-_glossaryContent.push(<><View class='item'><Text>${item.name}</Text><View class='item-content'><Text>${item.type}</Text><Text>${item.description}</Text><TouchableOpacity onPress='() => redirectTo('mobilang:screen:glossary-desc.html?id=${item.id}')'></TouchableOpacity></View></View></>);
+_glossaryContent.push(`<><View class='item'><Text>${item.name}</Text><View class='item-content'><Text>${item.type}</Text><Text>${item.description}</Text><TouchableOpacity onPress='() => redirectTo('mobilang:screen:glossary-desc.html?id=${item.id}')'></TouchableOpacity></View></View></>`);
 };
 };
 makeGlossaryItemsClickable();
@@ -62,29 +62,29 @@ setGlossarycontent(_glossaryContent);
 }, []);
 
 return (
-<_94508b84420558c620768ba0e022fcdc>
-<_cb1fc127f03c1ae9e239bffe953081ee id='status-bar'>
-<_3f13d29de00679c7c56b8ba534ae56c3 onclick={() => props.route.params.query="mobilang:screen:home"} id='menu-btn'>
-<_b2da65d059886365ce5e3b85b18a8e15 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_b2da65d059886365ce5e3b85b18a8e15>
-</_3f13d29de00679c7c56b8ba534ae56c3>
-<_28325361996eca039b2337ebc59ef139 onclick={() => props.route.params.query="mobilang:screen:home"} id='back-btn'>
-<_9c007c0494ffc36e7b0f8563763432bc source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_9c007c0494ffc36e7b0f8563763432bc>
-</_28325361996eca039b2337ebc59ef139>
-</_cb1fc127f03c1ae9e239bffe953081ee>
-<_34ee9666ef2e35f313b04819cd7010a4 id='search'>
-<_80cf32d21ad018fdf485f48d34ef8e47>
-</_80cf32d21ad018fdf485f48d34ef8e47>
-</_34ee9666ef2e35f313b04819cd7010a4>
-<_6f11f4ad8627bcd73e8a4d4ef36bf9bd id='glossary'>
-<_3908b27c0fa434fbdac8ea3765eea105>
+<_951bd8d72d2304af345f8b1b8dfc80f6>
+<_962fb354e15e02deb418f2f8d9c89021 id='status-bar'>
+<_45f4c0cb7a2da633369befbf01a35fad onclick={() => props.route.params.query="mobilang:screen:home"} id='menu-btn'>
+<_e5175d5a90401274566c36397abddb53 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_e5175d5a90401274566c36397abddb53>
+</_45f4c0cb7a2da633369befbf01a35fad>
+<_a94bd367f5fada0d71f5f73c05ed39c8 onclick={() => props.route.params.query="mobilang:screen:home"} id='back-btn'>
+<_b6ccec9f32a8f9a25c589113dd510bc5 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_b6ccec9f32a8f9a25c589113dd510bc5>
+</_a94bd367f5fada0d71f5f73c05ed39c8>
+</_962fb354e15e02deb418f2f8d9c89021>
+<_5cd1dbae6b0ca8947e5b39781e379231 id='search'>
+<_9e6415269ad2f524400eeb9eb8606739>
+</_9e6415269ad2f524400eeb9eb8606739>
+</_5cd1dbae6b0ca8947e5b39781e379231>
+<_11bbb2bcb186e3ba39d13a5c457a9fd5 id='glossary'>
+<_9af6ca607e7fe2ac5f3442c9dd7340fc>
 Glossário
-</_3908b27c0fa434fbdac8ea3765eea105>
-<_e3159b355ce198da81d806770432908f id='glossary-content'>
-</_e3159b355ce198da81d806770432908f>
-</_6f11f4ad8627bcd73e8a4d4ef36bf9bd>
-</_94508b84420558c620768ba0e022fcdc>
+</_9af6ca607e7fe2ac5f3442c9dd7340fc>
+<_27c51228711da480c7ba9324434e1cb4 id='glossary-content'>
+</_27c51228711da480c7ba9324434e1cb4>
+</_11bbb2bcb186e3ba39d13a5c457a9fd5>
+</_951bd8d72d2304af345f8b1b8dfc80f6>
 );
 }
 

@@ -114,7 +114,7 @@ class GetElementByIdReactNativeParser {
     }
 
     private String extractAttributeAssignment(String code) {
-        return code.substring(code.indexOf(").")+1);
+        return code.substring(code.indexOf(").")+2);
     }
 
     private String extractVariableFromAssignment(String tagProperty) {

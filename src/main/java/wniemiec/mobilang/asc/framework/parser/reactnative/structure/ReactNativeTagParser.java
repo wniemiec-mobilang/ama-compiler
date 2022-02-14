@@ -39,6 +39,7 @@ abstract class ReactNativeTagParser {
         Tag reactNativeTag = buildReactNativeTagFrom(tag);
 
         copyChildren(tag, reactNativeTag);
+        copyStyle(tag, reactNativeTag);
         parseAttributes(tag, reactNativeTag);
 
         return reactNativeTag;
@@ -48,6 +49,10 @@ abstract class ReactNativeTagParser {
     
     private void copyChildren(Tag tag, Tag reactNativeTag) {
         reactNativeTag.setChildren(tag.getChildren());
+    }
+
+    private void copyStyle(Tag tag, Tag reactNativeTag) {
+        reactNativeTag.setStyle(tag.getStyle());
     }
 
     private void parseAttributes(Tag tag, Tag reactNativeTag) {

@@ -22,12 +22,14 @@ class ObjectExpressionJsonParser implements ExpressionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static ObjectExpressionJsonParser instance;
+    private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
     private ObjectExpressionJsonParser() {
+        expressionParser = ExpressionParser.getInstance();
     }
 
 
@@ -48,6 +50,7 @@ class ObjectExpressionJsonParser implements ExpressionJsonParser {
     //-------------------------------------------------------------------------
     @Override
     public Expression parse(JSONObject jsonObject) throws JSONException, ParseException {
+
         return new ObjectExpression(
             parseProperties(jsonObject.getJSONArray("properties"))
         );
@@ -62,7 +65,7 @@ class ObjectExpressionJsonParser implements ExpressionJsonParser {
             
             properties.put(
                 property.getJSONObject("key").getString("name"), 
-                parse(property.getJSONObject("value"))
+                expressionParser.parse(property.getJSONObject("value"))
             );
         }
 

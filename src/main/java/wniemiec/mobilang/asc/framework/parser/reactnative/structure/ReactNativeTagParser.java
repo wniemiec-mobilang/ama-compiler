@@ -10,6 +10,22 @@ import wniemiec.mobilang.asc.models.tag.Tag;
 abstract class ReactNativeTagParser {
 
     //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private static final String ID_LABEL;
+    private static final String CLASS_LABEL;
+
+
+    //-------------------------------------------------------------------------
+    //		Initialization block
+    //-------------------------------------------------------------------------
+    static {
+        ID_LABEL = "id";
+        CLASS_LABEL = "class";
+    }
+
+
+    //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
     /**
@@ -35,12 +51,12 @@ abstract class ReactNativeTagParser {
     }
 
     private void parseAttributes(Tag tag, Tag reactNativeTag) {
-        if (tag.hasAttribute("id")) {
-            reactNativeTag.addAttribute("id", tag.getAttribute("id"));
+        if (tag.hasAttribute(ID_LABEL)) {
+            reactNativeTag.addAttribute(ID_LABEL, tag.getAttribute(ID_LABEL));
         }
 
-        if (tag.hasAttribute("class")) {
-            reactNativeTag.addAttribute("class", tag.getAttribute("class"));
+        if (tag.hasAttribute(CLASS_LABEL)) {
+            reactNativeTag.addAttribute(CLASS_LABEL, tag.getAttribute(CLASS_LABEL));
         }
     }
 }

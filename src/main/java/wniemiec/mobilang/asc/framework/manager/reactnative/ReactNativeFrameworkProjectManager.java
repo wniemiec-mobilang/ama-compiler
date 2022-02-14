@@ -31,7 +31,7 @@ public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager 
 
 
     private void exec(String command) throws IOException {
-        Shell shell = new Shell(workingDirectory);
+        Shell shell = new Shell(workingDirectory, true);
         shell.exec(command);
         
         if (shell.hasError()) {

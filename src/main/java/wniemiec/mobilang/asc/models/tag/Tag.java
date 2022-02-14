@@ -172,7 +172,9 @@ public class Tag {
         for (Map.Entry<String, String> attribute : attributes.entrySet()) {
             code.append(attribute.getKey());
             code.append('=');
+            code.append('\'');
             code.append(attribute.getValue());
+            code.append('\'');
             code.append(' ');
         }
 

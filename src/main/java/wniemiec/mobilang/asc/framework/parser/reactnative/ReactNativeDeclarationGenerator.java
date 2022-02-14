@@ -126,10 +126,16 @@ class ReactNativeDeclarationGenerator {
     }
 
     private String generateIdentifier() {
-        Encryptor md5Encryptor = Encryptors.md5();
         Long currentTime = new Date().getTime();
         Long randomNumber = Math.round(Math.random() * 9999);
+        String content = encrypt(String.valueOf(currentTime + randomNumber));
+
+        return "_" + content;
+    }
+
+    private String encrypt(String str) {
+        Encryptor md5Encryptor = Encryptors.md5();
         
-        return md5Encryptor.encrypt(String.valueOf(currentTime + randomNumber));
+        return md5Encryptor.encrypt(str);
     }
 }

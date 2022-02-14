@@ -49,9 +49,9 @@ public class ReactNativeStructureParser {
     public Tag parse() throws ParseException {
         Tag reactNativeTag = convertTagToReactNativeTag(structureRoot);
 
-        parseTagChildren(reactNativeTag);
-        
         tagsToParse = new Stack<>();
+        
+        parseTagChildren(reactNativeTag);
         
         while (!tagsToParse.empty()) {
             TagContainer unparsedTag = tagsToParse.pop();

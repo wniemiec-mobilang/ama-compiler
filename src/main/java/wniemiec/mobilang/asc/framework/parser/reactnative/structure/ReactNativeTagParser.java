@@ -22,12 +22,17 @@ abstract class ReactNativeTagParser {
     public final Tag parse(Tag tag) {
         Tag reactNativeTag = buildReactNativeTagFrom(tag);
 
+        copyChildren(tag, reactNativeTag);
         parseAttributes(tag, reactNativeTag);
 
         return reactNativeTag;
     }
 
     protected abstract Tag buildReactNativeTagFrom(Tag tag);
+    
+    private void copyChildren(Tag tag, Tag reactNativeTag) {
+        reactNativeTag.setChildren(tag.getChildren());
+    }
 
     private void parseAttributes(Tag tag, Tag reactNativeTag) {
         if (tag.hasAttribute("id")) {

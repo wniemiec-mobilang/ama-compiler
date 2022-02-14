@@ -2,7 +2,6 @@ package wniemiec.mobilang.asc.coder;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import wniemiec.mobilang.asc.framework.coder.FrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.coder.FrameworkCoreCoder;
 import wniemiec.mobilang.asc.framework.coder.FrameworkPersistenceCoder;

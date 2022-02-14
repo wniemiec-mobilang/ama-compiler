@@ -17,7 +17,7 @@ public class Tag {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final List<Tag> children;
+    private List<Tag> children;
     private String name;
     private String value;
     private Tag parent;
@@ -236,6 +236,10 @@ public class Tag {
 
     public List<Tag> getChildren() {
         return children;
+    }
+
+    public void setChildren(List<Tag> newChildren) {
+        children = newChildren;
     }
 
     public String getAttribute(String name) {

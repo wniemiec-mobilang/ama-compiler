@@ -1,6 +1,7 @@
 package wniemiec.mobilang.asc.framework.manager.reactnative;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManager;
@@ -29,6 +30,8 @@ public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager 
         exec("react-native init " + propertiesData.getAppName());
         
         workingDirectory = workingDirectory.resolve(propertiesData.getAppName());
+
+        Files.delete(workingDirectory.resolve("App.js"));
     }
 
     private void exec(String... command) throws IOException {

@@ -83,10 +83,14 @@ public class ReactNativeStructureParser {
             unparsedTag.replaceTagTo(parsedTag);
         }
 
-        parseTagChildren(unparsedTag.getTag());
+        parseTagChildren(parsedTag);
     }
 
     private Tag convertTagToReactNativeTag(Tag tag) throws ParseException {
+        if (isReactNativeTag(tag)) {
+            return tag;
+        }
+        
         String tagType = tag.getName();
         
         try {
@@ -97,5 +101,13 @@ public class ReactNativeStructureParser {
         catch (FactoryException e) {
             throw new ParseException("No suitable conversion for tag with name: " + tagType);
         }
+    }
+
+    private boolean isReactNativeTag(Tag tag) {
+        if (tag.getName().isBlank()) {
+            return false;
+        }
+        
+        return Character.isUpperCase(tag.getName().charAt(0));
     }
 }

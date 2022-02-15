@@ -1,6 +1,8 @@
 package wniemiec.mobilang.asc.export;
 
 import java.util.List;
+import java.util.Set;
+
 import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PropertiesData;
@@ -21,14 +23,16 @@ public class ConsoleMobiLangCodeExport extends MobiLangCodeExport {
      * @param       screensCode Screens code
      * @param       persistenceCode Persistence code
      * @param       coreCode Core code
+     * @param       dependencies Project dependencies
      */
     public ConsoleMobiLangCodeExport(
         PropertiesData propertiesData, 
         List<FileCode> screensCode,
         List<FileCode> persistenceCode, 
-        List<FileCode> coreCode
+        List<FileCode> coreCode,
+        Set<String> dependencies
     ) {
-        super(propertiesData, screensCode, persistenceCode, coreCode);
+        super(propertiesData, screensCode, persistenceCode, coreCode, dependencies);
     }
 
 
@@ -61,5 +65,9 @@ public class ConsoleMobiLangCodeExport extends MobiLangCodeExport {
     @Override
     public void createProject() {
         Consolex.writeLine("Creating project " + propertiesData.getAppName());
+
+        for (String dependency : dependencies) {
+            Consolex.writeLine("Installing dependency " + dependency);
+        }
     }
 }

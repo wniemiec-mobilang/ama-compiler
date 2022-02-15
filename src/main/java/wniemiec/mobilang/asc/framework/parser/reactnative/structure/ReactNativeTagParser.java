@@ -48,7 +48,7 @@ abstract class ReactNativeTagParser {
     protected abstract Tag buildReactNativeTagFrom(Tag tag);
     
     private void copyChildren(Tag tag, Tag reactNativeTag) {
-        reactNativeTag.setChildren(tag.getChildren());
+        reactNativeTag.mergeChildren(tag.getChildren());
     }
 
     private void copyStyle(Tag tag, Tag reactNativeTag) {

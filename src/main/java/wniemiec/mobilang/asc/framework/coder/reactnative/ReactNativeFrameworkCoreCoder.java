@@ -2,7 +2,10 @@ package wniemiec.mobilang.asc.framework.coder.reactnative;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import wniemiec.mobilang.asc.framework.coder.FrameworkCoreCoder;
 import wniemiec.mobilang.asc.models.FileCode;
 
@@ -16,6 +19,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
     //		Attributes
     //-------------------------------------------------------------------------
     private final List<FileCode> coreCodes;
+    private final Set<String> dependencies;
 
 
     //-------------------------------------------------------------------------
@@ -24,6 +28,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
     public ReactNativeFrameworkCoreCoder(Collection<String> screensName) {
         super(screensName);
         coreCodes = new ArrayList<>();
+        dependencies = new HashSet<>();
     }
 
 
@@ -79,6 +84,14 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         code.add("import { NavigationContainer } from '@react-navigation/native';");
         code.add("import MainStack from './navigators/MainStack';");
         code.add("");
+
+        dependencies.add("styled-components");
+        dependencies.add("@react-navigation/native@^5.x");
+        dependencies.add("react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view");
+        dependencies.add("@react-navigation/stack@^5.x");
+        dependencies.add("redux react-redux redux-persist @react-native-async-storage/async-storage");
+        dependencies.add("uuid");
+        dependencies.add("react-native-get-random-values");
     }
 
     private void buildAppExport(List<String> code) {
@@ -170,5 +183,10 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
 
     private void buildNavigatorsExport(List<String> code) {
         code.add("export default MainStack;");
+    }
+
+    @Override
+    public Set<String> getDependencies() {
+        return dependencies;
     }
 }

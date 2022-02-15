@@ -2,7 +2,7 @@ package wniemiec.mobilang.asc.framework.coder;
 
 import java.util.Collection;
 import java.util.List;
-
+import java.util.Set;
 
 /**
  * Responsible for generating core code of a framework.
@@ -29,4 +29,6 @@ public abstract class FrameworkCoreCoder {
     //		Methods
     //-------------------------------------------------------------------------
     public abstract List<FileCode> generateCode();
+
+    public abstract Set<String> getDependencies();
 }

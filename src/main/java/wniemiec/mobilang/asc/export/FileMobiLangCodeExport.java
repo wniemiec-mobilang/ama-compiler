@@ -5,6 +5,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.io.FileUtils;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.TextFileManager;
@@ -38,6 +40,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
      * @param       screensCode Screens code
      * @param       persistenceCode Persistence code
      * @param       coreCode Core code
+     * @param       dependencies Project dependencies
      * @param       frameworkProjectManagerFactory Factory that will provide
      * framework project management
      * @param       outputLocation Location where the files will be exported
@@ -49,11 +52,11 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
         List<FileCode> screensCode, 
         List<FileCode> persistenceCode,
         List<FileCode> coreCode,
-        //Set<String> dependencies,
+        Set<String> dependencies,
         FrameworkProjectManagerFactory frameworkProjectManagerFactory, 
         Path outputLocation
     ) throws OutputLocationException {
-        super(propertiesData, screensCode, persistenceCode, coreCode);
+        super(propertiesData, screensCode, persistenceCode, coreCode, dependencies);
         
         setUpAppLocation(propertiesData, outputLocation);
         setUpProjectManager(frameworkProjectManagerFactory, outputLocation);
@@ -140,7 +143,10 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     public void createProject() throws CodeExportException {
         try {
             projectManager.create(propertiesData);
-            //projectManager.addDependencies(dependencies);
+
+            for (String dependency : dependencies) {
+                projectManager.addDependency(dependency);
+            }
         } 
         catch (IOException e) {
             throw new CodeExportException(e.getMessage());

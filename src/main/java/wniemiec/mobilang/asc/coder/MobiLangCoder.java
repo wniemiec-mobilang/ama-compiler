@@ -1,7 +1,10 @@
 package wniemiec.mobilang.asc.coder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import wniemiec.mobilang.asc.framework.coder.FrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.coder.FrameworkCoreCoder;
 import wniemiec.mobilang.asc.framework.coder.FrameworkPersistenceCoder;
@@ -25,6 +28,7 @@ public class MobiLangCoder {
     private List<FileCode> screensCode;
     private List<FileCode> persistenceCode;
     private List<FileCode> coreCode;
+    private Set<String> dependencies;
 
 
     //-------------------------------------------------------------------------
@@ -49,6 +53,7 @@ public class MobiLangCoder {
         screensCode = new ArrayList<>();
         persistenceCode = new ArrayList<>();
         coreCode = new ArrayList<>();
+        dependencies = new HashSet<>();
     }
 
 
@@ -74,7 +79,8 @@ public class MobiLangCoder {
     private void generateCodeForCore() {
         FrameworkCoreCoder coreCoder = getCoreCoder();
 
-        coreCode = coreCoder.generateCode();        
+        coreCode = coreCoder.generateCode();
+        dependencies = coreCoder.getDependencies();        
     }
 
     private FrameworkCoreCoder getCoreCoder() {
@@ -117,5 +123,9 @@ public class MobiLangCoder {
 
     public List<FileCode> getCoreCode() {
         return coreCode;
+    }
+
+    public Set<String> getDependencies() {
+        return dependencies;
     }
 }

@@ -1,6 +1,8 @@
 package wniemiec.mobilang.asc.export;
 
 import java.util.List;
+import java.util.Set;
+
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.PropertiesData;
@@ -15,6 +17,7 @@ public abstract class MobiLangCodeExport {
     //		Attributes
     //-------------------------------------------------------------------------
     protected final PropertiesData propertiesData;
+    protected final Set<String> dependencies;
     private final List<FileCode> screensCode;
     private final List<FileCode> persistenceCode;
     private final List<FileCode> coreCode;
@@ -30,17 +33,20 @@ public abstract class MobiLangCodeExport {
      * @param       screensCode Screens code
      * @param       persistenceCode Persistence code
      * @param       coreCode Core code
+     * @param       dependencies Project dependencies
      */
     protected MobiLangCodeExport(
         PropertiesData propertiesData,
         List<FileCode> screensCode,
         List<FileCode> persistenceCode,
-        List<FileCode> coreCode
+        List<FileCode> coreCode,
+        Set<String> dependencies
     ) {
         this.propertiesData = propertiesData;
         this.screensCode = screensCode;
         this.persistenceCode = persistenceCode;
         this.coreCode = coreCode;
+        this.dependencies = dependencies;
     }
 
 

@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _64dcf6de29750254027ecd0079452467 = styled.View`background-color: #222;margin: 0;`;
+const _bf82e14c146353002b55cac57bd3894d = styled.View`background-color: #222;margin: 0;`;
 
-const _25983b9b5418d91b6e0f721ad66368c1 = styled.View`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
+const _dcee0872fb24a3d8fd265386e61681fa = styled.View`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
 
-const _651ba7ebd4cb78af4f637c95457e95fa = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
+const _8c23993a9738882f648390f1e654f9dd = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
 
-const _e9666cee95c517b0d26901e5d365fbb3 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _ac499023582117106a079bfce64b4174 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _3727dc5cbabfce8cdfc807ea673d1aca = styled.Image``;
+const _e103c3e4c2f7fef701afa5c02891c778 = styled.Image``;
 
-const _79f424a286071a7a14ce7a0f129f23d5 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _7324c9fe5589ebf4752ec4a2b64f4bbe = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _e498e1551c34359c5ff7d2160ebb3b61 = styled.Image``;
+const _7d9d3e1bc3486e28fd43d6c64380fc = styled.Image``;
 
 
 function GlossarydescScreen(props) {
@@ -27,25 +27,25 @@ const id=props.route.params.query.split("?")[1].split("=")[1];
 const glossaryItem=data.find((item) => item.id==id);
 let _glossary=[];
 _glossary=[``];
-_glossary.push(`<><View id='glossary'><View class='header'><Text>${glossaryItem.name}</Text><Text>${glossaryItem.type}</Text></View><Text>${glossaryItem.description}</Text></View></>`);
+_glossary.push(`<><View id="glossary"><View class="header"><Text>${glossaryItem.name}</Text><Text>${glossaryItem.type}</Text></View><Text>${glossaryItem.description}</Text></View></>`);
 setGlossary(_glossary);
 }, []);
 
 return (
-<_64dcf6de29750254027ecd0079452467>
-<_651ba7ebd4cb78af4f637c95457e95fa id='status-bar'>
-<_79f424a286071a7a14ce7a0f129f23d5 onclick={() => props.route.params.query="mobilang:screen:home"} id='menu-btn'>
-<_e498e1551c34359c5ff7d2160ebb3b61 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_e498e1551c34359c5ff7d2160ebb3b61>
-</_79f424a286071a7a14ce7a0f129f23d5>
-<_e9666cee95c517b0d26901e5d365fbb3 onclick={() => props.route.params.query="mobilang:screen:glossary"} id='back-btn'>
-<_3727dc5cbabfce8cdfc807ea673d1aca source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_3727dc5cbabfce8cdfc807ea673d1aca>
-</_e9666cee95c517b0d26901e5d365fbb3>
-</_651ba7ebd4cb78af4f637c95457e95fa>
-<_25983b9b5418d91b6e0f721ad66368c1 id='glossary'>
-</_25983b9b5418d91b6e0f721ad66368c1>
-</_64dcf6de29750254027ecd0079452467>
+<_bf82e14c146353002b55cac57bd3894d>
+<_8c23993a9738882f648390f1e654f9dd id="status-bar">
+<_7324c9fe5589ebf4752ec4a2b64f4bbe onclick={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
+<_7d9d3e1bc3486e28fd43d6c64380fc source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_7d9d3e1bc3486e28fd43d6c64380fc>
+</_7324c9fe5589ebf4752ec4a2b64f4bbe>
+<_ac499023582117106a079bfce64b4174 onclick={() => props.route.params.query="mobilang:screen:glossary"} id="back-btn">
+<_e103c3e4c2f7fef701afa5c02891c778 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_e103c3e4c2f7fef701afa5c02891c778>
+</_ac499023582117106a079bfce64b4174>
+</_8c23993a9738882f648390f1e654f9dd>
+<_dcee0872fb24a3d8fd265386e61681fa id="glossary">
+</_dcee0872fb24a3d8fd265386e61681fa>
+</_bf82e14c146353002b55cac57bd3894d>
 );
 }
 

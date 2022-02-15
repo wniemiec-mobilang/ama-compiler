@@ -278,4 +278,8 @@ public class Tag {
     Map<String, String> getAttributes() {
         return attributes;
     }
+
+    public void mergeChildren(List<Tag> newChildren) {
+        children.addAll(newChildren);
+    }
 }

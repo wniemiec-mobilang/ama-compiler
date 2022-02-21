@@ -13,6 +13,7 @@ import wniemiec.mobilang.asc.export.exception.OutputLocationException;
 import wniemiec.mobilang.asc.framework.FrameworkFactory;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.parser.MobiLangAstParser;
+import wniemiec.mobilang.asc.parser.exception.FactoryException;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.reader.DotReader;
 
@@ -25,7 +26,7 @@ public class Asc {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final Path dotFilePath;
+    private final Path mobilangAstFilePath;
     private final Path outputLocationPath;
     private final FrameworkFactory frameworkFactory;
     private SortedMap<String, List<Node>> ast;
@@ -39,32 +40,35 @@ public class Asc {
     /**
      * Manager for ASC compiler pipeline.
      * 
-     * @param       dotFilePath MobiLang dot file
+     * @param       mobilangAstFilePath MobiLang AST dot file
      * @param       outputLocationPath Path where compiler output will be put
-     * @param       frameworkFactory Factory that will provide framework service
+     * @param       frameworkName Framework to be used
+     * @throws FactoryException
      */
-    public Asc(Path dotFilePath, Path outputLocationPath, FrameworkFactory frameworkFactory) {
-        this.dotFilePath = dotFilePath;
+    public Asc(Path mobilangAstFilePath, Path outputLocationPath, String frameworkName) 
+    throws FactoryException {
+        this.mobilangAstFilePath = mobilangAstFilePath;
         this.outputLocationPath = outputLocationPath;
-        this.frameworkFactory = frameworkFactory;
+        this.frameworkFactory = FrameworkFactory.getInstance(frameworkName);
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public void run() 
+    public Path run() 
     throws ParseException, OutputLocationException, CodeExportException, IOException {
         readMobilangDotFile();
         parseMobilangAst();
         generateMobilangCode();
-        exportMobilangCode();
+        
+        return exportMobilangCode();
     }
 
     private void readMobilangDotFile() throws FileNotFoundException {
         DotReader dotReader = new DotReader();
         
-        dotReader.read(dotFilePath);
+        dotReader.read(mobilangAstFilePath);
         
         ast = dotReader.getTree();
     }
@@ -86,7 +90,7 @@ public class Asc {
         mobilangCoder.generateCode();
     }
 
-    private void exportMobilangCode() 
+    private Path exportMobilangCode() 
     throws OutputLocationException, CodeExportException {
         MobiLangCodeExport mobilangCodeExport = new FileMobiLangCodeExport(
             mobilangAstParser.getPropertiesData(),
@@ -97,6 +101,7 @@ public class Asc {
             frameworkFactory.getProjectManagerFactory(),
             outputLocationPath
         );
-        mobilangCodeExport.export();
+        
+        return mobilangCodeExport.export();
     }
 }

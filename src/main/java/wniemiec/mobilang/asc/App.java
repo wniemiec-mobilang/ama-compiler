@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.export.exception.OutputLocationException;
-import wniemiec.mobilang.asc.framework.ReactNativeFrameworkFactory;
+import wniemiec.mobilang.asc.parser.exception.FactoryException;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 
@@ -19,8 +19,9 @@ public class App {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private static Path dotFilePath;
+    private static Path mobilangAstFilePath;
     private static Path outputLocationPath;
+    private static String frameworkName;
 
 
     //-------------------------------------------------------------------------
@@ -30,6 +31,9 @@ public class App {
         try {
             parseArgs(args);
             runAsc();
+        }
+        catch (FactoryException e) {
+            Consolex.writeError("There is no compatibility with this framework: " + frameworkName);
         }
         catch (InvalidPathException e) {
             Consolex.writeError("Invalid dot file location: " + e.getMessage());
@@ -57,23 +61,25 @@ public class App {
     private static void parseArgs(String[] args) {
         validateArgs(args);
 
-        dotFilePath = Path.of(args[0]);
+        mobilangAstFilePath = Path.of(args[0]);
         outputLocationPath = Path.of(args[1]);
+        frameworkName = args[2];
     }
 
     private static void validateArgs(String[] args) {
-        if (args.length < 2) {
-            Consolex.writeError("Missing args! Correct usage: <dot_file>.dot <output_src_location>");
+        if (args.length < 3) {
+            Consolex.writeError("Missing args! Correct usage: <dot_file> <output_src_location> <framework_name>");
             System.exit(-1);
         }
     }
 
     private static void runAsc() 
-    throws ParseException, OutputLocationException, CodeExportException, IOException {
+    throws ParseException, OutputLocationException, CodeExportException, IOException, 
+    FactoryException {
         Asc asc = new Asc(
-            dotFilePath, 
+            mobilangAstFilePath, 
             outputLocationPath,
-            new ReactNativeFrameworkFactory()
+            frameworkName
         );
 
         asc.run();

@@ -11,7 +11,7 @@ import wniemiec.mobilang.asc.framework.parser.reactnative.ReactNativeFrameworkPa
 /**
  * Provides factories of React Native framework.
  */
-public class ReactNativeFrameworkFactory implements FrameworkFactory {
+public class ReactNativeFrameworkFactory extends FrameworkFactory {
 
     //-------------------------------------------------------------------------
     //		Methods

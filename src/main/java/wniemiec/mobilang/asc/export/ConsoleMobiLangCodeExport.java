@@ -32,7 +32,7 @@ public class ConsoleMobiLangCodeExport extends MobiLangCodeExport {
         List<FileCode> coreCode,
         Set<String> dependencies
     ) {
-        super(propertiesData, screensCode, persistenceCode, coreCode, dependencies);
+        super(propertiesData, screensCode, persistenceCode, coreCode, dependencies, null);
     }
 
 

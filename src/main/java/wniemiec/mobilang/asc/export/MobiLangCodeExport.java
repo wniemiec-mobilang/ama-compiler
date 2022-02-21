@@ -1,5 +1,6 @@
 package wniemiec.mobilang.asc.export;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ public abstract class MobiLangCodeExport {
     //-------------------------------------------------------------------------
     protected final PropertiesData propertiesData;
     protected final Set<String> dependencies;
+    protected final Path outputLocation;
     private final List<FileCode> screensCode;
     private final List<FileCode> persistenceCode;
     private final List<FileCode> coreCode;
@@ -34,30 +36,35 @@ public abstract class MobiLangCodeExport {
      * @param       persistenceCode Persistence code
      * @param       coreCode Core code
      * @param       dependencies Project dependencies
+     * @param       outputLocation Location where the files will be exported
      */
     protected MobiLangCodeExport(
         PropertiesData propertiesData,
         List<FileCode> screensCode,
         List<FileCode> persistenceCode,
         List<FileCode> coreCode,
-        Set<String> dependencies
+        Set<String> dependencies,
+        Path outputLocation
     ) {
         this.propertiesData = propertiesData;
         this.screensCode = screensCode;
         this.persistenceCode = persistenceCode;
         this.coreCode = coreCode;
         this.dependencies = dependencies;
+        this.outputLocation = outputLocation.resolve("source code");
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public final void export() throws CodeExportException {
+    public final Path export() throws CodeExportException {
         createProject();
         exportScreensCode();
         exportCoreCode();
         exportPersistenceCode();
+
+        return outputLocation;
     }
 
     protected abstract void createProject() throws CodeExportException;

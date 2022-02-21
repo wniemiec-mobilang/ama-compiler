@@ -56,11 +56,11 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
         FrameworkProjectManagerFactory frameworkProjectManagerFactory, 
         Path outputLocation
     ) throws OutputLocationException {
-        super(propertiesData, screensCode, persistenceCode, coreCode, dependencies);
+        super(propertiesData, screensCode, persistenceCode, coreCode, dependencies, outputLocation);
         
         setUpAppLocation(propertiesData, outputLocation);
         setUpProjectManager(frameworkProjectManagerFactory, outputLocation);
-        setUpOutputLocation(outputLocation);
+        setUpOutputLocation();
     }
 
     
@@ -78,7 +78,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
         projectManager = projectManagerFactory.getProjectManager(outputLocation);
     }
 
-    private void setUpOutputLocation(Path outputLocation) 
+    private void setUpOutputLocation() 
     throws OutputLocationException {
         try {
             cleanOutputLocation(outputLocation);

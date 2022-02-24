@@ -26,7 +26,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private Path appLocation;
+    private Path codeLocation;
     private FrameworkProjectManager projectManager;
 
 
@@ -59,7 +59,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
         super(propertiesData, screensCode, persistenceCode, coreCode, dependencies, outputLocation);
         
         setUpAppLocation(propertiesData, outputLocation);
-        setUpProjectManager(frameworkProjectManagerFactory, outputLocation);
+        setUpProjectManager(frameworkProjectManagerFactory);
         setUpOutputLocation();
     }
 
@@ -68,14 +68,11 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     //		Methods
     //-------------------------------------------------------------------------
     private void setUpAppLocation(PropertiesData propertiesData, Path outputLocation) {
-        appLocation = outputLocation.resolve(propertiesData.getAppName());
+        codeLocation = outputLocation.resolve(propertiesData.getAppName()).resolve("code");
     }
 
-    private void setUpProjectManager(
-        FrameworkProjectManagerFactory projectManagerFactory,
-        Path outputLocation
-    ) {
-        projectManager = projectManagerFactory.getProjectManager(outputLocation);
+    private void setUpProjectManager(FrameworkProjectManagerFactory projectManagerFactory) {
+        projectManager = projectManagerFactory.getProjectManager(codeLocation);
     }
 
     private void setUpOutputLocation() 
@@ -91,6 +88,9 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     private void cleanOutputLocation(Path outputLocation) throws IOException {
         FileUtils.deleteDirectory(outputLocation.toFile());
         Files.createDirectories(outputLocation);
+        FileUtils.deleteDirectory(outputLocation.resolve(propertiesData.getAppName()).toFile());
+        FileUtils.deleteDirectory(codeLocation.toFile());
+        Files.createDirectories(codeLocation);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     }
 
     private Path buildFilepath(String filename) {
-        return appLocation.resolve(filename);
+        return codeLocation.resolve(filename);
     }
 
     private void writeLines(List<String> code, Path filepath) 

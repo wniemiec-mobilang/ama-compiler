@@ -40,7 +40,6 @@ public class HtmlParser {
     public HtmlParser() {
         terminal = StandardTerminalBuilder
             .getInstance()
-            .outputHandler(Consolex::writeInfo)
             .outputErrorHandler(Consolex::writeError)
             .build();
     }
@@ -80,7 +79,10 @@ public class HtmlParser {
 
     private void runHtmlParser(String normalizedHtml) throws IOException {
         terminal.clean();
-        //terminal.exec("node " + HTML_PARSER_LOCATION + " \"" + normalizedHtml + "\"");
-        terminal.exec("node", HTML_PARSER_LOCATION, " \"" + normalizedHtml + "\"");
+        terminal.exec(
+            "node", 
+            HTML_PARSER_LOCATION,
+            " \"" + normalizedHtml + "\""
+        );
     }
 }

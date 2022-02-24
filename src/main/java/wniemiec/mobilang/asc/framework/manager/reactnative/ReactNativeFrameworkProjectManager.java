@@ -1,5 +1,6 @@
 package wniemiec.mobilang.asc.framework.manager.reactnative;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,10 +29,31 @@ public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager 
     //-------------------------------------------------------------------------
     @Override
     public void create(PropertiesData propertiesData) throws IOException {
-        exec("react-native init " + propertiesData.getAppName());
-        
-        workingDirectory = workingDirectory.resolve(propertiesData.getAppName());
+        runReactNativeInit(propertiesData);
+        removeOldAppFile();
+    }
 
+    private void runReactNativeInit(PropertiesData propertiesData) throws IOException {
+        exec(
+            "react-native", 
+            "init", 
+            propertiesData.getAppName()
+        );
+
+        exec(
+            "mv", 
+            propertiesData.getAppName(), 
+            workingDirectory.getFileName().toString()
+        );
+
+        exec(
+            "mv",
+            workingDirectory.getFileName().toString(),
+            workingDirectory.getParent().toString()
+        );
+    }
+
+    private void removeOldAppFile() throws IOException {
         Files.delete(workingDirectory.resolve("App.js"));
     }
 
@@ -47,6 +69,13 @@ public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager 
 
     @Override
     public void addDependency(String dependency) throws IOException {
-        exec("npm install --save " + dependency);
+        for (String dependencyName : dependency.split(" ")) {
+            exec(
+                "npm", 
+                "install", 
+                "--save", 
+                dependencyName
+            );
+        }
     }
 }

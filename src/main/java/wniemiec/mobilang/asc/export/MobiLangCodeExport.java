@@ -51,7 +51,7 @@ public abstract class MobiLangCodeExport {
         this.persistenceCode = persistenceCode;
         this.coreCode = coreCode;
         this.dependencies = dependencies;
-        this.outputLocation = outputLocation.resolve("code");
+        this.outputLocation = outputLocation;
     }
 
 

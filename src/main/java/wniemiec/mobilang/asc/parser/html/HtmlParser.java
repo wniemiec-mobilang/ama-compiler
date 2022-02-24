@@ -80,6 +80,7 @@ public class HtmlParser {
 
     private void runHtmlParser(String normalizedHtml) throws IOException {
         terminal.clean();
-        terminal.exec("node " + HTML_PARSER_LOCATION + " \"" + normalizedHtml + "\"");
+        //terminal.exec("node " + HTML_PARSER_LOCATION + " \"" + normalizedHtml + "\"");
+        terminal.exec("node", HTML_PARSER_LOCATION, " \"" + normalizedHtml + "\"");
     }
 }

@@ -36,7 +36,7 @@ public class App {
     //		Initialization block
     //-------------------------------------------------------------------------
     static {
-        LBL_MOBILANG_AST = "mobilang-ast";
+        LBL_MOBILANG_AST = "ast";
         LBL_OUTPUT = "output";
         LBL_FRAMEWORK_NAME = "framework";
     }
@@ -68,6 +68,7 @@ public class App {
         }
         catch (Exception e) {
             Consolex.writeError("Fatal error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

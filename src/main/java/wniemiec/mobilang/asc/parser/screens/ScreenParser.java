@@ -15,7 +15,7 @@ import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.screens.behavior.BehaviorParser;
 import wniemiec.mobilang.asc.parser.screens.structure.StructureParser;
 import wniemiec.mobilang.asc.parser.screens.style.StyleParser;
-import wniemiec.mobilang.asc.utils.StringUtils;
+import wniemiec.util.java.StringUtils;
 
 
 /**

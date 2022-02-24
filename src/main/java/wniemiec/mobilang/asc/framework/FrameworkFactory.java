@@ -6,7 +6,7 @@ import wniemiec.mobilang.asc.framework.coder.FrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManagerFactory;
 import wniemiec.mobilang.asc.framework.parser.FrameworkParserFactory;
 import wniemiec.mobilang.asc.parser.exception.FactoryException;
-import wniemiec.mobilang.asc.utils.StringUtils;
+import wniemiec.util.java.StringUtils;
 
 
 /**

@@ -49,7 +49,7 @@ public class App {
             Consolex.writeError("Error while exporting code: " + e.getMessage());
         }
         catch (Exception e) {
-            Consolex.writeError("Fatal error");
+            Consolex.writeError("Fatal error: " + e.getMessage());
             e.printStackTrace();
         }
     }

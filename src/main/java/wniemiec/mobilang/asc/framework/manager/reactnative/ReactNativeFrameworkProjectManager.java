@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
+import wniemiec.io.java.StandardTerminalBuilder;
+import wniemiec.io.java.Terminal;
 import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManager;
 import wniemiec.mobilang.asc.models.PropertiesData;
-import wniemiec.mobilang.asc.utils.Shell;
 
 
 /**
@@ -35,15 +36,13 @@ public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager 
     }
 
     private void exec(String... command) throws IOException {
-        Shell shell = new Shell(workingDirectory, true);
-        shell.exec(command);
+        Terminal terminal = StandardTerminalBuilder
+            .getInstance()
+            .outputHandler(Consolex::writeInfo)
+            .outputErrorHandler(Consolex::writeError)
+            .build();
         
-        if (shell.hasError()) {
-            Consolex.writeError(shell.getErrorOutput());
-        }
-        else {
-            Consolex.writeInfo(shell.getOutput());
-        }
+        terminal.exec(command);
     }
 
     @Override

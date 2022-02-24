@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import wniemiec.mobilang.asc.models.persistence.PersistenceRecord;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.utils.StringUtils;
+import wniemiec.util.java.StringUtils;
 
 
 /**

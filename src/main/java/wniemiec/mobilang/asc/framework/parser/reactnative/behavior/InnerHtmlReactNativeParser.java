@@ -13,7 +13,7 @@ import wniemiec.mobilang.asc.models.tag.Tag;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 import wniemiec.mobilang.asc.parser.html.HtmlParser;
 import wniemiec.mobilang.asc.parser.screens.structure.StructureParser;
-import wniemiec.mobilang.asc.utils.StringUtils;
+import wniemiec.util.java.StringUtils;
 
 
 /**

@@ -1,7 +1,11 @@
 package wniemiec.mobilang.asc.parser.html;
 
 import java.io.IOException;
-import wniemiec.mobilang.asc.utils.Shell;
+import java.util.List;
+import wniemiec.io.java.Consolex;
+import wniemiec.io.java.StandardTerminalBuilder;
+import wniemiec.io.java.Terminal;
+import wniemiec.util.java.StringUtils;
 
 
 /**
@@ -13,7 +17,7 @@ public class HtmlParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static final String HTML_PARSER_LOCATION;
-    private final Shell shell;
+    private final Terminal terminal;
 
 
     //-------------------------------------------------------------------------
@@ -28,7 +32,11 @@ public class HtmlParser {
     //		Constructor
     //-------------------------------------------------------------------------
     public HtmlParser() {
-        shell = new Shell();
+        terminal = StandardTerminalBuilder
+            .getInstance()
+            .outputHandler(Consolex::writeInfo)
+            .outputErrorHandler(Consolex::writeError)
+            .build();
     }
     
 
@@ -59,15 +67,13 @@ public class HtmlParser {
     }
 
     private String parsedHtml() {
-        if (shell.hasError()) {
-            return shell.getErrorOutput();
-        }
+        List<String> terminalOutput = terminal.getHistory();
 
-        return shell.getOutput();
+        return StringUtils.implode(terminalOutput, "");
     }
 
     private void runHtmlParser(String normalizedHtml) throws IOException {
-        shell.clean();
-        shell.exec("node " + HTML_PARSER_LOCATION + " \"" + normalizedHtml + "\"");
+        terminal.clean();
+        terminal.exec("node " + HTML_PARSER_LOCATION + " \"" + normalizedHtml + "\"");
     }
 }

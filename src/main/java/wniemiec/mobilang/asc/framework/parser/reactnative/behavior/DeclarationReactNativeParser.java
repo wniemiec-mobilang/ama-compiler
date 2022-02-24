@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import wniemiec.mobilang.asc.models.behavior.Variable;
-import wniemiec.mobilang.asc.utils.StringUtils;
+import wniemiec.util.java.StringUtils;
 
 
 /**

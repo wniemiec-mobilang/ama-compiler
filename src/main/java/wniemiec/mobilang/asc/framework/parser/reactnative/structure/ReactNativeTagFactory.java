@@ -3,7 +3,7 @@ package wniemiec.mobilang.asc.framework.parser.reactnative.structure;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import wniemiec.mobilang.asc.parser.exception.FactoryException;
-import wniemiec.mobilang.asc.utils.StringUtils;
+import wniemiec.util.java.StringUtils;
 
 
 /**

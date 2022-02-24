@@ -5,6 +5,7 @@ import java.util.List;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.StandardTerminalBuilder;
 import wniemiec.io.java.Terminal;
+import wniemiec.mobilang.asc.App;
 import wniemiec.util.java.StringUtils;
 
 
@@ -24,7 +25,12 @@ public class HtmlParser {
     //		Initialization block
     //-------------------------------------------------------------------------
     static {
-        HTML_PARSER_LOCATION = "./src/main/javascript/html-parser/index.js";
+        HTML_PARSER_LOCATION = App
+            .getAppRootPath()
+            .resolve("javascript")
+            .resolve("html-parser")
+            .resolve("index.js")
+            .toString();
     }
 
 

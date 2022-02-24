@@ -1,6 +1,8 @@
 package wniemiec.mobilang.asc;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -97,7 +99,7 @@ public class App {
 
         options.addOption(LBL_MOBILANG_AST, true, "MobiLang AST file (.dot)");
         options.addOption(LBL_OUTPUT, true, "Output location");
-        options.addOption(LBL_FRAMEWORK_NAME, true, "Framework name (ex: 'react-native')");
+        options.addOption(LBL_FRAMEWORK_NAME, true, "Framework name (ex: react-native)");
         
         return options;
     }
@@ -144,5 +146,48 @@ public class App {
         );
 
         asc.run();
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
+    public static Path getAppRootPath() {
+        Path binRootPath = getBinRootPath();
+
+        if (isDevelopmentEnvironment(binRootPath)) {
+            return binRootPath
+                .getParent()
+                .getParent()
+                .resolve("src")
+                .resolve("main");
+        }
+        
+        return binRootPath;
+    }
+
+    private static Path getBinRootPath() {
+        return getAppBinPath()
+            .normalize()
+            .toAbsolutePath()
+            .getParent()
+            .getParent()
+            .getParent()
+            .getParent();
+    }
+
+    private static Path getAppBinPath() {
+		return urlToPath(App.class.getResource("App.class"));
+	}
+	
+	private static Path urlToPath(URL url) {
+		return new File(url.getPath()).toPath();
+	}
+
+    private static boolean isDevelopmentEnvironment(Path binRootPath) {
+        return binRootPath
+            .getFileName()
+            .toString()
+            .equals("classes");
     }
 }

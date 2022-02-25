@@ -9,6 +9,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import wniemiec.io.java.Consolex;
+import wniemiec.io.java.LogLevel;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.export.exception.OutputLocationException;
 import wniemiec.mobilang.asc.parser.exception.FactoryException;
@@ -27,6 +28,7 @@ public class App {
     private static final String LBL_MOBILANG_AST;
     private static final String LBL_OUTPUT;
     private static final String LBL_FRAMEWORK_NAME;
+    private static final String LBL_VERBOSE;
     private static Path mobilangAstFilePath;
     private static Path outputLocationPath;
     private static String frameworkName;
@@ -39,6 +41,7 @@ public class App {
         LBL_MOBILANG_AST = "ast";
         LBL_OUTPUT = "output";
         LBL_FRAMEWORK_NAME = "framework";
+        LBL_VERBOSE = "verbose";
     }
 
 
@@ -81,6 +84,7 @@ public class App {
         CommandLine cmd = buildCmd(args);
 
         validateArgs(cmd);
+        checkVerboseOption(cmd);
 
         mobilangAstFilePath = getMobilangAstCliArg(cmd);
         outputLocationPath = getOutputCliArg(cmd);
@@ -101,6 +105,7 @@ public class App {
         options.addOption(LBL_MOBILANG_AST, true, "MobiLang AST file (.dot)");
         options.addOption(LBL_OUTPUT, true, "Output location");
         options.addOption(LBL_FRAMEWORK_NAME, true, "Framework name (ex: react-native)");
+        options.addOption(LBL_VERBOSE, false, "Display debug messages");
         
         return options;
     }
@@ -114,6 +119,12 @@ public class App {
     private static void validateCmdOption(CommandLine cmd, String option) {
         if (!cmd.hasOption(option)) {
             throw new IllegalArgumentException(option + " is missing");
+        }
+    }
+
+    private static void checkVerboseOption(CommandLine cmd) {
+        if (cmd.hasOption(LBL_VERBOSE)) {
+            Consolex.setLoggerLevel(LogLevel.DEBUG);
         }
     }
 

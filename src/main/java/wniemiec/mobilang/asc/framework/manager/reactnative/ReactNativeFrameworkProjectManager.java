@@ -60,7 +60,7 @@ public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager 
     private void exec(String... command) throws IOException {
         Terminal terminal = StandardTerminalBuilder
             .getInstance()
-            .outputHandler(Consolex::writeInfo)
+            .outputHandler(Consolex::writeDebug)
             .outputErrorHandler(Consolex::writeError)
             .build();
         

@@ -73,6 +73,8 @@ public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager 
             exec(
                 "npm", 
                 "install", 
+                "--prefix",
+                workingDirectory.toString(),
                 "--save", 
                 dependencyName
             );

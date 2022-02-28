@@ -15,6 +15,7 @@
         <include>io.github.wniemiec-*:*</include>
         <include>commons-io:*</include>
         <include>org.json:*</include>
+        <include>org.antlr:*</include>
         <include>com.paypal.digraph:*</include>
       </includes>
     </dependencySet>

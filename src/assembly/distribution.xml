@@ -13,6 +13,9 @@
       <scope>runtime</scope>
       <includes>
         <include>io.github.wniemiec-*:*</include>
+        <include>commons-io:*</include>
+        <include>org.json:*</include>
+        <include>com.paypal.digraph:*</include>
       </includes>
     </dependencySet>
   </dependencySets>

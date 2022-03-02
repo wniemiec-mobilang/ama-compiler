@@ -26,7 +26,6 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private Path codeLocation;
     private FrameworkProjectManager projectManager;
 
 
@@ -58,7 +57,6 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     ) throws OutputLocationException {
         super(propertiesData, screensCode, persistenceCode, coreCode, dependencies, outputLocation);
         
-        setUpAppLocation(propertiesData, outputLocation);
         setUpProjectManager(frameworkProjectManagerFactory);
         setUpOutputLocation();
     }
@@ -67,10 +65,6 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void setUpAppLocation(PropertiesData propertiesData, Path outputLocation) {
-        codeLocation = outputLocation.resolve(propertiesData.getAppName()).resolve("code");
-    }
-
     private void setUpProjectManager(FrameworkProjectManagerFactory projectManagerFactory) {
         projectManager = projectManagerFactory.getProjectManager(codeLocation);
     }
@@ -89,7 +83,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
         if (!Files.exists(outputLocation)) {
             Files.createDirectories(outputLocation);
         }
-        
+
         FileUtils.deleteDirectory(codeLocation.toFile());
         Files.createDirectories(codeLocation);
     }

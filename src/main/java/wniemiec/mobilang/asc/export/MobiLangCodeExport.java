@@ -20,6 +20,7 @@ public abstract class MobiLangCodeExport {
     protected final PropertiesData propertiesData;
     protected final Set<String> dependencies;
     protected final Path outputLocation;
+    protected final Path codeLocation;
     private final List<FileCode> screensCode;
     private final List<FileCode> persistenceCode;
     private final List<FileCode> coreCode;
@@ -52,19 +53,24 @@ public abstract class MobiLangCodeExport {
         this.coreCode = coreCode;
         this.dependencies = dependencies;
         this.outputLocation = outputLocation;
+        codeLocation = setUpAppLocation(propertiesData, outputLocation);
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    private Path setUpAppLocation(PropertiesData propertiesData, Path outputLocation) {
+        return outputLocation.resolve(propertiesData.getAppName()).resolve("code");
+    }
+
     public final Path export() throws CodeExportException {
         createProject();
         exportScreensCode();
         exportCoreCode();
         exportPersistenceCode();
 
-        return outputLocation;
+        return codeLocation;
     }
 
     protected abstract void createProject() throws CodeExportException;

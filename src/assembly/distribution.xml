@@ -31,7 +31,7 @@
       </excludes>
     </fileSet>
     <fileSet>
-      <directory>${basedir}/javascript</directory>
+      <directory>${basedir}/src/main/javascript</directory>
       <outputDirectory>/javascript/</outputDirectory>
     </fileSet>
     <fileSet>

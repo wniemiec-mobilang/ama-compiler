@@ -86,9 +86,10 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     }
 
     private void cleanOutputLocation(Path outputLocation) throws IOException {
-        FileUtils.deleteDirectory(outputLocation.toFile());
-        Files.createDirectories(outputLocation);
-        FileUtils.deleteDirectory(outputLocation.resolve(propertiesData.getAppName()).toFile());
+        if (!Files.exists(outputLocation)) {
+            Files.createDirectories(outputLocation);
+        }
+        
         FileUtils.deleteDirectory(codeLocation.toFile());
         Files.createDirectories(codeLocation);
     }

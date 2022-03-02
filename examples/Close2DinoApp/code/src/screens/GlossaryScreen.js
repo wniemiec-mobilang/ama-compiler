@@ -2,27 +2,27 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _49867643a085ed9fadbb49458e04a3a = styled.View`background-color: #444;margin: 0;`;
+const _5052f2d817d0714fd4d0bd22d4f87774 = styled.View`background-color: #444;margin: 0;`;
 
-const _e7a1653637b053b8da5673d2a6255edb = styled.View`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
+const _7c81414fec30b126db5f0927da635faf = styled.View`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
 
-const _7b1186465f8b36804cbca3f454559385 = styled.View`background-color: #222;`;
+const _b56710a7cfc7e30de17e22d5cfdfa5 = styled.View`background-color: #222;`;
 
-const _401cfc27c9b291ac2d2f4938f8a0ebbc = styled.Text``;
+const _72c9bbf444cce46dffb51fb22d6dd164 = styled.Text``;
 
-const _33ae15cdb244effad88b779e6894848f = styled.View`margin: 10px;`;
+const _b88f0b0b8bcae2cdf528927e91dac4a9 = styled.View`margin: 10px;`;
 
-const _2cded755eaae60e2badbd6fd0c5e40a4 = styled.TextInput``;
+const _942aa9f6965f9a3d67fef589a3a04bbc = styled.TextInput``;
 
-const _741b88a9d6ff1fd13dbd6c45c07429da = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
+const _ec9d2e0444639820f640b0e0f950acb6 = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
 
-const _a3d7b3a7d915964c2fa1ed5d025bc644 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _f8f772c2d59b514d95d715554fbd0a6d = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _cd43f2463356925116013fb1806dae67 = styled.Image``;
+const _2fc52c92bc002ce446973fd461023ecf = styled.Image``;
 
-const _996fed8e7e7c59e176abc5d698701b4a = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _650ac34a96e1b14c804cdd645c10ca85 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _d56b58ea09c6b6c83ffde111ece54543 = styled.Image``;
+const _cc6cbb2be8eb113f6ea3482649dce518 = styled.Image``;
 
 
 function GlossaryScreen(props) {
@@ -62,29 +62,29 @@ setGlossarycontent(_glossaryContent);
 }, []);
 
 return (
-<_49867643a085ed9fadbb49458e04a3a>
-<_741b88a9d6ff1fd13dbd6c45c07429da id="status-bar">
-<_996fed8e7e7c59e176abc5d698701b4a OnPress={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
-<_d56b58ea09c6b6c83ffde111ece54543 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_d56b58ea09c6b6c83ffde111ece54543>
-</_996fed8e7e7c59e176abc5d698701b4a>
-<_a3d7b3a7d915964c2fa1ed5d025bc644 OnPress={() => props.route.params.query="mobilang:screen:home"} id="back-btn">
-<_cd43f2463356925116013fb1806dae67 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_cd43f2463356925116013fb1806dae67>
-</_a3d7b3a7d915964c2fa1ed5d025bc644>
-</_741b88a9d6ff1fd13dbd6c45c07429da>
-<_33ae15cdb244effad88b779e6894848f id="search">
-<_2cded755eaae60e2badbd6fd0c5e40a4>
-</_2cded755eaae60e2badbd6fd0c5e40a4>
-</_33ae15cdb244effad88b779e6894848f>
-<_e7a1653637b053b8da5673d2a6255edb id="glossary">
-<_401cfc27c9b291ac2d2f4938f8a0ebbc>
+<_5052f2d817d0714fd4d0bd22d4f87774>
+<_ec9d2e0444639820f640b0e0f950acb6 id="status-bar">
+<_650ac34a96e1b14c804cdd645c10ca85 OnPress={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
+<_cc6cbb2be8eb113f6ea3482649dce518 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_cc6cbb2be8eb113f6ea3482649dce518>
+</_650ac34a96e1b14c804cdd645c10ca85>
+<_f8f772c2d59b514d95d715554fbd0a6d OnPress={() => props.route.params.query="mobilang:screen:home"} id="back-btn">
+<_2fc52c92bc002ce446973fd461023ecf source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_2fc52c92bc002ce446973fd461023ecf>
+</_f8f772c2d59b514d95d715554fbd0a6d>
+</_ec9d2e0444639820f640b0e0f950acb6>
+<_b88f0b0b8bcae2cdf528927e91dac4a9 id="search">
+<_942aa9f6965f9a3d67fef589a3a04bbc>
+</_942aa9f6965f9a3d67fef589a3a04bbc>
+</_b88f0b0b8bcae2cdf528927e91dac4a9>
+<_7c81414fec30b126db5f0927da635faf id="glossary">
+<_72c9bbf444cce46dffb51fb22d6dd164>
 Glossário
-</_401cfc27c9b291ac2d2f4938f8a0ebbc>
-<_7b1186465f8b36804cbca3f454559385 id="glossary-content">
-</_7b1186465f8b36804cbca3f454559385>
-</_e7a1653637b053b8da5673d2a6255edb>
-</_49867643a085ed9fadbb49458e04a3a>
+</_72c9bbf444cce46dffb51fb22d6dd164>
+<_b56710a7cfc7e30de17e22d5cfdfa5 id="glossary-content">
+</_b56710a7cfc7e30de17e22d5cfdfa5>
+</_7c81414fec30b126db5f0927da635faf>
+</_5052f2d817d0714fd4d0bd22d4f87774>
 );
 }
 

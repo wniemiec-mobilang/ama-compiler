@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.SortedMap;
+
+import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.asc.coder.MobiLangCoder;
 import wniemiec.mobilang.asc.export.FileMobiLangCodeExport;
 import wniemiec.mobilang.asc.export.MobiLangCodeExport;
@@ -68,6 +70,7 @@ public class Asc {
     private void readMobilangDotFile() throws FileNotFoundException {
         DotReader dotReader = new DotReader();
         
+        Consolex.writeInfo("Reading MobiLang AST...");
         dotReader.read(mobilangAstFilePath);
         
         ast = dotReader.getTree();
@@ -78,6 +81,8 @@ public class Asc {
             ast, 
             frameworkFactory.getParserFactory()
         );
+
+        Consolex.writeInfo("Parsing MobiLang AST...");
         mobilangAstParser.parse();
     }
 
@@ -102,6 +107,8 @@ public class Asc {
             outputLocationPath
         );
         
+        Consolex.writeInfo("Exporting code...");
+
         return mobilangCodeExport.export();
     }
 }

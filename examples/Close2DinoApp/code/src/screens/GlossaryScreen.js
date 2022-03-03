@@ -2,27 +2,27 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _5052f2d817d0714fd4d0bd22d4f87774 = styled.View`background-color: #444;margin: 0;`;
+const _722530e8123e24b8c4f83f5c5e126f86 = styled.View`background-color: #444;margin: 0;`;
 
-const _7c81414fec30b126db5f0927da635faf = styled.View`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
+const _53616033e9da22e3e4c3cc414475707 = styled.View`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
 
-const _b56710a7cfc7e30de17e22d5cfdfa5 = styled.View`background-color: #222;`;
+const _3152df84bd3d6fb28eb579599b6aed0b = styled.View`background-color: #222;`;
 
-const _72c9bbf444cce46dffb51fb22d6dd164 = styled.Text``;
+const _37c97564e576061b12287d6f60796622 = styled.Text``;
 
-const _b88f0b0b8bcae2cdf528927e91dac4a9 = styled.View`margin: 10px;`;
+const _d8b62cb9695fa99bf6dcb10aac378d08 = styled.View`margin: 10px;`;
 
-const _942aa9f6965f9a3d67fef589a3a04bbc = styled.TextInput``;
+const _d9c5576a8418cb5f6defe410c8a0e0a7 = styled.TextInput``;
 
-const _ec9d2e0444639820f640b0e0f950acb6 = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
+const _691eb6e765489587e130fe79fbde05e6 = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
 
-const _f8f772c2d59b514d95d715554fbd0a6d = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _33a0f582f2007747e67659e3fce0b7b4 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _2fc52c92bc002ce446973fd461023ecf = styled.Image``;
+const _410c167f9fcb2cd22b1a0c30193a4048 = styled.Image``;
 
-const _650ac34a96e1b14c804cdd645c10ca85 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _500e38c77728e70459935feee182f7d = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _cc6cbb2be8eb113f6ea3482649dce518 = styled.Image``;
+const _2d91e49d884475cd962826fc828292e0 = styled.Image``;
 
 
 function GlossaryScreen(props) {
@@ -62,29 +62,29 @@ setGlossarycontent(_glossaryContent);
 }, []);
 
 return (
-<_5052f2d817d0714fd4d0bd22d4f87774>
-<_ec9d2e0444639820f640b0e0f950acb6 id="status-bar">
-<_650ac34a96e1b14c804cdd645c10ca85 OnPress={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
-<_cc6cbb2be8eb113f6ea3482649dce518 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_cc6cbb2be8eb113f6ea3482649dce518>
-</_650ac34a96e1b14c804cdd645c10ca85>
-<_f8f772c2d59b514d95d715554fbd0a6d OnPress={() => props.route.params.query="mobilang:screen:home"} id="back-btn">
-<_2fc52c92bc002ce446973fd461023ecf source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_2fc52c92bc002ce446973fd461023ecf>
-</_f8f772c2d59b514d95d715554fbd0a6d>
-</_ec9d2e0444639820f640b0e0f950acb6>
-<_b88f0b0b8bcae2cdf528927e91dac4a9 id="search">
-<_942aa9f6965f9a3d67fef589a3a04bbc>
-</_942aa9f6965f9a3d67fef589a3a04bbc>
-</_b88f0b0b8bcae2cdf528927e91dac4a9>
-<_7c81414fec30b126db5f0927da635faf id="glossary">
-<_72c9bbf444cce46dffb51fb22d6dd164>
+<_722530e8123e24b8c4f83f5c5e126f86>
+<_691eb6e765489587e130fe79fbde05e6 id="status-bar">
+<_500e38c77728e70459935feee182f7d OnPress={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
+<_2d91e49d884475cd962826fc828292e0 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_2d91e49d884475cd962826fc828292e0>
+</_500e38c77728e70459935feee182f7d>
+<_33a0f582f2007747e67659e3fce0b7b4 OnPress={() => props.route.params.query="mobilang:screen:home"} id="back-btn">
+<_410c167f9fcb2cd22b1a0c30193a4048 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_410c167f9fcb2cd22b1a0c30193a4048>
+</_33a0f582f2007747e67659e3fce0b7b4>
+</_691eb6e765489587e130fe79fbde05e6>
+<_d8b62cb9695fa99bf6dcb10aac378d08 id="search">
+<_d9c5576a8418cb5f6defe410c8a0e0a7>
+</_d9c5576a8418cb5f6defe410c8a0e0a7>
+</_d8b62cb9695fa99bf6dcb10aac378d08>
+<_53616033e9da22e3e4c3cc414475707 id="glossary">
+<_37c97564e576061b12287d6f60796622>
 Glossário
-</_72c9bbf444cce46dffb51fb22d6dd164>
-<_b56710a7cfc7e30de17e22d5cfdfa5 id="glossary-content">
-</_b56710a7cfc7e30de17e22d5cfdfa5>
-</_7c81414fec30b126db5f0927da635faf>
-</_5052f2d817d0714fd4d0bd22d4f87774>
+</_37c97564e576061b12287d6f60796622>
+<_3152df84bd3d6fb28eb579599b6aed0b id="glossary-content">
+</_3152df84bd3d6fb28eb579599b6aed0b>
+</_53616033e9da22e3e4c3cc414475707>
+</_722530e8123e24b8c4f83f5c5e126f86>
 );
 }
 

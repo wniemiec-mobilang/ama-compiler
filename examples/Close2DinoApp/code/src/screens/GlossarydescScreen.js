@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _a346d6fffe3be196d9b46e47429027f8 = styled.View`background-color: #222;margin: 0;`;
+const _d9c8e833a987c41167f9684d712355a5 = styled.View`background-color: #222;margin: 0;`;
 
-const _aec6c4ba122379439495690855d1d0f7 = styled.View`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
+const _869ded16487497d1cdd4b96ce8e97408 = styled.View`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
 
-const _8889bf59347cbd936373f5c7b4734647 = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
+const _25d2ed8a999f8c8da22deafd15203c22 = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
 
-const _9a59da179150e24b08f2b295c014233e = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _d1c8d8f75c3008c53f9f91ba572e61a4 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _f042a6114bf94674579a2ed525274120 = styled.Image``;
+const _db2c590f7c16e1f8dd60307ed6df463c = styled.Image``;
 
-const _562c07a7d3df35f10548a2ed548be896 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _7a271f556c6a903c9db82486ee250070 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _93af7af7e96a52225e9d83823a081c3b = styled.Image``;
+const _adbb1a51269416919ad72f596823f947 = styled.Image``;
 
 
 function GlossarydescScreen(props) {
@@ -32,20 +32,20 @@ setGlossary(_glossary);
 }, []);
 
 return (
-<_a346d6fffe3be196d9b46e47429027f8>
-<_8889bf59347cbd936373f5c7b4734647 id="status-bar">
-<_562c07a7d3df35f10548a2ed548be896 OnPress={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
-<_93af7af7e96a52225e9d83823a081c3b source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_93af7af7e96a52225e9d83823a081c3b>
-</_562c07a7d3df35f10548a2ed548be896>
-<_9a59da179150e24b08f2b295c014233e OnPress={() => props.route.params.query="mobilang:screen:glossary"} id="back-btn">
-<_f042a6114bf94674579a2ed525274120 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_f042a6114bf94674579a2ed525274120>
-</_9a59da179150e24b08f2b295c014233e>
-</_8889bf59347cbd936373f5c7b4734647>
-<_aec6c4ba122379439495690855d1d0f7 id="glossary">
-</_aec6c4ba122379439495690855d1d0f7>
-</_a346d6fffe3be196d9b46e47429027f8>
+<_d9c8e833a987c41167f9684d712355a5>
+<_25d2ed8a999f8c8da22deafd15203c22 id="status-bar">
+<_7a271f556c6a903c9db82486ee250070 OnPress={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
+<_adbb1a51269416919ad72f596823f947 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_adbb1a51269416919ad72f596823f947>
+</_7a271f556c6a903c9db82486ee250070>
+<_d1c8d8f75c3008c53f9f91ba572e61a4 OnPress={() => props.route.params.query="mobilang:screen:glossary"} id="back-btn">
+<_db2c590f7c16e1f8dd60307ed6df463c source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_db2c590f7c16e1f8dd60307ed6df463c>
+</_d1c8d8f75c3008c53f9f91ba572e61a4>
+</_25d2ed8a999f8c8da22deafd15203c22>
+<_869ded16487497d1cdd4b96ce8e97408 id="glossary">
+</_869ded16487497d1cdd4b96ce8e97408>
+</_d9c8e833a987c41167f9684d712355a5>
 );
 }
 

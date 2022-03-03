@@ -39,6 +39,10 @@ class BodyReactNativeTagParser extends ReactNativeTagParser {
     //-------------------------------------------------------------------------
     @Override
     protected Tag buildReactNativeTagFrom(Tag tag) {
-        return new Tag("View");
+        Tag rnTag = new Tag("SafeAreaView");
+
+        rnTag.addStyle("flex", "1");
+
+        return rnTag;
     }
 }

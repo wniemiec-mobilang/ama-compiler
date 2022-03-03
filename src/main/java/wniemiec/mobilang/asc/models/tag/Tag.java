@@ -216,6 +216,14 @@ public class Tag {
         return code.toString();
     }
 
+    public void mergeChildren(List<Tag> newChildren) {
+        children.addAll(newChildren);
+    }
+
+    public void addStyle(String key, String value) {
+        style.put(key, value);
+    }
+
     @Override
     public String toString() {
         return "Tag [" 
@@ -277,9 +285,5 @@ public class Tag {
 
     Map<String, String> getAttributes() {
         return attributes;
-    }
-
-    public void mergeChildren(List<Tag> newChildren) {
-        children.addAll(newChildren);
     }
 }

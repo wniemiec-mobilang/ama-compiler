@@ -34,7 +34,7 @@ return (
 <_e29f394c0408ee8ecded74c220c55c16 id="items">
 <_74560ccb9c01ad813b9f758ccf356121 onPress="() => props.route.params.query = 'mobilang:screen:glossary')">
 <_6a5ea159cc82617463c496e4383b698e>
-Glossário
+Glossï¿½rio
 </_6a5ea159cc82617463c496e4383b698e>
 </_74560ccb9c01ad813b9f758ccf356121>
 </_e29f394c0408ee8ecded74c220c55c16>

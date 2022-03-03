@@ -51,5 +51,13 @@ class ImgReactNativeTagParser extends ReactNativeTagParser {
             "source", 
             "{{uri: '" + tag.getAttribute("src") + "'}}"
         );
+
+        if (tag.hasAttribute("width")) {
+            reactNativeTag.addStyle("width", tag.getAttribute("width") + "px");
+        }
+
+        if (tag.hasAttribute("height")) {
+            reactNativeTag.addStyle("height", tag.getAttribute("height") + "px");
+        }
     }
 }

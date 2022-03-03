@@ -224,6 +224,14 @@ public class Tag {
         style.put(key, value);
     }
 
+    public boolean hasStyle(String attribute) {
+        return style.containsKey(attribute);
+    }
+
+    public void removeStyle(String attribute) {
+        style.remove(attribute);
+    }
+
     @Override
     public String toString() {
         return "Tag [" 
@@ -272,7 +280,7 @@ public class Tag {
     }
 
     public void setStyle(Map<String, String> style) {
-        this.style = style;
+        this.style.putAll(style);
     }
 
     public Tag getParent() {
@@ -285,5 +293,9 @@ public class Tag {
 
     Map<String, String> getAttributes() {
         return attributes;
+    }
+
+    public String getStyle(String attribute) {
+        return style.get(attribute);
     }
 }

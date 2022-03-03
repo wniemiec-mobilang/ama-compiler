@@ -107,7 +107,7 @@ public class Asc {
             outputLocationPath
         );
         
-        Consolex.writeInfo("Exporting code...");
+        Consolex.writeInfo("Generating code...");
 
         return mobilangCodeExport.export();
     }

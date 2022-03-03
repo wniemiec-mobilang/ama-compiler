@@ -1,5 +1,7 @@
 package wniemiec.mobilang.asc.framework.parser.reactnative.structure;
 
+import java.util.Map;
+
 import wniemiec.mobilang.asc.models.tag.Tag;
 
 
@@ -52,7 +54,18 @@ abstract class ReactNativeTagParser {
     }
 
     private void copyStyle(Tag tag, Tag reactNativeTag) {
-        reactNativeTag.setStyle(tag.getStyle());
+        Map<String, String> style = tag.getStyle();
+
+        for (Map.Entry<String, String> entry : style.entrySet()) {
+            String attribute = entry.getKey();
+            String value = entry.getValue();
+
+            if (attribute.equals("display") && !value.equals("none")) {
+                value = "flex";
+            }
+            
+            reactNativeTag.addStyle(attribute, value);
+        }
     }
 
     private void parseAttributes(Tag tag, Tag reactNativeTag) {

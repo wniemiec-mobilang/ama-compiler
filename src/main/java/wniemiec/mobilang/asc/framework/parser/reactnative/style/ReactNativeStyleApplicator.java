@@ -68,7 +68,7 @@ public class ReactNativeStyleApplicator {
 
     private void parseRules(Tag tag, List<String> selectors) {
         Map<String, String> rules = style.getRulesForSelector(selectors);
-        
+
         tag.setStyle(rules);
     }
 

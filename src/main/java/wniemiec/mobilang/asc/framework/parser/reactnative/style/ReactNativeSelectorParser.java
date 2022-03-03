@@ -61,13 +61,8 @@ class ReactNativeSelectorParser {
     private void buildTagAttributeSelectors(List<String> selectors) {
         // TODO: Add compatibility with id and class mixed
 
-        if (hasIdAttribute(tag)) {
-            parseIdSelector(selectors);
-        }
-
-        if (hasClassAttribute(tag)) { 
-            parseClassSelector(selectors);
-        }
+        parseIdSelector(selectors);
+        parseClassSelector(selectors);
     }
 
     private boolean hasIdAttribute(Tag tag) {
@@ -78,8 +73,22 @@ class ReactNativeSelectorParser {
         Tag parent = tag.getParent();
         String lastFatherSelector = "";
 
-        selectors.add("#" + tag.getAttribute(ID_LABEL));
+        if (hasIdAttribute(tag)) {
+            selectors.add("#" + tag.getAttribute(ID_LABEL));
+            selectors.add("#" + tag.getAttribute(ID_LABEL) + " " + tag.getName());
+        }
 
+        while (parent != null) {
+            lastFatherSelector = parseParent(
+                selectors, 
+                parent, 
+                lastFatherSelector
+            );
+            parent = parent.getParent();
+        }
+
+        parent = tag.getParent();
+        lastFatherSelector = tag.getName();
         while (parent != null) {
             lastFatherSelector = parseParent(
                 selectors, 
@@ -157,8 +166,22 @@ class ReactNativeSelectorParser {
         Tag parent = tag.getParent();
         String lastFatherSelector = "";
 
-        selectors.add("." + tag.getAttribute(CLASS_LABEL));
+        if (hasClassAttribute(tag)) { 
+            selectors.add("." + tag.getAttribute(CLASS_LABEL));
+            selectors.add("." + tag.getAttribute(CLASS_LABEL) + " " + tag.getName());
+        }
 
+        while (parent != null) {
+            lastFatherSelector = parseParent(
+                selectors, 
+                parent, 
+                lastFatherSelector
+            );
+            parent = parent.getParent();
+        }
+
+        parent = tag.getParent();
+        lastFatherSelector = tag.getName();
         while (parent != null) {
             lastFatherSelector = parseParent(
                 selectors, 

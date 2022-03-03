@@ -50,15 +50,31 @@ class AReactNativeTagParser extends ReactNativeTagParser {
     private void buildTagAttributes(Tag tag, Tag reactNativeTag) {
         reactNativeTag.addAttribute(
             "onPress", 
-            "{() => props.route.params.query = '" + tag.getAttribute("href") + "')}"
+            "{() => props.route.params.query = '" + tag.getAttribute("href") + "'}"
         );
     }
-
 
     private void buildTagContent(Tag tag, Tag reactNativeTag) {
         Tag textTag = new Tag("Text");
         
         textTag.setValue(tag.getValue());
         reactNativeTag.addChild(textTag);
+
+        parseStyleAttribute("text-decoration", tag, textTag);
+        parseStyleAttribute("text-align", tag, textTag);
+        parseStyleAttribute("color", tag, textTag);
+        parseStyleAttribute("font-align", tag, textTag);
+        parseStyleAttribute("font-weight", tag, textTag);
+        parseStyleAttribute("font-size", tag, textTag);
+        parseStyleAttribute("font-family", tag, textTag);
+    }
+
+    private void parseStyleAttribute(String attribute, Tag tag, Tag rnTag) {
+        if (!tag.hasStyle(attribute)) {
+            return;
+        }
+        
+        rnTag.addStyle(attribute, tag.getStyle(attribute));
+        tag.removeStyle(attribute);
     }
 }

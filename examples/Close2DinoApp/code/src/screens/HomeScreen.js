@@ -10,11 +10,11 @@ const _e658dec788951d25e870c4053ff8ef52 = styled.TouchableOpacity`background-col
 
 const _c361761465ba66a39041ee994cbcd3bd = styled.Text`color: purple;font-weight: bold;text-decoration: none;font-size: 20px;font-family: Arial;text-align: center;`;
 
-const _364bcefe4deb9f456180826ed0f41308 = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
+const _364bcefe4deb9f456180826ed0f41308 = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;flex-direction: row`;
 
 const _623e3c2ad7e4efe8fdcda3da599bd2ee = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _69f62a003cc340210084fdf48f5b515 = styled.Image`height: 25px;`;
+const _69f62a003cc340210084fdf48f5b515 = styled.Image`height: 25px;width: 25px;`;
 
 
 function HomeScreen(props) {

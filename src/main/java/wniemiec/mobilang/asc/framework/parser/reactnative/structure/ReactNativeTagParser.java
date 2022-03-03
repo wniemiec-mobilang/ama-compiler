@@ -66,6 +66,18 @@ abstract class ReactNativeTagParser {
             
             reactNativeTag.addStyle(attribute, value);
         }
+
+        if (hasDisplayFlex(reactNativeTag) && !reactNativeTag.hasStyle("flex-direction")) {
+            reactNativeTag.addStyle("flex-direction", "row");
+        }
+    }
+
+    private boolean hasDisplayFlex(Tag tag) {
+        if (!tag.hasStyle("display")) {
+            return false;
+        }
+
+        return tag.getStyle("display").equals("flex");
     }
 
     private void parseAttributes(Tag tag, Tag reactNativeTag) {

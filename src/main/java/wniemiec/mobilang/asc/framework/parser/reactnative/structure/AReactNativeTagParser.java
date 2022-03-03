@@ -50,7 +50,7 @@ class AReactNativeTagParser extends ReactNativeTagParser {
     private void buildTagAttributes(Tag tag, Tag reactNativeTag) {
         reactNativeTag.addAttribute(
             "onPress", 
-            "() => props.route.params.query = '" + tag.getAttribute("href") + "')"
+            "{() => props.route.params.query = '" + tag.getAttribute("href") + "')}"
         );
     }
 

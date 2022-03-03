@@ -61,7 +61,7 @@ public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager 
         Terminal terminal = StandardTerminalBuilder
             .getInstance()
             .outputHandler(Consolex::writeDebug)
-            .outputErrorHandler(Consolex::writeError)
+            .outputErrorHandler(Consolex::writeDebug)
             .build();
         
         terminal.exec(command);

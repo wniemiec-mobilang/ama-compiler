@@ -2,27 +2,27 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _a845fd8cb9e6495764ce06cb9cdf382 = styled.SafeAreaView`background-color: #444;margin: 0;flex: 1;`;
+const _6d878c02ca30463a14d763029549c2e = styled.SafeAreaView`background-color: #444;margin: 0;flex: 1;`;
 
-const _61fe0c6e785bcb7e959bd42200b230d8 = styled.View`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
+const _b773cb5f3cddec7b1bd191a596cebf01 = styled.View`margin: 10px;color: white;font-size: 15px;font-family: Arial, Helvetica, sans-serif;`;
 
-const _a0d0f3ac6a3994f209c24db1aae1f8de = styled.View`background-color: #222;`;
+const _cbd3345c1dff5e42e7a6b5aa417be40 = styled.View`background-color: #222;`;
 
-const _40e230665d12ee946f1d79980ccb2a1e = styled.Text`margin: 20 0;`;
+const _6f536b36cd873461133983a1bf1d9378 = styled.Text`margin: 20 0;`;
 
-const _5223ff1a9222b67d810ac1075bddbeca = styled.View`margin: 10px;`;
+const _b8ed1f5b079dcee379a6bb5274e83fc4 = styled.View`margin: 10px;`;
 
-const _381113e4019ece5d7c2632e98301bafd = styled.TextInput`border: 1px solid #ccc;border-radius: 10px;padding-left: 20px;width: 100%;font-size: 20px;height: 50px;`;
+const _4346c2139e12e57c8b74ee28e8f77a1e = styled.TextInput`border: 1px solid #ccc;border-radius: 10px;padding-left: 20px;width: 100%;font-size: 20px;height: 50px;`;
 
-const _62af66a7b36084bdb5067756e302381f = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
+const _3d2667b9d4b353f0c57a77d6ba87afba = styled.View`background-color: #ccc;flex-direction: row;display: flex;width: 100%;align-items: center;height: 50px;`;
 
-const _d527085ee39a23964fe93de937abf89e = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _3060415d2ab14d1321962787bd46ce4d = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _1c2bc69fece0ebfda46a23dd21dda040 = styled.Image`height: 25;`;
+const _e54dc1a7241eac4cf24a49b0efa1269b = styled.Image`height: 25px;`;
 
-const _bb4ce0659b604652db87b5d62d411c60 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _3bdc00a312376d86ddd3c6b33855807b = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _f85896be0f9feb93e3b4a15df7b387ad = styled.Image`height: 25;`;
+const _fa66cb54a54ec662f3180146af92022f = styled.Image`height: 25px;`;
 
 
 function GlossaryScreen(props) {
@@ -62,29 +62,29 @@ setGlossarycontent(_glossaryContent);
 }, []);
 
 return (
-<_a845fd8cb9e6495764ce06cb9cdf382>
-<_62af66a7b36084bdb5067756e302381f id="status-bar">
-<_bb4ce0659b604652db87b5d62d411c60 OnPress={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
-<_f85896be0f9feb93e3b4a15df7b387ad source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_f85896be0f9feb93e3b4a15df7b387ad>
-</_bb4ce0659b604652db87b5d62d411c60>
-<_d527085ee39a23964fe93de937abf89e OnPress={() => props.route.params.query="mobilang:screen:home"} id="back-btn">
-<_1c2bc69fece0ebfda46a23dd21dda040 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_1c2bc69fece0ebfda46a23dd21dda040>
-</_d527085ee39a23964fe93de937abf89e>
-</_62af66a7b36084bdb5067756e302381f>
-<_5223ff1a9222b67d810ac1075bddbeca id="search">
-<_381113e4019ece5d7c2632e98301bafd>
-</_381113e4019ece5d7c2632e98301bafd>
-</_5223ff1a9222b67d810ac1075bddbeca>
-<_61fe0c6e785bcb7e959bd42200b230d8 id="glossary">
-<_40e230665d12ee946f1d79980ccb2a1e>
+<_6d878c02ca30463a14d763029549c2e>
+<_3d2667b9d4b353f0c57a77d6ba87afba id="status-bar">
+<_3bdc00a312376d86ddd3c6b33855807b OnPress={() => props.route.params.query="HomeScreen"} id="menu-btn">
+<_fa66cb54a54ec662f3180146af92022f source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_fa66cb54a54ec662f3180146af92022f>
+</_3bdc00a312376d86ddd3c6b33855807b>
+<_3060415d2ab14d1321962787bd46ce4d OnPress={() => props.route.params.query="HomeScreen"} id="back-btn">
+<_e54dc1a7241eac4cf24a49b0efa1269b source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_e54dc1a7241eac4cf24a49b0efa1269b>
+</_3060415d2ab14d1321962787bd46ce4d>
+</_3d2667b9d4b353f0c57a77d6ba87afba>
+<_b8ed1f5b079dcee379a6bb5274e83fc4 id="search">
+<_4346c2139e12e57c8b74ee28e8f77a1e>
+</_4346c2139e12e57c8b74ee28e8f77a1e>
+</_b8ed1f5b079dcee379a6bb5274e83fc4>
+<_b773cb5f3cddec7b1bd191a596cebf01 id="glossary">
+<_6f536b36cd873461133983a1bf1d9378>
 Glossário
-</_40e230665d12ee946f1d79980ccb2a1e>
-<_a0d0f3ac6a3994f209c24db1aae1f8de id="glossary-content">
-</_a0d0f3ac6a3994f209c24db1aae1f8de>
-</_61fe0c6e785bcb7e959bd42200b230d8>
-</_a845fd8cb9e6495764ce06cb9cdf382>
+</_6f536b36cd873461133983a1bf1d9378>
+<_cbd3345c1dff5e42e7a6b5aa417be40 id="glossary-content">
+</_cbd3345c1dff5e42e7a6b5aa417be40>
+</_b773cb5f3cddec7b1bd191a596cebf01>
+</_6d878c02ca30463a14d763029549c2e>
 );
 }
 

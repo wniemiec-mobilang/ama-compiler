@@ -291,7 +291,7 @@ public class Tag {
         this.parent = father;
     }
 
-    Map<String, String> getAttributes() {
+    public Map<String, String> getAttributes() {
         return attributes;
     }
 

@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _322c5a94d2c0b488332200cf452f6f7b = styled.SafeAreaView`background-color: #222;margin: 0;flex: 1;`;
+const _c8dff3703ecb11834c458337d2fbe171 = styled.SafeAreaView`background-color: #222;margin: 0;flex: 1;`;
 
-const _595d0200ede0372e15f609e10729c72 = styled.View`font-size: 15px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white;`;
+const _9402a4ffd8c6f09a72b7a856e7625b1b = styled.View`margin: 10px;color: white;font-size: 15px;font-family: Arial, Helvetica, sans-serif;`;
 
-const _95dbcc14d9cf22dc1830ccddc40a09c2 = styled.View`background-color: #ccc;width: 100%;align-items: center;display: flex;height: 50px;`;
+const _8901a6dc67e2953d97040bf17607b749 = styled.View`background-color: #ccc;flex-direction: row;display: flex;width: 100%;align-items: center;height: 50px;`;
 
-const _7a52f5c7a0e154e15cc6ae82733e6cd7 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _eef76a0903ab53e9f78b23d0dcdf26b7 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _2de1e0ea4ce28c7f4bbf93e4d3624af5 = styled.Image`height: 25;`;
+const _446600af3b3250bab4212a2fbdeba492 = styled.Image`height: 25px;`;
 
-const _5b0f0dbbc7c2843c3f6147cf9b2c93ec = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _99776cdd2552c468b6b29ee726a47471 = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
 
-const _dc4c0b147c97be5fab267dc4e5415f18 = styled.Image`height: 25;`;
+const _edcc2bcc631d676750143c61ac88f3a9 = styled.Image`height: 25px;`;
 
 
 function GlossarydescScreen(props) {
@@ -32,20 +32,20 @@ setGlossary(_glossary);
 }, []);
 
 return (
-<_322c5a94d2c0b488332200cf452f6f7b>
-<_95dbcc14d9cf22dc1830ccddc40a09c2 id="status-bar">
-<_5b0f0dbbc7c2843c3f6147cf9b2c93ec OnPress={() => props.route.params.query="mobilang:screen:home"} id="menu-btn">
-<_dc4c0b147c97be5fab267dc4e5415f18 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_dc4c0b147c97be5fab267dc4e5415f18>
-</_5b0f0dbbc7c2843c3f6147cf9b2c93ec>
-<_7a52f5c7a0e154e15cc6ae82733e6cd7 OnPress={() => props.route.params.query="mobilang:screen:glossary"} id="back-btn">
-<_2de1e0ea4ce28c7f4bbf93e4d3624af5 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_2de1e0ea4ce28c7f4bbf93e4d3624af5>
-</_7a52f5c7a0e154e15cc6ae82733e6cd7>
-</_95dbcc14d9cf22dc1830ccddc40a09c2>
-<_595d0200ede0372e15f609e10729c72 id="glossary">
-</_595d0200ede0372e15f609e10729c72>
-</_322c5a94d2c0b488332200cf452f6f7b>
+<_c8dff3703ecb11834c458337d2fbe171>
+<_8901a6dc67e2953d97040bf17607b749 id="status-bar">
+<_99776cdd2552c468b6b29ee726a47471 OnPress={() => props.route.params.query="HomeScreen"} id="menu-btn">
+<_edcc2bcc631d676750143c61ac88f3a9 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_edcc2bcc631d676750143c61ac88f3a9>
+</_99776cdd2552c468b6b29ee726a47471>
+<_eef76a0903ab53e9f78b23d0dcdf26b7 OnPress={() => props.route.params.query="GlossaryScreen"} id="back-btn">
+<_446600af3b3250bab4212a2fbdeba492 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_446600af3b3250bab4212a2fbdeba492>
+</_eef76a0903ab53e9f78b23d0dcdf26b7>
+</_8901a6dc67e2953d97040bf17607b749>
+<_9402a4ffd8c6f09a72b7a856e7625b1b id="glossary">
+</_9402a4ffd8c6f09a72b7a856e7625b1b>
+</_c8dff3703ecb11834c458337d2fbe171>
 );
 }
 

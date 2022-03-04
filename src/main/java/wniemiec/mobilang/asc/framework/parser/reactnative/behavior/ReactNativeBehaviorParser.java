@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
+
 import wniemiec.mobilang.asc.framework.parser.reactnative.style.ReactNativeStyleApplicator;
 import wniemiec.mobilang.asc.models.behavior.Instruction;
 import wniemiec.mobilang.asc.models.behavior.Variable;
@@ -25,9 +27,11 @@ public class ReactNativeBehaviorParser {
     private final GetElementByIdReactNativeParser getElementByIdParser;
     private final WindowReactNativeParser windowParser;
     private final DeclarationReactNativeParser declarationParser;
+    private final DirectiveReactNativeParser directiveParser;
     private final List<Variable> stateDeclarations;
     private final List<String> stateBody;
     private final List<Instruction> behaviorCode;
+    private final Tag structure;
 
     /**
      * key:     Variable id
@@ -52,6 +56,7 @@ public class ReactNativeBehaviorParser {
         ReactNativeStyleApplicator styleApplicator
     ) {
         this.behaviorCode = behaviorCode;
+        this.structure = structure;
         stateDeclarations = new ArrayList<>();
         stateBody = new ArrayList<>();
         symbolTable = new HashMap<>();
@@ -72,6 +77,7 @@ public class ReactNativeBehaviorParser {
             stateBody, 
             symbolTable
         );
+        directiveParser = new DirectiveReactNativeParser();
     }
 
 
@@ -87,6 +93,7 @@ public class ReactNativeBehaviorParser {
     public void parse() throws IOException, ParseException {
         parseCode();
         parseDeclarations();
+        parseTagAttributes();
     }
 
     private void parseCode() throws IOException, ParseException {
@@ -122,6 +129,10 @@ public class ReactNativeBehaviorParser {
 
         if (isDeclaration(parsedCode)) {
             parseDeclaration(parsedCode);
+        }
+
+        if (hasMobilangDirective(parsedCode)) {
+            parsedCode = parseMobilangDirective(parsedCode);
         }
 
         if (!parsedCode.isEmpty()) {
@@ -171,6 +182,38 @@ public class ReactNativeBehaviorParser {
 
     private void parseDeclarations() {
         declarationParser.parseDeclarations(stateDeclarations);
+    }
+
+    private boolean hasMobilangDirective(String code) {
+        return code.contains("mobilang:");
+    }
+
+    private String parseMobilangDirective(String code) {
+        return directiveParser.parse(code);
+    }
+
+    private void parseTagAttributes() {
+        Stack<Tag> tagsToParse = new Stack<>();
+
+        tagsToParse.push(structure);
+
+        while (!tagsToParse.empty()) {
+            Tag currentTag = tagsToParse.pop();
+
+            parseAttributesOf(currentTag);
+
+            for (Tag child : currentTag.getChildren()) {
+                tagsToParse.push(child);
+            }
+        }
+    }
+
+    private void parseAttributesOf(Tag tag) {
+        for (Map.Entry<String, String> entry : tag.getAttributes().entrySet()) {
+            String parsedValue = directiveParser.parse(entry.getValue());
+
+            tag.addAttribute(entry.getKey(), parsedValue);
+        }
     }
 
 

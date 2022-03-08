@@ -2,32 +2,31 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _cc415bf8b323e36b612bae7b65e8ed78 = styled.SafeAreaView`
+const _143c4295ac8807babf4686a078d36df1 = styled.SafeAreaView`
 background-color: #444;
 margin: 0;
 flex: 1;
 `;
 
-const _c601d1cd4c7731b8ee65b25b3b474281 = styled.View`
+const _a5b8cf6a83a6086551c33f9c5251b9e = styled.View`
 margin: 10px;
 color: white;
 font-size: 15px;
-font-family: Arial, Helvetica, sans-serif;
 `;
 
-const _409fc80af16a91635c28d35d90a72fcd = styled.View`
+const _9dd9b7a6fd1df0738dd772c20c1211e9 = styled.View`
 background-color: #222;
 `;
 
-const _f8789ad467a29457b9996461f48ac6b = styled.Text`
+const _60894bad9eabb4bff11d6fdcef7b07c3 = styled.Text`
 margin: 20 0;
 `;
 
-const _356ba91d8bad14361b6fc310fe3f2bae = styled.View`
+const _82b2ca9a381b255bdfd2313d37fc76de = styled.View`
 margin: 10px;
 `;
 
-const _d45c04d25438094ae430c147ed9cf289 = styled.TextInput`
+const _4d01fc50f3a2587a2881cc4fd4a4b3b4 = styled.TextInput`
 border: 1px solid #ccc;
 border-radius: 10px;
 padding-left: 20px;
@@ -36,7 +35,7 @@ font-size: 20px;
 height: 50px;
 `;
 
-const _9698c203a590af237a11b01e697ca73f = styled.View`
+const _d3c6f2c897ef67e0a007e7bffaef9781 = styled.View`
 background-color: #ccc;
 flex-direction: row;
 display: flex;
@@ -45,89 +44,62 @@ align-items: center;
 height: 50px;
 `;
 
-const _6fc9fc96080a8b67db3db4818258a434 = styled.TouchableOpacity`
+const _154d7070afe4b122f9d3326b10eb1b21 = styled.TouchableOpacity`
 border: 0;
 background-color: transparent;
 cursor: pointer;
 margin: 0 15px;
 `;
 
-const _e5688c11edbd84772c55fad7c8932014 = styled.Image`
+const _efaee681ac3907ae07d0fc82b907b1f1 = styled.Image`
 height: 25px;
 `;
 
-const _376a753b84b5c3f3bf40a59c375b1bf = styled.TouchableOpacity`
+const _ac3a73e7ef1bd6a58c2febf014694916 = styled.TouchableOpacity`
 border: 0;
 background-color: transparent;
 cursor: pointer;
 margin: 0 15px;
 `;
 
-const _907fbd544c3d842ac5bfe85f625be5b1 = styled.Image`
+const _5cc2b72bc812ea79f68671785b27aa76 = styled.Image`
 height: 25px;
 `;
 
 
 function GlossaryScreen(props) {
 
-[glossary_content,setGlossary_content] = useState([]);
-[glossaryContent,setGlossarycontent] = useState([]);
 
 useEffect(() => {
 function openDescription(item) {;
 item.children[1].classList.toggle("item-content-open");
 };
-function makeGlossaryItemsClickable() {;
-const items=document.querySelectorAll(".item");
-for (let i="0";i<items.length;i++) {;
-items.i.onclick=() => openDescription(items.i);
-};
-};
-makeGlossaryItemsClickable();
-const data=[{name: "Adenomegalia",description: "Linfonodos ou gânglios aumentados, também conhecidos como ínguas.",id: "1",type: "Condição",content: "Adenomegalia é o aumento dos linfonodos (ínguas). Pode estar presente em crianças e, na maior parte dos casos, é causada por infecções virais. Mais raramente podem ser causadas por doenças oncológicas tais como leucemias ou linfomas."},{name: "Alopécia",description: "Queda de cabelos",id: "2",type: "Condição",content: "A alopécia é a perda de cabelos do couro cabeludo ou de qualquer outra região do corpo. Em crianças em tratamento oncológico (quimioterapia ou radioterapia) a queda do cabelo pode acontecer. Nestes casos, uma vez terminado o tratamento o cabelo volta a crescer."}];
-function loadGlossaryWithName(name="") {;
-let _glossaryContent=[];
-_glossaryContent=[``];
-for (let item of data) {;
-if (item.name.toLowerCase().startsWith(name.toLowerCase())) {;
-_glossaryContent.push(`<><View class="item"><Text>${item.name}</Text><View class="item-content"><Text>${item.type}</Text><Text>${item.description}</Text><TouchableOpacity onPress={() => props.navigation.navigate('mobilang:screen:glossary-desc.html,{id:${item.id}}')}><Text>Leia mais</Text></TouchableOpacity></View></View></>`);
-};
-};
-makeGlossaryItemsClickable();
-};
-loadGlossaryWithName();
-const searchInput=document.getElementById("search").children[0];
-searchInput.addEventListener("keyup",(event) => {;
-loadGlossaryWithName(searchInput.value);
-});
-setGlossary_content(_glossary_content);
-setGlossarycontent(_glossaryContent);
 }, []);
 
 return (
-<_cc415bf8b323e36b612bae7b65e8ed78>
-<_9698c203a590af237a11b01e697ca73f id="status-bar">
-<_376a753b84b5c3f3bf40a59c375b1bf OnPress={() => props.navigation.navigate("HomeScreen")} id="menu-btn">
-<_907fbd544c3d842ac5bfe85f625be5b1 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_907fbd544c3d842ac5bfe85f625be5b1>
-</_376a753b84b5c3f3bf40a59c375b1bf>
-<_6fc9fc96080a8b67db3db4818258a434 OnPress={() => props.navigation.navigate("HomeScreen")} id="back-btn">
-<_e5688c11edbd84772c55fad7c8932014 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_e5688c11edbd84772c55fad7c8932014>
-</_6fc9fc96080a8b67db3db4818258a434>
-</_9698c203a590af237a11b01e697ca73f>
-<_356ba91d8bad14361b6fc310fe3f2bae id="search">
-<_d45c04d25438094ae430c147ed9cf289>
-</_d45c04d25438094ae430c147ed9cf289>
-</_356ba91d8bad14361b6fc310fe3f2bae>
-<_c601d1cd4c7731b8ee65b25b3b474281 id="glossary">
-<_f8789ad467a29457b9996461f48ac6b>
+<_143c4295ac8807babf4686a078d36df1>
+<_d3c6f2c897ef67e0a007e7bffaef9781 id="status-bar">
+<_ac3a73e7ef1bd6a58c2febf014694916 OnPress={() => props.navigation.navigate("HomeScreen")} id="menu-btn">
+<_5cc2b72bc812ea79f68671785b27aa76 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_5cc2b72bc812ea79f68671785b27aa76>
+</_ac3a73e7ef1bd6a58c2febf014694916>
+<_154d7070afe4b122f9d3326b10eb1b21 OnPress={() => props.navigation.navigate("HomeScreen")} id="back-btn">
+<_efaee681ac3907ae07d0fc82b907b1f1 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_efaee681ac3907ae07d0fc82b907b1f1>
+</_154d7070afe4b122f9d3326b10eb1b21>
+</_d3c6f2c897ef67e0a007e7bffaef9781>
+<_82b2ca9a381b255bdfd2313d37fc76de id="search">
+<_4d01fc50f3a2587a2881cc4fd4a4b3b4>
+</_4d01fc50f3a2587a2881cc4fd4a4b3b4>
+</_82b2ca9a381b255bdfd2313d37fc76de>
+<_a5b8cf6a83a6086551c33f9c5251b9e id="glossary">
+<_60894bad9eabb4bff11d6fdcef7b07c3>
 Glossário
-</_f8789ad467a29457b9996461f48ac6b>
-<_409fc80af16a91635c28d35d90a72fcd id="glossary-content">
-</_409fc80af16a91635c28d35d90a72fcd>
-</_c601d1cd4c7731b8ee65b25b3b474281>
-</_cc415bf8b323e36b612bae7b65e8ed78>
+</_60894bad9eabb4bff11d6fdcef7b07c3>
+<_9dd9b7a6fd1df0738dd772c20c1211e9 id="glossary-content">
+</_9dd9b7a6fd1df0738dd772c20c1211e9>
+</_a5b8cf6a83a6086551c33f9c5251b9e>
+</_143c4295ac8807babf4686a078d36df1>
 );
 }
 

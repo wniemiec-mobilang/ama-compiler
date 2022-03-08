@@ -69,7 +69,7 @@ public class ReactNativeStyleApplicator {
     private void parseRules(Tag tag, List<String> selectors) {
         Map<String, String> rules = style.getRulesForSelector(selectors);
 
-        tag.setStyle(rules);
+        tag.mergeStyle(rules);
     }
 
     private void parseChildren(Tag tag) {

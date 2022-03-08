@@ -232,6 +232,10 @@ public class Tag {
         style.remove(attribute);
     }
 
+    public void mergeStyle(Map<String, String> style) {
+        this.style.putAll(style);
+    }
+
     @Override
     public String toString() {
         return "Tag [" 
@@ -280,7 +284,7 @@ public class Tag {
     }
 
     public void setStyle(Map<String, String> style) {
-        this.style.putAll(style);
+        this.style = style;
     }
 
     public Tag getParent() {

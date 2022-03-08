@@ -7,6 +7,7 @@ import wniemiec.mobilang.asc.framework.parser.FrameworkScreenParser;
 import wniemiec.mobilang.asc.framework.parser.reactnative.behavior.ReactNativeBehaviorParser;
 import wniemiec.mobilang.asc.framework.parser.reactnative.structure.ReactNativeStructureParser;
 import wniemiec.mobilang.asc.framework.parser.reactnative.style.ReactNativeStyleApplicator;
+import wniemiec.mobilang.asc.framework.parser.reactnative.style.ReactNativeStyleFilter;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Style;
 import wniemiec.mobilang.asc.models.behavior.Behavior;
@@ -59,6 +60,7 @@ class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
         parseStructure();
         parseBehavior();
         setUpImports();
+        setUpStyle();
         setUpDeclarations();
         setUpBody();
     }
@@ -101,6 +103,12 @@ class ReactNativeFrameworkScreenParser extends FrameworkScreenParser {
         ReactNativeImportGenerator importGenerator = new ReactNativeImportGenerator();
 
         imports = importGenerator.generate();
+    }
+
+    private void setUpStyle() {
+        ReactNativeStyleFilter filter = new ReactNativeStyleFilter(structure);
+
+        filter.filter();
     }
 
 

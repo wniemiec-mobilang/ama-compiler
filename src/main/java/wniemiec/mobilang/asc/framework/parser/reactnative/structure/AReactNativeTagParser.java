@@ -97,7 +97,7 @@ class AReactNativeTagParser extends ReactNativeTagParser {
         parseStyleAttribute("font-align", tag, textTag);
         parseStyleAttribute("font-weight", tag, textTag);
         parseStyleAttribute("font-size", tag, textTag);
-        //parseStyleAttribute("font-family", tag, textTag);
+        parseStyleAttribute("font-family", tag, textTag);
     }
 
     private void parseStyleAttribute(String attribute, Tag tag, Tag rnTag) {

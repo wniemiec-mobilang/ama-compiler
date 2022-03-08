@@ -19,6 +19,9 @@ class DirectiveReactNativeParser {
         if (isScreenDirective(code)) {
             parsedCode = parseScreenDirective(code);
         }
+        else if (isParamDirective(code)) {
+            parsedCode = parseParamDirective(code);
+        }
         
         return parsedCode;
     }
@@ -37,6 +40,25 @@ class DirectiveReactNativeParser {
             String normalizedScreenName = StringUtils.capitalize(screenName) + "Screen";
 
             parsedCode = code.replaceAll("mobilang:screen:([A-z0-9]+)", normalizedScreenName);
+        }
+
+        return parsedCode;
+    }
+
+    private boolean isParamDirective(String code) {
+        return code.contains("mobilang:param");
+    }
+
+    private String parseParamDirective(String code) {
+        String parsedCode = code;
+        Pattern pattern = Pattern.compile(".+mobilang:param:([A-z0-9]+).+");
+        Matcher matcher = pattern.matcher(code);
+
+        if (matcher.matches()) {
+            String param = matcher.group(1);
+            String paramRef = "props.route.params." + param;
+
+            parsedCode = code.replaceAll("mobilang:param:([A-z0-9]+)", paramRef);
         }
 
         return parsedCode;

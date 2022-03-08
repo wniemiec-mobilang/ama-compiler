@@ -61,6 +61,10 @@ public abstract class MobiLangCodeExport {
     //		Methods
     //-------------------------------------------------------------------------
     private Path setUpAppLocation(PropertiesData propertiesData, Path outputLocation) {
+        if (outputLocation == null) {
+            return Path.of(propertiesData.getAppName()).resolve("code");
+        }
+        
         return outputLocation.resolve(propertiesData.getAppName()).resolve("code");
     }
 

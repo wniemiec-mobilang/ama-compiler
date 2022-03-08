@@ -111,7 +111,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     throws CodeExportException {
         TextFileManager txtFileManager = new TextFileManager(
             filepath, 
-            StandardCharsets.ISO_8859_1
+            StandardCharsets.UTF_8
         );
         
         try {

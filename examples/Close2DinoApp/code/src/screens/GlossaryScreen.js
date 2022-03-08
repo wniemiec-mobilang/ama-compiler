@@ -2,27 +2,70 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _6d878c02ca30463a14d763029549c2e = styled.SafeAreaView`background-color: #444;margin: 0;flex: 1;`;
+const _cc415bf8b323e36b612bae7b65e8ed78 = styled.SafeAreaView`
+background-color: #444;
+margin: 0;
+flex: 1;
+`;
 
-const _b773cb5f3cddec7b1bd191a596cebf01 = styled.View`margin: 10px;color: white;font-size: 15px;font-family: Arial, Helvetica, sans-serif;`;
+const _c601d1cd4c7731b8ee65b25b3b474281 = styled.View`
+margin: 10px;
+color: white;
+font-size: 15px;
+font-family: Arial, Helvetica, sans-serif;
+`;
 
-const _cbd3345c1dff5e42e7a6b5aa417be40 = styled.View`background-color: #222;`;
+const _409fc80af16a91635c28d35d90a72fcd = styled.View`
+background-color: #222;
+`;
 
-const _6f536b36cd873461133983a1bf1d9378 = styled.Text`margin: 20 0;`;
+const _f8789ad467a29457b9996461f48ac6b = styled.Text`
+margin: 20 0;
+`;
 
-const _b8ed1f5b079dcee379a6bb5274e83fc4 = styled.View`margin: 10px;`;
+const _356ba91d8bad14361b6fc310fe3f2bae = styled.View`
+margin: 10px;
+`;
 
-const _4346c2139e12e57c8b74ee28e8f77a1e = styled.TextInput`border: 1px solid #ccc;border-radius: 10px;padding-left: 20px;width: 100%;font-size: 20px;height: 50px;`;
+const _d45c04d25438094ae430c147ed9cf289 = styled.TextInput`
+border: 1px solid #ccc;
+border-radius: 10px;
+padding-left: 20px;
+width: 100%;
+font-size: 20px;
+height: 50px;
+`;
 
-const _3d2667b9d4b353f0c57a77d6ba87afba = styled.View`background-color: #ccc;flex-direction: row;display: flex;width: 100%;align-items: center;height: 50px;`;
+const _9698c203a590af237a11b01e697ca73f = styled.View`
+background-color: #ccc;
+flex-direction: row;
+display: flex;
+width: 100%;
+align-items: center;
+height: 50px;
+`;
 
-const _3060415d2ab14d1321962787bd46ce4d = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _6fc9fc96080a8b67db3db4818258a434 = styled.TouchableOpacity`
+border: 0;
+background-color: transparent;
+cursor: pointer;
+margin: 0 15px;
+`;
 
-const _e54dc1a7241eac4cf24a49b0efa1269b = styled.Image`height: 25px;`;
+const _e5688c11edbd84772c55fad7c8932014 = styled.Image`
+height: 25px;
+`;
 
-const _3bdc00a312376d86ddd3c6b33855807b = styled.TouchableOpacity`border: 0;background-color: transparent;cursor: pointer;margin: 0 15px;`;
+const _376a753b84b5c3f3bf40a59c375b1bf = styled.TouchableOpacity`
+border: 0;
+background-color: transparent;
+cursor: pointer;
+margin: 0 15px;
+`;
 
-const _fa66cb54a54ec662f3180146af92022f = styled.Image`height: 25px;`;
+const _907fbd544c3d842ac5bfe85f625be5b1 = styled.Image`
+height: 25px;
+`;
 
 
 function GlossaryScreen(props) {
@@ -47,7 +90,7 @@ let _glossaryContent=[];
 _glossaryContent=[``];
 for (let item of data) {;
 if (item.name.toLowerCase().startsWith(name.toLowerCase())) {;
-_glossaryContent.push(`<><View class="item"><Text>${item.name}</Text><View class="item-content"><Text>${item.type}</Text><Text>${item.description}</Text><TouchableOpacity onPress={() => props.route.params.query = 'mobilang:screen:glossary-desc.html?id=${item.id}'}><Text>Leia mais</Text></TouchableOpacity></View></View></>`);
+_glossaryContent.push(`<><View class="item"><Text>${item.name}</Text><View class="item-content"><Text>${item.type}</Text><Text>${item.description}</Text><TouchableOpacity onPress={() => props.navigation.navigate('mobilang:screen:glossary-desc.html,{id:${item.id}}')}><Text>Leia mais</Text></TouchableOpacity></View></View></>`);
 };
 };
 makeGlossaryItemsClickable();
@@ -62,29 +105,29 @@ setGlossarycontent(_glossaryContent);
 }, []);
 
 return (
-<_6d878c02ca30463a14d763029549c2e>
-<_3d2667b9d4b353f0c57a77d6ba87afba id="status-bar">
-<_3bdc00a312376d86ddd3c6b33855807b OnPress={() => props.route.params.query="HomeScreen"} id="menu-btn">
-<_fa66cb54a54ec662f3180146af92022f source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_fa66cb54a54ec662f3180146af92022f>
-</_3bdc00a312376d86ddd3c6b33855807b>
-<_3060415d2ab14d1321962787bd46ce4d OnPress={() => props.route.params.query="HomeScreen"} id="back-btn">
-<_e54dc1a7241eac4cf24a49b0efa1269b source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_e54dc1a7241eac4cf24a49b0efa1269b>
-</_3060415d2ab14d1321962787bd46ce4d>
-</_3d2667b9d4b353f0c57a77d6ba87afba>
-<_b8ed1f5b079dcee379a6bb5274e83fc4 id="search">
-<_4346c2139e12e57c8b74ee28e8f77a1e>
-</_4346c2139e12e57c8b74ee28e8f77a1e>
-</_b8ed1f5b079dcee379a6bb5274e83fc4>
-<_b773cb5f3cddec7b1bd191a596cebf01 id="glossary">
-<_6f536b36cd873461133983a1bf1d9378>
+<_cc415bf8b323e36b612bae7b65e8ed78>
+<_9698c203a590af237a11b01e697ca73f id="status-bar">
+<_376a753b84b5c3f3bf40a59c375b1bf OnPress={() => props.navigation.navigate("HomeScreen")} id="menu-btn">
+<_907fbd544c3d842ac5bfe85f625be5b1 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_907fbd544c3d842ac5bfe85f625be5b1>
+</_376a753b84b5c3f3bf40a59c375b1bf>
+<_6fc9fc96080a8b67db3db4818258a434 OnPress={() => props.navigation.navigate("HomeScreen")} id="back-btn">
+<_e5688c11edbd84772c55fad7c8932014 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_e5688c11edbd84772c55fad7c8932014>
+</_6fc9fc96080a8b67db3db4818258a434>
+</_9698c203a590af237a11b01e697ca73f>
+<_356ba91d8bad14361b6fc310fe3f2bae id="search">
+<_d45c04d25438094ae430c147ed9cf289>
+</_d45c04d25438094ae430c147ed9cf289>
+</_356ba91d8bad14361b6fc310fe3f2bae>
+<_c601d1cd4c7731b8ee65b25b3b474281 id="glossary">
+<_f8789ad467a29457b9996461f48ac6b>
 Glossário
-</_6f536b36cd873461133983a1bf1d9378>
-<_cbd3345c1dff5e42e7a6b5aa417be40 id="glossary-content">
-</_cbd3345c1dff5e42e7a6b5aa417be40>
-</_b773cb5f3cddec7b1bd191a596cebf01>
-</_6d878c02ca30463a14d763029549c2e>
+</_f8789ad467a29457b9996461f48ac6b>
+<_409fc80af16a91635c28d35d90a72fcd id="glossary-content">
+</_409fc80af16a91635c28d35d90a72fcd>
+</_c601d1cd4c7731b8ee65b25b3b474281>
+</_cc415bf8b323e36b612bae7b65e8ed78>
 );
 }
 

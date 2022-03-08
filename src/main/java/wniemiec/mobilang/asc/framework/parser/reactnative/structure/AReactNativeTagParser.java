@@ -1,6 +1,9 @@
 package wniemiec.mobilang.asc.framework.parser.reactnative.structure;
 
+import java.util.Arrays;
+
 import wniemiec.mobilang.asc.models.tag.Tag;
+import wniemiec.util.java.StringUtils;
 
 
 /**
@@ -50,8 +53,36 @@ class AReactNativeTagParser extends ReactNativeTagParser {
     private void buildTagAttributes(Tag tag, Tag reactNativeTag) {
         reactNativeTag.addAttribute(
             "onPress", 
-            "{() => props.route.params.query = '" + tag.getAttribute("href") + "'}"
+            buildOnPressCode(tag)
         );
+    }
+
+    private String buildOnPressCode(Tag tag) {
+        StringBuilder code = new StringBuilder();
+
+        code.append("{() => props.navigation.navigate('");
+        code.append(buildNavigateArgs(tag));
+        code.append("')}");
+
+        return code.toString();
+    }
+
+    private String buildNavigateArgs(Tag tag) {
+        StringBuilder code = new StringBuilder();
+        String[] terms = tag.getAttribute("href").split("\\?");
+
+        code.append(terms[0]);
+        
+        if (terms.length > 1) {
+            String args = StringUtils.implode(Arrays.asList(terms[1].split("&")), ",");
+
+            code.append(',');
+            code.append('{');
+            code.append(args.replace("=", ":"));
+            code.append('}');
+        }
+
+        return code.toString();
     }
 
     private void buildTagContent(Tag tag, Tag reactNativeTag) {
@@ -66,7 +97,7 @@ class AReactNativeTagParser extends ReactNativeTagParser {
         parseStyleAttribute("font-align", tag, textTag);
         parseStyleAttribute("font-weight", tag, textTag);
         parseStyleAttribute("font-size", tag, textTag);
-        parseStyleAttribute("font-family", tag, textTag);
+        //parseStyleAttribute("font-family", tag, textTag);
     }
 
     private void parseStyleAttribute(String attribute, Tag tag, Tag rnTag) {

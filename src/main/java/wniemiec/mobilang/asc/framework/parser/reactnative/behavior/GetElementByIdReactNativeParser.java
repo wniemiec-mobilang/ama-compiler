@@ -105,7 +105,7 @@ class GetElementByIdReactNativeParser {
 
     private String extractIdFromGetElementById(String line) {
         String id = "";
-        Pattern p = Pattern.compile(".*(getElementById\\(\\\"(.+)\\\"\\)).*");
+        Pattern p = Pattern.compile(".*(getElementById\\(\\\"([A-z0-9-_$]+)\\\"\\)).*");
         Matcher m = p.matcher(line);
 
         if (m.matches()) {

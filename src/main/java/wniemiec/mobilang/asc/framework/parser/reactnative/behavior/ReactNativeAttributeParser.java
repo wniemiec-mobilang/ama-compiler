@@ -37,8 +37,8 @@ class ReactNativeAttributeParser {
     //		Methods
     //-------------------------------------------------------------------------
     private static void setUpMapping() {
-        mapping.put("onclick", "OnPress");
-        mapping.put("href", "OnPress");
+        mapping.put("onclick", "onPress");
+        mapping.put("href", "onPress");
     }
 
     public static String parse(String name) {

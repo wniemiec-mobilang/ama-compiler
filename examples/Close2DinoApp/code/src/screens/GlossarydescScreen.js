@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _700d7d7dbfd11a105cdc477d76670bb = styled.SafeAreaView`
+const _553ae536080827db8d092d839bfbb5c6 = styled.SafeAreaView`
 background-color: #222;
 margin: 0;
 flex: 1;
 `;
 
-const _12c8194ffb346ccc2df43c710f496b89 = styled.View`
+const _6375ed38771404df598d85f2ffd0c4d8 = styled.View`
 `;
 
-const _d7c6f80c92df0cd6882c0c161a687e2a = styled.View`
+const _b8f13001fd4c32faaad3304f6f2ebc3a = styled.View`
 background-color: #ccc;
 flex-direction: row;
 display: flex;
@@ -20,25 +20,27 @@ align-items: center;
 height: 50px;
 `;
 
-const _38e93d9d8f4dc72db52ae33d24f6a2ce = styled.TouchableOpacity`
+const _3aa9f7463d920b11995d04d5c18dec9f = styled.TouchableOpacity`
 border: 0;
 background-color: transparent;
 cursor: pointer;
 margin: 0 15px;
 `;
 
-const _87100ef5a0e3f3d66458c0c6c32d3710 = styled.Image`
+const _5c8566449b24ea7331dba17ac92bd895 = styled.Image`
+width: 25px;
 height: 25px;
 `;
 
-const _fdf195f6f908b0f875e87f142cf46d14 = styled.TouchableOpacity`
+const _7d6c3c91f96e8d68a010046c76eb8f13 = styled.TouchableOpacity`
 border: 0;
 background-color: transparent;
 cursor: pointer;
 margin: 0 15px;
 `;
 
-const _fe49df8f75f4bfd8f8027f364d269cb6 = styled.Image`
+const _95cad088bffb5f1f09ce762607824dbb = styled.Image`
+width: 25px;
 height: 25px;
 `;
 
@@ -49,7 +51,7 @@ function GlossarydescScreen(props) {
 [glossary,setGlossary] = useState([]);
 
 useEffect(() => {
-const data=[{name: "Adenomegalia",description: "Linfonodos ou gânglios aumentados, também conhecidos como ínguas.",id: "1",type: "Condição",content: "Adenomegalia é o aumento dos linfonodos (ínguas). Pode estar presente em crianças e, na maior parte dos casos, é causada por infecções virais. Mais raramente podem ser causadas por doenças oncológicas tais como leucemias ou linfomas."},{name: "Alopécia",description: "Queda de cabelos",id: "2",type: "Condição",content: "A alopécia é a perda de cabelos do couro cabeludo ou de qualquer outra região do corpo. Em crianças em tratamento oncológico (quimioterapia ou radioterapia) a queda do cabelo pode acontecer. Nestes casos, uma vez terminado o tratamento o cabelo volta a crescer."}];
+const data=[{name: "Adenomegalia",description: "Linfonodos ou gÃ¢nglios aumentados, tambÃ©m conhecidos como Ã­nguas.",id: "1",type: "CondiÃ§Ã£o",content: "Adenomegalia Ã© o aumento dos linfonodos (Ã­nguas). Pode estar presente em crianÃ§as e, na maior parte dos casos, Ã© causada por infecÃ§Ãµes virais. Mais raramente podem ser causadas por doenÃ§as oncolÃ³gicas tais como leucemias ou linfomas."},{name: "AlopÃ©cia",description: "Queda de cabelos",id: "2",type: "CondiÃ§Ã£o",content: "A alopÃ©cia Ã© a perda de cabelos do couro cabeludo ou de qualquer outra regiÃ£o do corpo. Em crianÃ§as em tratamento oncolÃ³gico (quimioterapia ou radioterapia) a queda do cabelo pode acontecer. Nestes casos, uma vez terminado o tratamento o cabelo volta a crescer."}];
 const id="props.route.params.id";
 const glossaryItem=data.find((item) => item.id==id);
 let _glossary=[];
@@ -60,20 +62,20 @@ setGlossary(_glossary);
 }, []);
 
 return (
-<_700d7d7dbfd11a105cdc477d76670bb>
-<_d7c6f80c92df0cd6882c0c161a687e2a id="status-bar">
-<_fdf195f6f908b0f875e87f142cf46d14 OnPress={() => props.navigation.navigate("HomeScreen")} id="menu-btn">
-<_fe49df8f75f4bfd8f8027f364d269cb6 source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_fe49df8f75f4bfd8f8027f364d269cb6>
-</_fdf195f6f908b0f875e87f142cf46d14>
-<_38e93d9d8f4dc72db52ae33d24f6a2ce OnPress={() => props.navigation.navigate("GlossaryScreen")} id="back-btn">
-<_87100ef5a0e3f3d66458c0c6c32d3710 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_87100ef5a0e3f3d66458c0c6c32d3710>
-</_38e93d9d8f4dc72db52ae33d24f6a2ce>
-</_d7c6f80c92df0cd6882c0c161a687e2a>
-<_12c8194ffb346ccc2df43c710f496b89 id="glossary-area">
-</_12c8194ffb346ccc2df43c710f496b89>
-</_700d7d7dbfd11a105cdc477d76670bb>
+<_553ae536080827db8d092d839bfbb5c6>
+<_b8f13001fd4c32faaad3304f6f2ebc3a id="status-bar">
+<_7d6c3c91f96e8d68a010046c76eb8f13 OnPress={() => props.navigation.navigate("HomeScreen")} id="menu-btn">
+<_95cad088bffb5f1f09ce762607824dbb source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_95cad088bffb5f1f09ce762607824dbb>
+</_7d6c3c91f96e8d68a010046c76eb8f13>
+<_3aa9f7463d920b11995d04d5c18dec9f OnPress={() => props.navigation.navigate("GlossaryScreen")} id="back-btn">
+<_5c8566449b24ea7331dba17ac92bd895 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_5c8566449b24ea7331dba17ac92bd895>
+</_3aa9f7463d920b11995d04d5c18dec9f>
+</_b8f13001fd4c32faaad3304f6f2ebc3a>
+<_6375ed38771404df598d85f2ffd0c4d8 id="glossary-area">
+</_6375ed38771404df598d85f2ffd0c4d8>
+</_553ae536080827db8d092d839bfbb5c6>
 );
 }
 

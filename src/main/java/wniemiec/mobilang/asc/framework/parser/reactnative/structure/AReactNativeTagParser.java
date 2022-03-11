@@ -91,8 +91,24 @@ class AReactNativeTagParser extends ReactNativeTagParser {
         textTag.setValue(tag.getValue());
         reactNativeTag.addChild(textTag);
 
-        parseStyleAttribute("text-decoration", tag, textTag);
+        if (tag.hasAttribute("text-align")) {
+            String alignValue = tag.getAttribute("text-align");
+
+            if (alignValue.equals("left")) {
+                reactNativeTag.addAttribute("justify-content", "flex-start");
+            }
+            else if (alignValue.equals("center")) {
+                reactNativeTag.addAttribute("justify-content", "center");
+            }
+            else {
+                reactNativeTag.addAttribute("justify-content", "flex-end");
+            }
+        }
+
         parseStyleAttribute("text-align", tag, textTag);
+
+
+        parseStyleAttribute("text-decoration", tag, textTag);
         parseStyleAttribute("color", tag, textTag);
         parseStyleAttribute("font-align", tag, textTag);
         parseStyleAttribute("font-weight", tag, textTag);

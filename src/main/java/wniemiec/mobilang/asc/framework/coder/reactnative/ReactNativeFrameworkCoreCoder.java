@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import wniemiec.mobilang.asc.framework.coder.FrameworkCoreCoder;
 import wniemiec.mobilang.asc.models.FileCode;
 
@@ -39,7 +38,6 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
     public List<FileCode> generateCode() {
         generateIndexCode();
         generateAppCode();
-        generateNavigators();
 
         return coreCodes;
     }
@@ -69,120 +67,69 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
 
         buildAppImports(code);
         buildAppExport(code);
-        buildAppStorage(code);
-        buildAppNavigation(code);
 
         coreCodes.add(new FileCode("src/App.js", code));
     }
 
     private void buildAppImports(List<String> code) {
-        code.add("import 'react-native-gesture-handler';");
         code.add("import React from 'react';");
-        code.add("import { PersistGate } from 'redux-persist/es/integration/react';");
-        code.add("import { Provider } from 'react-redux';");
-        code.add("import { store, persistor } from './Store';");
-        code.add("import { NavigationContainer } from '@react-navigation/native';");
-        code.add("import MainStack from './navigators/MainStack';");
+        code.add("import { Platform, ScrollView, useWindowDimensions } from 'react-native';");
+        code.add("import { WebView } from 'react-native-webview';");
+        code.add("import IframeRenderer, {iframeModel} from '@native-html/iframe-plugin';");
+        code.add("import RenderHTML from 'react-native-render-html';");
         code.add("");
 
-        dependencies.add("styled-components");
-        dependencies.add("@react-navigation/native@^5.x");
-        dependencies.add("react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view");
-        dependencies.add("@react-navigation/stack@^5.x");
-        dependencies.add("redux react-redux redux-persist @react-native-async-storage/async-storage");
-        dependencies.add("uuid");
-        dependencies.add("react-native-get-random-values");
+        dependencies.add("react-native-webview");
+        dependencies.add("react-native-render-html");
+        dependencies.add("@native-html/iframe-plugin");
     }
 
     private void buildAppExport(List<String> code) {
         code.add("const App = () => {");
-        code.add("    return (");
-        code.add("        <Storage>");
-        code.add("          <Navigation />");
-        code.add("        </Storage>");
-        code.add("    );");
-        code.add("  }");
+        code.add("");
+        code.add("  const renderers = {");
+        code.add("    iframe: IframeRenderer,");
+        code.add("  };");
+        code.add("");
+        code.add("  const customHTMLElementModels = {");
+        code.add("    iframe: iframeModel,");
+        code.add("  };");
+        code.add("");
+        code.add("const {width, height} = useWindowDimensions();");
+        code.add("");
+        code.add("  const homeUrl = Platform.OS === 'ios'");
+        code.add("    ? './assets/HomeScreen.html'");
+        code.add("    : 'file:///android_asset/HomeScreen.html';");
+        code.add("");
+        code.add("  const html = `");
+        code.add("    <iframe allowfullscreen style=\"width:${width}px; height: ${height}px\" src='${homeUrl}'></iframe>");
+        code.add("  ");
+        code.add("");
+        code.add("  const webViewProps = {");
+        code.add("    originWhitelist: '*',");
+        code.add("    javaScriptCanOpenWindowsAutomatically: true,");
+        code.add("    allowFileAccessFromFileURLs: true,");
+        code.add("    allowFileAccess: true,");
+        code.add("    allowUniversalAccessFromFileURLs: true,");
+        code.add("    allowingReadAccessToURL: true,");
+        code.add("  };");
+        code.add("");
+        code.add("  return (");
+        code.add("      <ScrollView>");
+        code.add("        <RenderHTML");
+        code.add("          contentWidth={height * 2}");
+        code.add("          renderers={renderers}");
+        code.add("          customHTMLElementModels={customHTMLElementModels}");
+        code.add("          source={{html: html}}");
+        code.add("          WebView={WebView}");
+        code.add("          defaultWebViewProps={webViewProps}");
+        code.add("        />");
+        code.add("      </ScrollView>");
+        code.add("  );");
+        code.add("}");
         code.add("");
         code.add("export default App;");
         code.add("");
-    }
-
-    private void buildAppStorage(List<String> code) {
-        code.add("const Storage = ({ children }) => (");
-        code.add("  <Provider store={store}>");
-        code.add("    <PersistGate loading={null} persistor={persistor}>");
-        code.add("      { children }");
-        code.add("    </PersistGate>");
-        code.add("  </Provider>");
-        code.add(");");
-        code.add("");
-    }
-
-    private void buildAppNavigation(List<String> code) {
-        code.add("const Navigation = ({ children }) => (");
-        code.add("    <NavigationContainer>");
-        code.add("        <MainStack />");
-        code.add("    </NavigationContainer>");
-        code.add(");");
-        code.add("");
-    }
-
-    private void generateNavigators() {
-        List<String> code = new ArrayList<>();
-
-        buildNavigatorsImports(code);
-        buildNavigatorsStackNavigator(code);
-        buildNavigatorsMainStack(code);
-        buildNavigatorsExport(code);
-
-        coreCodes.add(new FileCode("src/navigators/MainStack.js", code));
-    }
-
-    private void buildNavigatorsImports(List<String> code) {
-        code.add("import React from 'react';");
-        code.add("import { createStackNavigator } from '@react-navigation/stack';");
-
-        for (String screenName : screensName) {
-            code.add("import " + screenName + " from '../screens/" + screenName + ".js'");
-        }
-        
-        code.add("");
-    }
-
-    private void buildNavigatorsStackNavigator(List<String> code) {
-        code.add("const Stack = createStackNavigator();");
-        code.add("");
-    }
-
-    private void buildNavigatorsMainStack(List<String> code) {
-        code.add("const MainStack = () => {");
-        code.add("    return (");
-        code.add("        <Stack.Navigator screenOptions={{headerShown: false}}>");
-        
-        for (String screenName : screensName) {
-            code.add(buildStackNavigatorScreenTag(screenName));
-        }
-        
-        code.add("        </Stack.Navigator>");
-        code.add("    );");
-        code.add("}");
-        code.add("");
-    }
-
-    private String buildStackNavigatorScreenTag(String screenName) {
-        StringBuilder code = new StringBuilder();
-
-        code.append("            <Stack.Screen name=\"");
-        code.append(screenName);
-        code.append("\" component={");
-        code.append(screenName);
-        code.append("} />");
-
-        return code.toString();
-    }
-
-    private void buildNavigatorsExport(List<String> code) {
-        code.add("export default MainStack;");
     }
 
     @Override

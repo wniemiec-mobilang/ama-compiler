@@ -3,9 +3,6 @@ package wniemiec.mobilang.asc.parser.screens;
 import java.io.IOException;
 import java.util.List;
 import java.util.SortedMap;
-
-import wniemiec.mobilang.asc.framework.parser.FrameworkParserFactory;
-import wniemiec.mobilang.asc.framework.parser.FrameworkScreenParser;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.Style;
@@ -31,8 +28,7 @@ public class ScreenParser {
     private Node structureNode;
     private Node styleNode;
     private Node behaviorNode;
-    private FrameworkScreenParser frameworkParser;
-    private final FrameworkParserFactory frameworkParserFactory;
+    private ScreenData screenData;
 
 
     //-------------------------------------------------------------------------
@@ -43,16 +39,12 @@ public class ScreenParser {
      * 
      * @param       ast MobiLang AST
      * @param       screenNode Screen node
-     * @param       frameworkParserFactory Factory that will provide framework 
-     * parser
      */
     public ScreenParser(
         SortedMap<String, List<Node>> ast, 
-        Node screenNode, 
-        FrameworkParserFactory frameworkParserFactory
+        Node screenNode
     ) {
         this.ast = ast;
-        this.frameworkParserFactory = frameworkParserFactory;
         id = buildScreenId(screenNode);
 
         initializeStructureStyleAndBehaviorNodes(screenNode);
@@ -121,14 +113,12 @@ public class ScreenParser {
 
     private void parseScreen(Tag structure, Style style, Behavior behavior) 
     throws ParseException, IOException {
-        frameworkParser = frameworkParserFactory.getScreenParser(
-            id,
-            structure,
-            style,
-            behavior
-        );
-        
-        frameworkParser.parse();
+        screenData = new ScreenData.Builder()
+            .name(id) 
+            .structure(structure)
+            .style(style)
+            .behavior(behavior)
+            .build();
     }
 
 
@@ -136,7 +126,7 @@ public class ScreenParser {
     //		Getters
     //-------------------------------------------------------------------------
     public ScreenData getScreenData() {
-        return frameworkParser.getScreenData();
+        return screenData;
     }
 
 }

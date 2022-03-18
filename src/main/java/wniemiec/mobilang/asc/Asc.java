@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.SortedMap;
-
 import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.asc.coder.MobiLangCoder;
 import wniemiec.mobilang.asc.export.FileMobiLangCodeExport;
@@ -77,10 +76,7 @@ public class Asc {
     }
 
     private void parseMobilangAst() throws ParseException, IOException {
-        mobilangAstParser = new MobiLangAstParser(
-            ast, 
-            frameworkFactory.getParserFactory()
-        );
+        mobilangAstParser = new MobiLangAstParser(ast);
 
         Consolex.writeInfo("Parsing MobiLang AST...");
         mobilangAstParser.parse();

@@ -1,0 +1,76 @@
+@native-html/iframe-plugin
+react-native-webview
+react-native-render-html
+
+
+cada screen será um html contendo:
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<style>
+		<body>
+		<script>
+		
+colocar screens na pasta 'assets' e na pasta 'android/app/src/main/assets'
+substituir diretivas de tela
+   "mobilang:screen:home" -----> "HomeScreen.html"
+substituir conteudo do behavior pelo resultado dele passado ao babel
+N precisa mais processar tags
+N precisa mais processar style
+Behavior precisa:
+  babel
+  diretivas
+  
+  
+App.js terá:
+import React from 'react';
+import { Platform, ScrollView, useWindowDimensions } from 'react-native';
+import {WebView} from 'react-native-webview';
+import IframeRenderer, {iframeModel} from '@native-html/iframe-plugin';
+import RenderHTML from 'react-native-render-html';
+
+export default function App() {
+  const renderers = {
+    iframe: IframeRenderer,
+  };
+
+  const customHTMLElementModels = {
+    iframe: iframeModel,
+  };
+
+  const {width, height} = useWindowDimensions();
+
+  const homeUrl =
+    Platform.OS === 'ios'
+      ? './assets/index.html'
+      : 'file:///android_asset/index.html';
+
+  let html = `
+  <iframe allowfullscreen style="width:${width}px; height: ${height}px" src='${homeUrl}'>
+        
+  </iframe>
+    `;
+
+  const webViewProps = {
+    originWhitelist: '*',
+    javaScriptCanOpenWindowsAutomatically: true,
+    allowFileAccessFromFileURLs: true,
+    allowFileAccess: true,
+    allowUniversalAccessFromFileURLs: true,
+    allowingReadAccessToURL: true,
+  };
+
+  return (
+    <ScrollView>
+      <RenderHTML
+        contentWidth={height * 2}
+        renderers={renderers}
+        customHTMLElementModels={customHTMLElementModels}
+        source={{html: html}}
+        WebView={WebView}
+        defaultWebViewProps={webViewProps}
+      />
+    </ScrollView>
+  );
+}
+

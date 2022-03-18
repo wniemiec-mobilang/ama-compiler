@@ -1,5 +1,6 @@
 package wniemiec.mobilang.asc.models.behavior;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import wniemiec.io.java.Consolex;
@@ -17,8 +18,12 @@ public class Behavior {
 
 
     //-------------------------------------------------------------------------
-    //		Constructor
+    //		Constructors
     //-------------------------------------------------------------------------
+    public Behavior() {
+        this(new ArrayList<>());
+    }
+
     public Behavior(List<Instruction> code) {
         this.code = code;
     }

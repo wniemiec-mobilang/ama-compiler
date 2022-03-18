@@ -3,8 +3,6 @@ package wniemiec.mobilang.asc.parser;
 import java.io.IOException;
 import java.util.List;
 import java.util.SortedMap;
-
-import wniemiec.mobilang.asc.framework.parser.FrameworkParserFactory;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.PropertiesData;
 import wniemiec.mobilang.asc.models.ScreenData;
@@ -24,7 +22,6 @@ public class MobiLangAstParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private final SortedMap<String, List<Node>> ast;
-    private final FrameworkParserFactory frameworkParserFactory;
     private ScreensParser screensParser;
     private PropertiesParser propertiesParser;
     private PersistenceParser persistenceParser;
@@ -37,15 +34,9 @@ public class MobiLangAstParser {
      * MobiLang AST parser.
      * 
      * @param       ast MobiLang AST
-     * @param       frameworkParserFactory Factory that will provide framework 
-     * parser
      */
-    public MobiLangAstParser(
-        SortedMap<String, List<Node>> ast, 
-        FrameworkParserFactory frameworkParserFactory
-    ) {
+    public MobiLangAstParser(SortedMap<String, List<Node>> ast) {
         this.ast = ast;
-        this.frameworkParserFactory = frameworkParserFactory;
     }
 
 
@@ -72,7 +63,7 @@ public class MobiLangAstParser {
     private ScreensParser buildScreensParser(List<Node> root) {
         Node screensNode = findNodeWithName(root, "screens");
         
-        return new ScreensParser(ast, screensNode, frameworkParserFactory);
+        return new ScreensParser(ast, screensNode);
     }
 
     private void parsePropertiesNode(List<Node> root) throws ParseException {

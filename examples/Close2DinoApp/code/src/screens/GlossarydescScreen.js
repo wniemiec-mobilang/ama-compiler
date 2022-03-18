@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 
-const _553ae536080827db8d092d839bfbb5c6 = styled.SafeAreaView`
+const _a1dc2d700b12a80c75037135809e5603 = styled.SafeAreaView`
 background-color: #222;
 margin: 0;
 flex: 1;
 `;
 
-const _6375ed38771404df598d85f2ffd0c4d8 = styled.View`
+const _7135e052897e6073115ac0dc592c70ef = styled.View`
 `;
 
-const _b8f13001fd4c32faaad3304f6f2ebc3a = styled.View`
+const _763de7e24662732cd0f86dc196a983cc = styled.View`
 background-color: #ccc;
 flex-direction: row;
 display: flex;
@@ -20,26 +20,26 @@ align-items: center;
 height: 50px;
 `;
 
-const _3aa9f7463d920b11995d04d5c18dec9f = styled.TouchableOpacity`
+const _893f61fbd7fd9bc6f6014ecf4978dba = styled.TouchableOpacity`
 border: 0;
 background-color: transparent;
 cursor: pointer;
 margin: 0 15px;
 `;
 
-const _5c8566449b24ea7331dba17ac92bd895 = styled.Image`
+const _4c2ace80f5aa30af4641ff838b86381d = styled.Image`
 width: 25px;
 height: 25px;
 `;
 
-const _7d6c3c91f96e8d68a010046c76eb8f13 = styled.TouchableOpacity`
+const _a9f5db056c7ecfa870770d6895024b71 = styled.TouchableOpacity`
 border: 0;
 background-color: transparent;
 cursor: pointer;
 margin: 0 15px;
 `;
 
-const _95cad088bffb5f1f09ce762607824dbb = styled.Image`
+const _5ecc91526b858aa674004e8b2470863d = styled.Image`
 width: 25px;
 height: 25px;
 `;
@@ -62,20 +62,20 @@ setGlossary(_glossary);
 }, []);
 
 return (
-<_553ae536080827db8d092d839bfbb5c6>
-<_b8f13001fd4c32faaad3304f6f2ebc3a id="status-bar">
-<_7d6c3c91f96e8d68a010046c76eb8f13 OnPress={() => props.navigation.navigate("HomeScreen")} id="menu-btn">
-<_95cad088bffb5f1f09ce762607824dbb source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
-</_95cad088bffb5f1f09ce762607824dbb>
-</_7d6c3c91f96e8d68a010046c76eb8f13>
-<_3aa9f7463d920b11995d04d5c18dec9f OnPress={() => props.navigation.navigate("GlossaryScreen")} id="back-btn">
-<_5c8566449b24ea7331dba17ac92bd895 source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
-</_5c8566449b24ea7331dba17ac92bd895>
-</_3aa9f7463d920b11995d04d5c18dec9f>
-</_b8f13001fd4c32faaad3304f6f2ebc3a>
-<_6375ed38771404df598d85f2ffd0c4d8 id="glossary-area">
-</_6375ed38771404df598d85f2ffd0c4d8>
-</_553ae536080827db8d092d839bfbb5c6>
+<_a1dc2d700b12a80c75037135809e5603>
+<_763de7e24662732cd0f86dc196a983cc id="status-bar">
+<_a9f5db056c7ecfa870770d6895024b71 onPress={() => props.navigation.navigate("HomeScreen")} id="menu-btn">
+<_5ecc91526b858aa674004e8b2470863d source={{uri: 'https://cdn0.iconfinder.com/data/icons/heroicons-ui/24/icon-menu-512.png'}}>
+</_5ecc91526b858aa674004e8b2470863d>
+</_a9f5db056c7ecfa870770d6895024b71>
+<_893f61fbd7fd9bc6f6014ecf4978dba onPress={() => props.navigation.navigate("GlossaryScreen")} id="back-btn">
+<_4c2ace80f5aa30af4641ff838b86381d source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_259786.png'}}>
+</_4c2ace80f5aa30af4641ff838b86381d>
+</_893f61fbd7fd9bc6f6014ecf4978dba>
+</_763de7e24662732cd0f86dc196a983cc>
+<_7135e052897e6073115ac0dc592c70ef id="glossary-area">
+</_7135e052897e6073115ac0dc592c70ef>
+</_a1dc2d700b12a80c75037135809e5603>
 );
 }
 

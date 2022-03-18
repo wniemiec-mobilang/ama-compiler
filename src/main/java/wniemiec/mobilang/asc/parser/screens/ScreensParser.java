@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
-
-import wniemiec.mobilang.asc.framework.parser.FrameworkParserFactory;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
@@ -21,7 +19,6 @@ public class ScreensParser {
     //-------------------------------------------------------------------------
     private final SortedMap<String, List<Node>> ast;
     private final List<Node> screens;
-    private final FrameworkParserFactory frameworkParserFactory;
     private final List<ScreenData> screensData;
 
 
@@ -33,17 +30,13 @@ public class ScreensParser {
      * 
      * @param       ast MobiLang AST
      * @param       screensNode Screens node
-     * @param       frameworkParserFactory Factory that will provide framework 
-     * parser
      */
     public ScreensParser(
         SortedMap<String, List<Node>> ast, 
-        Node screensNode, 
-        FrameworkParserFactory frameworkParserFactory
+        Node screensNode
     ) {
         this.ast = ast;
         screens = ast.get(screensNode.getId());
-        this.frameworkParserFactory = frameworkParserFactory;
         screensData = new ArrayList<>();
     }
 
@@ -52,11 +45,10 @@ public class ScreensParser {
     //		Methods
     //-------------------------------------------------------------------------
     public void parse() throws ParseException, IOException {
-        for (Node screen : screens) {
+        for (Node screen : screens) {   
             ScreenParser screenParser = new ScreenParser(
                 ast, 
-                screen,
-                frameworkParserFactory
+                screen
             );
             
             screenParser.parse();

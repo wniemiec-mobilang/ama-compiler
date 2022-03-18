@@ -1,8 +1,7 @@
 package wniemiec.mobilang.asc.models;
 
-import java.util.List;
-
-import wniemiec.mobilang.asc.models.behavior.Variable;
+import wniemiec.mobilang.asc.models.behavior.Behavior;
+import wniemiec.mobilang.asc.models.tag.Tag;
 
 
 /**
@@ -14,11 +13,9 @@ public class ScreenData {
     //		Attributes
     //-------------------------------------------------------------------------
     private final String name;
-    private final List<String> imports;
-    private final List<Variable> stateDeclarations;
-    private final List<String> stateBody;
-    private final List<Variable> declarations;
-    private final List<String> body;
+    private final Tag structure;
+    private final Style style;
+    private final Behavior behavior;
 
 
     //-------------------------------------------------------------------------
@@ -26,18 +23,14 @@ public class ScreenData {
     //-------------------------------------------------------------------------
     private ScreenData(
         String name, 
-        List<String> imports, 
-        List<Variable> stateDeclarations, 
-        List<String> stateBody,
-        List<Variable> declarations, 
-        List<String> body
+        Tag structure,
+        Style style,
+        Behavior behavior
     ) {
         this.name = name;
-        this.imports = imports;
-        this.stateDeclarations = stateDeclarations;
-        this.stateBody = stateBody;
-        this.declarations = declarations;
-        this.body = body;
+        this.structure = structure;
+        this.style = (style == null) ? new Style() : style;
+        this.behavior = (behavior == null) ? new Behavior() : behavior;
     }
 
 
@@ -47,11 +40,9 @@ public class ScreenData {
     public static class Builder {
 
         private String name;
-        private List<String> imports;
-        private List<Variable> stateDeclarations;
-        private List<String> stateBody;
-        private List<Variable> declarations;
-        private List<String> body;
+        private Tag structure;
+        private Style style;
+        private Behavior behavior;
 
         public Builder name(String name) {
             this.name = name;
@@ -59,32 +50,20 @@ public class ScreenData {
             return this;
         }
 
-        public Builder imports(List<String> imports) {
-            this.imports = imports;
+        public Builder structure(Tag structure) {
+            this.structure = structure;
 
             return this;
         }
 
-        public Builder stateDeclarations(List<Variable> stateDeclarations) {
-            this.stateDeclarations = stateDeclarations;
+        public Builder style(Style style) {
+            this.style = style;
 
             return this;
         }
 
-        public Builder stateBody(List<String> stateBody) {
-            this.stateBody = stateBody;
-
-            return this;
-        }
-
-        public Builder declarations(List<Variable> declarations) {
-            this.declarations = declarations;
-
-            return this;
-        }
-
-        public Builder body(List<String> body) {
-            this.body = body;
+        public Builder behavior(Behavior behavior) {
+            this.behavior = behavior;
 
             return this;
         }
@@ -94,21 +73,15 @@ public class ScreenData {
 
             return new ScreenData(
                 name, 
-                imports, 
-                stateDeclarations, 
-                stateBody, 
-                declarations, 
-                body
+                structure,
+                style,
+                behavior
             );
         }
 
         private void validateFields() {
             validateName();
-            validateImports();
-            validateStateDeclarations();
-            validateStateBody();
-            validateDeclarations();
-            validateBody();
+            validateStructure();
         }
 
         private void validateName() {
@@ -117,33 +90,9 @@ public class ScreenData {
             }
         }
 
-        private void validateImports() {
-            if (imports == null) {
-                throw new IllegalStateException("imports cannot be null");
-            }
-        }
-
-        private void validateStateDeclarations() {
-            if (stateDeclarations == null) {
-                throw new IllegalStateException("stateDeclarations cannot be null");
-            }
-        }
-
-        private void validateStateBody() {
-            if (stateBody == null) {
-                throw new IllegalStateException("stateBody cannot be null");
-            }
-        }
-
-        private void validateDeclarations() {
-            if (declarations == null) {
-                throw new IllegalStateException("declarations cannot be null");
-            }
-        }
-
-        private void validateBody() {
-            if (body == null) {
-                throw new IllegalStateException("body cannot be null");
+        private void validateStructure() {
+            if (structure == null) {
+                throw new IllegalStateException("structure cannot be null");
             }
         }
     }
@@ -155,24 +104,16 @@ public class ScreenData {
     public String getName() {
         return name;
     }
+    
+    public Tag getStructure() {
+        return structure;
+    }
 
-    public List<String> getImports() {
-        return imports;
+    public Style getStyle() {
+        return style;
     }
 
-    public List<Variable> getStateDeclarations() {
-        return stateDeclarations;
-    }
-    
-    public List<String> getStateBody() {
-        return stateBody;
-    }
-    
-    public List<Variable> getDeclarations() {
-        return declarations;
-    }
-    
-    public List<String> getBody() {
-        return body;
+    public Behavior getBehavior() {
+        return behavior;
     }
 }

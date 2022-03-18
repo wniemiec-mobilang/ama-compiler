@@ -5,7 +5,9 @@ import java.util.List;
 import wniemiec.mobilang.asc.framework.coder.FrameworkScreensCoder;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.ScreenData;
+import wniemiec.mobilang.asc.models.behavior.Behavior;
 import wniemiec.mobilang.asc.models.behavior.Variable;
+import wniemiec.mobilang.asc.parser.babel.BabelParser;
 import wniemiec.util.java.StringUtils;
 
 
@@ -17,16 +19,20 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    private static final String SCREEN_NAME_PREFIX;
+    private static final String ANDROID_SCREEN_NAME_PREFIX;
+    private static final String IOS_SCREEN_NAME_PREFIX;
     private static final String SCREEN_NAME_SUFFIX;
+    private final MobiLangDirectiveParser directiveParser;
+    private final BabelParser babelParser;
 
 
     //-------------------------------------------------------------------------
     //		Initialization block
     //-------------------------------------------------------------------------
     static {
-        SCREEN_NAME_PREFIX = "src/screens/";
-        SCREEN_NAME_SUFFIX = ".js";
+        ANDROID_SCREEN_NAME_PREFIX = "android/app/src/main/assets/";
+        IOS_SCREEN_NAME_PREFIX = "ios/assets/";
+        SCREEN_NAME_SUFFIX = ".html";
     }
 
 
@@ -35,6 +41,9 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     //-------------------------------------------------------------------------
     public ReactNativeFrameworkScreensCoder(List<ScreenData> screensData) {
         super(screensData);
+        
+        directiveParser = new MobiLangDirectiveParser();
+        babelParser = new BabelParser();
     }
 
 
@@ -46,127 +55,105 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
         List<FileCode> screensCode = new ArrayList<>();
 
         for (ScreenData screenData : screensData) {
-            screensCode.add(generateCodeForScreen(screenData));
+            screensCode.addAll(generateCodeForScreen(screenData));
         }
 
         return screensCode;
     }
     
-    private FileCode generateCodeForScreen(ScreenData screenData) {
+    private List<FileCode> generateCodeForScreen(ScreenData screenData) {
         List<String> code = new ArrayList<>();
 
-        putImports(code, screenData);
-        putScreenDeclarations(code, screenData);
-        putFunctionHeader(code, screenData);
-        putStateDeclarations(code, screenData);
-        putUseEffect(code, screenData);
-        putFunctionReturn(code, screenData);
-        putExportDefault(code, screenData);
-
+        putDoctype(code);
+        putHtmlOpenTag(code);
+        putHead(code, screenData);
+        putBody(code, screenData);
+        putScript(code, screenData);
+        putHtmlCloseTag(code);
+        
         return buildFileCode(code, screenData);
     }
 
-    private void putImports(List<String> code, ScreenData screenData) {
-        for (String declaration : screenData.getImports()) {
-            code.add(declaration + ";");
+    private void putDoctype(List<String> code) {
+        code.add("<!DOCTYPE html>");
+    }
+
+    private void putHtmlOpenTag(List<String> code) {
+        code.add("<html>");
+    }
+
+    private void putHead(List<String> code, ScreenData screenData) {
+        code.add("    <head>");
+        code.add("    <title>" + screenData.getName() + "</title>");
+        putStyle(code, screenData);
+        code.add("    </head>");
+    }
+
+    private void putStyle(List<String> code, ScreenData screenData) {
+        code.add("        <style>");
+        // pd ser empty
+        code.addAll(screenData.getStyle());
+        code.add("        </style>");
+    }
+
+    private void putBody(List<String> code, ScreenData screenData) {
+        code.add("    <body>");
+
+        List<String> structureCode = screenData.getStructure().toCode();
+        List<String> parsedLines = directiveParser.parse(structureCode);
+
+        code.addAll(parsedLines);
+
+        code.add("    </body>");
+    }
+
+    private void putScript(List<String> code, ScreenData screenData) {
+        code.add("    <script>");
+    
+        // pd ser empty
+        for (String line : parseBehavior(screenData.getBehavior())) {
+            code.add(line);
         }
 
-        putNewLine(code);
-        putNewLine(code);
+        code.add("    </script>");
     }
 
-    private void putNewLine(List<String> code) {
-        code.add("");
+    private List<String> parseBehavior(Behavior behavior) {
+        List<String> lines = behavior.toCode();
+
+        lines = babelParser.parse(lines);
+        lines = directiveParser.parse(lines);
+
+        return lines;
     }
 
-    private void putScreenDeclarations(List<String> code, ScreenData screenData) {
-        for (Variable declaration : screenData.getDeclarations()) {
-            StringBuilder declarationCode = new StringBuilder();
-
-            declarationCode.append(declaration.getKind());
-            declarationCode.append(' ');
-            declarationCode.append(declaration.getId());
-            declarationCode.append(' ');
-            declarationCode.append('=');
-            declarationCode.append(' ');
-            declarationCode.append(declaration.getContent());
-            declarationCode.append(';');
-
-            code.add(declarationCode.toString());
-            putNewLine(code);
-        }
-
-        putNewLine(code);
+    private void putHtmlCloseTag(List<String> code) {
+        code.add("</html>");
     }
 
-
-    private void putFunctionHeader(List<String> code, ScreenData screenData) {
-        code.add("function " + screenData.getName() + "(props) {");
+    private List<FileCode> buildFileCode(List<String> code, ScreenData screenData) {
+        FileCode androidFileCode = generateAndroidScreenFileCode(code, screenData);
+        FileCode iosFileCode = generateIosScreenFileCode(code, screenData);
         
-        putNewLine(code);
+        return List.of(androidFileCode, iosFileCode);
     }
 
-    private void putStateDeclarations(List<String> code, ScreenData screenData) {
-        for (Variable declaration : screenData.getStateDeclarations()) {
-            StringBuilder declarationCode = new StringBuilder();
+    private FileCode generateAndroidScreenFileCode(List<String> code, ScreenData screenData) {
+        String filename = generateScreenFilename(screenData, ANDROID_SCREEN_NAME_PREFIX);
 
-            declarationCode.append('[');
-            declarationCode.append(declaration.getId());
-            declarationCode.append(',');
-            declarationCode.append("set" + StringUtils.capitalize(declaration.getId()));
-            declarationCode.append(']');
-            declarationCode.append(" = useState(");
-            declarationCode.append(declaration.getContent());
-            declarationCode.append(");");
-
-            code.add(declarationCode.toString());
-        }
-        
-        putNewLine(code);
-    }
-
-    private void putUseEffect(List<String> code, ScreenData screenData) {
-        code.add("useEffect(() => {");
-        
-        for (String statement : screenData.getStateBody()) {
-            code.add(statement + ";");
-        }
-        
-        code.add("}, []);");
-        
-        putNewLine(code);
-    }
-
-    private void putFunctionReturn(List<String> code, ScreenData screenData) {
-        code.add("return (");
-        
-        for (String statement : screenData.getBody()) {
-            code.add(statement);
-        }
-        
-        code.add(");");
-        code.add("}");
-        
-        putNewLine(code);
-    }
-
-
-    private void putExportDefault(List<String> code, ScreenData screenData) {
-        code.add("export default " + screenData.getName() + ";");
-        
-        putNewLine(code);
-    }    
-
-    private FileCode buildFileCode(List<String> code, ScreenData screenData) {
-        String filename = generateScreenFilename(screenData);
-        
         return new FileCode(filename, code);
     }
 
-    private String generateScreenFilename(ScreenData screenData) {
+    private FileCode generateIosScreenFileCode(List<String> code, ScreenData screenData) {
+        String filename = generateScreenFilename(screenData, IOS_SCREEN_NAME_PREFIX);
+
+        return new FileCode(filename, code);
+    }
+
+    private String generateScreenFilename(ScreenData screenData, String prefix) {
         StringBuilder filename = new StringBuilder();
 
-        filename.append(SCREEN_NAME_PREFIX);
+        filename.append(prefix);
         filename.append(screenData.getName());
         filename.append(SCREEN_NAME_SUFFIX);
 

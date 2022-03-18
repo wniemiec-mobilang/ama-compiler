@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import wniemiec.mobilang.asc.framework.coder.FrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManagerFactory;
-import wniemiec.mobilang.asc.framework.parser.FrameworkParserFactory;
 import wniemiec.mobilang.asc.parser.exception.FactoryException;
 import wniemiec.util.java.StringUtils;
 
@@ -33,13 +32,6 @@ public abstract class FrameworkFactory {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    /**
-     * Provides parser factory of a framework.
-     * 
-     * @return      Parser factory
-     */
-    public abstract FrameworkParserFactory getParserFactory();
-
     /**
      * Provides coder factory of a framework.
      * 

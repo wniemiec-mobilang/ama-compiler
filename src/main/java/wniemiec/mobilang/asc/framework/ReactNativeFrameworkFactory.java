@@ -4,8 +4,6 @@ import wniemiec.mobilang.asc.framework.coder.FrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.coder.reactnative.ReactNativeFrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManagerFactory;
 import wniemiec.mobilang.asc.framework.manager.reactnative.ReactNativeFrameworkProjectManagerFactory;
-import wniemiec.mobilang.asc.framework.parser.FrameworkParserFactory;
-import wniemiec.mobilang.asc.framework.parser.reactnative.ReactNativeFrameworkParserFactory;
 
 
 /**
@@ -16,11 +14,6 @@ public class ReactNativeFrameworkFactory extends FrameworkFactory {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    @Override
-    public FrameworkParserFactory getParserFactory() {
-        return new ReactNativeFrameworkParserFactory();
-    }
-
     @Override
     public FrameworkCoderFactory getCoderFactory() {
         return new ReactNativeFrameworkCoderFactory();

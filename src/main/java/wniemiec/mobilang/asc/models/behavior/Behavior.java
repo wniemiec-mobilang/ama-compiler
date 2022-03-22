@@ -1,6 +1,7 @@
 package wniemiec.mobilang.asc.models.behavior;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import wniemiec.io.java.Consolex;
@@ -14,7 +15,7 @@ public class Behavior {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final List<Instruction> code;
+    private final List<Instruction> instructions;
 
 
     //-------------------------------------------------------------------------
@@ -24,8 +25,8 @@ public class Behavior {
         this(new ArrayList<>());
     }
 
-    public Behavior(List<Instruction> code) {
-        this.code = code;
+    public Behavior(List<Instruction> instructions) {
+        this.instructions = instructions;
     }
 
 
@@ -33,9 +34,25 @@ public class Behavior {
     //		Methods
     //-------------------------------------------------------------------------
     public void print() {
-        for (Instruction instruction : code) {
+        for (Instruction instruction : instructions) {
             Consolex.writeLine(instruction);
         }
+    }
+
+    public List<String> toCode() {
+        List<String> code = new ArrayList<>();
+
+        for (Instruction instruction : instructions) {
+            code.addAll(extractCodeFromInstruction(instruction));
+        }
+
+        return code;
+    }
+
+    private List<String> extractCodeFromInstruction(Instruction instruction) {
+        String[] code = instruction.toCode().split("\n");
+
+        return Arrays.asList(code);
     }
 
 
@@ -43,6 +60,6 @@ public class Behavior {
     //		Getters
     //-------------------------------------------------------------------------
     public List<Instruction> getCode() {
-        return code;
+        return instructions;
     }
 }

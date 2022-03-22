@@ -1,6 +1,7 @@
 package wniemiec.mobilang.asc.models;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,16 @@ public class Style {
         }
 
         return selectorRules;
+    }
+
+    public List<String> toCode() {
+        List<String> code = new ArrayList<>();
+
+        for (StyleSheetRule rule : rules) {
+            code.addAll(rule.toCode());
+        }
+
+        return code;
     }
 
     @Override

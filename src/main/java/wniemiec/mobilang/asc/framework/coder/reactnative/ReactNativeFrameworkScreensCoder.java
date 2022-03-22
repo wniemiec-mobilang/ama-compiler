@@ -1,14 +1,14 @@
 package wniemiec.mobilang.asc.framework.coder.reactnative;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.asc.framework.coder.FrameworkScreensCoder;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.behavior.Behavior;
-import wniemiec.mobilang.asc.models.behavior.Variable;
-import wniemiec.mobilang.asc.parser.babel.BabelParser;
-import wniemiec.util.java.StringUtils;
+import wniemiec.io.java.BabelTranspiler;
 
 
 /**
@@ -23,7 +23,7 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     private static final String IOS_SCREEN_NAME_PREFIX;
     private static final String SCREEN_NAME_SUFFIX;
     private final MobiLangDirectiveParser directiveParser;
-    private final BabelParser babelParser;
+    private final BabelTranspiler babelTranspiler;
 
 
     //-------------------------------------------------------------------------
@@ -43,7 +43,7 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
         super(screensData);
         
         directiveParser = new MobiLangDirectiveParser();
-        babelParser = new BabelParser();
+        babelTranspiler = new BabelTranspiler(Consolex::writeError);
     }
 
 
@@ -91,26 +91,26 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
 
     private void putStyle(List<String> code, ScreenData screenData) {
         code.add("        <style>");
-        // pd ser empty
-        code.addAll(screenData.getStyle());
+        code.addAll(screenData.getStyle().toCode());
         code.add("        </style>");
     }
 
     private void putBody(List<String> code, ScreenData screenData) {
         code.add("    <body>");
-
-        List<String> structureCode = screenData.getStructure().toCode();
-        List<String> parsedLines = directiveParser.parse(structureCode);
-
-        code.addAll(parsedLines);
-
+        code.addAll(parseStructure(screenData));
         code.add("    </body>");
+    }
+
+
+    private List<String> parseStructure(ScreenData screenData) {
+        List<String> structureCode = screenData.getStructure().toCode();
+        
+        return parseDirectives(structureCode);
     }
 
     private void putScript(List<String> code, ScreenData screenData) {
         code.add("    <script>");
-    
-        // pd ser empty
+
         for (String line : parseBehavior(screenData.getBehavior())) {
             code.add(line);
         }
@@ -118,13 +118,30 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
         code.add("    </script>");
     }
 
-    private List<String> parseBehavior(Behavior behavior) {
+    private List<String> parseBehavior(Behavior behavior)  {
         List<String> lines = behavior.toCode();
 
-        lines = babelParser.parse(lines);
-        lines = directiveParser.parse(lines);
+        lines = parseBabel(lines);
+        lines = parseDirectives(lines);
 
         return lines;
+    }
+
+    private List<String> parseBabel(List<String> code) {
+        List<String> parsedCode = code;
+
+        try {
+            parsedCode = babelTranspiler.fromCode(code);
+        } 
+        catch (IOException e) {
+            Consolex.writeWarning("Babel parser failed: " + e.toString());
+        }
+
+        return parsedCode;
+    }
+
+    private List<String> parseDirectives(List<String> code) {
+        return directiveParser.parse(code);
     }
 
     private void putHtmlCloseTag(List<String> code) {

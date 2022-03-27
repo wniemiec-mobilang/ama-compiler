@@ -71,6 +71,6 @@ class MobiLangDirectiveParser {
         String screenName = matcher.group(1);
         String normalizedScreenName = StringUtils.capitalize(screenName) + "Screen";
 
-        return line.replace("mobilang:screen:" + screenName, normalizedScreenName);
+        return line.replace("mobilang:screen:" + screenName, normalizedScreenName + ".html");
     }
 }

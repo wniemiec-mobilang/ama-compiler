@@ -103,7 +103,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         code.add("");
         code.add("  const html = `");
         code.add("    <iframe allowfullscreen style=\"width:${width}px; height: ${height}px\" src='${homeUrl}'></iframe>");
-        code.add("  ");
+        code.add("  `");
         code.add("");
         code.add("  const webViewProps = {");
         code.add("    originWhitelist: '*',");

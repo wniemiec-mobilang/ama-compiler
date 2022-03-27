@@ -7,21 +7,19 @@ import java.util.regex.Pattern;
 
 import wniemiec.util.java.StringUtils;
 
-
 /**
  * Responsible for parsing MobiLang directives in screen behavior.
  */
 class MobiLangDirectiveParser {
 
-    //-------------------------------------------------------------------------
-    //		Attributes
-    //-------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // Attributes
+    // -------------------------------------------------------------------------
     private List<String> parsedLines;
 
-
-    //-------------------------------------------------------------------------
-    //		Methods
-    //-------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // Methods
+    // -------------------------------------------------------------------------
     public List<String> parse(List<String> lines) {
         parsedLines = new ArrayList<>();
 
@@ -34,7 +32,7 @@ class MobiLangDirectiveParser {
 
     private void parseLine(String line) {
         String parsedLine = line;
-        
+
         if (isMobiLangDirective(line)) {
             parsedLine = parseMobiLangDirective(line);
         }
@@ -51,6 +49,9 @@ class MobiLangDirectiveParser {
 
         if (isScreenDirective(line)) {
             parsedLine = parseScreenDirective(line);
+        }
+        else if (isParamDirective(line)) {
+            parsedLine = parseParamDirective(line);
         }
 
         return parsedLine;
@@ -69,8 +70,25 @@ class MobiLangDirectiveParser {
         }
 
         String screenName = matcher.group(1);
-        String normalizedScreenName = StringUtils.capitalize(screenName) + "Screen";
 
-        return line.replace("mobilang:screen:" + screenName, normalizedScreenName + ".html");
+        return line.replace("mobilang:screen:" + screenName, screenName + ".html");
+    }
+
+    private boolean isParamDirective(String line) {
+        return line.contains("mobilang:param:");
+    }
+
+    private String parseParamDirective(String line) {
+        Pattern pattern = Pattern.compile(".+mobilang:param:([A-z0-9-_]+).+");
+        Matcher matcher = pattern.matcher(line);
+
+        if (!matcher.matches()) {
+            return line;
+        }
+
+        String paramName = matcher.group(1);
+        String paramQuery = "window.location.href.split('?')[1].split(\"" + paramName + "=\")[1].split(\"&\")[0]";
+
+        return line.replace("\"mobilang:param:" + paramName + "\"", paramQuery);
     }
 }

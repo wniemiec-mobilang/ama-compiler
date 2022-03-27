@@ -45,7 +45,7 @@ public class ScreenParser {
         Node screenNode
     ) {
         this.ast = ast;
-        id = buildScreenId(screenNode);
+        id = screenNode.getAttribute("id");
 
         initializeStructureStyleAndBehaviorNodes(screenNode);
     }
@@ -54,23 +54,6 @@ public class ScreenParser {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private String buildScreenId(Node screenNode) {
-        String screenId = screenNode.getAttribute("id");
-        
-        screenId = normalize(screenId) + "Screen";
-
-        return screenId;
-    }
-
-    private String normalize(String str) {
-        String normalizedString;
-
-        normalizedString = str.replaceAll("[\\-\\_]+", "");
-        normalizedString = StringUtils.capitalize(normalizedString);
-
-        return normalizedString;
-    }
-
     private void initializeStructureStyleAndBehaviorNodes(Node screenNode) {
         for (Node node : ast.get(screenNode.getId())) {
             if (node.getLabel().contains("structure")) {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <title>GlossaryScreen</title>
+    <title>glossary</title>
         <style>
 * {
 margin: 0;
@@ -103,10 +103,10 @@ Glossário
 "use strict";
 
 document.getElementById("menu-btn").onclick = function () {
-  return window.location.href = "HomeScreen.html";
+  return window.location.href = "home.html";
 };
 document.getElementById("back-btn").onclick = function () {
-  return window.location.href = "HomeScreen.html";
+  return window.location.href = "home.html";
 };
 var glossaryContent = document.getElementById("glossary-content");
 function openDescription(item) {
@@ -119,7 +119,7 @@ function loadGlossaryWithName() {
   glossaryContent.innerHTML = "";
   for (var item in data) {
     if (data[item].name.toLowerCase().startsWith(name.toLowerCase())) {
-      glossaryContent.innerHTML += "<div class=\"item\" onclick= \"() => openDescription(" + item + ");\"><h2>" + data[item].name + "</h2><div class=\"item-content\"><h3>" + data[item].type + "</h3><p>" + data[item].description + "</p><a href=\"Glossary-descScreen.html?id=" + data[item].id + "\">Leia mais</a></div></div>";
+      glossaryContent.innerHTML += "<div class=\"item\" onclick= \"openDescription(" + item + ");\"><h2>" + data[item].name + "</h2><div class=\"item-content\"><h3>" + data[item].type + "</h3><p>" + data[item].description + "</p><a href=\"glossary-desc.html?id=" + data[item].id + "\">Leia mais</a></div></div>";
     }
   }
 }

@@ -22,7 +22,7 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     private static final String ANDROID_SCREEN_NAME_PREFIX;
     private static final String IOS_SCREEN_NAME_PREFIX;
     private static final String SCREEN_NAME_SUFFIX;
-    private final MobiLangDirectiveParser directiveParser;
+    private final ReactNativeMobiLangDirectiveParser directiveParser;
     private final BabelTranspiler babelTranspiler;
 
 
@@ -42,7 +42,7 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     public ReactNativeFrameworkScreensCoder(List<ScreenData> screensData) {
         super(screensData);
         
-        directiveParser = new MobiLangDirectiveParser();
+        directiveParser = new ReactNativeMobiLangDirectiveParser();
         babelTranspiler = new BabelTranspiler(Consolex::writeError);
     }
 

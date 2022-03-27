@@ -3,6 +3,7 @@ package wniemiec.mobilang.asc.models;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class StyleSheetRule {
     //-------------------------------------------------------------------------
     public StyleSheetRule() {
         selectors = new ArrayList<>();
-        declarations = new HashMap<>();
+        declarations = new LinkedHashMap<>();
     }
 
 

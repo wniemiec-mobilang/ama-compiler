@@ -10,7 +10,7 @@ import wniemiec.util.java.StringUtils;
 /**
  * Responsible for parsing MobiLang directives in screen behavior.
  */
-class MobiLangDirectiveParser {
+class ReactNativeMobiLangDirectiveParser {
 
     // -------------------------------------------------------------------------
     // Attributes

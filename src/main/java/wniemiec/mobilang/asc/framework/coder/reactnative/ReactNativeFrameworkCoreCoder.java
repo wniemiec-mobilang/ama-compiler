@@ -72,7 +72,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
     }
 
     private void buildAppImports(List<String> code) {
-        code.add("import React from 'react';");
+        code.add("import React, { useState } from 'react';");
         code.add("import { Platform, ScrollView, useWindowDimensions } from 'react-native';");
         code.add("import { WebView } from 'react-native-webview';");
         code.add("import IframeRenderer, {iframeModel} from '@native-html/iframe-plugin';");
@@ -87,6 +87,8 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
     private void buildAppExport(List<String> code) {
         code.add("const App = () => {");
         code.add("");
+        code.add("  const [content, setContent] = useState(Platform.OS === 'ios' ? './assets/home.html' : 'file:///android_asset/home.html');");
+        code.add("");
         code.add("  const renderers = {");
         code.add("    iframe: IframeRenderer,");
         code.add("  };");
@@ -95,15 +97,24 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         code.add("    iframe: iframeModel,");
         code.add("  };");
         code.add("");
-        code.add("const {width, height} = useWindowDimensions();");
-        code.add("");
-        code.add("  const homeUrl = Platform.OS === 'ios'");
-        code.add("    ? './assets/HomeScreen.html'");
-        code.add("    : 'file:///android_asset/HomeScreen.html';");
+        code.add("  const {width, height} = useWindowDimensions();");
         code.add("");
         code.add("  const html = `");
-        code.add("    <iframe allowfullscreen style=\"width:${width}px; height: ${height}px\" src='${homeUrl}'></iframe>");
-        code.add("  `");
+        code.add("    <iframe allowfullscreen style=\"width:${width}px; height: ${height}px\" src='${content}'></iframe>");
+        code.add("  `;");
+        code.add("");
+        code.add("  const renderProps = {");
+        code.add("    a: {");
+        code.add("      onPress: (_, href) => {");
+        code.add("        setContent('');");
+        code.add("        setContent(href);");
+        code.add("      }");
+        code.add("    },");
+        code.add("    iframe: {");
+        code.add("      scalesPageToFit: true,");
+        code.add("      webViewProps: webViewProps,");
+        code.add("    }");
+        code.add("  };");
         code.add("");
         code.add("  const webViewProps = {");
         code.add("    originWhitelist: '*',");
@@ -123,6 +134,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         code.add("          source={{html: html}}");
         code.add("          WebView={WebView}");
         code.add("          defaultWebViewProps={webViewProps}");
+        code.add("          renderersProps={renderProps}");
         code.add("        />");
         code.add("      </ScrollView>");
         code.add("  );");

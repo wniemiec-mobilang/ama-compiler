@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Platform, ScrollView, useWindowDimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
 import IframeRenderer, {iframeModel} from '@native-html/iframe-plugin';
 import RenderHTML from 'react-native-render-html';
 
 const App = () => {
+
+  const [content, setContent] = useState(Platform.OS === 'ios' ? './assets/home.html' : 'file:///android_asset/home.html');
 
   const renderers = {
     iframe: IframeRenderer,
@@ -14,15 +16,24 @@ const App = () => {
     iframe: iframeModel,
   };
 
-const {width, height} = useWindowDimensions();
-
-  const homeUrl = Platform.OS === 'ios'
-    ? './assets/HomeScreen.html'
-    : 'file:///android_asset/HomeScreen.html';
+  const {width, height} = useWindowDimensions();
 
   const html = `
-    <iframe allowfullscreen style="width:${width}px; height: ${height}px" src='${homeUrl}'></iframe>
-  `
+    <iframe allowfullscreen style="width:${width}px; height: ${height}px" src='${content}'></iframe>
+  `;
+
+  const renderProps = {
+    a: {
+      onPress: (_, href) => {
+        setContent('');
+        setContent(href);
+      }
+    },
+    iframe: {
+      scalesPageToFit: true,
+      webViewProps: webViewProps,
+    }
+  };
 
   const webViewProps = {
     originWhitelist: '*',
@@ -42,6 +53,7 @@ const {width, height} = useWindowDimensions();
           source={{html: html}}
           WebView={WebView}
           defaultWebViewProps={webViewProps}
+          renderersProps={renderProps}
         />
       </ScrollView>
   );

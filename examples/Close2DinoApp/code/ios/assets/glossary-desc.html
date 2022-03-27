@@ -72,9 +72,9 @@ document.getElementById("back-btn").onclick = function () {
 var glossary = document.getElementById("glossary-area");
 var data = [{ name: "Adenomegalia", description: "Linfonodos ou gânglios aumentados, também conhecidos como ínguas.", id: "1", type: "Condição", content: "Adenomegalia é o aumento dos linfonodos (ínguas). Pode estar presente em crianças e, na maior parte dos casos, é causada por infecções virais. Mais raramente podem ser causadas por doenças oncológicas tais como leucemias ou linfomas." }, { name: "Alopécia", description: "Queda de cabelos", id: "2", type: "Condição", content: "A alopécia é a perda de cabelos do couro cabeludo ou de qualquer outra região do corpo. Em crianças em tratamento oncológico (quimioterapia ou radioterapia) a queda do cabelo pode acontecer. Nestes casos, uma vez terminado o tratamento o cabelo volta a crescer." }];
 var id = window.location.href.split('?')[1].split("id=")[1].split("&")[0];
-var glossaryItem = data.find(function (item) {
+var glossaryItem = data.filter(function (item) {
   return item.id == id;
-});
+})[0];
 glossary.innerHTML = "";
 glossary.innerHTML += "<div id=\"glossary\"><div class=\"header\"><h1>" + glossaryItem.name + "</h1><h2>" + glossaryItem.type + "</h2></div><p>" + glossaryItem.description + "</p></div>";
     </script>

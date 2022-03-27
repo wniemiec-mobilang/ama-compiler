@@ -62,7 +62,6 @@ public class Asc {
         readMobilangDotFile();
         parseMobilangAst();
         generateMobilangCode();
-        
         return exportMobilangCode();
     }
 

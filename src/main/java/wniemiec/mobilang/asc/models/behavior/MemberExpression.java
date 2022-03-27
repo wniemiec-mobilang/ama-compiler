@@ -44,19 +44,41 @@ public class MemberExpression implements Expression {
     public String toCode() {
         StringBuilder code = new StringBuilder();
 
-        code.append(object.toCode());
+        putObjectIdentifier(code);
+        putIndex(code);
+        
+        return code.toString();
+    }
 
+    private void putObjectIdentifier(StringBuilder code) {
+        code.append(object.toCode());
+    }
+
+    private void putIndex(StringBuilder code) {
         if (hasPropertyName()) {
+            putIndexKey(code);
+        }
+        else {
+            putIndexValue(code);
+        }
+    }
+
+    private void putIndexKey(StringBuilder code) {
+        if (computed) {
+            code.append('[');
+            code.append(propertyName);
+            code.append(']');
+        }
+        else {
             code.append('.');
             code.append(propertyName);
         }
-        else {
-            code.append('[');
-            code.append(value);
-            code.append(']');
-        }
+    }
 
-        return code.toString();
+    private void putIndexValue(StringBuilder code) {
+        code.append('[');
+        code.append(value);
+        code.append(']');
     }
 
     private boolean hasPropertyName() {

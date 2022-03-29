@@ -79,7 +79,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         code.add("import RenderHTML from 'react-native-render-html';");
         code.add("");
 
-        dependencies.add("react-native-webview");
+        dependencies.add("react-native-webview@11.17.2");
         dependencies.add("react-native-render-html");
         dependencies.add("@native-html/iframe-plugin");
     }

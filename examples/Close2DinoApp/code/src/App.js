@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Platform, ScrollView, useWindowDimensions } from 'react-native';
+import { Platform, ScrollView, useWindowDimensions, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
 import IframeRenderer, {iframeModel} from '@native-html/iframe-plugin';
 import RenderHTML from 'react-native-render-html';
 
 const App = () => {
-
   const [content, setContent] = useState(Platform.OS === 'ios' ? './assets/home.html' : 'file:///android_asset/home.html');
 
   const renderers = {
@@ -18,7 +17,7 @@ const App = () => {
 
   const {width, height} = useWindowDimensions();
 
-  const html = `
+  var html = `
     <iframe allowfullscreen style="width:${width}px; height: ${height}px" src='${content}'></iframe>
   `;
 
@@ -45,16 +44,16 @@ const App = () => {
   };
 
   return (
-      <ScrollView>
-        <RenderHTML
-          contentWidth={height * 2}
-          renderers={renderers}
-          customHTMLElementModels={customHTMLElementModels}
-          source={{html: html}}
-          WebView={WebView}
-          defaultWebViewProps={webViewProps}
-          renderersProps={renderProps}
-        />
+    <ScrollView>
+      <RenderHTML
+        contentWidth={height * 2}
+        renderers={renderers}
+        customHTMLElementModels={customHTMLElementModels}
+        source={{html: html}}
+        WebView={WebView}
+        defaultWebViewProps={webViewProps}
+        renderersProps={renderProps}
+      />
       </ScrollView>
   );
 }

@@ -2,29 +2,28 @@ package wniemiec.mobilang.asc.parser.screens.behavior.expression;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import wniemiec.mobilang.asc.models.behavior.ConditionalExpression;
 import wniemiec.mobilang.asc.models.behavior.Expression;
-import wniemiec.mobilang.asc.models.behavior.MemberExpression;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
 
 
 /**
- * Responsible for parsing member expressions from behavior node from MobiLang 
- * AST.
+ * Responsible for parsing conditional expressions from behavior node from 
+ * MobiLang AST.
  */
-class MemberExpressionJsonParser implements ExpressionJsonParser {
+class ConditionalExpressionJsonParser implements ExpressionJsonParser {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private static MemberExpressionJsonParser instance;
+    private static ConditionalExpressionJsonParser instance;
     private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    private MemberExpressionJsonParser() {
+    private ConditionalExpressionJsonParser() {
         expressionParser = ExpressionParser.getInstance();
     }
 
@@ -32,9 +31,9 @@ class MemberExpressionJsonParser implements ExpressionJsonParser {
     //-------------------------------------------------------------------------
     //		Factory
     //-------------------------------------------------------------------------
-    public static MemberExpressionJsonParser getInstance() {
+    public static ConditionalExpressionJsonParser getInstance() {
         if (instance == null) {
-            instance = new MemberExpressionJsonParser();
+            instance = new ConditionalExpressionJsonParser();
         }
 
         return instance;
@@ -46,15 +45,10 @@ class MemberExpressionJsonParser implements ExpressionJsonParser {
     //-------------------------------------------------------------------------
     @Override
     public Expression parse(JSONObject jsonObject) throws JSONException, ParseException {
-        JSONObject property = jsonObject.getJSONObject("property");
-
-        return new MemberExpression(
-            expressionParser.parse(jsonObject.getJSONObject("object")),
-            property.getString("type"),
-            property.optString("name", ""),
-            property.optInt("value", -99),
-            jsonObject.getBoolean("computed"),
-            jsonObject.getBoolean("optional")
+        return new ConditionalExpression(
+            expressionParser.parse(jsonObject.getJSONObject("test")),
+            expressionParser.parse(jsonObject.getJSONObject("consequent")),
+            expressionParser.parse(jsonObject.getJSONObject("alternate"))
         );
     }
 }

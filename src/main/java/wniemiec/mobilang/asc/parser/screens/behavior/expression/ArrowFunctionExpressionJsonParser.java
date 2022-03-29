@@ -2,33 +2,19 @@ package wniemiec.mobilang.asc.parser.screens.behavior.expression;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import wniemiec.mobilang.asc.models.behavior.ArrowFunctionExpression;
 import wniemiec.mobilang.asc.models.behavior.Expression;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.parser.screens.behavior.instruction.InstructionParser;
 
 
 /**
  * Responsible for parsing arrow functions from behavior node from MobiLang AST.
  */
-class ArrowFunctionExpressionJsonParser implements ExpressionJsonParser {
+class ArrowFunctionExpressionJsonParser extends FunctionExpressionJsonParser {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
     private static ArrowFunctionExpressionJsonParser instance;
-    private final ExpressionParser expressionParser;
-    private final InstructionParser instructionParser;
-
-
-    //-------------------------------------------------------------------------
-    //		Constructor
-    //-------------------------------------------------------------------------
-    private ArrowFunctionExpressionJsonParser() {
-        expressionParser = ExpressionParser.getInstance();
-        instructionParser = InstructionParser.getInstance();
-    }
 
 
     //-------------------------------------------------------------------------
@@ -48,18 +34,6 @@ class ArrowFunctionExpressionJsonParser implements ExpressionJsonParser {
     //-------------------------------------------------------------------------
     @Override
     public Expression parse(JSONObject jsonObject) throws JSONException, ParseException {
-        if (!jsonObject.getJSONObject("body").get("type").equals("BlockStatement")) {
-            return new ArrowFunctionExpression(
-                jsonObject.getBoolean("async"),
-                expressionParser.parse(jsonObject.getJSONArray("params")),
-                expressionParser.parse(jsonObject.getJSONObject("body"))
-            );
-        }
-
-        return new ArrowFunctionExpression(
-            jsonObject.getBoolean("async"),
-            expressionParser.parse(jsonObject.getJSONArray("params")),
-            instructionParser.parse(jsonObject.getJSONObject("body"))
-        );
+        return super.parse(jsonObject);
     }
 }

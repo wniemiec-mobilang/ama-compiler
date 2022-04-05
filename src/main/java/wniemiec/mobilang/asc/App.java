@@ -10,6 +10,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.LogLevel;
+import wniemiec.mobilang.asc.coder.exception.CoderException;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.export.exception.OutputLocationException;
 import wniemiec.mobilang.asc.parser.exception.FactoryException;
@@ -65,6 +66,9 @@ public class App {
         }
         catch (OutputLocationException e) {
             Consolex.writeError("Invalid output location: " + e.getMessage());
+        }
+        catch (CoderException e) {
+            Consolex.writeError("Error while generating code: " + e.getMessage());
         }
         catch (CodeExportException e) {
             Consolex.writeError("Error while exporting code: " + e.getMessage());
@@ -150,7 +154,7 @@ public class App {
 
     private static void runAsc() 
     throws ParseException, OutputLocationException, CodeExportException, IOException, 
-    FactoryException {
+    FactoryException, CoderException {
         Asc asc = new Asc(
             mobilangAstFilePath, 
             outputLocationPath,

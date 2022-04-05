@@ -1,6 +1,8 @@
 package wniemiec.mobilang.asc.framework.coder;
 
 import java.util.List;
+
+import wniemiec.mobilang.asc.coder.exception.CoderException;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.ScreenData;
 
@@ -27,5 +29,5 @@ public abstract class FrameworkScreensCoder {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public abstract List<FileCode> generateCode();
+    public abstract List<FileCode> generateCode() throws CoderException;
 }

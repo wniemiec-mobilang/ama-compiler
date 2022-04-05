@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.SortedMap;
 import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.asc.coder.MobiLangCoder;
+import wniemiec.mobilang.asc.coder.exception.CoderException;
 import wniemiec.mobilang.asc.export.FileMobiLangCodeExport;
 import wniemiec.mobilang.asc.export.MobiLangCodeExport;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
@@ -58,10 +59,11 @@ public class Asc {
     //		Methods
     //-------------------------------------------------------------------------
     public Path run() 
-    throws ParseException, OutputLocationException, CodeExportException, IOException {
+    throws ParseException, OutputLocationException, CodeExportException, IOException, CoderException {
         readMobilangDotFile();
         parseMobilangAst();
         generateMobilangCode();
+
         return exportMobilangCode();
     }
 
@@ -81,12 +83,14 @@ public class Asc {
         mobilangAstParser.parse();
     }
 
-    private void generateMobilangCode() {
+    private void generateMobilangCode() throws CoderException {
         mobilangCoder = new MobiLangCoder(
             mobilangAstParser.getPersistenceData(),
             mobilangAstParser.getScreensData(),
             frameworkFactory.getCoderFactory()
         );
+        
+        Consolex.writeInfo("Generating code...");
         mobilangCoder.generateCode();
     }
 
@@ -102,7 +106,7 @@ public class Asc {
             outputLocationPath
         );
         
-        Consolex.writeInfo("Generating code...");
+        Consolex.writeInfo("Exporting code...");
 
         return mobilangCodeExport.export();
     }

@@ -3,7 +3,7 @@ package wniemiec.mobilang.asc.framework.coder.reactnative;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import wniemiec.io.java.Consolex;
+import wniemiec.mobilang.asc.coder.exception.CoderException;
 import wniemiec.mobilang.asc.framework.coder.FrameworkScreensCoder;
 import wniemiec.mobilang.asc.models.FileCode;
 import wniemiec.mobilang.asc.models.ScreenData;
@@ -24,6 +24,7 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     private static final String SCREEN_NAME_SUFFIX;
     private final ReactNativeMobiLangDirectiveParser directiveParser;
     private final BabelTranspiler babelTranspiler;
+    private final List<String> babelErrorLog;
 
 
     //-------------------------------------------------------------------------
@@ -42,8 +43,9 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     public ReactNativeFrameworkScreensCoder(List<ScreenData> screensData) {
         super(screensData);
         
+        babelErrorLog = new ArrayList<>();
         directiveParser = new ReactNativeMobiLangDirectiveParser();
-        babelTranspiler = new BabelTranspiler(Consolex::writeError);
+        babelTranspiler = new BabelTranspiler(babelErrorLog::add);
     }
 
 
@@ -51,7 +53,7 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     //		Methods
     //-------------------------------------------------------------------------
     @Override
-    public List<FileCode> generateCode() {
+    public List<FileCode> generateCode() throws CoderException {
         List<FileCode> screensCode = new ArrayList<>();
 
         for (ScreenData screenData : screensData) {
@@ -61,7 +63,7 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
         return screensCode;
     }
     
-    private List<FileCode> generateCodeForScreen(ScreenData screenData) {
+    private List<FileCode> generateCodeForScreen(ScreenData screenData) throws CoderException {
         List<String> code = new ArrayList<>();
 
         putDoctype(code);
@@ -108,7 +110,7 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
         return parseDirectives(structureCode);
     }
 
-    private void putScript(List<String> code, ScreenData screenData) {
+    private void putScript(List<String> code, ScreenData screenData) throws CoderException {
         code.add("    <script>");
 
         for (String line : parseBehavior(screenData.getBehavior())) {
@@ -118,7 +120,7 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
         code.add("    </script>");
     }
 
-    private List<String> parseBehavior(Behavior behavior)  {
+    private List<String> parseBehavior(Behavior behavior) throws CoderException  {
         List<String> lines = behavior.toCode();
 
         lines = parseBabel(lines);
@@ -127,17 +129,24 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
         return lines;
     }
 
-    private List<String> parseBabel(List<String> code) {
-        List<String> parsedCode = code;
+    private List<String> parseBabel(List<String> code) throws CoderException {
+        List<String> parsedCode = runBabelTranspiler(code);
 
-        try {
-            parsedCode = babelTranspiler.fromCode(code);
-        } 
-        catch (IOException e) {
-            Consolex.writeWarning("Babel parser failed: " + e.toString());
+        if (!babelErrorLog.isEmpty()) {
+            throw new CoderException(babelErrorLog);
         }
 
         return parsedCode;
+    }
+
+
+    private List<String> runBabelTranspiler(List<String> code) throws CoderException {
+        try {
+            return babelTranspiler.fromCode(code);
+        } 
+        catch (IOException e) {
+            throw new CoderException(e.getMessage());
+        }
     }
 
     private List<String> parseDirectives(List<String> code) {

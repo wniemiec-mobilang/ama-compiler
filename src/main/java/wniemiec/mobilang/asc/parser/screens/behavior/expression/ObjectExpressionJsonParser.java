@@ -61,13 +61,29 @@ class ObjectExpressionJsonParser implements ExpressionJsonParser {
 
         for (int i = 0; i < jsonProperties.length(); i++) {
             JSONObject property = jsonProperties.getJSONObject(i);
-            
+            String key = extractKeyFrom(property);
+            JSONObject value = extractValueFrom(property);
+
             properties.put(
-                property.getJSONObject("key").getString("name"), 
-                expressionParser.parse(property.getJSONObject("value"))
+                key, 
+                expressionParser.parse(value)
             );
         }
 
         return properties;
+    }
+
+    private String extractKeyFrom(JSONObject property) {
+        JSONObject key = property.getJSONObject("key");
+
+        if (key.has("name")) {
+            return key.getString("name");
+        }
+
+        return ("'" + key.getString("value") + "'");
+    }
+
+    private JSONObject extractValueFrom(JSONObject property) {
+        return property.getJSONObject("value");
     }
 }

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import wniemiec.mobilang.asc.coder.exception.CoderException;
 import wniemiec.mobilang.asc.framework.coder.FrameworkCoderFactory;
 import wniemiec.mobilang.asc.framework.coder.FrameworkCoreCoder;
 import wniemiec.mobilang.asc.framework.coder.FrameworkPersistenceCoder;
@@ -60,13 +61,13 @@ public class MobiLangCoder {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public void generateCode() {
+    public void generateCode() throws CoderException {
         generateCodeForScreens();
         generateCodeForCore();
         generateCodeForPersistence();
     }
 
-    private void generateCodeForScreens() {
+    private void generateCodeForScreens() throws CoderException {
         FrameworkScreensCoder screensCoder = getScreensCoder();
 
         screensCode = screensCoder.generateCode();

@@ -82,7 +82,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     throws CodeExportException {
         Path filepath = buildFilepath(filename);
         
-        Consolex.writeInfo("Exporting " + filepath);
+        Consolex.writeDebug("Exporting " + filepath);
         
         writeCodeLines(code, filepath);
     }

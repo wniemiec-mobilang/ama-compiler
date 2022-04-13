@@ -63,7 +63,7 @@ class AndroidAppGenerator {
 
         Files.deleteIfExists(keystore);
 
-        Consolex.writeInfo("Generating keystore...");
+        Consolex.writeDebug("Generating keystore...");
 
         terminal.exec(
             javaBinPath.resolve("keytool").toString(),
@@ -92,7 +92,7 @@ class AndroidAppGenerator {
         return StandardTerminalBuilder
             .getInstance()
             .outputHandler(Consolex::writeDebug)
-            .outputErrorHandler(Consolex::writeError)
+            .outputErrorHandler(Consolex::writeDebug)
             .build();
     }
 
@@ -102,7 +102,7 @@ class AndroidAppGenerator {
 
         
         if (!gradleFileContent.get(gradleFileContent.size()-2).startsWith("MYAPP_")) {
-            Consolex.writeInfo("Updating gradle properties...");
+            Consolex.writeDebug("Updating gradle properties...");
             List<String> lines = new ArrayList<>();
     
             lines.add("MYAPP_UPLOAD_STORE_FILE=" + appName + ".keystore");
@@ -120,7 +120,7 @@ class AndroidAppGenerator {
         List<String> gradleBuild = Files.readAllLines(gradleFile);
 
         if (!gradleBuild.get(0).matches("// Modified by SCMA")) {
-            Consolex.writeInfo("Updating gradle build from app folder...");
+            Consolex.writeDebug("Updating gradle build from app folder...");
             List<String> updatedGradleBuild = new ArrayList<>();
     
             updatedGradleBuild.add("// Modified by SCMA");
@@ -155,7 +155,7 @@ class AndroidAppGenerator {
 	private void runGradlew() throws IOException {
         Terminal terminal = buildTerminal();
 
-        Consolex.writeInfo("Running gradlew...");
+        Consolex.writeDebug("Running gradlew...");
 
         terminal.exec(
             androidProjectPath.resolve("gradlew").toString(),
@@ -169,7 +169,7 @@ class AndroidAppGenerator {
         return StandardTerminalBuilder
             .getInstance()
             .outputHandler(Consolex::writeDebug)
-            .outputErrorHandler(Consolex::writeError)
+            .outputErrorHandler(Consolex::writeDebug)
             .build();
     }
 
@@ -178,7 +178,7 @@ class AndroidAppGenerator {
             return;
         }
 
-        Consolex.writeInfo("Setting up output location...");
+        Consolex.writeDebug("Setting up output location...");
 
         Files.createDirectories(androidOutput);
     }
@@ -186,7 +186,7 @@ class AndroidAppGenerator {
 	private void moveAabToOutputLocation() throws IOException {
         Path aab = androidProjectPath.resolve(buildAabLocationPath());
 
-        Consolex.writeInfo("Moving android app to output location...");
+        Consolex.writeDebug("Moving android app to output location...");
         
         Files.copy(aab, buildAndroidOutputAabPath());
 	}

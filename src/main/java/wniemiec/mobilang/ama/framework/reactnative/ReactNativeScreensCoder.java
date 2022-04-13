@@ -3,6 +3,8 @@ package wniemiec.mobilang.ama.framework.reactnative;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import wniemiec.io.java.BabelTranspiler;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
@@ -25,7 +27,7 @@ class ReactNativeScreensCoder {
     private final List<ScreenData> screensData;
     private final ReactNativeMobiLangDirectiveParser directiveParser;
     private final BabelTranspiler babelTranspiler;
-    private final List<String> babelErrorLog;
+    private List<String> babelErrorLog;
 
 
     //-------------------------------------------------------------------------
@@ -130,6 +132,8 @@ class ReactNativeScreensCoder {
 
     private List<String> parseBabel(List<String> code) throws CoderException {
         List<String> parsedCode = runBabelTranspiler(code);
+
+        babelErrorLog = babelErrorLog.stream().filter(message -> !message.contains("npm notice")).collect(Collectors.toList());
 
         if (!babelErrorLog.isEmpty()) {
             throw new CoderException(babelErrorLog);

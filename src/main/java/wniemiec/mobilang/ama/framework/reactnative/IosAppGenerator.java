@@ -27,6 +27,6 @@ class IosAppGenerator {
     //		Methods
     //-------------------------------------------------------------------------
     public void generateApp() throws IOException {
-        Consolex.writeInfo("Ios app is not implemented yet");
+        Consolex.writeWarning("Ios app is not implemented yet");
     }
 }

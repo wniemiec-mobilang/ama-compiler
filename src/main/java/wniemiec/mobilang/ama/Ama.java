@@ -116,6 +116,8 @@ public class Ama {
     private void generateMobileApplications() throws IOException {
         Path outputLocation = buildOutputApplicationPath();
 
+        Consolex.writeInfo("Generating mobile applications...");
+
         framework.generateMobileApplications(srcCodeLocation, outputLocation);
     }
 

@@ -22,7 +22,7 @@ public class FrameworkFactory {
     //		Initialization block
     //-------------------------------------------------------------------------
     static {
-        FRAMEWORK_PACKAGE = "wniemiec.mobilang.asc.framework";
+        FRAMEWORK_PACKAGE = "wniemiec.mobilang.ama.framework";
         FRAMEWORK_SUFFIX = "Framework";
     }
 

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Responsible for representing a file code.
  */
-public class FileCode {
+public class CodeFile {
     
     //-------------------------------------------------------------------------
     //		Attributes
@@ -19,12 +19,12 @@ public class FileCode {
     //-------------------------------------------------------------------------
     //		Constructors
     //-------------------------------------------------------------------------
-    public FileCode(String name, List<String> code) {
+    public CodeFile(String name, List<String> code) {
         this.name = name;
         this.code = code;
     }
 
-    public FileCode() {
+    public CodeFile() {
         this("", new ArrayList<>());
     }
 

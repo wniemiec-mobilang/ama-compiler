@@ -1,17 +1,14 @@
 package wniemiec.mobilang.asc.framework;
 
 import java.lang.reflect.InvocationTargetException;
-
-import wniemiec.mobilang.asc.framework.coder.FrameworkCoderFactory;
-import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManagerFactory;
 import wniemiec.mobilang.asc.parser.exception.FactoryException;
 import wniemiec.util.java.StringUtils;
 
 
 /**
- * Provides factories of a framework.
+ * Responsible for providing frameworks.
  */
-public abstract class FrameworkFactory {
+public class FrameworkFactory {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -25,31 +22,24 @@ public abstract class FrameworkFactory {
     //-------------------------------------------------------------------------
     static {
         FRAMEWORK_PACKAGE = "wniemiec.mobilang.asc.framework";
-        FRAMEWORK_SUFFIX = "FrameworkFactory";
+        FRAMEWORK_SUFFIX = "Framework";
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    private FrameworkFactory() {
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    /**
-     * Provides coder factory of a framework.
-     * 
-     * @return      Coder factory
-     */
-    public abstract FrameworkCoderFactory getCoderFactory();
-
-    /**
-     * Provides project manager factory of a framework.
-     * 
-     * @return      Project manager factory
-     */
-    public abstract FrameworkProjectManagerFactory getProjectManagerFactory();
-
-    public static FrameworkFactory getInstance(String frameworkName) 
+    public static Framework getInstance(String frameworkName) 
     throws FactoryException {
         try {
-            Class<?> frameworkClass = getFrameworkFactoryClassByName(frameworkName);
+            Class<?> frameworkClass = getFrameworkClassByName(frameworkName);
             
             return invokeConstructor(frameworkClass);
         } 
@@ -58,7 +48,7 @@ public abstract class FrameworkFactory {
         }
     }
 
-    private static Class<?> getFrameworkFactoryClassByName(String name) 
+    private static Class<?> getFrameworkClassByName(String name) 
     throws ClassNotFoundException {
         String normalizedName = normalizeFrameworkName(name);
 
@@ -81,15 +71,17 @@ public abstract class FrameworkFactory {
 
         className.append(FRAMEWORK_PACKAGE);
         className.append('.');
+        className.append(normalizedName.toLowerCase());
+        className.append('.');
         className.append(normalizedName);
         className.append(FRAMEWORK_SUFFIX);
 
         return Class.forName(className.toString());
     }
 
-    private static FrameworkFactory invokeConstructor(Class<?> frameworkClass) 
+    private static Framework invokeConstructor(Class<?> frameworkClass) 
     throws InstantiationException, IllegalAccessException, IllegalArgumentException, 
     InvocationTargetException, NoSuchMethodException, SecurityException {
-        return ((FrameworkFactory) frameworkClass.getConstructor().newInstance());
+        return ((Framework) frameworkClass.getConstructor().newInstance());
     }
 }

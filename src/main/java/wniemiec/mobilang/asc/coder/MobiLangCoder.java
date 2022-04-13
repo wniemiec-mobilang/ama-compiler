@@ -4,15 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import wniemiec.mobilang.asc.coder.exception.CoderException;
-import wniemiec.mobilang.asc.framework.coder.FrameworkCoderFactory;
-import wniemiec.mobilang.asc.framework.coder.FrameworkCoreCoder;
-import wniemiec.mobilang.asc.framework.coder.FrameworkPersistenceCoder;
-import wniemiec.mobilang.asc.framework.coder.FrameworkScreensCoder;
-import wniemiec.mobilang.asc.models.FileCode;
+import wniemiec.mobilang.asc.framework.Framework;
+import wniemiec.mobilang.asc.models.CodeFile;
+import wniemiec.mobilang.asc.models.ProjectCodes;
 import wniemiec.mobilang.asc.models.ScreenData;
-import wniemiec.mobilang.asc.models.persistence.PersistenceData;
 
 
 /**
@@ -23,13 +19,10 @@ public class MobiLangCoder {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final PersistenceData persistenceData;
     private final List<ScreenData> screensData;
-    private final FrameworkCoderFactory frameworkCoderFactory;
-    private List<FileCode> screensCode;
-    private List<FileCode> persistenceCode;
-    private List<FileCode> coreCode;
-    private Set<String> dependencies;
+    private final Framework framework;
+    private final List<CodeFile> codeFiles;
+    private final Set<String> dependencies;
 
 
     //-------------------------------------------------------------------------
@@ -40,20 +33,15 @@ public class MobiLangCoder {
      * 
      * @param       persistenceData Persistence data
      * @param       screensData Screens data
-     * @param       frameworkCoderFactory Factory that will provide framework 
-     * coder
+     * @param       framework Framework that will handle with code generation
      */
     public MobiLangCoder(
-        PersistenceData persistenceData, 
         List<ScreenData> screensData,
-        FrameworkCoderFactory frameworkCoderFactory
+        Framework framework
     ) {
-        this.persistenceData = persistenceData;
         this.screensData = screensData;
-        this.frameworkCoderFactory = frameworkCoderFactory;
-        screensCode = new ArrayList<>();
-        persistenceCode = new ArrayList<>();
-        coreCode = new ArrayList<>();
+        this.framework = framework;
+        this.codeFiles = new ArrayList<>();
         dependencies = new HashSet<>();
     }
 
@@ -62,68 +50,18 @@ public class MobiLangCoder {
     //		Methods
     //-------------------------------------------------------------------------
     public void generateCode() throws CoderException {
-        generateCodeForScreens();
-        generateCodeForCore();
-        generateCodeForPersistence();
-    }
+        ProjectCodes codes = framework.generateCode(screensData);
 
-    private void generateCodeForScreens() throws CoderException {
-        FrameworkScreensCoder screensCoder = getScreensCoder();
-
-        screensCode = screensCoder.generateCode();
-    }
-
-    private FrameworkScreensCoder getScreensCoder() {
-        return frameworkCoderFactory.getScreensCoder(screensData);
-    }
-
-    private void generateCodeForCore() {
-        FrameworkCoreCoder coreCoder = getCoreCoder();
-
-        coreCode = coreCoder.generateCode();
-        dependencies = coreCoder.getDependencies();        
-    }
-
-    private FrameworkCoreCoder getCoreCoder() {
-        List<String> screensFilename = extractScreensFilename();
-
-        return frameworkCoderFactory.getCoreCoder(screensFilename);
-    }
-
-    private List<String> extractScreensFilename() {
-        List<String> screensFilename = new ArrayList<>();
-
-        for (ScreenData screenData : screensData) {
-            screensFilename.add(screenData.getName());
-        }
-
-        return screensFilename;
-    }
-
-    private void generateCodeForPersistence() {
-        FrameworkPersistenceCoder persistenceCoder = getPersistenceCoder();
-
-        persistenceCode = persistenceCoder.generateCode();
-    }
-
-    private FrameworkPersistenceCoder getPersistenceCoder() {
-        return frameworkCoderFactory.getPersistenceCoder(persistenceData);
+        codeFiles.addAll(codes.getCodeFiles());
+        dependencies.addAll(codes.getDependencies());
     }
 
 
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public List<FileCode> getScreensCode() {
-        return screensCode;
-    }
-
-    public List<FileCode> getPersistenceCode() {
-        return persistenceCode;
-    }
-
-    public List<FileCode> getCoreCode() {
-        return coreCode;
+    public List<CodeFile> getCodeFiles() {
+        return codeFiles;
     }
 
     public Set<String> getDependencies() {

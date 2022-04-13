@@ -12,6 +12,7 @@ import wniemiec.mobilang.asc.export.FileMobiLangCodeExport;
 import wniemiec.mobilang.asc.export.MobiLangCodeExport;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.export.exception.OutputLocationException;
+import wniemiec.mobilang.asc.framework.Framework;
 import wniemiec.mobilang.asc.framework.FrameworkFactory;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.parser.MobiLangAstParser;
@@ -30,7 +31,7 @@ public class Asc {
     //-------------------------------------------------------------------------
     private final Path mobilangAstFilePath;
     private final Path outputLocationPath;
-    private final FrameworkFactory frameworkFactory;
+    private final Framework framework;
     private SortedMap<String, List<Node>> ast;
     private MobiLangAstParser mobilangAstParser;
     private MobiLangCoder mobilangCoder;
@@ -51,7 +52,7 @@ public class Asc {
     throws FactoryException {
         this.mobilangAstFilePath = mobilangAstFilePath;
         this.outputLocationPath = outputLocationPath;
-        this.frameworkFactory = FrameworkFactory.getInstance(frameworkName);
+        this.framework = FrameworkFactory.getInstance(frameworkName);
     }
 
 
@@ -85,9 +86,8 @@ public class Asc {
 
     private void generateMobilangCode() throws CoderException {
         mobilangCoder = new MobiLangCoder(
-            mobilangAstParser.getPersistenceData(),
             mobilangAstParser.getScreensData(),
-            frameworkFactory.getCoderFactory()
+            framework
         );
         
         Consolex.writeInfo("Generating code...");
@@ -98,11 +98,9 @@ public class Asc {
     throws OutputLocationException, CodeExportException {
         MobiLangCodeExport mobilangCodeExport = new FileMobiLangCodeExport(
             mobilangAstParser.getPropertiesData(),
-            mobilangCoder.getScreensCode(),
-            mobilangCoder.getPersistenceCode(),
-            mobilangCoder.getCoreCode(),
+            mobilangCoder.getCodeFiles(),
             mobilangCoder.getDependencies(),
-            frameworkFactory.getProjectManagerFactory(),
+            framework,
             outputLocationPath
         );
         

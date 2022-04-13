@@ -6,15 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
-
 import org.apache.commons.io.FileUtils;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.TextFileManager;
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
 import wniemiec.mobilang.asc.export.exception.OutputLocationException;
-import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManager;
-import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManagerFactory;
-import wniemiec.mobilang.asc.models.FileCode;
+import wniemiec.mobilang.asc.framework.Framework;
+import wniemiec.mobilang.asc.models.CodeFile;
 import wniemiec.mobilang.asc.models.PropertiesData;
 
 
@@ -26,7 +24,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private FrameworkProjectManager projectManager;
+    private Framework framework;
 
 
     //-------------------------------------------------------------------------
@@ -36,39 +34,30 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
      * Exports MobiLang code to files.
      * 
      * @param       propertiesData Properties data
-     * @param       screensCode Screens code
-     * @param       persistenceCode Persistence code
-     * @param       coreCode Core code
+     * @param       codeFiles Code files
      * @param       dependencies Project dependencies
-     * @param       frameworkProjectManagerFactory Factory that will provide
-     * framework project management
+     * @param       framework Framework that will handle with project management
      * @param       outputLocation Location where the files will be exported
      * 
      * @throws      OutputLocationException If output location cannot be reached
      */
     public FileMobiLangCodeExport(
         PropertiesData propertiesData, 
-        List<FileCode> screensCode, 
-        List<FileCode> persistenceCode,
-        List<FileCode> coreCode,
+        List<CodeFile> codeFiles, 
         Set<String> dependencies,
-        FrameworkProjectManagerFactory frameworkProjectManagerFactory, 
+        Framework framework, 
         Path outputLocation
     ) throws OutputLocationException {
-        super(propertiesData, screensCode, persistenceCode, coreCode, dependencies, outputLocation);
-        
-        setUpProjectManager(frameworkProjectManagerFactory);
+        super(propertiesData, codeFiles, dependencies, outputLocation);
         setUpOutputLocation();
+
+        this.framework = framework;
     }
 
     
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void setUpProjectManager(FrameworkProjectManagerFactory projectManagerFactory) {
-        projectManager = projectManagerFactory.getProjectManager(codeLocation);
-    }
-
     private void setUpOutputLocation() 
     throws OutputLocationException {
         try {
@@ -89,58 +78,45 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     }
 
     @Override
-    protected void exportScreenCode(String filename, List<String> code) 
-    throws CodeExportException {
-        exportCodeToFile(filename, code);
-    }
-
-    private void exportCodeToFile(String filename, List<String> code) 
+    protected void exportCodeFile(String filename, List<String> code) 
     throws CodeExportException {
         Path filepath = buildFilepath(filename);
         
         Consolex.writeInfo("Exporting " + filepath);
         
-        writeLines(code, filepath);
+        writeCodeLines(code, filepath);
     }
 
     private Path buildFilepath(String filename) {
         return codeLocation.resolve(filename);
     }
 
-    private void writeLines(List<String> code, Path filepath) 
+    private void writeCodeLines(List<String> code, Path filepath) 
     throws CodeExportException {
-        TextFileManager txtFileManager = new TextFileManager(
-            filepath, 
-            StandardCharsets.UTF_8
-        );
-        
         try {
-            txtFileManager.writeLines(code);
+            writeLines(code, filepath);
         } 
         catch (IOException e) {
             throw new CodeExportException(e.getMessage());
         }
     }
-    
-    @Override
-    protected void exportCoreCode(String filename, List<String> code) 
-    throws CodeExportException {
-        exportCodeToFile(filename, code);
-    }
 
-    @Override
-    protected void exportPersistenceCode(String filename, List<String> code) 
-    throws CodeExportException {
-        exportCodeToFile(filename, code);
+    private void writeLines(List<String> lines, Path filepath) throws IOException {
+        TextFileManager txtFileManager = new TextFileManager(
+            filepath, 
+            StandardCharsets.UTF_8
+        );
+
+        txtFileManager.writeLines(lines);
     }
 
     @Override
     public void createProject() throws CodeExportException {
         try {
-            projectManager.create(propertiesData);
+            framework.createProject(propertiesData);
 
             for (String dependency : dependencies) {
-                projectManager.addDependency(dependency);
+                framework.addProjectDependency(dependency);
             }
         } 
         catch (IOException e) {

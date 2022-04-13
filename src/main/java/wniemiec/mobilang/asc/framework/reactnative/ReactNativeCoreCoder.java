@@ -1,31 +1,28 @@
-package wniemiec.mobilang.asc.framework.coder.reactnative;
+package wniemiec.mobilang.asc.framework.reactnative;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import wniemiec.mobilang.asc.framework.coder.FrameworkCoreCoder;
-import wniemiec.mobilang.asc.models.FileCode;
+import wniemiec.mobilang.asc.models.CodeFile;
 
 
 /**
  * Responsible for generating React Native framework code for core.
  */
-public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
+class ReactNativeCoreCoder {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final List<FileCode> coreCodes;
+    private final List<CodeFile> coreCodes;
     private final Set<String> dependencies;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public ReactNativeFrameworkCoreCoder(Collection<String> screensName) {
-        super(screensName);
+    public ReactNativeCoreCoder() {
         coreCodes = new ArrayList<>();
         dependencies = new HashSet<>();
     }
@@ -34,8 +31,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    @Override
-    public List<FileCode> generateCode() {
+    public List<CodeFile> generateCode() {
         generateIndexCode();
         generateAppCode();
 
@@ -48,7 +44,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         buildIndexImports(code);
         buildIndexAppRegistry(code);
 
-        coreCodes.add(new FileCode("index.js", code));
+        coreCodes.add(new CodeFile("index.js", code));
     }
 
     private void buildIndexImports(List<String> code) {
@@ -68,7 +64,7 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         buildAppImports(code);
         buildAppExport(code);
 
-        coreCodes.add(new FileCode("src/App.js", code));
+        coreCodes.add(new CodeFile("src/App.js", code));
     }
 
     private void buildAppImports(List<String> code) {
@@ -144,7 +140,10 @@ public class ReactNativeFrameworkCoreCoder extends FrameworkCoreCoder {
         code.add("");
     }
 
-    @Override
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
     public Set<String> getDependencies() {
         return dependencies;
     }

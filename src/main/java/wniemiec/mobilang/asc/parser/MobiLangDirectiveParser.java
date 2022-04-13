@@ -1,26 +1,26 @@
-package wniemiec.mobilang.asc.framework.coder.reactnative;
+package wniemiec.mobilang.asc.parser;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import wniemiec.util.java.StringUtils;
 
 /**
  * Responsible for parsing MobiLang directives in screen behavior.
  */
-class ReactNativeMobiLangDirectiveParser {
+public abstract class MobiLangDirectiveParser {
 
-    // -------------------------------------------------------------------------
-    // Attributes
-    // -------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //      Attributes
+    //-------------------------------------------------------------------------
     private List<String> parsedLines;
 
-    // -------------------------------------------------------------------------
-    // Methods
-    // -------------------------------------------------------------------------
-    public List<String> parse(List<String> lines) {
+    
+    //-------------------------------------------------------------------------
+    //      Methods
+    //-------------------------------------------------------------------------
+    public final List<String> parse(List<String> lines) {
         parsedLines = new ArrayList<>();
 
         for (String line : lines) {
@@ -70,9 +70,12 @@ class ReactNativeMobiLangDirectiveParser {
         }
 
         String screenName = matcher.group(1);
+        String directive = "mobilang:screen:" + screenName;
 
-        return line.replace("mobilang:screen:" + screenName, screenName + ".html");
+        return line.replace(directive, replaceScreenDirectiveWith(screenName));
     }
+
+    protected abstract String replaceScreenDirectiveWith(String screenName);
 
     private boolean isParamDirective(String line) {
         return line.contains("mobilang:param:");
@@ -87,8 +90,10 @@ class ReactNativeMobiLangDirectiveParser {
         }
 
         String paramName = matcher.group(1);
-        String paramQuery = "window.location.href.split('?')[1].split(\"" + paramName + "=\")[1].split(\"&\")[0]";
+        String directive = "\"mobilang:param:" + paramName + "\"";
 
-        return line.replace("\"mobilang:param:" + paramName + "\"", paramQuery);
+        return line.replace(directive, replaceParamDirectiveWith(paramName));
     }
+
+    protected abstract String replaceParamDirectiveWith(String paramName);
 }

@@ -1,11 +1,10 @@
-package wniemiec.mobilang.asc.framework.coder.reactnative;
+package wniemiec.mobilang.asc.framework.reactnative;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import wniemiec.mobilang.asc.coder.exception.CoderException;
-import wniemiec.mobilang.asc.framework.coder.FrameworkScreensCoder;
-import wniemiec.mobilang.asc.models.FileCode;
+import wniemiec.mobilang.asc.models.CodeFile;
 import wniemiec.mobilang.asc.models.ScreenData;
 import wniemiec.mobilang.asc.models.behavior.Behavior;
 import wniemiec.io.java.BabelTranspiler;
@@ -14,7 +13,7 @@ import wniemiec.io.java.BabelTranspiler;
 /**
  * Responsible for generating React Native framework code for screens.
  */
-public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
+class ReactNativeScreensCoder {
 
     //-------------------------------------------------------------------------
     //		Constructor
@@ -22,6 +21,7 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     private static final String ANDROID_SCREEN_NAME_PREFIX;
     private static final String IOS_SCREEN_NAME_PREFIX;
     private static final String SCREEN_NAME_SUFFIX;
+    private final List<ScreenData> screensData;
     private final ReactNativeMobiLangDirectiveParser directiveParser;
     private final BabelTranspiler babelTranspiler;
     private final List<String> babelErrorLog;
@@ -40,9 +40,8 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public ReactNativeFrameworkScreensCoder(List<ScreenData> screensData) {
-        super(screensData);
-        
+    public ReactNativeScreensCoder(List<ScreenData> screensData) {
+        this.screensData = screensData;
         babelErrorLog = new ArrayList<>();
         directiveParser = new ReactNativeMobiLangDirectiveParser();
         babelTranspiler = new BabelTranspiler(babelErrorLog::add);
@@ -52,9 +51,8 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    @Override
-    public List<FileCode> generateCode() throws CoderException {
-        List<FileCode> screensCode = new ArrayList<>();
+    public List<CodeFile> generateCode() throws CoderException {
+        List<CodeFile> screensCode = new ArrayList<>();
 
         for (ScreenData screenData : screensData) {
             screensCode.addAll(generateCodeForScreen(screenData));
@@ -63,7 +61,7 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
         return screensCode;
     }
     
-    private List<FileCode> generateCodeForScreen(ScreenData screenData) throws CoderException {
+    private List<CodeFile> generateCodeForScreen(ScreenData screenData) throws CoderException {
         List<String> code = new ArrayList<>();
 
         putDoctype(code);
@@ -157,23 +155,23 @@ public class ReactNativeFrameworkScreensCoder extends FrameworkScreensCoder {
         code.add("</html>");
     }
 
-    private List<FileCode> buildFileCode(List<String> code, ScreenData screenData) {
-        FileCode androidFileCode = generateAndroidScreenFileCode(code, screenData);
-        FileCode iosFileCode = generateIosScreenFileCode(code, screenData);
+    private List<CodeFile> buildFileCode(List<String> code, ScreenData screenData) {
+        CodeFile androidFileCode = generateAndroidScreenFileCode(code, screenData);
+        CodeFile iosFileCode = generateIosScreenFileCode(code, screenData);
         
         return List.of(androidFileCode, iosFileCode);
     }
 
-    private FileCode generateAndroidScreenFileCode(List<String> code, ScreenData screenData) {
+    private CodeFile generateAndroidScreenFileCode(List<String> code, ScreenData screenData) {
         String filename = generateScreenFilename(screenData, ANDROID_SCREEN_NAME_PREFIX);
 
-        return new FileCode(filename, code);
+        return new CodeFile(filename, code);
     }
 
-    private FileCode generateIosScreenFileCode(List<String> code, ScreenData screenData) {
+    private CodeFile generateIosScreenFileCode(List<String> code, ScreenData screenData) {
         String filename = generateScreenFilename(screenData, IOS_SCREEN_NAME_PREFIX);
 
-        return new FileCode(filename, code);
+        return new CodeFile(filename, code);
     }
 
     private String generateScreenFilename(ScreenData screenData, String prefix) {

@@ -3,9 +3,8 @@ package wniemiec.mobilang.asc.export;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
-
 import wniemiec.mobilang.asc.export.exception.CodeExportException;
-import wniemiec.mobilang.asc.models.FileCode;
+import wniemiec.mobilang.asc.models.CodeFile;
 import wniemiec.mobilang.asc.models.PropertiesData;
 
 
@@ -21,9 +20,7 @@ public abstract class MobiLangCodeExport {
     protected final Set<String> dependencies;
     protected final Path outputLocation;
     protected final Path codeLocation;
-    private final List<FileCode> screensCode;
-    private final List<FileCode> persistenceCode;
-    private final List<FileCode> coreCode;
+    private final List<CodeFile> codeFiles;
 
 
     //-------------------------------------------------------------------------
@@ -33,24 +30,18 @@ public abstract class MobiLangCodeExport {
      * MobiLang code exportation.
      * 
      * @param       propertiesData Properties data
-     * @param       screensCode Screens code
-     * @param       persistenceCode Persistence code
-     * @param       coreCode Core code
+     * @param       codeFiles Code files
      * @param       dependencies Project dependencies
      * @param       outputLocation Location where the files will be exported
      */
     protected MobiLangCodeExport(
         PropertiesData propertiesData,
-        List<FileCode> screensCode,
-        List<FileCode> persistenceCode,
-        List<FileCode> coreCode,
+        List<CodeFile> codeFiles,
         Set<String> dependencies,
         Path outputLocation
     ) {
         this.propertiesData = propertiesData;
-        this.screensCode = screensCode;
-        this.persistenceCode = persistenceCode;
-        this.coreCode = coreCode;
+        this.codeFiles = codeFiles;
         this.dependencies = dependencies;
         this.outputLocation = outputLocation;
         codeLocation = setUpAppLocation(propertiesData, outputLocation);
@@ -70,39 +61,19 @@ public abstract class MobiLangCodeExport {
 
     public final Path export() throws CodeExportException {
         createProject();
-        exportScreensCode();
-        exportCoreCode();
-        exportPersistenceCode();
+        exportCode();
 
         return codeLocation;
     }
 
     protected abstract void createProject() throws CodeExportException;
 
-    private void exportScreensCode() throws CodeExportException {
-        for (FileCode fileCode : screensCode) {
-            exportScreenCode(fileCode.getName(), fileCode.getCode());
+    private void exportCode() throws CodeExportException {
+        for (CodeFile file : codeFiles) {
+            exportCodeFile(file.getName(), file.getCode());
         }
     }
 
-    protected abstract void exportScreenCode(String filename, List<String> code)
-    throws CodeExportException;
-
-    private void exportCoreCode() throws CodeExportException {
-        for (FileCode fileCode : coreCode) {
-            exportCoreCode(fileCode.getName(), fileCode.getCode());
-        }
-    }
-
-    protected abstract void exportCoreCode(String filename, List<String> code)
-    throws CodeExportException;
-
-    private void exportPersistenceCode() throws CodeExportException {
-        for (FileCode fileCode : persistenceCode) {
-            exportPersistenceCode(fileCode.getName(), fileCode.getCode());
-        }
-    }
-
-    protected abstract void exportPersistenceCode(String filename, List<String> code)
+    protected abstract void exportCodeFile(String filename, List<String> code)
     throws CodeExportException;
 }

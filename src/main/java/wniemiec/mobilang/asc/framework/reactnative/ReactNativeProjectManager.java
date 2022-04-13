@@ -1,34 +1,37 @@
-package wniemiec.mobilang.asc.framework.manager.reactnative;
+package wniemiec.mobilang.asc.framework.reactnative;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.StandardTerminalBuilder;
 import wniemiec.io.java.Terminal;
-import wniemiec.mobilang.asc.framework.manager.FrameworkProjectManager;
 import wniemiec.mobilang.asc.models.PropertiesData;
 
 
 /**
  * Responsible for project management of React Native framework.
  */
-public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager {
+class ReactNativeProjectManager {
+
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private Path workingDirectory;
+
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public ReactNativeFrameworkProjectManager(Path workingDirectory) {
-        super(workingDirectory);
+    public ReactNativeProjectManager(Path workingDirectory) {
+        this.workingDirectory = workingDirectory;
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    @Override
-    public void create(PropertiesData propertiesData) throws IOException {
+    public void createProject(PropertiesData propertiesData) throws IOException {
         runReactNativeInit(propertiesData);
         removeOldAppFile();
     }
@@ -67,8 +70,7 @@ public class ReactNativeFrameworkProjectManager extends FrameworkProjectManager 
         terminal.exec(command);
     }
 
-    @Override
-    public void addDependency(String dependency) throws IOException {
+    public void addProjectDependency(String dependency) throws IOException {
         for (String dependencyName : dependency.split(" ")) {
             exec(
                 "npm", 

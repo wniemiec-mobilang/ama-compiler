@@ -6,9 +6,7 @@ import java.util.SortedMap;
 import wniemiec.mobilang.asc.models.Node;
 import wniemiec.mobilang.asc.models.PropertiesData;
 import wniemiec.mobilang.asc.models.ScreenData;
-import wniemiec.mobilang.asc.models.persistence.PersistenceData;
 import wniemiec.mobilang.asc.parser.exception.ParseException;
-import wniemiec.mobilang.asc.parser.persistence.PersistenceParser;
 import wniemiec.mobilang.asc.parser.properties.PropertiesParser;
 import wniemiec.mobilang.asc.parser.screens.ScreensParser;
 
@@ -24,7 +22,6 @@ public class MobiLangAstParser {
     private final SortedMap<String, List<Node>> ast;
     private ScreensParser screensParser;
     private PropertiesParser propertiesParser;
-    private PersistenceParser persistenceParser;
     
 
     //-------------------------------------------------------------------------
@@ -48,7 +45,6 @@ public class MobiLangAstParser {
         
         parseScreensNode(root);
         parsePropertiesNode(root);
-        parsePersistenceNode(root);
     }
 
     private List<Node> getAstNode() {
@@ -75,17 +71,6 @@ public class MobiLangAstParser {
         Node propertiesNode = findNodeWithName(root, "properties");
         
         return new PropertiesParser(ast, propertiesNode);
-    }
-
-    private void parsePersistenceNode(List<Node> root) throws ParseException {
-        persistenceParser = buildPersistenceParser(root);
-        persistenceParser.parse();
-    }
-
-    private PersistenceParser buildPersistenceParser(List<Node> root) {
-        Node persistenceNode = findNodeWithName(root, "persistence");
-        
-        return new PersistenceParser(ast, persistenceNode);
     }
 
     private Node findNodeWithName(List<Node> root, String name) {
@@ -116,9 +101,5 @@ public class MobiLangAstParser {
 
     public PropertiesData getPropertiesData() {
         return propertiesParser.getPropertiesData();
-    }
-
-    public PersistenceData getPersistenceData() {
-        return persistenceParser.getPersistenceData();
     }
 }

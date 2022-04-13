@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
+import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 import wniemiec.mobilang.ama.framework.Framework;
 import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.ProjectCodes;
@@ -69,10 +70,10 @@ public class ReactNativeFramework implements Framework {
     }
 
     @Override
-    public void generateMobileApplications(Path sourceCode, Path output) 
-    throws IOException {
-        ReactNativeAppGenerator appGenerator = new ReactNativeAppGenerator(sourceCode, output);
+    public void generateMobileApplicationFor(String platform, Path source, Path output) 
+    throws AppGenerationException {
+        ReactNativeAppGenerator appGenerator = new ReactNativeAppGenerator(source, output);
 
-        appGenerator.generateMobileApplications();
+        appGenerator.generateMobileApplicationFor(platform);
     }
 }

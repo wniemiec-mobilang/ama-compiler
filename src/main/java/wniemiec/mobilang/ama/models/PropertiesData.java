@@ -1,5 +1,7 @@
 package wniemiec.mobilang.ama.models;
 
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Responsible for representing data from properties tag.
@@ -10,6 +12,16 @@ public class PropertiesData {
     //		Attributes
     //-------------------------------------------------------------------------
     private String name;
+    private Set<String> platforms;
+
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    public PropertiesData() {
+        name = "unknown";
+        platforms = new HashSet<>();
+    }
 
 
     //-------------------------------------------------------------------------
@@ -21,5 +33,13 @@ public class PropertiesData {
 
     public void setAppName(String name) {
         this.name = name;
+    }
+
+    public Set<String> getPlatforms() {
+        return platforms;
+    }
+
+    public void addPlatform(String platform) {
+        platforms.add(platform);
     }
 }

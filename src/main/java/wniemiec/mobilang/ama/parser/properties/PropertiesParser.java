@@ -2,6 +2,8 @@ package wniemiec.mobilang.ama.parser.properties;
 
 import java.util.List;
 import java.util.SortedMap;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import wniemiec.mobilang.ama.models.Node;
@@ -49,7 +51,19 @@ public class PropertiesParser {
     }
 
     private void parseJson(JSONObject json) {
+        parseApplicationName(json);
+        parsePlatforms(json);
+    }
+
+    private void parseApplicationName(JSONObject json) {
         propertiesData.setAppName(json.getString("application_name"));
+    }
+
+    private void parsePlatforms(JSONObject json) {
+        JSONArray platforms = json.getJSONArray("platforms");
+        for (int i = 0; i < platforms.length(); i++) {
+            propertiesData.addPlatform(platforms.getString(i));
+        }
     }
 
 

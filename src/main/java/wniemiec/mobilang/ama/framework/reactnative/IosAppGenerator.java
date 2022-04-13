@@ -3,6 +3,7 @@ package wniemiec.mobilang.ama.framework.reactnative;
 import java.io.IOException;
 import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
+import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 
 
 class IosAppGenerator {
@@ -26,7 +27,7 @@ class IosAppGenerator {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public void generateApp() throws IOException {
+    public void generateApp() throws AppGenerationException {
         Consolex.writeWarning("Ios app is not implemented yet");
     }
 }

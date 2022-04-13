@@ -8,8 +8,10 @@ import java.util.SortedMap;
 import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.ama.coder.MobiLangCoder;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
-import wniemiec.mobilang.ama.export.FileMobiLangCodeExport;
-import wniemiec.mobilang.ama.export.MobiLangCodeExport;
+import wniemiec.mobilang.ama.export.app.MobiLangAppExport;
+import wniemiec.mobilang.ama.export.code.FileMobiLangCodeExport;
+import wniemiec.mobilang.ama.export.code.MobiLangCodeExport;
+import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 import wniemiec.mobilang.ama.export.exception.CodeExportException;
 import wniemiec.mobilang.ama.export.exception.OutputLocationException;
 import wniemiec.mobilang.ama.framework.Framework;
@@ -62,7 +64,8 @@ public class Ama {
     //		Methods
     //-------------------------------------------------------------------------
     public Path run() 
-    throws ParseException, OutputLocationException, CodeExportException, IOException, CoderException {
+    throws ParseException, OutputLocationException, CodeExportException, 
+    AppGenerationException, CoderException, IOException {
         readMobilangDotFile();
         parseMobilangAst();
         generateMobilangCode();
@@ -113,12 +116,17 @@ public class Ama {
         srcCodeLocation = mobilangCodeExport.export();
     }
 
-    private void generateMobileApplications() throws IOException {
+    private void generateMobileApplications() throws AppGenerationException {
         Path outputLocation = buildOutputApplicationPath();
-
+        MobiLangAppExport appExport = new MobiLangAppExport(
+            framework, 
+            srcCodeLocation, 
+            outputLocation, 
+            mobilangAstParser.getPropertiesData().getPlatforms()
+        );
         Consolex.writeInfo("Generating mobile applications...");
 
-        framework.generateMobileApplications(srcCodeLocation, outputLocation);
+        appExport.generateMobileApplications();
     }
 
     private Path buildOutputApplicationPath() {

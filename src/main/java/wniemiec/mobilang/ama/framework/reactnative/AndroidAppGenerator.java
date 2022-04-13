@@ -11,6 +11,7 @@ import java.util.List;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.StandardTerminalBuilder;
 import wniemiec.io.java.Terminal;
+import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 
 
 class AndroidAppGenerator {
@@ -45,7 +46,16 @@ class AndroidAppGenerator {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public void generateApp() throws IOException {
+    public void generateApp() throws AppGenerationException {
+        try {
+            generateAndroidApp();
+        } 
+        catch (IOException e) {
+            throw new AppGenerationException(e.toString());
+        }
+    }
+
+    private void generateAndroidApp() throws IOException {
         generateKeyStore();
         updateGradlePropertiesFromAppFolder();
         updateGradleBuildFromAppFolder();

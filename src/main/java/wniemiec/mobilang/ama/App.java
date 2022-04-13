@@ -11,6 +11,7 @@ import org.apache.commons.cli.Options;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.LogLevel;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
+import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 import wniemiec.mobilang.ama.export.exception.CodeExportException;
 import wniemiec.mobilang.ama.export.exception.OutputLocationException;
 import wniemiec.mobilang.ama.parser.exception.FactoryException;
@@ -72,6 +73,9 @@ public class App {
         }
         catch (CodeExportException e) {
             Consolex.writeError("Error while exporting code: " + e.getMessage());
+        }
+        catch (AppGenerationException e) {
+            Consolex.writeError("Error while generating mobile app: " + e.getMessage());
         }
         catch (Exception e) {
             Consolex.writeError("Fatal error: " + e.getMessage());
@@ -154,7 +158,7 @@ public class App {
 
     private static void runAma() 
     throws ParseException, OutputLocationException, CodeExportException, IOException, 
-    FactoryException, CoderException {
+    FactoryException, CoderException, AppGenerationException {
         Ama ama = new Ama(
             mobilangAstFilePath, 
             outputLocationPath,

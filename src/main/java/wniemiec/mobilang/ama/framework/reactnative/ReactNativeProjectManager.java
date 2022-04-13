@@ -17,17 +17,21 @@ class ReactNativeProjectManager {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public void createProject(PropertiesData propertiesData, Path location) throws IOException {
+    public void createProject(PropertiesData propertiesData, Path location) 
+    throws IOException {
         runReactNativeInit(propertiesData, location);
         removeOldAppFile(location);
     }
 
-    private void runReactNativeInit(PropertiesData propertiesData, Path location) throws IOException {
+    private void runReactNativeInit(PropertiesData propertiesData, Path location) 
+    throws IOException {
         exec(
             "react-native", 
             "init", 
             propertiesData.getAppName()
         );
+
+        removeAptGeneratedFolder(Path.of(propertiesData.getAppName()));
 
         exec(
             "mv", 
@@ -40,6 +44,10 @@ class ReactNativeProjectManager {
             location.getFileName().toString(),
             location.getParent().toString()
         );
+    }
+
+    private void removeAptGeneratedFolder(Path location) throws IOException {
+        Files.delete(location.resolve(".apt_generated"));
     }
 
     private void removeOldAppFile(Path location) throws IOException {

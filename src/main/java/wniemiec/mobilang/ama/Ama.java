@@ -36,6 +36,7 @@ public class Ama {
     private SortedMap<String, List<Node>> ast;
     private MobiLangAstParser mobilangAstParser;
     private MobiLangCoder mobilangCoder;
+    private Path srcCodeLocation;
     
 
     //-------------------------------------------------------------------------
@@ -65,8 +66,10 @@ public class Ama {
         readMobilangDotFile();
         parseMobilangAst();
         generateMobilangCode();
+        exportMobilangCode();
+        generateMobileApplications();
 
-        return exportMobilangCode();
+        return outputLocationPath;
     }
 
     private void readMobilangDotFile() throws FileNotFoundException {
@@ -95,7 +98,7 @@ public class Ama {
         mobilangCoder.generateCode();
     }
 
-    private Path exportMobilangCode() 
+    private void exportMobilangCode() 
     throws OutputLocationException, CodeExportException {
         MobiLangCodeExport mobilangCodeExport = new FileMobiLangCodeExport(
             mobilangAstParser.getPropertiesData(),
@@ -107,6 +110,16 @@ public class Ama {
         
         Consolex.writeInfo("Exporting code...");
 
-        return mobilangCodeExport.export();
+        srcCodeLocation = mobilangCodeExport.export();
+    }
+
+    private void generateMobileApplications() throws IOException {
+        Path outputLocation = buildOutputApplicationPath();
+
+        framework.generateMobileApplications(srcCodeLocation, outputLocation);
+    }
+
+    private Path buildOutputApplicationPath() {
+        return outputLocationPath.resolve(mobilangAstParser.getPropertiesData().getAppName());
     }
 }

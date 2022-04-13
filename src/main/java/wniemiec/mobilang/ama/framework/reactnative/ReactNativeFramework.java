@@ -26,8 +26,8 @@ public class ReactNativeFramework implements Framework {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public ReactNativeFramework(Path workingDirectory) {
-        projectManager = new ReactNativeProjectManager(workingDirectory);
+    public ReactNativeFramework() {
+        projectManager = new ReactNativeProjectManager();
     }
 
 
@@ -35,13 +35,13 @@ public class ReactNativeFramework implements Framework {
     //		Methods
     //-------------------------------------------------------------------------
     @Override
-    public void createProject(PropertiesData propertiesData) throws IOException {
-        projectManager.createProject(propertiesData);
+    public void createProject(PropertiesData propertiesData, Path location) throws IOException {
+        projectManager.createProject(propertiesData, location);
     }
 
     @Override
-    public void addProjectDependency(String dependency) throws IOException {
-        projectManager.addProjectDependency(dependency);
+    public void addProjectDependency(String dependency, Path location) throws IOException {
+        projectManager.addProjectDependency(dependency, location);
     }
 
     @Override
@@ -67,5 +67,13 @@ public class ReactNativeFramework implements Framework {
         ReactNativeScreensCoder screensCoder = new ReactNativeScreensCoder(screensData);
 
         code.addAll(screensCoder.generateCode());
+    }
+
+    @Override
+    public void generateMobileApplications(Path sourceCode, Path output) 
+    throws IOException {
+        ReactNativeAppGenerator appGenerator = new ReactNativeAppGenerator(sourceCode, output);
+
+        appGenerator.generateMobileApplications();
     }
 }

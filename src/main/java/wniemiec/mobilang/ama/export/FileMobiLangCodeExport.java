@@ -113,10 +113,10 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     @Override
     public void createProject() throws CodeExportException {
         try {
-            framework.createProject(propertiesData);
+            framework.createProject(propertiesData, codeLocation);
 
             for (String dependency : dependencies) {
-                framework.addProjectDependency(dependency);
+                framework.addProjectDependency(dependency, codeLocation);
             }
         } 
         catch (IOException e) {

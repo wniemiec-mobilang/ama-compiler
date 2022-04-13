@@ -15,28 +15,14 @@ import wniemiec.mobilang.ama.models.PropertiesData;
 class ReactNativeProjectManager {
 
     //-------------------------------------------------------------------------
-    //		Attributes
-    //-------------------------------------------------------------------------
-    private Path workingDirectory;
-
-
-    //-------------------------------------------------------------------------
-    //		Constructor
-    //-------------------------------------------------------------------------
-    public ReactNativeProjectManager(Path workingDirectory) {
-        this.workingDirectory = workingDirectory;
-    }
-
-
-    //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public void createProject(PropertiesData propertiesData) throws IOException {
-        runReactNativeInit(propertiesData);
-        removeOldAppFile();
+    public void createProject(PropertiesData propertiesData, Path location) throws IOException {
+        runReactNativeInit(propertiesData, location);
+        removeOldAppFile(location);
     }
 
-    private void runReactNativeInit(PropertiesData propertiesData) throws IOException {
+    private void runReactNativeInit(PropertiesData propertiesData, Path location) throws IOException {
         exec(
             "react-native", 
             "init", 
@@ -46,18 +32,18 @@ class ReactNativeProjectManager {
         exec(
             "mv", 
             propertiesData.getAppName(), 
-            workingDirectory.getFileName().toString()
+            location.getFileName().toString()
         );
 
         exec(
             "mv",
-            workingDirectory.getFileName().toString(),
-            workingDirectory.getParent().toString()
+            location.getFileName().toString(),
+            location.getParent().toString()
         );
     }
 
-    private void removeOldAppFile() throws IOException {
-        Files.delete(workingDirectory.resolve("App.js"));
+    private void removeOldAppFile(Path location) throws IOException {
+        Files.delete(location.resolve("App.js"));
     }
 
     private void exec(String... command) throws IOException {
@@ -70,13 +56,13 @@ class ReactNativeProjectManager {
         terminal.exec(command);
     }
 
-    public void addProjectDependency(String dependency) throws IOException {
+    public void addProjectDependency(String dependency, Path projectLocation) throws IOException {
         for (String dependencyName : dependency.split(" ")) {
             exec(
                 "npm", 
                 "install", 
                 "--prefix",
-                workingDirectory.toString(),
+                projectLocation.toString(),
                 "--save", 
                 dependencyName
             );

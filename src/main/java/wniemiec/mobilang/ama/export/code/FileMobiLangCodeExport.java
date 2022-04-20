@@ -10,7 +10,6 @@ import org.apache.commons.io.FileUtils;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.TextFileManager;
 import wniemiec.mobilang.ama.export.exception.CodeExportException;
-import wniemiec.mobilang.ama.export.exception.OutputLocationException;
 import wniemiec.mobilang.ama.framework.Framework;
 import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.PropertiesData;
@@ -39,7 +38,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
      * @param       framework Framework that will handle with project management
      * @param       outputLocation Location where the files will be exported
      * 
-     * @throws      OutputLocationException If output location cannot be reached
+     * @throws      CodeExportException If output location cannot be reached
      */
     public FileMobiLangCodeExport(
         PropertiesData propertiesData, 
@@ -47,7 +46,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
         Set<String> dependencies,
         Framework framework, 
         Path outputLocation
-    ) throws OutputLocationException {
+    ) throws CodeExportException {
         super(propertiesData, codeFiles, dependencies, outputLocation);
         setUpOutputLocation();
 
@@ -59,12 +58,12 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
     //		Methods
     //-------------------------------------------------------------------------
     private void setUpOutputLocation() 
-    throws OutputLocationException {
+    throws CodeExportException {
         try {
             cleanOutputLocation(outputLocation);
         } 
         catch (IOException e) {
-            throw new OutputLocationException(e.getMessage());
+            throw new CodeExportException(e.getMessage());
         }
     }
 

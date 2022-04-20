@@ -13,7 +13,6 @@ import wniemiec.mobilang.ama.export.code.FileMobiLangCodeExport;
 import wniemiec.mobilang.ama.export.code.MobiLangCodeExport;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 import wniemiec.mobilang.ama.export.exception.CodeExportException;
-import wniemiec.mobilang.ama.export.exception.OutputLocationException;
 import wniemiec.mobilang.ama.framework.Framework;
 import wniemiec.mobilang.ama.framework.FrameworkFactory;
 import wniemiec.mobilang.ama.models.Node;
@@ -64,8 +63,8 @@ public class Ama {
     //		Methods
     //-------------------------------------------------------------------------
     public Path run() 
-    throws ParseException, OutputLocationException, CodeExportException, 
-    AppGenerationException, CoderException, IOException {
+    throws ParseException, CodeExportException, AppGenerationException, 
+    CoderException, IOException {
         readMobilangDotFile();
         parseMobilangAst();
         generateMobilangCode();
@@ -102,7 +101,7 @@ public class Ama {
     }
 
     private void exportMobilangCode() 
-    throws OutputLocationException, CodeExportException {
+    throws CodeExportException {
         MobiLangCodeExport mobilangCodeExport = new FileMobiLangCodeExport(
             mobilangAstParser.getPropertiesData(),
             mobilangCoder.getCodeFiles(),

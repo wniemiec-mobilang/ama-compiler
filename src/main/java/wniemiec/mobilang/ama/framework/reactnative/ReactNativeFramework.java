@@ -40,17 +40,20 @@ public class ReactNativeFramework implements Framework {
     //		Methods
     //-------------------------------------------------------------------------
     @Override
-    public void createProject(PropertiesData propertiesData, Path location) throws IOException {
+    public void createProject(PropertiesData propertiesData, Path location) 
+    throws IOException {
         projectManager.createProject(propertiesData, location);
     }
 
     @Override
-    public void addProjectDependency(String dependency, Path location) throws IOException {
+    public void addProjectDependency(String dependency, Path location) 
+    throws IOException {
         projectManager.addProjectDependency(dependency, location);
     }
 
     @Override
-    public ProjectCodes generateCode(List<ScreenData> screensData) throws CoderException {
+    public ProjectCodes generateCode(List<ScreenData> screensData) 
+    throws CoderException {
         List<CodeFile> code = new ArrayList<>();
         Set<String> dependencies = new HashSet<>();
         

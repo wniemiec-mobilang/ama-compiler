@@ -1,15 +1,20 @@
-package wniemiec.mobilang.ama.framework.reactnative;
+package wniemiec.mobilang.ama.framework.ionic;
 
 import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 
+// ANDROID
+// npm install @capacitor/core
+// ionic build
+// ionic capacitor add android
+// ionic capacitor build android
+
 
 /**
- * Responsible for generating mobile applications through React Native 
- * framework.
+ * Responsible for generating mobile applications through Ionic framework.
  */
-class ReactNativeAppGenerator {
+class IonicAppGenerator {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -21,7 +26,7 @@ class ReactNativeAppGenerator {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public ReactNativeAppGenerator(Path sourceCode, Path output) {
+    public IonicAppGenerator(Path sourceCode, Path output) {
         mobileOutput = output.resolve("mobile");
         this.sourceCode = sourceCode;
     }
@@ -60,8 +65,7 @@ class ReactNativeAppGenerator {
 
     private void generateIosApp() throws AppGenerationException {
         IosAppGenerator appGenerator = new IosAppGenerator(
-            sourceCode, 
-            mobileOutput
+            sourceCode, mobileOutput
         );
 
         Consolex.writeInfo("Generating iOS app...");

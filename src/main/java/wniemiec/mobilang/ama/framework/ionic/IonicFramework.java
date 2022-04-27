@@ -57,17 +57,10 @@ public class IonicFramework implements Framework {
         List<CodeFile> code = new ArrayList<>();
         Set<String> dependencies = new HashSet<>();
         
-        generateCoreCode(code, dependencies);
         generateScreensCode(code, screensData);
+        generateScreensRouting(code, screensData);
 
         return new ProjectCodes(code, dependencies);
-    }
-
-    private void generateCoreCode(List<CodeFile> code, Set<String> dependencies) {
-        IonicCoreCoder coreCoder = new IonicCoreCoder();
-
-        code.addAll(coreCoder.generateCode());
-        dependencies.addAll(coreCoder.getDependencies());
     }
 
     private void generateScreensCode(List<CodeFile> code, List<ScreenData> screensData) 
@@ -75,6 +68,12 @@ public class IonicFramework implements Framework {
         IonicScreensCoder screensCoder = new IonicScreensCoder(screensData);
 
         code.addAll(screensCoder.generateCode());
+    }
+
+    private void generateScreensRouting(List<CodeFile> code, List<ScreenData> screensData) {
+        IonicRoutingCoder routingCoder = new IonicRoutingCoder(screensData);
+
+        code.addAll(routingCoder.generateCode());
     }
 
     @Override

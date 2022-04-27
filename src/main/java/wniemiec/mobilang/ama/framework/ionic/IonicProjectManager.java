@@ -24,6 +24,7 @@ class IonicProjectManager {
         runIonicInit(propertiesData, location);
         updateGlobalScss(location);
         removeHomeFolder(location);
+        removeAppRoutingModule(location);
         createPagesFolder(location);
     }
 
@@ -111,6 +112,14 @@ class IonicProjectManager {
         return location
             .resolve("src")
             .resolve("app");
+    }
+
+    private void removeAppRoutingModule(Path location) throws IOException {
+        Files.delete(generateAppRoutingModulePath(location));
+    }
+
+    private Path generateAppRoutingModulePath(Path location) {
+        return generateAppPath(location).resolve("app-routing.module.ts");
     }
 
     private void createPagesFolder(Path location) throws IOException {

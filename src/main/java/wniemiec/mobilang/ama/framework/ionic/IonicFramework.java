@@ -1,4 +1,4 @@
-package wniemiec.mobilang.ama.framework.reactnative;
+package wniemiec.mobilang.ama.framework.ionic;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,21 +18,21 @@ import wniemiec.mobilang.ama.models.ScreenData;
 /**
  * Responsible for managing React Native framework.
  * 
- * See: https://reactnative.dev
+ * See: https://ionicframework.com
  */
-public class ReactNativeFramework implements Framework {
+public class IonicFramework implements Framework {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final ReactNativeProjectManager projectManager;
+    private final IonicProjectManager projectManager;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public ReactNativeFramework() {
-        projectManager = new ReactNativeProjectManager();
+    public IonicFramework() {
+        projectManager = new IonicProjectManager();
     }
 
 
@@ -40,17 +40,20 @@ public class ReactNativeFramework implements Framework {
     //		Methods
     //-------------------------------------------------------------------------
     @Override
-    public void createProject(PropertiesData propertiesData, Path location) throws IOException {
+    public void createProject(PropertiesData propertiesData, Path location) 
+    throws IOException {
         projectManager.createProject(propertiesData, location);
     }
 
     @Override
-    public void addProjectDependency(String dependency, Path location) throws IOException {
+    public void addProjectDependency(String dependency, Path location) 
+    throws IOException {
         projectManager.addProjectDependency(dependency, location);
     }
 
     @Override
-    public ProjectCodes generateCode(List<ScreenData> screensData) throws CoderException {
+    public ProjectCodes generateCode(List<ScreenData> screensData) 
+    throws CoderException {
         List<CodeFile> code = new ArrayList<>();
         Set<String> dependencies = new HashSet<>();
         
@@ -61,7 +64,7 @@ public class ReactNativeFramework implements Framework {
     }
 
     private void generateCoreCode(List<CodeFile> code, Set<String> dependencies) {
-        ReactNativeCoreCoder coreCoder = new ReactNativeCoreCoder();
+        IonicCoreCoder coreCoder = new IonicCoreCoder();
 
         code.addAll(coreCoder.generateCode());
         dependencies.addAll(coreCoder.getDependencies());
@@ -69,7 +72,7 @@ public class ReactNativeFramework implements Framework {
 
     private void generateScreensCode(List<CodeFile> code, List<ScreenData> screensData) 
     throws CoderException {
-        ReactNativeScreensCoder screensCoder = new ReactNativeScreensCoder(screensData);
+        IonicScreensCoder screensCoder = new IonicScreensCoder(screensData);
 
         code.addAll(screensCoder.generateCode());
     }
@@ -77,7 +80,7 @@ public class ReactNativeFramework implements Framework {
     @Override
     public void generateMobileApplicationFor(String platform, Path source, Path output) 
     throws AppGenerationException {
-        ReactNativeAppGenerator appGenerator = new ReactNativeAppGenerator(source, output);
+        IonicAppGenerator appGenerator = new IonicAppGenerator(source, output);
 
         appGenerator.generateMobileApplicationFor(platform);
     }

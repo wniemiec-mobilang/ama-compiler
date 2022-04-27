@@ -25,14 +25,29 @@ class ReactNativeProjectManager {
 
     private void runReactNativeInit(PropertiesData propertiesData, Path location) 
     throws IOException {
+        generateReactNativeProject(propertiesData);
+        removeAptGeneratedFolder(propertiesData);
+        moveProjectFolderTo(propertiesData, location);
+    }
+
+    private void generateReactNativeProject(PropertiesData propertiesData) 
+    throws IOException {
         exec(
             "react-native", 
             "init", 
             propertiesData.getAppName()
         );
+    }
 
-        removeAptGeneratedFolder(Path.of(propertiesData.getAppName()));
+    private void removeAptGeneratedFolder(PropertiesData propertiesData) 
+    throws IOException {
+        Path location = Path.of(propertiesData.getAppName());
+        
+        Files.delete(location.resolve(".apt_generated"));
+    }
 
+    private void moveProjectFolderTo(PropertiesData propertiesData, Path location) 
+    throws IOException {
         exec(
             "mv", 
             propertiesData.getAppName(), 
@@ -44,10 +59,6 @@ class ReactNativeProjectManager {
             location.getFileName().toString(),
             location.getParent().toString()
         );
-    }
-
-    private void removeAptGeneratedFolder(Path location) throws IOException {
-        Files.delete(location.resolve(".apt_generated"));
     }
 
     private void removeOldAppFile(Path location) throws IOException {

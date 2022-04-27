@@ -55,6 +55,10 @@ class IonicRoutingCoder {
             code.add("    path: '" + screen.getName() + "',");
             code.add("    loadChildren: () => import('./pages/" + screen.getName() + "/" + screen.getName() + ".module').then( m => m." + screen.getName() + "PageModule)");
             code.add("  },");
+            code.add("  {");
+            code.add("    path: '" + screen.getName() + "/:q',");
+            code.add("    loadChildren: () => import('./pages/" + screen.getName() + "/" + screen.getName() + ".module').then( m => m." + screen.getName() + "PageModule)");
+            code.add("  },");
         }
 
         code.add("];");

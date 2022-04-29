@@ -3,9 +3,7 @@ package wniemiec.mobilang.ama.framework.reactnative;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
 import wniemiec.io.java.BabelTranspiler;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.models.CodeFile;

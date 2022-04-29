@@ -236,6 +236,10 @@ public class Tag {
         this.style.putAll(style);
     }
 
+    public void removeAttribute(String attribute) {
+        attributes.remove(attribute);
+    }
+
     @Override
     public String toString() {
         return "Tag [" 

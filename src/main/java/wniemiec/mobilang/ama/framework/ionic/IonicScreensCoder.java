@@ -9,6 +9,7 @@ import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.ScreenData;
 import wniemiec.mobilang.ama.models.behavior.Behavior;
+import wniemiec.mobilang.ama.models.tag.Tag;
 import wniemiec.util.java.StringUtils;
 
 
@@ -102,11 +103,15 @@ class IonicScreensCoder {
     }
 
     private CodeFile buildHtmlFileCode(ScreenData screen) {
-        List<String> code = new ArrayList<>();
-        
-        // TODO: call MobiLang Directive parser on HTML attributes
-        // TODO: input's devem ter [(ngModel)]="input_<id>" para capturar conteudo
+        IonicStructureProcessor processor = new IonicStructureProcessor(screen.getStructure());
 
+        processor.run();
+
+        List<String> code = new ArrayList<>();
+
+        code.add("<ion-content>");
+        code.addAll(screen.getStructure().toCode());
+        code.add("</ion-content>");
 
         return generateCodeFileFor(screen, ".page.html", code);
     }

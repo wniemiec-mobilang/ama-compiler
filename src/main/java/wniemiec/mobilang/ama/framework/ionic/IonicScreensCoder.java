@@ -18,7 +18,7 @@ class IonicScreensCoder {
     //-------------------------------------------------------------------------
     private static final String SCREEN_NAME_PREFIX;
     private final List<ScreenData> screensData;
-    private IonicStructureProcessor structureProcessor;
+    private IonicStructureParser structureParser;
 
 
     //-------------------------------------------------------------------------
@@ -93,13 +93,13 @@ class IonicScreensCoder {
     }
 
     private CodeFile buildHtmlFileCode(ScreenData screen) {
-        structureProcessor = new IonicStructureProcessor(screen.getStructure());
-        structureProcessor.run();
-
+        structureParser = new IonicStructureParser(screen.getStructure());
+        
+        List<String> structureCode = structureParser.parse();
         List<String> code = new ArrayList<>();
 
         code.add("<ion-content>");
-        code.addAll(screen.getStructure().toCode());
+        code.addAll(structureCode);
         code.add("</ion-content>");
 
         return generateCodeFileFor(screen, ".page.html", code);
@@ -113,7 +113,7 @@ class IonicScreensCoder {
 
     private CodeFile buildPageFileCode(ScreenData screen) throws CoderException {
         IonicBehaviorParser behaviorProcessor = new IonicBehaviorParser(screen.getBehavior());
-        List<String> behaviorCode = behaviorProcessor.run();
+        List<String> behaviorCode = behaviorProcessor.parse();
 
         List<String> code = new ArrayList<>();
         String name = StringUtils.capitalize(screen.getName());
@@ -128,7 +128,7 @@ class IonicScreensCoder {
         code.add("})");
         code.add("export class " + name + " implements OnInit {");
 
-        for (String id : structureProcessor.getInputIds()) {
+        for (String id : structureParser.getInputIds()) {
             code.add("  " + id + " = \"\";");
         }
 

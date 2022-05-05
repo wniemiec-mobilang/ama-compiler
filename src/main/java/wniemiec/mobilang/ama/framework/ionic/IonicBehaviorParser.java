@@ -34,8 +34,9 @@ class IonicBehaviorParser {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public List<String> run() throws CoderException {
+    public List<String> parse() throws CoderException {
         runBabel();
+        runScreenArgumentsProcessor();
         runDirectiveProcessor();
         runInputProcessor();
 
@@ -63,6 +64,11 @@ class IonicBehaviorParser {
         catch (IOException e) {
             throw new CoderException(e.getMessage());
         }
+    }
+
+    private void runScreenArgumentsProcessor() {
+        // TODO: replace "mobilang::screen::glossary-desc?id=${data[item].id}" by "glossary-desc/${data[item].id}"
+        throw new NoSuchMethodError("Not implemented yet");
     }
 
     private void runDirectiveProcessor() {

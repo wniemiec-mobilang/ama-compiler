@@ -1,15 +1,10 @@
 package wniemiec.mobilang.ama.framework.ionic;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import wniemiec.io.java.BabelTranspiler;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.ScreenData;
-import wniemiec.mobilang.ama.models.behavior.Behavior;
-import wniemiec.mobilang.ama.models.tag.Tag;
 import wniemiec.util.java.StringUtils;
 
 
@@ -23,9 +18,7 @@ class IonicScreensCoder {
     //-------------------------------------------------------------------------
     private static final String SCREEN_NAME_PREFIX;
     private final List<ScreenData> screensData;
-    private final IonicMobiLangDirectiveParser directiveParser;
-    private final BabelTranspiler babelTranspiler;
-    private List<String> babelErrorLog;
+    private IonicStructureProcessor structureProcessor;
 
 
     //-------------------------------------------------------------------------
@@ -41,9 +34,6 @@ class IonicScreensCoder {
     //-------------------------------------------------------------------------
     public IonicScreensCoder(List<ScreenData> screensData) {
         this.screensData = screensData;
-        babelErrorLog = new ArrayList<>();
-        directiveParser = new IonicMobiLangDirectiveParser();
-        babelTranspiler = new BabelTranspiler(babelErrorLog::add);
     }
 
 
@@ -103,9 +93,8 @@ class IonicScreensCoder {
     }
 
     private CodeFile buildHtmlFileCode(ScreenData screen) {
-        IonicStructureProcessor processor = new IonicStructureProcessor(screen.getStructure());
-
-        processor.run();
+        structureProcessor = new IonicStructureProcessor(screen.getStructure());
+        structureProcessor.run();
 
         List<String> code = new ArrayList<>();
 
@@ -122,12 +111,36 @@ class IonicScreensCoder {
         return generateCodeFileFor(screen, ".page.scss", code);
     }
 
-    private CodeFile buildPageFileCode(ScreenData screen) {
+    private CodeFile buildPageFileCode(ScreenData screen) throws CoderException {
+        IonicBehaviorParser behaviorProcessor = new IonicBehaviorParser(screen.getBehavior());
+        List<String> behaviorCode = behaviorProcessor.run();
+
         List<String> code = new ArrayList<>();
         String name = StringUtils.capitalize(screen.getName());
 
-        // TODO: Behavior code dentro de onInit
-        // TODO: input.value deve ser substituido por this.input_<id>
+        code.add("import { Component, OnInit, ViewEncapsulation } from '@angular/core';");
+        code.add("import { ActivatedRoute } from '@angular/router';");
+        code.add("@Component({");
+        code.add("  selector: '" + name.toLowerCase() + "-page',");
+        code.add("  templateUrl: '" + name.toLowerCase() + ".page.html',");
+        code.add("  styleUrls: ['" + name.toLowerCase() + ".page.scss'],");
+        code.add("  encapsulation: ViewEncapsulation.None");
+        code.add("})");
+        code.add("export class " + name + " implements OnInit {");
+
+        for (String id : structureProcessor.getInputIds()) {
+            code.add("  " + id + " = \"\";");
+        }
+
+        code.add("");
+        code.add("  constructor(private routeParams: ActivatedRoute) {");
+        code.add("  }");
+        code.add("");
+        code.add("  ngOnInit(): void {");
+        code.addAll(behaviorCode);
+        code.add("");
+        code.add("  }");
+        code.add("}");
 
         return generateCodeFileFor(screen, ".page.ts", code);
     }

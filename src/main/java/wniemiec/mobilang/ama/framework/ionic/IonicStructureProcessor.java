@@ -2,23 +2,39 @@ package wniemiec.mobilang.ama.framework.ionic;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import wniemiec.mobilang.ama.models.tag.Tag;
 
 
 class IonicStructureProcessor {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private final Tag structure;
     private final List<String> inputFields;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public IonicStructureProcessor(Tag structure) {
         this.structure = structure;
         inputFields = new ArrayList<>();
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     public void run() {
+        runScreenParametersProcessor();
         runDirectiveProcessor();
         runInputProcessor();
+    }
+
+    private void runScreenParametersProcessor() {
+        // TODO: replace "mobilang::screen::glossary-desc?id=${data[item].id}" by "glossary-desc/${data[item].id}"
+        // TODO: update routing: screen parameters
     }
 
     private void runDirectiveProcessor() {
@@ -40,7 +56,11 @@ class IonicStructureProcessor {
         throw new NoSuchMethodError("Not implemented yet");
     }
 
-    public List<String> getInputFields() {
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
+    public List<String> getInputIds() {
         return inputFields;
     }
 }

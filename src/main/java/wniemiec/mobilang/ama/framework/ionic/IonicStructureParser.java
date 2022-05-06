@@ -34,18 +34,20 @@ class IonicStructureParser {
     //		Methods
     //-------------------------------------------------------------------------
     public List<String> parse() {
-        runScreenArgumentsProcessor();
         runInputProcessor();
         runDirectiveParser();
 
         return parsedCode;
     }
 
-    private void runScreenArgumentsProcessor() {
-        // TODO: replace "mobilang::screen::glossary-desc?id=${data[item].id}" by "glossary-desc/${data[item].id}"
-        // TODO: update routing: screen parameters
+    private void runInputProcessor() {
         runStructureProcessor(currentTag -> {
-            throw new NoSuchMethodError("Not implemented yet");
+            if (currentTag.hasAttribute("onclick")) {
+                String id = "input_" + currentTag.getAttribute("id");
+                currentTag.addAttribute("[(ngModel)]", id);
+                inputFields.add(id);
+                currentTag.removeAttribute("onclick");
+            }
         });
     }
 
@@ -61,18 +63,6 @@ class IonicStructureParser {
 
             currentTag.getChildren().forEach(toParse::add);
         }
-    }
-
-    private void runInputProcessor() {
-        // TODO: input's devem ter [(ngModel)]="input_<id>" para capturar conteudo
-        runStructureProcessor(currentTag -> {
-            if (currentTag.hasAttribute("onclick")) {
-                String id = "input_" + currentTag.getAttribute("id");
-                currentTag.addAttribute("[(ngModel)]", id);
-                inputFields.add(id);
-                currentTag.removeAttribute("onclick");
-            }
-        });
     }
 
     private void runDirectiveParser() {

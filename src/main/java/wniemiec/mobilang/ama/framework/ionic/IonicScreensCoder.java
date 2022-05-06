@@ -129,7 +129,9 @@ class IonicScreensCoder {
         code.add("export class " + name + " implements OnInit {");
 
         for (String id : structureParser.getInputIds()) {
-            code.add("  " + id + " = \"\";");
+            String normalizedId = id.replace("-", "_");
+
+            code.add("  _" + normalizedId + " = \"\";");
         }
 
         code.add("");

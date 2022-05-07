@@ -15,6 +15,7 @@ class IonicBehaviorParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private final BabelTranspiler babelTranspiler;
+    private final IonicMobiLangDirectiveParser directiveParser;
     private List<String> parsedCode;
     private Behavior behavior;
     private List<String> babelErrorLog;
@@ -28,6 +29,7 @@ class IonicBehaviorParser {
         babelErrorLog = new ArrayList<>();
         parsedCode = new ArrayList<>();
         babelTranspiler = new BabelTranspiler(babelErrorLog::add);
+        directiveParser = new IonicMobiLangDirectiveParser();
     }
 
 
@@ -36,9 +38,8 @@ class IonicBehaviorParser {
     //-------------------------------------------------------------------------
     public List<String> parse() throws CoderException {
         runBabel();
-        runScreenArgumentsProcessor();
-        runDirectiveProcessor();
-        runInputProcessor();
+        runFunctionProcessor();
+        runDirectiveParser();
 
         return parsedCode;
     }
@@ -66,18 +67,11 @@ class IonicBehaviorParser {
         }
     }
 
-    private void runScreenArgumentsProcessor() {
-        // TODO: replace "mobilang::screen::glossary-desc?id=${data[item].id}" by "glossary-desc/${data[item].id}"
-        throw new NoSuchMethodError("Not implemented yet");
+    private void runFunctionProcessor() {
+        // TODO: convert function to arrow function
     }
 
-    private void runDirectiveProcessor() {
-        // TODO: Behavior code dentro de onInit
-        throw new NoSuchMethodError("Not implemented yet");
-    }
-
-    private void runInputProcessor() {
-        // TODO: input.value deve ser substituido por this.input_<id>
-        throw new NoSuchMethodError("Not implemented yet");
+    private void runDirectiveParser() {
+        parsedCode = directiveParser.parse(parsedCode);
     }
 }

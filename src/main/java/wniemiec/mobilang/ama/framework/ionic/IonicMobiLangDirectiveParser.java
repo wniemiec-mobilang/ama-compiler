@@ -25,11 +25,13 @@ class IonicMobiLangDirectiveParser extends MobiLangDirectiveParser {
         code.append('/');
         
         parameters.forEach((key, value) -> {
+            code.append(key);
+            code.append('=');
             code.append(value);
-            code.append('/');
+            code.append('&');
         });
 
-        code.deleteCharAt(code.length()-1); // Removes last '/'
+        code.deleteCharAt(code.length()-1); // Removes last '&'
 
         return code.toString();
     }
@@ -38,9 +40,9 @@ class IonicMobiLangDirectiveParser extends MobiLangDirectiveParser {
     protected String replaceParamDirectiveWith(String paramName) {
         StringBuilder code = new StringBuilder();
 
-        code.append("this.routeParams.snapshot.params.");
+        code.append("this.routeParams.snapshot.params.q.split('");
         code.append(paramName);
-        code.append(';');
+        code.append("=')[1].split('&')[0]");
 
         return code.toString();
     }

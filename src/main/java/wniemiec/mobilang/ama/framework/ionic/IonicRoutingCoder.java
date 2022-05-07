@@ -56,8 +56,7 @@ class IonicRoutingCoder {
             code.add("    loadChildren: () => import('./pages/" + screen.getName() + "/" + screen.getName() + ".module').then( m => m." + screen.getName() + "PageModule)");
             code.add("  },");
             code.add("  {");
-            // TODO: replace 'q' with correct screen parameters (available at IonicMobiLangDirectiveParser.getScreenParameters())
-            co2de.add("    path: '" + screen.getName() + "/:q',");
+            code.add("    path: '" + screen.getName() + "/:q',");
             code.add("    loadChildren: () => import('./pages/" + screen.getName() + "/" + screen.getName() + ".module').then( m => m." + screen.getName() + "PageModule)");
             code.add("  },");
         }

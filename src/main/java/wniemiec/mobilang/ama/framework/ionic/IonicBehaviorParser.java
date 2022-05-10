@@ -74,8 +74,16 @@ class IonicBehaviorParser {
 
             if (line.matches(".*([\\s\\t]+|)function([\\s\\t]+).*")) {
                 line = line.replaceAll("function([\\s\\t]+)", "const ");
-                int idxParametersClose = line.lastIndexOf(")");
-                line = line.substring(0, idxParametersClose + 1) + " => " + line.substring(idxParametersClose + 1);
+                
+
+                int idxParametersBegin = line.indexOf("(");
+                int idxParametersEnd = line.lastIndexOf(")");
+                line = 
+                    line.substring(0, idxParametersBegin)
+                    + " = "
+                    + line.substring(idxParametersBegin, idxParametersEnd + 1)
+                    + " => " 
+                    + line.substring(idxParametersEnd + 1);
             }
 
             parsedCode.set(i, line);

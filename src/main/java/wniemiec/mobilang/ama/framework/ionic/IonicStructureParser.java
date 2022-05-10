@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.function.Consumer;
+
+import wniemiec.mobilang.ama.framework.ionic.parser.IonicMobiLangDirectiveParser;
 import wniemiec.mobilang.ama.models.tag.Tag;
 
 
@@ -66,7 +68,8 @@ class IonicStructureParser {
     }
 
     private void runDirectiveParser() {
-        parsedCode.addAll(directiveParser.parse(structure.toCode()));
+        directiveParser.parse(structure.toCode());
+        parsedCode.addAll(directiveParser.getParsedCode());
     }
 
 

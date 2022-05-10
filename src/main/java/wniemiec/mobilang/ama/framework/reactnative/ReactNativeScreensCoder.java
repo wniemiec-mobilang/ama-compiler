@@ -151,7 +151,8 @@ class ReactNativeScreensCoder {
     }
 
     private List<String> parseDirectives(List<String> code) {
-        return directiveParser.parse(code);
+        directiveParser.parse(code);
+        return directiveParser.getParsedCode();
     }
 
     private void putHtmlCloseTag(List<String> code) {

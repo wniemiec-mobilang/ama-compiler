@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import wniemiec.io.java.BabelTranspiler;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.framework.ionic.parser.ArrowFunctionConverter;
+import wniemiec.mobilang.ama.framework.ionic.parser.IonicMobiLangDirectiveParser;
 import wniemiec.mobilang.ama.models.behavior.Behavior;
 
 
@@ -76,6 +77,7 @@ class IonicBehaviorParser {
     }
 
     private void runDirectiveParser() {
-        parsedCode = directiveParser.parse(parsedCode);
+        directiveParser.parse(parsedCode);
+        parsedCode = directiveParser.getParsedCode();
     }
 }

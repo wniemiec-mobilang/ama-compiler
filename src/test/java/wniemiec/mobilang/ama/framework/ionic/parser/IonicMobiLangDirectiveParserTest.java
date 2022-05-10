@@ -29,6 +29,94 @@ class IonicMobiLangDirectiveParserTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
+    void testScreenDirectiveWithSingleParameterAndDoubleQuotes() {
+        withCode(
+            "window.location.href(\"mobilang::screen::foo?id=2\")"
+        );
+        runParser();
+        assertCodeEquals(
+            "window.location.href(\"foo/id=2\")"
+        );
+    }
+
+    @Test
+    void testScreenDirectiveWithSingleParameterAndSingleQuotes() {
+        withCode(
+            "window.location.href('mobilang::screen::foo?id=2')"
+        );
+        runParser();
+        assertCodeEquals(
+            "window.location.href('foo/id=2')"
+        );
+    }
+
+    @Test
+    void testScreenDirectiveWithParametersAndDoubleQuotes() {
+        withCode(
+            "window.location.href(\"mobilang::screen::foo?id=2&value=something\")"
+        );
+        runParser();
+        assertCodeEquals(
+            "window.location.href(\"foo/id=2&value=something\")"
+        );
+    }
+
+    @Test
+    void testScreenDirectiveWithParametersAndSingleQuotes() {
+        withCode(
+            "window.location.href('mobilang::screen::foo?id=2&value=something')"
+        );
+        runParser();
+        assertCodeEquals(
+            "window.location.href('foo/id=2&value=something')"
+        );
+    }
+
+    @Test
+    void testScreenDirectiveWithDoubleQuotes() {
+        withCode(
+            "window.location.href(\"mobilang::screen::foo\")"
+        );
+        runParser();
+        assertCodeEquals(
+            "window.location.href(\"foo\")"
+        );
+    }
+
+    @Test
+    void testScreenDirectiveWithSingleQuotes() {
+        withCode(
+            "window.location.href('mobilang::screen::foo')"
+        );
+        runParser();
+        assertCodeEquals(
+            "window.location.href('foo')"
+        );
+    }
+
+    @Test
+    void testInputDirectiveWithDoubleQuotes() {
+        withCode(
+            "const bar = \"mobilang::input::foo\""
+        );
+        runParser();
+        assertCodeEquals(
+            "const bar = this._input_foo"
+        );
+    }
+
+    @Test
+    void testInputDirectiveWithSingleQuotes() {
+        withCode(
+            "const bar = \'mobilang::input::foo\'"
+        );
+        runParser();
+        assertCodeEquals(
+            "const bar = this._input_foo"
+        );
+    }
+
+    @Test
     void testParamDirectiveWithDoubleQuotes() {
         withCode(
             "const id = \"mobilang::param::id\""

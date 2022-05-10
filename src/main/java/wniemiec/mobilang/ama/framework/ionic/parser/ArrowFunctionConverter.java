@@ -13,6 +13,10 @@ public class ArrowFunctionConverter {
     }
     
     public void run(List<String> code) {
+        if ((code == null) || code.isEmpty()) {
+            return;
+        }
+        
         // TODO: compatibility with multi-line parameters
         convertedCode = new ArrayList<>();
 

@@ -68,13 +68,13 @@ class IonicBehaviorParser {
     }
 
     /// Converts function to arrow function
+    // TODO: compatibility with multi-line parameters
     private void runFunctionProcessor() {  
         for (int i = 0; i < parsedCode.size(); i++) {
             String line = parsedCode.get(i);
 
             if (line.matches(".*([\\s\\t]+|)function([\\s\\t]+).*")) {
                 line = line.replaceAll("function([\\s\\t]+)", "const ");
-                
 
                 int idxParametersBegin = line.indexOf("(");
                 int idxParametersEnd = line.lastIndexOf(")");

@@ -16,22 +16,29 @@ public abstract class MobiLangDirectiveParser {
     //-------------------------------------------------------------------------
     //      Attributes
     //-------------------------------------------------------------------------
-    private List<String> screenParameters;
     private List<String> parsedLines;
+    private List<String> screenParameters;
+
+
+    //-------------------------------------------------------------------------
+    //      Constructor
+    //-------------------------------------------------------------------------
+    protected MobiLangDirectiveParser() {
+        parsedLines = new ArrayList<>();
+        screenParameters = new ArrayList<>();
+    }
 
     
     //-------------------------------------------------------------------------
     //      Methods
     //-------------------------------------------------------------------------
-    public final List<String> parse(List<String> lines) {
+    public final void parse(List<String> lines) {
         parsedLines = new ArrayList<>();
         screenParameters = new ArrayList<>();
 
         for (String line : lines) {
             parseLine(line);
         }
-
-        return parsedLines;
     }
 
     private void parseLine(String line) {
@@ -163,5 +170,9 @@ public abstract class MobiLangDirectiveParser {
     //-------------------------------------------------------------------------
     public List<String> getScreenParameters() {
         return screenParameters;
+    }
+
+    public List<String> getParsedCode() {
+        return parsedLines;
     }
 }

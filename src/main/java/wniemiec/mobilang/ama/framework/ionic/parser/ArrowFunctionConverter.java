@@ -6,17 +6,28 @@ import java.util.List;
 
 public class ArrowFunctionConverter {
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
     private List<String> convertedCode;
 
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
     public ArrowFunctionConverter() {
         convertedCode = new ArrayList<>();
     }
     
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     public void run(List<String> code) {
         if ((code == null) || code.isEmpty()) {
             return;
         }
-        
+
         // TODO: compatibility with multi-line parameters
         convertedCode = new ArrayList<>();
 
@@ -40,6 +51,10 @@ public class ArrowFunctionConverter {
         }
     }
 
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
     public List<String> getConvertedCode() {
         return convertedCode;
     }

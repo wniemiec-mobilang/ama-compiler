@@ -67,8 +67,19 @@ class IonicBehaviorParser {
         }
     }
 
-    private void runFunctionProcessor() {
-        // TODO: convert function to arrow function
+    /// Converts function to arrow function
+    private void runFunctionProcessor() {  
+        for (int i = 0; i < parsedCode.size(); i++) {
+            String line = parsedCode.get(i);
+
+            if (line.matches(".*([\\s\\t]+|)function([\\s\\t]+).*")) {
+                line = line.replaceAll("function([\\s\\t]+)", "const ");
+                int idxParametersClose = line.lastIndexOf(")");
+                line = line.substring(0, idxParametersClose + 1) + " => " + line.substring(idxParametersClose + 1);
+            }
+
+            parsedCode.set(i, line);
+        }
     }
 
     private void runDirectiveParser() {

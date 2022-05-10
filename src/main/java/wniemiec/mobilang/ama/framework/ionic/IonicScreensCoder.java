@@ -3,6 +3,8 @@ package wniemiec.mobilang.ama.framework.ionic;
 import java.util.ArrayList;
 import java.util.List;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
+import wniemiec.mobilang.ama.framework.ionic.parser.IonicBehaviorParser;
+import wniemiec.mobilang.ama.framework.ionic.parser.IonicStructureParser;
 import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.ScreenData;
 import wniemiec.util.java.StringUtils;

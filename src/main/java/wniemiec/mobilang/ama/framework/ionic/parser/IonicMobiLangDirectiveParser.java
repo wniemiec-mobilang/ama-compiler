@@ -1,12 +1,10 @@
 package wniemiec.mobilang.ama.framework.ionic.parser;
 
-import java.util.List;
 import java.util.Map;
-
 import wniemiec.mobilang.ama.parser.MobiLangDirectiveParser;
 
 
-public class IonicMobiLangDirectiveParser extends MobiLangDirectiveParser {
+class IonicMobiLangDirectiveParser extends MobiLangDirectiveParser {
 
     //-------------------------------------------------------------------------
     //      Methods

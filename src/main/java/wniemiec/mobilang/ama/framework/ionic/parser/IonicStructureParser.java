@@ -1,16 +1,14 @@
-package wniemiec.mobilang.ama.framework.ionic;
+package wniemiec.mobilang.ama.framework.ionic.parser;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.function.Consumer;
-
-import wniemiec.mobilang.ama.framework.ionic.parser.IonicMobiLangDirectiveParser;
 import wniemiec.mobilang.ama.models.tag.Tag;
 
 
-class IonicStructureParser {
+public class IonicStructureParser {
 
     //-------------------------------------------------------------------------
     //		Attributes

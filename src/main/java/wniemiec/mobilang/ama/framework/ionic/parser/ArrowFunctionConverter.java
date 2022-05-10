@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ArrowFunctionConverter {
+class ArrowFunctionConverter {
 
     //-------------------------------------------------------------------------
     //		Attributes

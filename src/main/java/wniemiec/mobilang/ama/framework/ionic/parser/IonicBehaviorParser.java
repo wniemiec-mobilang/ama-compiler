@@ -1,4 +1,4 @@
-package wniemiec.mobilang.ama.framework.ionic;
+package wniemiec.mobilang.ama.framework.ionic.parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import wniemiec.io.java.BabelTranspiler;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
-import wniemiec.mobilang.ama.framework.ionic.parser.ArrowFunctionConverter;
-import wniemiec.mobilang.ama.framework.ionic.parser.IonicMobiLangDirectiveParser;
 import wniemiec.mobilang.ama.models.behavior.Behavior;
 
 
-class IonicBehaviorParser {
+public class IonicBehaviorParser {
 
     //-------------------------------------------------------------------------
     //		Attributes

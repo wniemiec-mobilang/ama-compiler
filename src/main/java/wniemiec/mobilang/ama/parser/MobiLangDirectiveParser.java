@@ -137,9 +137,9 @@ public abstract class MobiLangDirectiveParser {
         }
 
         String paramName = matcher.group(1);
-        String directive = "\"mobilang:param:" + paramName + "\"";
+        String directive = "[\"']{1}mobilang:param:" + paramName + "[\"']{1}";
 
-        return line.replace(directive, replaceParamDirectiveWith(paramName));
+        return line.replaceAll(directive, replaceParamDirectiveWith(paramName));
     }
 
     protected abstract String replaceParamDirectiveWith(String paramName);
@@ -157,9 +157,9 @@ public abstract class MobiLangDirectiveParser {
         }
 
         String inputId = matcher.group(1);
-        String directive = "\"mobilang:input:" + inputId + "\"";
+        String directive = "[\"']{1}mobilang:input:" + inputId + "[\"']{1}";
 
-        return line.replace(directive, swapInputDirectiveFor(inputId));
+        return line.replaceAll(directive, swapInputDirectiveFor(inputId));
     }
 
     protected abstract String swapInputDirectiveFor(String inputId);

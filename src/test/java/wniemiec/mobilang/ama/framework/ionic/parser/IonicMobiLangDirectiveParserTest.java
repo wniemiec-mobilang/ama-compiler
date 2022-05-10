@@ -31,7 +31,7 @@ class IonicMobiLangDirectiveParserTest {
     @Test
     void testParamDirectiveWithDoubleQuotes() {
         withCode(
-            "const id = \"mobilang:param:id\""
+            "const id = \"mobilang::param::id\""
         );
         runParser();
         assertCodeEquals(
@@ -42,7 +42,7 @@ class IonicMobiLangDirectiveParserTest {
     @Test
     void testParamDirectiveWithSingleQuotes() {
         withCode(
-            "const id = 'mobilang:param:id'"
+            "const id = 'mobilang::param::id'"
         );
         runParser();
         assertCodeEquals(

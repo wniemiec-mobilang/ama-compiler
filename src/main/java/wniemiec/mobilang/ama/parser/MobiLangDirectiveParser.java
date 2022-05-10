@@ -52,7 +52,7 @@ public abstract class MobiLangDirectiveParser {
     }
 
     private boolean isMobiLangDirective(String line) {
-        return line.contains("mobilang:");
+        return line.contains("mobilang::");
     }
 
     private String parseMobiLangDirective(String line) {
@@ -72,11 +72,11 @@ public abstract class MobiLangDirectiveParser {
     }
 
     private boolean isScreenDirective(String line) {
-        return line.contains("mobilang:screen:");
+        return line.contains("mobilang::screen::");
     }
 
     private String parseScreenDirective(String line) {
-        if (line.matches(".+mobilang:screen:([A-z0-9-_]+\\?).+")) {
+        if (line.matches(".+mobilang::screen::([A-z0-9-_]+\\?).+")) {
             return parseScreenDirectiveWithParameters(line);
         }
 
@@ -84,7 +84,7 @@ public abstract class MobiLangDirectiveParser {
     }
 
     private String parseScreenDirectiveWithParameters(String line) {
-        Pattern pattern = Pattern.compile(".+mobilang:screen:([A-z0-9-_]+)\\?([^?\\/\\\\]+).+");
+        Pattern pattern = Pattern.compile(".+mobilang::screen::([A-z0-9-_]+)\\?([^?\\/\\\\]+).+");
         Matcher matcher = pattern.matcher(line);
 
         if (!matcher.matches()) {
@@ -92,7 +92,7 @@ public abstract class MobiLangDirectiveParser {
         }
 
         String screenName = matcher.group(1);
-        String directive = "\"mobilang:screen:([A-z0-9-_]+\\?).+;";
+        String directive = "\"mobilang::screen::([A-z0-9-_]+\\?).+;";
         Map<String, String> parameters = new HashMap<>();
 
         String rawParameters = matcher.group(2); // id=${data[item].id}&q=123
@@ -109,7 +109,7 @@ public abstract class MobiLangDirectiveParser {
     protected abstract String swapScreenDirectiveWithParametersFor(String screenName, Map<String, String> parameters);
 
     private String parseScreenDirectiveWithoutParameters(String line) {
-        Pattern pattern = Pattern.compile(".+mobilang:screen:([A-z0-9-_]+).+");
+        Pattern pattern = Pattern.compile(".+mobilang::screen::([A-z0-9-_]+).+");
         Matcher matcher = pattern.matcher(line);
 
         if (!matcher.matches()) {
@@ -117,7 +117,7 @@ public abstract class MobiLangDirectiveParser {
         }
 
         String screenName = matcher.group(1);
-        String directive = "mobilang:screen:" + screenName;
+        String directive = "mobilang::screen::" + screenName;
 
         return line.replace(directive, swapScreenDirectiveFor(screenName));
     }
@@ -125,11 +125,11 @@ public abstract class MobiLangDirectiveParser {
     protected abstract String swapScreenDirectiveFor(String screenName);
 
     private boolean isParamDirective(String line) {
-        return line.contains("mobilang:param:");
+        return line.contains("mobilang::param::");
     }
 
     private String parseParamDirective(String line) {
-        Pattern pattern = Pattern.compile(".+mobilang:param:([A-z0-9-_]+).+");
+        Pattern pattern = Pattern.compile(".+mobilang::param::([A-z0-9-_]+).+");
         Matcher matcher = pattern.matcher(line);
 
         if (!matcher.matches()) {
@@ -137,7 +137,7 @@ public abstract class MobiLangDirectiveParser {
         }
 
         String paramName = matcher.group(1);
-        String directive = "[\"']{1}mobilang:param:" + paramName + "[\"']{1}";
+        String directive = "[\"']{1}mobilang::param::" + paramName + "[\"']{1}";
 
         return line.replaceAll(directive, replaceParamDirectiveWith(paramName));
     }
@@ -145,11 +145,11 @@ public abstract class MobiLangDirectiveParser {
     protected abstract String replaceParamDirectiveWith(String paramName);
 
     private boolean isInputDirective(String line) {
-        return line.contains("mobilang:input:");
+        return line.contains("mobilang::input::");
     }
 
     private String parseInputDirective(String line) {
-        Pattern pattern = Pattern.compile(".+mobilang:input:([A-z0-9-_]+).+");
+        Pattern pattern = Pattern.compile(".+mobilang::input::([A-z0-9-_]+).+");
         Matcher matcher = pattern.matcher(line);
 
         if (!matcher.matches()) {
@@ -157,7 +157,7 @@ public abstract class MobiLangDirectiveParser {
         }
 
         String inputId = matcher.group(1);
-        String directive = "[\"']{1}mobilang:input:" + inputId + "[\"']{1}";
+        String directive = "[\"']{1}mobilang::input::" + inputId + "[\"']{1}";
 
         return line.replaceAll(directive, swapInputDirectiveFor(inputId));
     }

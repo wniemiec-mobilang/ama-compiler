@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import wniemiec.io.java.BabelTranspiler;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
+import wniemiec.mobilang.ama.framework.ionic.parser.ArrowFunctionConverter;
 import wniemiec.mobilang.ama.models.behavior.Behavior;
 
 
@@ -66,28 +67,12 @@ class IonicBehaviorParser {
             throw new CoderException(e.getMessage());
         }
     }
-
-    /// Converts function to arrow function
-    // TODO: compatibility with multi-line parameters
+    
     private void runFunctionProcessor() {  
-        for (int i = 0; i < parsedCode.size(); i++) {
-            String line = parsedCode.get(i);
+        ArrowFunctionConverter functionConverter = new ArrowFunctionConverter();
 
-            if (line.matches(".*([\\s\\t]+|)function([\\s\\t]+).*")) {
-                line = line.replaceAll("function([\\s\\t]+)", "const ");
-
-                int idxParametersBegin = line.indexOf("(");
-                int idxParametersEnd = line.lastIndexOf(")");
-                line = 
-                    line.substring(0, idxParametersBegin)
-                    + " = "
-                    + line.substring(idxParametersBegin, idxParametersEnd + 1)
-                    + " => " 
-                    + line.substring(idxParametersEnd + 1);
-            }
-
-            parsedCode.set(i, line);
-        }
+        functionConverter.run(parsedCode);
+        parsedCode = functionConverter.getConvertedCode();
     }
 
     private void runDirectiveParser() {

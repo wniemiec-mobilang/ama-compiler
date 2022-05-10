@@ -155,17 +155,25 @@ class ArrowFunctionConverterTest {
     private void assertCodeEquals(String... lines) {
         List<String> expectedCode = Arrays.asList(lines);
 
-        Assertions.assertEquals(expectedCode.size(), converter.getConvertedCode().size());
+        assertHasSameSize(expectedCode, converter.getConvertedCode());
+        assertHasSameLines(expectedCode, converter.getConvertedCode());
+    }
 
-        for (int i = 0; i < expectedCode.size(); i++) {
-            String expectedLine = expectedCode.get(i);
-            String obtainedLine = converter.getConvertedCode().get(i);
+    private void assertHasSameSize(List<String> expected, List<String> obtained) {
+        Assertions.assertEquals(expected.size(), obtained.size());
+    }
 
-            expectedLine = removeWhiteSpaces(expectedLine);
-            obtainedLine = removeWhiteSpaces(obtainedLine);
-            
-            Assertions.assertEquals(expectedLine, obtainedLine);
+    private void assertHasSameLines(List<String> expected, List<String> obtained) {
+        for (int i = 0; i < expected.size(); i++) {            
+            assertHasSameLine(expected.get(i), obtained.get(i));
         }
+    }
+
+    private void assertHasSameLine(String expected, String obtained) {
+        Assertions.assertEquals(
+            removeWhiteSpaces(expected),
+            removeWhiteSpaces(obtained)
+        );
     }
 
     private String removeWhiteSpaces(String text) {

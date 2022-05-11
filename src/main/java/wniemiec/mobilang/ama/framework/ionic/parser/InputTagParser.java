@@ -64,4 +64,8 @@ class InputTagParser {
     public List<String> getInputIds() {
         return inputFields;
     }
+
+    public Tag getParsedTag() {
+        return parsedTag;
+    }
 }

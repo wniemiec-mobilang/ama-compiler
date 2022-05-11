@@ -45,4 +45,16 @@ class InputTagParserTest {
         Assertions.assertFalse(parser.getParsedTag().hasAttribute("onclick"));
         Assertions.assertEquals(expectedInputIds, parser.getInputIds());
     }
+
+    @Test
+    void testSimpleInputWithoutId() {
+        Map<String, String> attributes = new HashMap<>();
+        
+        attributes.put("onclick", "alert('hey!! you pressed the button!')");
+        Tag buttonTag = new Tag("button", attributes);
+
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            parser.parse(buttonTag);
+        });
+    }
 }

@@ -382,4 +382,8 @@ public class Tag implements Cloneable {
     public String getStyle(String attribute) {
         return style.get(attribute);
     }
+
+    public void setAttributes(Map<String, String> newAttributes) {
+        attributes = newAttributes;
+    }
 }

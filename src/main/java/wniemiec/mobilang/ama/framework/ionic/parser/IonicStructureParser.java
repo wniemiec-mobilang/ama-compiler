@@ -1,10 +1,8 @@
 package wniemiec.mobilang.ama.framework.ionic.parser;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-import java.util.function.Consumer;
+import java.util.Stack;
 import wniemiec.mobilang.ama.models.tag.Tag;
 
 
@@ -17,6 +15,8 @@ public class IonicStructureParser {
     private final List<String> inputFields;
     private final List<String> parsedCode;
     private final IonicMobiLangDirectiveParser directiveParser;
+    private final InputTagParser inputParser;
+    private Tag parsedStructure;
 
 
     //-------------------------------------------------------------------------
@@ -27,6 +27,8 @@ public class IonicStructureParser {
         inputFields = new ArrayList<>();
         parsedCode = new ArrayList<>();
         directiveParser = new IonicMobiLangDirectiveParser();
+        inputParser = new InputTagParser();
+        parsedStructure = Tag.getEmptyInstance();
     }
 
 
@@ -41,32 +43,28 @@ public class IonicStructureParser {
     }
 
     private void runInputProcessor() {
-        runStructureProcessor(currentTag -> {
-            if (currentTag.hasAttribute("onclick")) {
-                String id = "input_" + currentTag.getAttribute("id");
-                currentTag.addAttribute("[(ngModel)]", id);
-                inputFields.add(id);
-                currentTag.removeAttribute("onclick");
-            }
-        });
-    }
-
-    private void runStructureProcessor(Consumer<Tag> tagHandler) {
-        Queue<Tag> toParse = new LinkedList<>();
+        Stack<Tag> toParse = new Stack<>();
         
-        toParse.add(structure);
+        parsedStructure = structure.clone();
+        toParse.add(parsedStructure);
 
         while (!toParse.isEmpty()) {
-            Tag currentTag = structure;
+            Tag currentTag = toParse.pop();
     
-            tagHandler.accept(currentTag);
+            inputParser.parse(currentTag);
+            Tag parsedTag = inputParser.getParsedTag();
 
-            currentTag.getChildren().forEach(toParse::add);
+            currentTag.setAttributes(parsedTag.getAttributes());
+            currentTag.setName(parsedTag.getName());
+            currentTag.setStyle(parsedTag.getStyle());
+            currentTag.setValue(parsedTag.getValue());
+
+            currentTag.getChildren().forEach(toParse::push);
         }
     }
 
     private void runDirectiveParser() {
-        directiveParser.parse(structure.toCode());
+        directiveParser.parse(parsedStructure.toCode());
         parsedCode.addAll(directiveParser.getParsedCode());
     }
 

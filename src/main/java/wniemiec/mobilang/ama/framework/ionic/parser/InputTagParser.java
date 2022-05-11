@@ -2,7 +2,6 @@ package wniemiec.mobilang.ama.framework.ionic.parser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 import wniemiec.mobilang.ama.models.tag.Tag;
 
 
@@ -28,27 +27,18 @@ class InputTagParser {
     //		Methods
     //-------------------------------------------------------------------------
     public void parse(Tag tag) {
-        Stack<Tag> toParse = new Stack<>();
-        
         parsedTag = tag.clone();
-        toParse.add(parsedTag);
-
-        while (!toParse.empty()) {
-            Tag currentTag = toParse.pop();
-
-            parseTag(currentTag);   
-
-            currentTag.getChildren().forEach(toParse::push);
-        }
-    }
-
-    private void parseTag(Tag tag) {
+        
         if (tag.hasAttribute("onclick")) {
-            parseTagWithOnClick(tag);
+            parseTagWithOnClick(parsedTag);
         }
     }
 
     private void parseTagWithOnClick(Tag tag) {
+        if (!tag.hasAttribute("id")) {
+            throw new IllegalStateException("Every input tag must have an id");
+        }
+
         String id = "input_" + tag.getAttribute("id");
         
         tag.addAttribute("[(ngModel)]", id);

@@ -16,6 +16,7 @@ public class IonicBehaviorParser {
     //-------------------------------------------------------------------------
     private final BabelTranspiler babelTranspiler;
     private final IonicMobiLangDirectiveParser directiveParser;
+    private final FunctionParser functionConverter;
     private List<String> parsedCode;
     private Behavior behavior;
     private List<String> babelErrorLog;
@@ -30,6 +31,8 @@ public class IonicBehaviorParser {
         parsedCode = new ArrayList<>();
         babelTranspiler = new BabelTranspiler(babelErrorLog::add);
         directiveParser = new IonicMobiLangDirectiveParser();
+        functionConverter = new FunctionParser();
+        
     }
 
 
@@ -68,9 +71,7 @@ public class IonicBehaviorParser {
     }
     
     private void runFunctionProcessor() {  
-        ArrowFunctionConverter functionConverter = new ArrowFunctionConverter();
-
-        functionConverter.run(parsedCode);
+        functionConverter.parse(parsedCode);
         parsedCode = functionConverter.getConvertedCode();
     }
 

@@ -5,14 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-
 import wniemiec.io.java.Consolex;
 
 
 /**
  * Responsible for representing a tag.
  */
-public class Tag {
+public class Tag implements Cloneable {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -28,21 +27,47 @@ public class Tag {
     //-------------------------------------------------------------------------
     //		Constructors
     //-------------------------------------------------------------------------
+    public Tag(String name) {
+        this(name, new HashMap<>());
+    }
+
     public Tag(String name, Map<String, String> tagAttributes) {
+        this(name, tagAttributes, null);
+    }
+
+    public Tag(String name, Map<String, String> tagAttributes, String value) {
         this.name = name;
         this.attributes = tagAttributes;
+        this.value = value;
         children = new ArrayList<>();
         style = new HashMap<>();
     }
     
-    public Tag(String name) {
-        this(name, new HashMap<>());
+
+    //-------------------------------------------------------------------------
+    //		Factories
+    //-------------------------------------------------------------------------
+    public static Tag getEmptyInstance() {
+        return new Tag("null");
     }
     
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    public Tag clone() {
+        Tag clonedTag = new Tag(name, attributes, value);
+
+        clonedTag.setStyle(new HashMap<>(style));
+        clonedTag.setParent(parent);
+
+        this.getChildren().forEach(child -> {
+            clonedTag.addChild(child.clone());
+        });
+
+        return clonedTag;
+    }
+
     public void addChild(Tag child) {
         if (child == null) {
             return;
@@ -251,6 +276,57 @@ public class Tag {
             + "]";
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        
+        result = prime * result + ((attributes == null) ? 0 : attributes.hashCode());
+        result = prime * result + ((children == null) ? 0 : children.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((parent == null) ? 0 : parent.hashCode());
+        result = prime * result + ((style == null) ? 0 : style.hashCode());
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Tag other = (Tag) obj;
+        if (attributes == null) {
+            if (other.attributes != null)
+                return false;
+        } else if (!attributes.equals(other.attributes))
+            return false;
+        if (children == null) {
+            if (other.children != null)
+                return false;
+        } else if (!children.equals(other.children))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (style == null) {
+            if (other.style != null)
+                return false;
+        } else if (!style.equals(other.style))
+            return false;
+        if (value == null) {
+            if (other.value != null)
+                return false;
+        } else if (!value.equals(other.value))
+            return false;
+        return true;
+    }
 
     //-------------------------------------------------------------------------
     //		Getters & Setters
@@ -295,8 +371,8 @@ public class Tag {
         return parent;
     }
 
-    public void setParent(Tag father) {
-        this.parent = father;
+    public void setParent(Tag parent) {
+        this.parent = parent;
     }
 
     public Map<String, String> getAttributes() {

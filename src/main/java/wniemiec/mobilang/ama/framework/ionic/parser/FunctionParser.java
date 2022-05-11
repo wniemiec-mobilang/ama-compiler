@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class ArrowFunctionConverter {
+class FunctionParser {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -15,7 +15,7 @@ class ArrowFunctionConverter {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public ArrowFunctionConverter() {
+    public FunctionParser() {
         convertedCode = new ArrayList<>();
     }
     
@@ -23,7 +23,7 @@ class ArrowFunctionConverter {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public void run(List<String> code) {
+    public void parse(List<String> code) {
         if ((code == null) || code.isEmpty()) {
             return;
         }

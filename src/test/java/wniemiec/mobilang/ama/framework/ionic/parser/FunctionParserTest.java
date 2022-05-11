@@ -7,12 +7,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-class ArrowFunctionConverterTest {
+class FunctionParserTest {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private ArrowFunctionConverter converter;
+    private FunctionParser parser;
     private List<String> code;
     
 
@@ -21,7 +21,7 @@ class ArrowFunctionConverterTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        converter = new ArrowFunctionConverter();
+        parser = new FunctionParser();
     }
 
 
@@ -35,7 +35,7 @@ class ArrowFunctionConverterTest {
             "    return n1 + n2;",
             "}"
         );
-        runConverter();
+        runParser();
         assertCodeEquals(
             "const sum = (n1, n2) => {",
             "    return n1 + n2;",
@@ -50,7 +50,7 @@ class ArrowFunctionConverterTest {
             "    return 2 + 3;",
             "}"
         );
-        runConverter();
+        runParser();
         assertCodeEquals(
             "const sum = () => {",
             "    return 2 + 3;",
@@ -66,7 +66,7 @@ class ArrowFunctionConverterTest {
             "    return 2 + 3;",
             "}"
         );
-        runConverter();
+        runParser();
         assertCodeEquals(
             "const sum = () => ",
             "{",
@@ -82,7 +82,7 @@ class ArrowFunctionConverterTest {
             "    return n1 + n2;",
             "}"
         );
-        runConverter();
+        runParser();
         assertCodeEquals(
             "const sum = (n1, n2) => {",
             "    return n1 + n2;",
@@ -100,7 +100,7 @@ class ArrowFunctionConverterTest {
             "res = sum(4,3)",
             "console.log(res)"
         );
-        runConverter();
+        runParser();
         assertCodeEquals(
             "let res = 0.0",
             "const sum = (n1, n2) => {",
@@ -118,7 +118,7 @@ class ArrowFunctionConverterTest {
             "res = 4 + 3",
             "console.log(res)"
         );
-        runConverter();
+        runParser();
         assertCodeEquals(
             "let res = 0.0",
             "res = 4 + 3",
@@ -129,14 +129,14 @@ class ArrowFunctionConverterTest {
     @Test
     void testEmptyCode() {
         withCode("");
-        runConverter();
+        runParser();
         assertCodeEquals("");
     }
 
     @Test
     void testNullCode() {
         withCode();
-        runConverter();
+        runParser();
         assertCodeEquals();
     }
 
@@ -148,15 +148,15 @@ class ArrowFunctionConverterTest {
         code = Arrays.asList(lines);
     }
 
-    private void runConverter() {
-        converter.run(code);
+    private void runParser() {
+        parser.parse(code);
     }
 
     private void assertCodeEquals(String... lines) {
         List<String> expectedCode = Arrays.asList(lines);
 
-        assertHasSameSize(expectedCode, converter.getConvertedCode());
-        assertHasSameLines(expectedCode, converter.getConvertedCode());
+        assertHasSameSize(expectedCode, parser.getConvertedCode());
+        assertHasSameLines(expectedCode, parser.getConvertedCode());
     }
 
     private void assertHasSameSize(List<String> expected, List<String> obtained) {

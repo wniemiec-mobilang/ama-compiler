@@ -55,7 +55,7 @@ class FunctionParser {
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public List<String> getConvertedCode() {
+    public List<String> getParsedCode() {
         return convertedCode;
     }
 }

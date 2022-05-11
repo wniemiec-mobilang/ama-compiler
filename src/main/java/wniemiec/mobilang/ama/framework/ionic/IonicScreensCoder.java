@@ -95,9 +95,10 @@ class IonicScreensCoder {
     }
 
     private CodeFile buildHtmlFileCode(ScreenData screen) {
-        structureParser = new IonicStructureParser(screen.getStructure());
+        structureParser = new IonicStructureParser();
+        structureParser.parse(screen.getStructure());
         
-        List<String> structureCode = structureParser.parse();
+        List<String> structureCode = structureParser.getParsedCode();
         List<String> code = new ArrayList<>();
 
         code.add("<ion-content>");

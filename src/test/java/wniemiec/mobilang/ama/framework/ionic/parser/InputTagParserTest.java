@@ -31,15 +31,14 @@ class InputTagParserTest {
     //-------------------------------------------------------------------------
     @Test
     void testSimpleInputWithId() {
-        withRootTag(buildButtonWithOnClickAndId());
+        withRootTag(buildInputWithId("foo"));
         doParsing();
-        assertParsedTagDoesNotHaveOnClickAttribute();
-        assertContainsInputIds("input_fooId");
+        assertContainsInputIds("input_foo");
     }
 
     @Test
     void testSimpleInputWithoutId() {
-        withRootTag(buildButtonWithOnClick());
+        withRootTag(buildInputWithoutId());
 
         Assertions.assertThrows(IllegalStateException.class, () -> {
             doParsing();
@@ -50,13 +49,12 @@ class InputTagParserTest {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private Tag buildButtonWithOnClickAndId() {
-        Tag buttonTag = new Tag("button");
+    private Tag buildInputWithId(String id) {
+        Tag inputTag = new Tag("input");
         
-        buttonTag.addAttribute("onclick", "alert('hey!! you pressed the button!')");
-        buttonTag.addAttribute("id", "fooId");
+        inputTag.addAttribute("id", id);
         
-        return buttonTag;
+        return inputTag;
     }
 
     private void withRootTag(Tag tag) {
@@ -67,10 +65,6 @@ class InputTagParserTest {
         parser.parse(rootTag);
     }
 
-    private void assertParsedTagDoesNotHaveOnClickAttribute() {
-        Assertions.assertFalse(parser.getParsedTag().hasAttribute("onclick"));
-    }
-
     private void assertContainsInputIds(String... expectedInputIds) {
         List<String> obtainedInputIds = parser.getInputIds();
 
@@ -79,11 +73,7 @@ class InputTagParserTest {
         }
     }
 
-    private Tag buildButtonWithOnClick() {
-        Tag buttonTag = new Tag("button");
-        
-        buttonTag.addAttribute("onclick", "alert('hey!! you pressed the button!')");
-        
-        return buttonTag;
+    private Tag buildInputWithoutId() {
+        return new Tag("input");
     }
 }

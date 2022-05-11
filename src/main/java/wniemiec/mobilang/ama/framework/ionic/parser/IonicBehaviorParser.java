@@ -72,7 +72,7 @@ public class IonicBehaviorParser {
     
     private void runFunctionProcessor() {  
         functionConverter.parse(parsedCode);
-        parsedCode = functionConverter.getConvertedCode();
+        parsedCode = functionConverter.getParsedCode();
     }
 
     private void runDirectiveParser() {

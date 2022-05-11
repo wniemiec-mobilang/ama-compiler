@@ -155,8 +155,8 @@ class FunctionParserTest {
     private void assertCodeEquals(String... lines) {
         List<String> expectedCode = Arrays.asList(lines);
 
-        assertHasSameSize(expectedCode, parser.getConvertedCode());
-        assertHasSameLines(expectedCode, parser.getConvertedCode());
+        assertHasSameSize(expectedCode, parser.getParsedCode());
+        assertHasSameLines(expectedCode, parser.getParsedCode());
     }
 
     private void assertHasSameSize(List<String> expected, List<String> obtained) {

@@ -11,23 +11,21 @@ public class IonicStructureParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final Tag structure;
     private final List<String> inputFields;
-    private final List<String> parsedCode;
     private final IonicMobiLangDirectiveParser directiveParser;
     private final InputTagParser inputParser;
     private Tag parsedStructure;
+    private List<String> parsedCode;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public IonicStructureParser(Tag structure) {
-        this.structure = structure;
+    public IonicStructureParser() {
         inputFields = new ArrayList<>();
-        parsedCode = new ArrayList<>();
         directiveParser = new IonicMobiLangDirectiveParser();
         inputParser = new InputTagParser();
+        parsedCode = new ArrayList<>();
         parsedStructure = Tag.getEmptyInstance();
     }
 
@@ -35,17 +33,20 @@ public class IonicStructureParser {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public List<String> parse() {
+    public void parse(Tag structure) {
+        setUpParser(structure);
         runInputProcessor();
         runDirectiveParser();
+    }
 
-        return parsedCode;
+    private Tag setUpParser(Tag structure) {
+        return parsedStructure = structure.clone();
     }
 
     private void runInputProcessor() {
         Stack<Tag> toParse = new Stack<>();
         
-        parsedStructure = structure.clone();
+        
         toParse.add(parsedStructure);
 
         while (!toParse.isEmpty()) {
@@ -65,7 +66,7 @@ public class IonicStructureParser {
 
     private void runDirectiveParser() {
         directiveParser.parse(parsedStructure.toCode());
-        parsedCode.addAll(directiveParser.getParsedCode());
+        parsedCode = directiveParser.getParsedCode();
     }
 
 
@@ -74,5 +75,9 @@ public class IonicStructureParser {
     //-------------------------------------------------------------------------
     public List<String> getInputIds() {
         return inputFields;
+    }
+
+    public List<String> getParsedCode() {
+        return parsedCode;
     }
 }

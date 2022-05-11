@@ -29,12 +29,12 @@ class InputTagParser {
     public void parse(Tag tag) {
         parsedTag = tag.clone();
         
-        if (tag.hasAttribute("onclick")) {
-            parseTagWithOnClick(parsedTag);
+        if (tag.getName().equals("input")) {
+            parseInputTag(parsedTag);
         }
     }
 
-    private void parseTagWithOnClick(Tag tag) {
+    private void parseInputTag(Tag tag) {
         if (!tag.hasAttribute("id")) {
             throw new IllegalStateException("Every input tag must have an id");
         }
@@ -42,7 +42,6 @@ class InputTagParser {
         String id = "input_" + tag.getAttribute("id");
         
         tag.addAttribute("[(ngModel)]", id);
-        tag.removeAttribute("onclick");
         
         inputFields.add(id);
     }

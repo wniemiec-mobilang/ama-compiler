@@ -11,7 +11,6 @@ public class IonicStructureParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final List<String> inputFields;
     private final IonicMobiLangDirectiveParser directiveParser;
     private final InputTagParser inputParser;
     private Tag parsedStructure;
@@ -22,7 +21,6 @@ public class IonicStructureParser {
     //		Constructor
     //-------------------------------------------------------------------------
     public IonicStructureParser() {
-        inputFields = new ArrayList<>();
         directiveParser = new IonicMobiLangDirectiveParser();
         inputParser = new InputTagParser();
         parsedCode = new ArrayList<>();
@@ -74,7 +72,7 @@ public class IonicStructureParser {
     //		Getters
     //-------------------------------------------------------------------------
     public List<String> getInputIds() {
-        return inputFields;
+        return inputParser.getInputIds();
     }
 
     public List<String> getParsedCode() {

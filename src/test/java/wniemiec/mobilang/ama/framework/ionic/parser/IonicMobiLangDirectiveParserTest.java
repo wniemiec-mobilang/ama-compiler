@@ -33,7 +33,7 @@ class IonicMobiLangDirectiveParserTest {
         withCode(
             "window.location.href(\"mobilang::screen::foo?id=2\")"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "window.location.href(\"foo/id=2\")"
         );
@@ -44,7 +44,7 @@ class IonicMobiLangDirectiveParserTest {
         withCode(
             "window.location.href('mobilang::screen::foo?id=2')"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "window.location.href('foo/id=2')"
         );
@@ -55,7 +55,7 @@ class IonicMobiLangDirectiveParserTest {
         withCode(
             "window.location.href(\"mobilang::screen::foo?id=2&value=something\")"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "window.location.href(\"foo/id=2&value=something\")"
         );
@@ -66,7 +66,7 @@ class IonicMobiLangDirectiveParserTest {
         withCode(
             "window.location.href('mobilang::screen::foo?id=2&value=something')"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "window.location.href('foo/id=2&value=something')"
         );
@@ -77,7 +77,7 @@ class IonicMobiLangDirectiveParserTest {
         withCode(
             "window.location.href(\"mobilang::screen::foo\")"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "window.location.href(\"foo\")"
         );
@@ -88,7 +88,7 @@ class IonicMobiLangDirectiveParserTest {
         withCode(
             "window.location.href('mobilang::screen::foo')"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "window.location.href('foo')"
         );
@@ -99,7 +99,7 @@ class IonicMobiLangDirectiveParserTest {
         withCode(
             "const bar = \"mobilang::input::foo\""
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "const bar = this._input_foo"
         );
@@ -110,7 +110,7 @@ class IonicMobiLangDirectiveParserTest {
         withCode(
             "const bar = \'mobilang::input::foo\'"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "const bar = this._input_foo"
         );
@@ -121,7 +121,7 @@ class IonicMobiLangDirectiveParserTest {
         withCode(
             "const id = \"mobilang::param::id\""
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "const id = this.routeParams.snapshot.params.q.split('id=')[1].split('&')[0]"
         );
@@ -132,7 +132,7 @@ class IonicMobiLangDirectiveParserTest {
         withCode(
             "const id = 'mobilang::param::id'"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "const id = this.routeParams.snapshot.params.q.split('id=')[1].split('&')[0]"
         );
@@ -146,7 +146,7 @@ class IonicMobiLangDirectiveParserTest {
         code = Arrays.asList(lines);
     }
 
-    private void runParser() {
+    private void doParsing() {
         directiveParser.parse(code);
     }
 

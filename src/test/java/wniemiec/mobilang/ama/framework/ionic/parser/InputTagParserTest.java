@@ -1,14 +1,11 @@
 package wniemiec.mobilang.ama.framework.ionic.parser;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import wniemiec.mobilang.ama.models.tag.Tag;
+
 
 class InputTagParserTest {
     
@@ -16,6 +13,7 @@ class InputTagParserTest {
     //		Attributes
     //-------------------------------------------------------------------------
     private InputTagParser parser;
+    private Tag rootTag;
     
 
     //-------------------------------------------------------------------------
@@ -24,6 +22,7 @@ class InputTagParserTest {
     @BeforeEach
     void setUp() {
         parser = new InputTagParser();
+        rootTag = Tag.getEmptyInstance();
     }
 
 
@@ -32,29 +31,59 @@ class InputTagParserTest {
     //-------------------------------------------------------------------------
     @Test
     void testSimpleInputWithId() {
-        Map<String, String> attributes = new HashMap<>();
-        
-        attributes.put("onclick", "alert('hey!! you pressed the button!')");
-        attributes.put("id", "fooId");
-        Tag buttonTag = new Tag("button", attributes);
-
-        parser.parse(buttonTag);
-
-        List<String> expectedInputIds = List.of("input_fooId");
-
-        Assertions.assertFalse(parser.getParsedTag().hasAttribute("onclick"));
-        Assertions.assertEquals(expectedInputIds, parser.getInputIds());
+        withRootTag(buildButtonWithOnClickAndId());
+        doParsing();
+        assertParsedTagDoesNotHaveOnClickAttribute();
+        assertContainsInputIds("input_fooId");
     }
 
     @Test
     void testSimpleInputWithoutId() {
-        Map<String, String> attributes = new HashMap<>();
-        
-        attributes.put("onclick", "alert('hey!! you pressed the button!')");
-        Tag buttonTag = new Tag("button", attributes);
+        withRootTag(buildButtonWithOnClick());
 
         Assertions.assertThrows(IllegalStateException.class, () -> {
-            parser.parse(buttonTag);
+            doParsing();
         });
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    private Tag buildButtonWithOnClickAndId() {
+        Tag buttonTag = new Tag("button");
+        
+        buttonTag.addAttribute("onclick", "alert('hey!! you pressed the button!')");
+        buttonTag.addAttribute("id", "fooId");
+        
+        return buttonTag;
+    }
+
+    private void withRootTag(Tag tag) {
+        rootTag = tag;
+    }
+
+    private void doParsing() {
+        parser.parse(rootTag);
+    }
+
+    private void assertParsedTagDoesNotHaveOnClickAttribute() {
+        Assertions.assertFalse(parser.getParsedTag().hasAttribute("onclick"));
+    }
+
+    private void assertContainsInputIds(String... expectedInputIds) {
+        List<String> obtainedInputIds = parser.getInputIds();
+
+        for (String expectedId : expectedInputIds) {
+            Assertions.assertTrue(obtainedInputIds.contains(expectedId));
+        }
+    }
+
+    private Tag buildButtonWithOnClick() {
+        Tag buttonTag = new Tag("button");
+        
+        buttonTag.addAttribute("onclick", "alert('hey!! you pressed the button!')");
+        
+        return buttonTag;
     }
 }

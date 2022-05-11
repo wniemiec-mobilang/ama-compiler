@@ -35,7 +35,7 @@ class FunctionParserTest {
             "    return n1 + n2;",
             "}"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "const sum = (n1, n2) => {",
             "    return n1 + n2;",
@@ -50,7 +50,7 @@ class FunctionParserTest {
             "    return 2 + 3;",
             "}"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "const sum = () => {",
             "    return 2 + 3;",
@@ -66,7 +66,7 @@ class FunctionParserTest {
             "    return 2 + 3;",
             "}"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "const sum = () => ",
             "{",
@@ -82,7 +82,7 @@ class FunctionParserTest {
             "    return n1 + n2;",
             "}"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "const sum = (n1, n2) => {",
             "    return n1 + n2;",
@@ -100,7 +100,7 @@ class FunctionParserTest {
             "res = sum(4,3)",
             "console.log(res)"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "let res = 0.0",
             "const sum = (n1, n2) => {",
@@ -118,7 +118,7 @@ class FunctionParserTest {
             "res = 4 + 3",
             "console.log(res)"
         );
-        runParser();
+        doParsing();
         assertCodeEquals(
             "let res = 0.0",
             "res = 4 + 3",
@@ -129,14 +129,14 @@ class FunctionParserTest {
     @Test
     void testEmptyCode() {
         withCode("");
-        runParser();
+        doParsing();
         assertCodeEquals("");
     }
 
     @Test
     void testNullCode() {
         withCode();
-        runParser();
+        doParsing();
         assertCodeEquals();
     }
 
@@ -148,7 +148,7 @@ class FunctionParserTest {
         code = Arrays.asList(lines);
     }
 
-    private void runParser() {
+    private void doParsing() {
         parser.parse(code);
     }
 

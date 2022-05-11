@@ -22,25 +22,22 @@ public class Tag implements Cloneable {
     private Tag parent;
     private Map<String, String> attributes;
     private Map<String, String> style;
+    private boolean voidTag;
 
 
     //-------------------------------------------------------------------------
     //		Constructors
     //-------------------------------------------------------------------------
-    public Tag(String name) {
-        this(name, new HashMap<>());
+    private Tag(String name, boolean voidTag) {
+        this(name, new HashMap<>(), voidTag);
     }
 
-    public Tag(String name, Map<String, String> tagAttributes) {
-        this(name, tagAttributes, null);
-    }
-
-    public Tag(String name, Map<String, String> tagAttributes, String value) {
+    public Tag(String name, Map<String, String> tagAttributes, boolean voidTag) {
         this.name = name;
         this.attributes = tagAttributes;
-        this.value = value;
         children = new ArrayList<>();
         style = new HashMap<>();
+        this.voidTag = voidTag;
     }
     
 
@@ -48,7 +45,15 @@ public class Tag implements Cloneable {
     //		Factories
     //-------------------------------------------------------------------------
     public static Tag getEmptyInstance() {
-        return new Tag("null");
+        return new Tag("null", true);
+    }
+
+    public static Tag getNormalInstance(String name) {
+        return new Tag(name, false);
+    }
+
+    public static Tag getVoidInstance(String name) {
+        return new Tag(name, true);
     }
     
 
@@ -56,10 +61,11 @@ public class Tag implements Cloneable {
     //		Methods
     //-------------------------------------------------------------------------
     public Tag clone() {
-        Tag clonedTag = new Tag(name, attributes, value);
+        Tag clonedTag = new Tag(name, attributes, voidTag);
 
         clonedTag.setStyle(new HashMap<>(style));
         clonedTag.setParent(parent);
+        clonedTag.setValue(value);
 
         this.getChildren().forEach(child -> {
             clonedTag.addChild(child.clone());
@@ -163,20 +169,33 @@ public class Tag implements Cloneable {
     public List<String> toCode() {
         List<String> code = new ArrayList<>();
 
-        code.add(buildTagOpen());
-        
-        if (getValue() != null) {
-            code.add(getValue());
+        if (isVoidTag()) {
+            code.add(buildVoidTag());
         }
         else {
-            for (Tag child : getChildren()) {
-                code.addAll(child.toCode());
+            code.add(buildTagOpen());
+
+            if (getValue() != null) {
+                code.add(getValue());
             }
+            else {
+                for (Tag child : getChildren()) {
+                    code.addAll(child.toCode());
+                }
+            }
+
+            code.add(buildTagClose());
         }
 
-        code.add(buildTagClose());
-
         return code;
+    }
+
+    private boolean isVoidTag() {
+        return voidTag;
+    }
+
+    private String buildVoidTag() {
+        return buildTagOpen().replace(">", "/>");
     }
 
     private String buildTagOpen() {
@@ -189,7 +208,7 @@ public class Tag implements Cloneable {
             code.append(' ');
             code.append(stringifyAttributes());
         }
-        
+
         code.append('>');
 
         return code.toString();

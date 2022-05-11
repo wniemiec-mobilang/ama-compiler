@@ -50,7 +50,7 @@ class InputTagParserTest {
     //		Methods
     //-------------------------------------------------------------------------
     private Tag buildInputWithId(String id) {
-        Tag inputTag = new Tag("input");
+        Tag inputTag = Tag.getVoidInstance("input");
         
         inputTag.addAttribute("id", id);
         
@@ -74,6 +74,6 @@ class InputTagParserTest {
     }
 
     private Tag buildInputWithoutId() {
-        return new Tag("input");
+        return Tag.getVoidInstance("input");
     }
 }

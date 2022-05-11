@@ -36,7 +36,7 @@ class IonicStructureParserTest {
     void testInputWithId() {
         withRootTag(buildInputWithId("foo"));
         doParsing();
-        assertCodeEquals("<input [(ngModel)]=\"input_foo\" id=\"foo\">");
+        assertCodeEquals("<input [(ngModel)]=\"input_foo\" id=\"foo\"/>");
         assertContainsInputIds("input_foo");
     }
 
@@ -45,7 +45,7 @@ class IonicStructureParserTest {
     //		Methods
     //-------------------------------------------------------------------------
     private Tag buildInputWithId(String id) {
-        Tag inputTag = new Tag("input");
+        Tag inputTag = Tag.getVoidInstance("input");
         
         inputTag.addAttribute("id", id);
         
@@ -53,7 +53,7 @@ class IonicStructureParserTest {
     }
 
     private Tag buildButtonWithOnClickAndId() {
-        Tag buttonTag = new Tag("button");
+        Tag buttonTag = Tag.getNormalInstance("button");
         
         buttonTag.addAttribute("onclick", "alert('hey!! you pressed the button!')");
         buttonTag.addAttribute("id", "fooId");
@@ -62,7 +62,7 @@ class IonicStructureParserTest {
     }
 
     private Tag buildHomeButtonWithOnClickAndScreenDirective() {
-        Tag buttonTag = new Tag("button");
+        Tag buttonTag = Tag.getNormalInstance("button");
         
         buttonTag.addAttribute("onclick", "window.location.href=\"mobilang::screen::home\"");
         buttonTag.addAttribute("id", "btn-home");

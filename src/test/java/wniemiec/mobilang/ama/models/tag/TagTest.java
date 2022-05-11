@@ -11,12 +11,14 @@ class TagTest {
 
     @Test
     void testClone() {
-        Tag htmlTag = new Tag("html");
-        Tag headTag = new Tag("head");
-        Tag titleTag = new Tag("title", new HashMap<>(), "foo title");
-        Tag bodyTag = new Tag("body");
-        Tag divTag = new Tag("div");
-        Tag pTag = new Tag("p", new HashMap<>(), "some text");
+        Tag htmlTag = Tag.getNormalInstance("html");
+        Tag headTag = Tag.getNormalInstance("head");
+        Tag titleTag = Tag.getNormalInstance("title");
+        titleTag.setValue("foo title");
+        Tag bodyTag = Tag.getNormalInstance("body");
+        Tag divTag = Tag.getNormalInstance("div");
+        Tag pTag = Tag.getNormalInstance("p");
+        pTag.setValue("some text");
 
         htmlTag.addChild(headTag);
         headTag.addChild(titleTag);

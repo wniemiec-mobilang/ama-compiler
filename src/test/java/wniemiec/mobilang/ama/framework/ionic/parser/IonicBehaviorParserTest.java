@@ -1,12 +1,10 @@
 package wniemiec.mobilang.ama.framework.ionic.parser;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.models.behavior.AssignmentExpression;
 import wniemiec.mobilang.ama.models.behavior.Behavior;
@@ -14,14 +12,11 @@ import wniemiec.mobilang.ama.models.behavior.BlockStatement;
 import wniemiec.mobilang.ama.models.behavior.Declaration;
 import wniemiec.mobilang.ama.models.behavior.Declarator;
 import wniemiec.mobilang.ama.models.behavior.Expression;
-import wniemiec.mobilang.ama.models.behavior.ExpressionStatement;
 import wniemiec.mobilang.ama.models.behavior.FunctionDeclaration;
 import wniemiec.mobilang.ama.models.behavior.Identifier;
 import wniemiec.mobilang.ama.models.behavior.Instruction;
 import wniemiec.mobilang.ama.models.behavior.Literal;
 import wniemiec.mobilang.ama.models.behavior.ReturnStatement;
-import wniemiec.mobilang.ama.models.behavior.Variable;
-import wniemiec.mobilang.ama.models.tag.Tag;
 
 
 class IonicBehaviorParserTest {
@@ -45,13 +40,6 @@ class IonicBehaviorParserTest {
     //-------------------------------------------------------------------------
     //		Tests
     //-------------------------------------------------------------------------
-    /*
-        let id = "mobilang::param::id";
-        let foo = "mobilang::input::foo"
-        function sum(n1, n2) {
-            return n1 + n2;
-        }
-        */
     @Test
     void testParamDirective() throws CoderException {
         withBehavior(buildDeclarationWithIdAndAssignment("id", "mobilang::param::id"));
@@ -85,6 +73,15 @@ class IonicBehaviorParserTest {
             "    return arg1 + arg2;",
             "}"
         );
+    }
+
+    @Test
+    void testNullBehavior() throws CoderException {
+        withBehavior(null);
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            doParsing();
+        });
     }
 
     

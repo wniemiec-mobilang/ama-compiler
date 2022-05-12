@@ -37,9 +37,16 @@ public class IonicBehaviorParser {
     //		Methods
     //-------------------------------------------------------------------------
     public void parse(Behavior behavior) throws CoderException {
+        validateArgument(behavior);
         runBabel(behavior);
         runFunctionProcessor();
         runDirectiveParser();
+    }
+
+    private void validateArgument(Behavior behavior) {
+        if (behavior == null) {
+            throw new IllegalArgumentException("Behavior cannot be null");
+        }
     }
 
     private void runBabel(Behavior behavior) throws CoderException {

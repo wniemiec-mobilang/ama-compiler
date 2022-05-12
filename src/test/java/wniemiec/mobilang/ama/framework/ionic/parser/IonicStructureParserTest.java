@@ -47,6 +47,13 @@ class IonicStructureParserTest {
         assertHasEvent("onclick");
     }
 
+    @Test
+    void testLinkTagWithHrefWithScreenDirective() {
+        withRootTag(buildLinkWithHrefWithScreenDirective());
+        doParsing();
+        assertCodeEquals("<a href=\"home\"/>");
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods
@@ -68,14 +75,12 @@ class IonicStructureParserTest {
         return buttonTag;
     }
 
-    private Tag buildHomeButtonWithOnClickAndScreenDirective() {
-        Tag buttonTag = Tag.getNormalInstance("button");
+    private Tag buildLinkWithHrefWithScreenDirective() {
+        Tag aTag = Tag.getVoidInstance("a");
         
-        buttonTag.addAttribute("onclick", "window.location.href=\"mobilang::screen::home\"");
-        buttonTag.addAttribute("id", "btn-home");
-        buttonTag.setValue("Home");
+        aTag.addAttribute("href", "mobilang::screen::home");
         
-        return buttonTag;
+        return aTag;
     }
 
     private void withRootTag(Tag tag) {
@@ -123,6 +128,14 @@ class IonicStructureParserTest {
     }
 
     private void assertHasEvent(String event) {
-        Assertions.assertTrue(parser.getEvents().containsKey(event));
+        Assertions.assertTrue(getFirstEventFromParser().contains(event));
+    }
+
+    private String getFirstEventFromParser() {
+        return parser
+            .getEvents()
+            .values()
+            .iterator()
+            .next();
     }
 }

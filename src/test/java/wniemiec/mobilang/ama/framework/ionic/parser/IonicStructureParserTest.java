@@ -40,6 +40,13 @@ class IonicStructureParserTest {
         assertContainsInputIds("input_foo");
     }
 
+    @Test
+    void testButtonWithOnClick() {
+        withRootTag(buildButtonWithOnClickAndValue("Foo"));
+        doParsing();
+        assertHasEvent("onclick");
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods
@@ -52,11 +59,11 @@ class IonicStructureParserTest {
         return inputTag;
     }
 
-    private Tag buildButtonWithOnClickAndId() {
+    private Tag buildButtonWithOnClickAndValue(String value) {
         Tag buttonTag = Tag.getNormalInstance("button");
         
         buttonTag.addAttribute("onclick", "alert('hey!! you pressed the button!')");
-        buttonTag.addAttribute("id", "fooId");
+        buttonTag.setValue(value);
         
         return buttonTag;
     }
@@ -113,5 +120,9 @@ class IonicStructureParserTest {
         for (String expectedId : expectedInputIds) {
             Assertions.assertTrue(obtainedInputIds.contains(expectedId));
         }
+    }
+
+    private void assertHasEvent(String event) {
+        Assertions.assertTrue(parser.getEvents().containsKey(event));
     }
 }

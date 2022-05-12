@@ -2,6 +2,7 @@ package wniemiec.mobilang.ama.framework.ionic.parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import wniemiec.mobilang.ama.models.tag.Tag;
 
@@ -13,6 +14,7 @@ public class IonicStructureParser {
     //-------------------------------------------------------------------------
     private final IonicMobiLangDirectiveParser directiveParser;
     private final InputTagParser inputParser;
+    private final EventTagParser eventParser;
     private Tag parsedStructure;
     private List<String> parsedCode;
 
@@ -23,6 +25,7 @@ public class IonicStructureParser {
     public IonicStructureParser() {
         directiveParser = new IonicMobiLangDirectiveParser();
         inputParser = new InputTagParser();
+        eventParser = new EventTagParser();
         parsedCode = new ArrayList<>();
         parsedStructure = Tag.getEmptyInstance();
     }
@@ -37,21 +40,24 @@ public class IonicStructureParser {
         runDirectiveParser();
     }
 
-    private Tag setUpParser(Tag structure) {
-        return parsedStructure = structure.clone();
+    private void setUpParser(Tag structure) {
+        parsedStructure = structure.clone();
     }
 
     private void runInputProcessor() {
         Stack<Tag> toParse = new Stack<>();
         
-        
         toParse.add(parsedStructure);
 
         while (!toParse.isEmpty()) {
             Tag currentTag = toParse.pop();
+            Tag parsedTag = currentTag;
     
-            inputParser.parse(currentTag);
-            Tag parsedTag = inputParser.getParsedTag();
+            inputParser.parse(parsedTag);
+            parsedTag = inputParser.getParsedTag();
+
+            eventParser.parse(parsedTag);
+            parsedTag = eventParser.getParsedTag();
 
             currentTag.setAttributes(parsedTag.getAttributes());
             currentTag.setName(parsedTag.getName());
@@ -73,6 +79,10 @@ public class IonicStructureParser {
     //-------------------------------------------------------------------------
     public List<String> getInputIds() {
         return inputParser.getInputIds();
+    }
+
+    public Map<String, String> getEvents() {
+        return eventParser.getEvents();
     }
 
     public List<String> getParsedCode() {

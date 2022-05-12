@@ -115,8 +115,9 @@ class IonicScreensCoder {
     }
 
     private CodeFile buildPageFileCode(ScreenData screen) throws CoderException {
-        IonicBehaviorParser behaviorProcessor = new IonicBehaviorParser(screen.getBehavior());
-        List<String> behaviorCode = behaviorProcessor.parse();
+        IonicBehaviorParser behaviorProcessor = new IonicBehaviorParser();
+        behaviorProcessor.parse(screen.getBehavior());
+        List<String> behaviorCode = behaviorProcessor.getParsedCode();
 
         List<String> code = new ArrayList<>();
         String name = StringUtils.capitalize(screen.getName());

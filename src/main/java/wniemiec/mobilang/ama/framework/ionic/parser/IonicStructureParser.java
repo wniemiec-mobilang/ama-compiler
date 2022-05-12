@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import java.util.function.UnaryOperator;
 import wniemiec.mobilang.ama.models.tag.Tag;
 
 
@@ -35,41 +36,64 @@ public class IonicStructureParser {
     //		Methods
     //-------------------------------------------------------------------------
     public void parse(Tag structure) {
+        validateArg(structure);
+        setUpParser(structure);
+        runInputParser();
+        runEventParser();
+        runDirectiveParser();
+    }
+
+    private void validateArg(Tag structure) {
         if (structure == null) {
             throw new IllegalArgumentException("Structure tag cannot be null");
         }
-
-        setUpParser(structure);
-        runInputProcessor();
-        runDirectiveParser();
     }
 
     private void setUpParser(Tag structure) {
         parsedStructure = structure.clone();
     }
 
-    private void runInputProcessor() {
+    private void runInputParser() {
+        runStructureParser(currentTag -> {
+            inputParser.parse(currentTag);
+            
+            return inputParser.getParsedTag();
+        });
+    }
+
+    private void runStructureParser(UnaryOperator<Tag> parser) {
         Stack<Tag> toParse = new Stack<>();
         
         toParse.add(parsedStructure);
 
         while (!toParse.isEmpty()) {
             Tag currentTag = toParse.pop();
-            Tag parsedTag = currentTag;
-    
-            inputParser.parse(parsedTag);
-            parsedTag = inputParser.getParsedTag();
-
-            eventParser.parse(parsedTag);
-            parsedTag = eventParser.getParsedTag();
-
-            currentTag.setAttributes(parsedTag.getAttributes());
-            currentTag.setName(parsedTag.getName());
-            currentTag.setStyle(parsedTag.getStyle());
-            currentTag.setValue(parsedTag.getValue());
+            
+            parseTag(parser, currentTag);
 
             currentTag.getChildren().forEach(toParse::push);
         }
+    }
+
+    private void parseTag(UnaryOperator<Tag> parser, Tag currentTag) {
+        Tag parsedTag = parser.apply(currentTag);
+
+        replaceTagWith(currentTag, parsedTag);
+    }
+
+    private void replaceTagWith(Tag base, Tag target) {
+        base.setAttributes(target.getAttributes());
+        base.setName(target.getName());
+        base.setStyle(target.getStyle());
+        base.setValue(target.getValue());
+    }
+
+    private void runEventParser() {
+        runStructureParser(currentTag -> {
+            eventParser.parse(currentTag);
+            
+            return eventParser.getParsedTag();
+        });
     }
 
     private void runDirectiveParser() {

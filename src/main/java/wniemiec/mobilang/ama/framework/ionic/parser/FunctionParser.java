@@ -9,14 +9,14 @@ class FunctionParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private List<String> convertedCode;
+    private List<String> parsedCode;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
     public FunctionParser() {
-        convertedCode = new ArrayList<>();
+        parsedCode = new ArrayList<>();
     }
     
 
@@ -28,27 +28,41 @@ class FunctionParser {
             return;
         }
 
-        // TODO: compatibility with multi-line parameters
-        convertedCode = new ArrayList<>();
+        parsedCode = new ArrayList<>();
 
         for (String line : code) {
-            String parsedLine = line;
-
-            if (line.matches(".*([\\s\\t]+|)function([\\s\\t]+).*")) {
-                parsedLine = line.replaceAll("function([\\s\\t]+)", "const ");
-
-                int idxParametersBegin = parsedLine.indexOf("(");
-                int idxParametersEnd = parsedLine.lastIndexOf(")");
-                parsedLine = 
-                parsedLine.substring(0, idxParametersBegin)
-                    + " = "
-                    + parsedLine.substring(idxParametersBegin, idxParametersEnd + 1)
-                    + " => " 
-                    + parsedLine.substring(idxParametersEnd + 1);
-            }
-
-            convertedCode.add(parsedLine);
+            parsedCode.add(parseLine(line));
         }
+    }
+
+    private String parseLine(String line) {
+        // TODO: compatibility with multi-line parameters
+        String parsedLine = line;
+
+        if (hasFunction(line)) {
+            parsedLine = convertFunctionToArrowFunction(line);
+        }
+
+        return parsedLine;
+    }
+
+    private boolean hasFunction(String line) {
+        return line.matches(".*([\\s\\t]+|)function([\\s\\t]+).*");
+    }
+
+    private String convertFunctionToArrowFunction(String line) {
+        StringBuilder parsedLine = new StringBuilder();
+        int idxParametersBegin = line.indexOf("(");
+        int idxParametersEnd = line.lastIndexOf(")");
+        String functionHeader = line.substring(0, idxParametersBegin);
+
+        parsedLine.append(functionHeader.replaceAll("function([\\s\\t]+)", "const "));
+        parsedLine.append(" = ");
+        parsedLine.append(line.substring(idxParametersBegin, idxParametersEnd + 1));
+        parsedLine.append(" => ");
+        parsedLine.append(line.substring(idxParametersEnd + 1));
+
+        return parsedLine.toString();
     }
 
 
@@ -56,6 +70,6 @@ class FunctionParser {
     //		Getters
     //-------------------------------------------------------------------------
     public List<String> getParsedCode() {
-        return convertedCode;
+        return parsedCode;
     }
 }

@@ -21,8 +21,8 @@ class InputTagParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        parser = new InputTagParser();
         rootTag = Tag.getEmptyInstance();
+        parser = new InputTagParser();
     }
 
 

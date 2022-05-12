@@ -2,11 +2,9 @@ package wniemiec.mobilang.ama.framework.ionic.parser;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import wniemiec.mobilang.ama.models.tag.Tag;
 
 

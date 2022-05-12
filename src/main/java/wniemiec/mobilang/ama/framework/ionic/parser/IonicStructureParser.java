@@ -35,6 +35,10 @@ public class IonicStructureParser {
     //		Methods
     //-------------------------------------------------------------------------
     public void parse(Tag structure) {
+        if (structure == null) {
+            throw new IllegalArgumentException("Structure tag cannot be null");
+        }
+
         setUpParser(structure);
         runInputProcessor();
         runDirectiveParser();

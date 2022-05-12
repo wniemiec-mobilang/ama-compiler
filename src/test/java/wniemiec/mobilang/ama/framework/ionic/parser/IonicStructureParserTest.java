@@ -54,6 +54,15 @@ class IonicStructureParserTest {
         assertCodeEquals("<a href=\"home\"/>");
     }
 
+    @Test
+    void testNullTag() {
+        withRootTag(null);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            doParsing();
+        });
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods

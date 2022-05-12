@@ -1,7 +1,5 @@
 package wniemiec.mobilang.ama.framework.ionic.parser;
 
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,6 +36,15 @@ class EventTagParserTest {
         assertHasEvent("onclick");
     }
 
+    @Test
+    void testNullTag() {
+        withRootTag(null);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            doParsing();
+        });
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods
@@ -64,6 +71,14 @@ class EventTagParserTest {
     }
 
     private void assertHasEvent(String event) {
-        Assertions.assertTrue(parser.getEvents().containsKey(event));
+        Assertions.assertTrue(getFirstEventFromParser().contains(event));
+    }
+
+    private String getFirstEventFromParser() {
+        return parser
+            .getEvents()
+            .values()
+            .iterator()
+            .next();
     }
 }

@@ -41,6 +41,10 @@ class EventTagParser {
     //		Methods
     //-------------------------------------------------------------------------
     public void parse(Tag tag) {
+        if (tag == null) {
+            throw new IllegalArgumentException("Tag cannot be null");
+        }
+
         parsedTag = tag.clone();
         
         if (tag.hasAttribute(ATTRIBUTE_ONCLICK)) {
@@ -53,7 +57,7 @@ class EventTagParser {
         
         tag.addAttribute("id", id);
         
-        events.put(id, "onclick = () => " + tag.getAttribute(ATTRIBUTE_ONCLICK));
+        events.put(id, "onclick = () => {" + tag.getAttribute(ATTRIBUTE_ONCLICK) + "}");
 
         tag.removeAttribute(ATTRIBUTE_ONCLICK);
     }

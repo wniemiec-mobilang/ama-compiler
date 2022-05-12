@@ -15,9 +15,11 @@ import wniemiec.mobilang.ama.models.behavior.Declaration;
 import wniemiec.mobilang.ama.models.behavior.Declarator;
 import wniemiec.mobilang.ama.models.behavior.Expression;
 import wniemiec.mobilang.ama.models.behavior.ExpressionStatement;
+import wniemiec.mobilang.ama.models.behavior.FunctionDeclaration;
 import wniemiec.mobilang.ama.models.behavior.Identifier;
 import wniemiec.mobilang.ama.models.behavior.Instruction;
 import wniemiec.mobilang.ama.models.behavior.Literal;
+import wniemiec.mobilang.ama.models.behavior.ReturnStatement;
 import wniemiec.mobilang.ama.models.behavior.Variable;
 import wniemiec.mobilang.ama.models.tag.Tag;
 
@@ -61,6 +63,34 @@ class IonicBehaviorParserTest {
         );
     }
 
+    @Test
+    void testInputDirective() throws CoderException {
+        withBehavior(buildDeclarationWithIdAndAssignment("foo", "mobilang::input::foo"));
+        doParsing();
+        assertCodeEquals(
+            "\"use strict\";",
+            "",
+            "var foo = this._input_foo;"
+        );
+    }
+
+    @Test
+    void testFunctionToArrowFunction() throws CoderException {
+        withBehavior(buildSumFunctionBetweenTwoNumbers());
+        doParsing();
+        assertCodeEquals(
+            "\"use strict\";",
+            "",
+            "const sum = (n1, n2) => {",
+            "    return n1 + n2;",
+            "}"
+        );
+    }
+
+    
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
     private Behavior buildDeclarationWithIdAndAssignment(String id, String assignment) {
         Declaration declaration = buildLiteralDeclaration(id, assignment);
 
@@ -82,10 +112,6 @@ class IonicBehaviorParserTest {
         return new Behavior(Arrays.asList(declarations));
     }
 
-
-    //-------------------------------------------------------------------------
-    //		Methods
-    //-------------------------------------------------------------------------
     private void withBehavior(Behavior behavior) {
         this.behavior = behavior;
     }
@@ -122,5 +148,40 @@ class IonicBehaviorParserTest {
         return text.replaceAll("[\\s\\t]+", "");
     }
 
-    
+    private Behavior buildSumFunctionBetweenTwoNumbers() {
+        Expression arg1 = new Literal("arg1");
+        Expression arg2 = new Literal("arg2");
+        Instruction functionReturn = buildFunctionReturn(buildSumExpression(arg1, arg2));
+        FunctionDeclaration function = buildFunction(
+            "sum",
+            buildFunctionParameters(arg1, arg2),
+            buildFunctionBody(functionReturn)
+        );
+
+        return buildBehaviorWith(function);
+    }
+
+    private AssignmentExpression buildSumExpression(Expression arg1, Expression arg2) {
+        return new AssignmentExpression("+", arg1, arg2);
+    }
+
+    private Instruction buildFunctionReturn(Expression returnExpression) {
+        return new ReturnStatement(returnExpression);
+    }
+
+    private List<Expression> buildFunctionParameters(Expression... params) {
+        return Arrays.asList(params);
+    }
+
+    private Instruction buildFunctionBody(Instruction... instructions) {
+        return new BlockStatement(Arrays.asList(instructions));
+    }
+
+    private FunctionDeclaration buildFunction(
+        String name, 
+        List<Expression> parameters, 
+        Instruction body
+    ) {
+        return new FunctionDeclaration(name, false, parameters, body);
+    }
 }

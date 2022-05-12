@@ -2,31 +2,29 @@ package wniemiec.mobilang.ama.parser.screens.behavior.instruction;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import wniemiec.mobilang.ama.models.behavior.FunctionDeclaration;
 import wniemiec.mobilang.ama.models.behavior.Instruction;
+import wniemiec.mobilang.ama.models.behavior.ReturnStatement;
 import wniemiec.mobilang.ama.parser.exception.ParseException;
 import wniemiec.mobilang.ama.parser.screens.behavior.expression.ExpressionParser;
 
 
 /**
- * Responsible for parsing function declarations from behavior node from 
- * MobiLang AST.
+ * Responsible for parsing return statements from behavior node from MobiLang 
+ * AST.
  */
-class FunctionDeclarationInstructionJsonParser implements InstructionJsonParser {
-
+class ReturnStatementInstructionJsonParser implements InstructionJsonParser {
+    
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private static FunctionDeclarationInstructionJsonParser instance;
-    private final InstructionParser instructionParser;
+    private static ReturnStatementInstructionJsonParser instance;
     private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    private FunctionDeclarationInstructionJsonParser() {
-        instructionParser = InstructionParser.getInstance();
+    private ReturnStatementInstructionJsonParser() {
         expressionParser = ExpressionParser.getInstance();
     }
 
@@ -34,9 +32,9 @@ class FunctionDeclarationInstructionJsonParser implements InstructionJsonParser 
     //-------------------------------------------------------------------------
     //		Factory
     //-------------------------------------------------------------------------
-    public static FunctionDeclarationInstructionJsonParser getInstance() {
+    public static ReturnStatementInstructionJsonParser getInstance() {
         if (instance == null) {
-            instance = new FunctionDeclarationInstructionJsonParser();
+            instance = new ReturnStatementInstructionJsonParser();
         }
 
         return instance;
@@ -49,11 +47,13 @@ class FunctionDeclarationInstructionJsonParser implements InstructionJsonParser 
     @Override
     public Instruction parse(JSONObject jsonObject) 
     throws JSONException, ParseException {
-        return new FunctionDeclaration(
-            jsonObject.getJSONObject("id").getString("name"), 
-            jsonObject.getBoolean("async"),
-            expressionParser.parse(jsonObject.getJSONArray("params")),
-            instructionParser.parse(jsonObject.getJSONObject("body"))
+        if (!jsonObject.has("argument")) {
+            return new ReturnStatement(null);    
+        }
+
+        return new ReturnStatement(
+            expressionParser.parse(jsonObject.getJSONObject("argument"))
         );
     }
 }
+

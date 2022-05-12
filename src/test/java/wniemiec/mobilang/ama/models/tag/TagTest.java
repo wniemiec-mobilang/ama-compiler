@@ -1,13 +1,11 @@
 package wniemiec.mobilang.ama.models.tag;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.HashMap;
-import java.util.Stack;
-
 import org.junit.jupiter.api.Test;
 
+
 class TagTest {
+    // TODO: refactor this code
 
     @Test
     void testClone() {

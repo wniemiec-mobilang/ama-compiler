@@ -81,8 +81,8 @@ class IonicBehaviorParserTest {
         assertCodeEquals(
             "\"use strict\";",
             "",
-            "const sum = (n1, n2) => {",
-            "    return n1 + n2;",
+            "const sum = (arg1, arg2) => {",
+            "    return arg1 + arg2;",
             "}"
         );
     }
@@ -149,8 +149,8 @@ class IonicBehaviorParserTest {
     }
 
     private Behavior buildSumFunctionBetweenTwoNumbers() {
-        Expression arg1 = new Literal("arg1");
-        Expression arg2 = new Literal("arg2");
+        Expression arg1 = new Identifier("arg1");
+        Expression arg2 = new Identifier("arg2");
         Instruction functionReturn = buildFunctionReturn(buildSumExpression(arg1, arg2));
         FunctionDeclaration function = buildFunction(
             "sum",

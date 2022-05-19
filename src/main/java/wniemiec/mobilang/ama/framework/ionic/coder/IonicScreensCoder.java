@@ -175,12 +175,14 @@ public class IonicScreensCoder {
         return generateCodeFileFor(screen, "routing.module.ts", code);
     }
 
-    private String generateScreenFilename(Screen screenData, String suffix) {
+    private String generateScreenFilename(Screen screen, String suffix) {
         StringBuilder filename = new StringBuilder();
 
         filename.append(APP_PAGES_PATH);
         filename.append('/');
-        filename.append(screenData.getName());
+        filename.append(screen.getName());
+        filename.append('/');
+        filename.append(screen.getName());
         filename.append(suffix);
 
         return filename.toString();

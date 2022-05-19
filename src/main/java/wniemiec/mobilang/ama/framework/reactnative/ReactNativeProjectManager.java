@@ -43,7 +43,7 @@ class ReactNativeProjectManager {
     throws IOException {
         Path location = Path.of(propertiesData.getAppName());
         
-        Files.delete(location.resolve(".apt_generated"));
+        Files.deleteIfExists(location.resolve(".apt_generated"));
     }
 
     private void moveProjectFolderTo(Properties propertiesData, Path location) 

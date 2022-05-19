@@ -9,7 +9,7 @@ import java.util.Set;
  * Responsible for representing all the code files of a project along with 
  * their dependencies.
  */
-public class ProjectCodes {
+public class Project {
     
     //-------------------------------------------------------------------------
     //		Attributes
@@ -21,12 +21,12 @@ public class ProjectCodes {
     //-------------------------------------------------------------------------
     //		Constructors
     //-------------------------------------------------------------------------
-    public ProjectCodes(List<CodeFile> codeFiles, Set<String> dependencies) {
+    public Project(List<CodeFile> codeFiles, Set<String> dependencies) {
         this.codeFiles = codeFiles;
         this.dependencies = dependencies;
     }
 
-    public ProjectCodes(List<CodeFile> codeFiles) {
+    public Project(List<CodeFile> codeFiles) {
         this(codeFiles, new HashSet<>());
     }
 

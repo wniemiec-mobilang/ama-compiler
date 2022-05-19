@@ -3,7 +3,7 @@ package wniemiec.mobilang.ama.framework.ionic;
 import java.util.ArrayList;
 import java.util.List;
 import wniemiec.mobilang.ama.models.CodeFile;
-import wniemiec.mobilang.ama.models.ScreenData;
+import wniemiec.mobilang.ama.models.Screen;
 
 
 class IonicRoutingCoder {
@@ -12,13 +12,13 @@ class IonicRoutingCoder {
     //		Attributes
     //-------------------------------------------------------------------------
     private final List<CodeFile> routingCodes;
-    private final List<ScreenData> screensData;
+    private final List<Screen> screensData;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public IonicRoutingCoder(List<ScreenData> screensData) {
+    public IonicRoutingCoder(List<Screen> screensData) {
         this.screensData = screensData;
         routingCodes = new ArrayList<>();
     }
@@ -50,7 +50,7 @@ class IonicRoutingCoder {
         code.add("    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)");
         code.add("  },");
 
-        for (ScreenData screen : screensData) {
+        for (Screen screen : screensData) {
             code.add("  {");
             code.add("    path: '" + screen.getName() + "',");
             code.add("    loadChildren: () => import('./pages/" + screen.getName() + "/" + screen.getName() + ".module').then( m => m." + screen.getName() + "PageModule)");

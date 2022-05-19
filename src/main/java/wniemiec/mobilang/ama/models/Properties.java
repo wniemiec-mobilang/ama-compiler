@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Responsible for representing data from properties tag.
  */
-public class PropertiesData {
+public class Properties {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -18,7 +18,7 @@ public class PropertiesData {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public PropertiesData() {
+    public Properties() {
         name = "unknown";
         platforms = new HashSet<>();
     }

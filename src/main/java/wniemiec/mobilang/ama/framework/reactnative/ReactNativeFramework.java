@@ -10,9 +10,9 @@ import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 import wniemiec.mobilang.ama.framework.Framework;
 import wniemiec.mobilang.ama.models.CodeFile;
-import wniemiec.mobilang.ama.models.ProjectCodes;
-import wniemiec.mobilang.ama.models.PropertiesData;
-import wniemiec.mobilang.ama.models.ScreenData;
+import wniemiec.mobilang.ama.models.Project;
+import wniemiec.mobilang.ama.models.Properties;
+import wniemiec.mobilang.ama.models.Screen;
 
 
 /**
@@ -40,7 +40,7 @@ public class ReactNativeFramework implements Framework {
     //		Methods
     //-------------------------------------------------------------------------
     @Override
-    public void createProject(PropertiesData propertiesData, Path location) 
+    public void createProject(Properties propertiesData, Path location) 
     throws IOException {
         projectManager.createProject(propertiesData, location);
     }
@@ -52,7 +52,7 @@ public class ReactNativeFramework implements Framework {
     }
 
     @Override
-    public ProjectCodes generateCode(List<ScreenData> screensData) 
+    public Project generateCode(List<Screen> screensData) 
     throws CoderException {
         List<CodeFile> code = new ArrayList<>();
         Set<String> dependencies = new HashSet<>();
@@ -60,7 +60,7 @@ public class ReactNativeFramework implements Framework {
         generateCoreCode(code, dependencies);
         generateScreensCode(code, screensData);
 
-        return new ProjectCodes(code, dependencies);
+        return new Project(code, dependencies);
     }
 
     private void generateCoreCode(List<CodeFile> code, Set<String> dependencies) {
@@ -70,7 +70,7 @@ public class ReactNativeFramework implements Framework {
         dependencies.addAll(coreCoder.getDependencies());
     }
 
-    private void generateScreensCode(List<CodeFile> code, List<ScreenData> screensData) 
+    private void generateScreensCode(List<CodeFile> code, List<Screen> screensData) 
     throws CoderException {
         ReactNativeScreensCoder screensCoder = new ReactNativeScreensCoder(screensData);
 

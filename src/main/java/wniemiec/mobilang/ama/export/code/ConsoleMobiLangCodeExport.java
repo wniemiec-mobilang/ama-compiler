@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.ama.models.CodeFile;
-import wniemiec.mobilang.ama.models.PropertiesData;
+import wniemiec.mobilang.ama.models.Properties;
 
 
 /**
@@ -25,7 +25,7 @@ public class ConsoleMobiLangCodeExport extends MobiLangCodeExport {
      * @param       dependencies Project dependencies
      */
     public ConsoleMobiLangCodeExport(
-        PropertiesData propertiesData, 
+        Properties propertiesData, 
         List<CodeFile> codeFiles,
         Set<String> dependencies
     ) {

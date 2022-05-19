@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.SortedMap;
 
 import wniemiec.mobilang.ama.models.Node;
-import wniemiec.mobilang.ama.models.ScreenData;
+import wniemiec.mobilang.ama.models.Screen;
 import wniemiec.mobilang.ama.parser.exception.ParseException;
 
 
@@ -20,7 +20,7 @@ public class ScreensParser {
     //-------------------------------------------------------------------------
     private final SortedMap<String, List<Node>> ast;
     private final List<Node> screens;
-    private final List<ScreenData> screensData;
+    private final List<Screen> screensData;
 
 
     //-------------------------------------------------------------------------
@@ -61,7 +61,7 @@ public class ScreensParser {
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public List<ScreenData> getScreensData() {
+    public List<Screen> getScreensData() {
         return screensData;
     }
 }

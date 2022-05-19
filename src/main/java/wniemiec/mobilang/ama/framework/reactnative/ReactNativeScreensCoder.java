@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import wniemiec.io.java.BabelTranspiler;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.models.CodeFile;
-import wniemiec.mobilang.ama.models.ScreenData;
+import wniemiec.mobilang.ama.models.Screen;
 import wniemiec.mobilang.ama.models.behavior.Behavior;
 
 
@@ -22,7 +22,7 @@ class ReactNativeScreensCoder {
     private static final String ANDROID_SCREEN_NAME_PREFIX;
     private static final String IOS_SCREEN_NAME_PREFIX;
     private static final String SCREEN_NAME_SUFFIX;
-    private final List<ScreenData> screensData;
+    private final List<Screen> screensData;
     private final ReactNativeMobiLangDirectiveParser directiveParser;
     private final BabelTranspiler babelTranspiler;
     private List<String> babelErrorLog;
@@ -41,7 +41,7 @@ class ReactNativeScreensCoder {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public ReactNativeScreensCoder(List<ScreenData> screensData) {
+    public ReactNativeScreensCoder(List<Screen> screensData) {
         this.screensData = screensData;
         babelErrorLog = new ArrayList<>();
         directiveParser = new ReactNativeMobiLangDirectiveParser();
@@ -55,14 +55,14 @@ class ReactNativeScreensCoder {
     public List<CodeFile> generateCode() throws CoderException {
         List<CodeFile> screensCode = new ArrayList<>();
 
-        for (ScreenData screenData : screensData) {
+        for (Screen screenData : screensData) {
             screensCode.addAll(generateCodeForScreen(screenData));
         }
 
         return screensCode;
     }
     
-    private List<CodeFile> generateCodeForScreen(ScreenData screenData) throws CoderException {
+    private List<CodeFile> generateCodeForScreen(Screen screenData) throws CoderException {
         List<String> code = new ArrayList<>();
 
         putDoctype(code);
@@ -83,33 +83,33 @@ class ReactNativeScreensCoder {
         code.add("<html>");
     }
 
-    private void putHead(List<String> code, ScreenData screenData) {
+    private void putHead(List<String> code, Screen screenData) {
         code.add("    <head>");
         code.add("    <title>" + screenData.getName() + "</title>");
         putStyle(code, screenData);
         code.add("    </head>");
     }
 
-    private void putStyle(List<String> code, ScreenData screenData) {
+    private void putStyle(List<String> code, Screen screenData) {
         code.add("        <style>");
         code.addAll(screenData.getStyle().toCode());
         code.add("        </style>");
     }
 
-    private void putBody(List<String> code, ScreenData screenData) {
+    private void putBody(List<String> code, Screen screenData) {
         code.add("    <body>");
         code.addAll(parseStructure(screenData));
         code.add("    </body>");
     }
 
 
-    private List<String> parseStructure(ScreenData screenData) {
+    private List<String> parseStructure(Screen screenData) {
         List<String> structureCode = screenData.getStructure().toCode();
         
         return parseDirectives(structureCode);
     }
 
-    private void putScript(List<String> code, ScreenData screenData) throws CoderException {
+    private void putScript(List<String> code, Screen screenData) throws CoderException {
         code.add("    <script>");
 
         for (String line : parseBehavior(screenData.getBehavior())) {
@@ -159,26 +159,26 @@ class ReactNativeScreensCoder {
         code.add("</html>");
     }
 
-    private List<CodeFile> buildFileCode(List<String> code, ScreenData screenData) {
+    private List<CodeFile> buildFileCode(List<String> code, Screen screenData) {
         CodeFile androidFileCode = generateAndroidScreenFileCode(code, screenData);
         CodeFile iosFileCode = generateIosScreenFileCode(code, screenData);
         
         return List.of(androidFileCode, iosFileCode);
     }
 
-    private CodeFile generateAndroidScreenFileCode(List<String> code, ScreenData screenData) {
+    private CodeFile generateAndroidScreenFileCode(List<String> code, Screen screenData) {
         String filename = generateScreenFilename(screenData, ANDROID_SCREEN_NAME_PREFIX);
 
         return new CodeFile(filename, code);
     }
 
-    private CodeFile generateIosScreenFileCode(List<String> code, ScreenData screenData) {
+    private CodeFile generateIosScreenFileCode(List<String> code, Screen screenData) {
         String filename = generateScreenFilename(screenData, IOS_SCREEN_NAME_PREFIX);
 
         return new CodeFile(filename, code);
     }
 
-    private String generateScreenFilename(ScreenData screenData, String prefix) {
+    private String generateScreenFilename(Screen screenData, String prefix) {
         StringBuilder filename = new StringBuilder();
 
         filename.append(prefix);

@@ -6,7 +6,7 @@ import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.framework.ionic.parser.IonicBehaviorParser;
 import wniemiec.mobilang.ama.framework.ionic.parser.IonicStructureParser;
 import wniemiec.mobilang.ama.models.CodeFile;
-import wniemiec.mobilang.ama.models.ScreenData;
+import wniemiec.mobilang.ama.models.Screen;
 import wniemiec.util.java.StringUtils;
 
 
@@ -19,7 +19,7 @@ class IonicScreensCoder {
     //		Constructor
     //-------------------------------------------------------------------------
     private static final String SCREEN_NAME_PREFIX;
-    private final List<ScreenData> screensData;
+    private final List<Screen> screensData;
     private IonicStructureParser structureParser;
 
 
@@ -34,7 +34,7 @@ class IonicScreensCoder {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public IonicScreensCoder(List<ScreenData> screensData) {
+    public IonicScreensCoder(List<Screen> screensData) {
         this.screensData = screensData;
     }
 
@@ -45,14 +45,14 @@ class IonicScreensCoder {
     public List<CodeFile> generateCode() throws CoderException {
         List<CodeFile> screensCode = new ArrayList<>();
 
-        for (ScreenData screenData : screensData) {
+        for (Screen screenData : screensData) {
             screensCode.addAll(generateCodeForScreen(screenData));
         }
 
         return screensCode;
     }
     
-    private List<CodeFile> generateCodeForScreen(ScreenData screenData) 
+    private List<CodeFile> generateCodeForScreen(Screen screenData) 
     throws CoderException {
         return List.of(
             buildModuleFileCode(screenData),
@@ -63,7 +63,7 @@ class IonicScreensCoder {
         );
     }
 
-    private CodeFile buildModuleFileCode(ScreenData screen) {
+    private CodeFile buildModuleFileCode(Screen screen) {
         List<String> code = new ArrayList<>();
         String name = StringUtils.capitalize(screen.getName());
 
@@ -88,13 +88,13 @@ class IonicScreensCoder {
         return generateCodeFileFor(screen, ".module.ts", code);
     }
 
-    private CodeFile generateCodeFileFor(ScreenData screen, String suffix, List<String> code) {
+    private CodeFile generateCodeFileFor(Screen screen, String suffix, List<String> code) {
         String filename = generateScreenFilename(screen, suffix);
 
         return new CodeFile(filename, code);
     }
 
-    private CodeFile buildHtmlFileCode(ScreenData screen) {
+    private CodeFile buildHtmlFileCode(Screen screen) {
         structureParser = new IonicStructureParser();
         structureParser.parse(screen.getStructure());
         
@@ -108,13 +108,13 @@ class IonicScreensCoder {
         return generateCodeFileFor(screen, ".page.html", code);
     }
 
-    private CodeFile buildScssFileCode(ScreenData screen) {
+    private CodeFile buildScssFileCode(Screen screen) {
         List<String> code = screen.getStyle().toCode();
 
         return generateCodeFileFor(screen, ".page.scss", code);
     }
 
-    private CodeFile buildPageFileCode(ScreenData screen) throws CoderException {
+    private CodeFile buildPageFileCode(Screen screen) throws CoderException {
         IonicBehaviorParser behaviorProcessor = new IonicBehaviorParser();
         behaviorProcessor.parse(screen.getBehavior());
         List<String> behaviorCode = behaviorProcessor.getParsedCode();
@@ -151,7 +151,7 @@ class IonicScreensCoder {
         return generateCodeFileFor(screen, ".page.ts", code);
     }
 
-    private CodeFile buildRoutingFileCode(ScreenData screen) {
+    private CodeFile buildRoutingFileCode(Screen screen) {
         List<String> code = new ArrayList<>();
         String name = StringUtils.capitalize(screen.getName());
 
@@ -175,7 +175,7 @@ class IonicScreensCoder {
         return generateCodeFileFor(screen, "routing.module.ts", code);
     }
 
-    private String generateScreenFilename(ScreenData screenData, String suffix) {
+    private String generateScreenFilename(Screen screenData, String suffix) {
         StringBuilder filename = new StringBuilder();
 
         filename.append(SCREEN_NAME_PREFIX);

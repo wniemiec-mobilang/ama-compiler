@@ -12,7 +12,7 @@ import wniemiec.io.java.TextFileManager;
 import wniemiec.mobilang.ama.export.exception.CodeExportException;
 import wniemiec.mobilang.ama.framework.Framework;
 import wniemiec.mobilang.ama.models.CodeFile;
-import wniemiec.mobilang.ama.models.PropertiesData;
+import wniemiec.mobilang.ama.models.Properties;
 
 
 /**
@@ -41,7 +41,7 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
      * @throws      CodeExportException If output location cannot be reached
      */
     public FileMobiLangCodeExport(
-        PropertiesData propertiesData, 
+        Properties propertiesData, 
         List<CodeFile> codeFiles, 
         Set<String> dependencies,
         Framework framework, 

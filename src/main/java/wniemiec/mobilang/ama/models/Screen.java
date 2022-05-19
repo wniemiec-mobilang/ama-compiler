@@ -7,7 +7,7 @@ import wniemiec.mobilang.ama.models.tag.Tag;
 /**
  * Responsible for representing data from screen tag.
  */
-public class ScreenData {
+public class Screen {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -21,7 +21,7 @@ public class ScreenData {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    private ScreenData(
+    private Screen(
         String name, 
         Tag structure,
         Style style,
@@ -68,10 +68,10 @@ public class ScreenData {
             return this;
         }
 
-        public ScreenData build() {
+        public Screen build() {
             validateFields();
 
-            return new ScreenData(
+            return new Screen(
                 name, 
                 structure,
                 style,

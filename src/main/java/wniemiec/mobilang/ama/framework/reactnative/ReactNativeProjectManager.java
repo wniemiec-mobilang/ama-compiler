@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.StandardTerminalBuilder;
 import wniemiec.io.java.Terminal;
-import wniemiec.mobilang.ama.models.PropertiesData;
+import wniemiec.mobilang.ama.models.Properties;
 
 
 /**
@@ -17,20 +17,20 @@ class ReactNativeProjectManager {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public void createProject(PropertiesData propertiesData, Path location) 
+    public void createProject(Properties propertiesData, Path location) 
     throws IOException {
         runReactNativeInit(propertiesData, location);
         removeOldAppFile(location);
     }
 
-    private void runReactNativeInit(PropertiesData propertiesData, Path location) 
+    private void runReactNativeInit(Properties propertiesData, Path location) 
     throws IOException {
         generateReactNativeProject(propertiesData);
         removeAptGeneratedFolder(propertiesData);
         moveProjectFolderTo(propertiesData, location);
     }
 
-    private void generateReactNativeProject(PropertiesData propertiesData) 
+    private void generateReactNativeProject(Properties propertiesData) 
     throws IOException {
         exec(
             "react-native", 
@@ -39,14 +39,14 @@ class ReactNativeProjectManager {
         );
     }
 
-    private void removeAptGeneratedFolder(PropertiesData propertiesData) 
+    private void removeAptGeneratedFolder(Properties propertiesData) 
     throws IOException {
         Path location = Path.of(propertiesData.getAppName());
         
         Files.delete(location.resolve(".apt_generated"));
     }
 
-    private void moveProjectFolderTo(PropertiesData propertiesData, Path location) 
+    private void moveProjectFolderTo(Properties propertiesData, Path location) 
     throws IOException {
         exec(
             "mv", 

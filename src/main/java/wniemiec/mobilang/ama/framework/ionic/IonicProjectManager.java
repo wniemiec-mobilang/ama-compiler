@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.StandardTerminalBuilder;
 import wniemiec.io.java.Terminal;
-import wniemiec.mobilang.ama.models.PropertiesData;
+import wniemiec.mobilang.ama.models.Properties;
 
 
 /**
@@ -19,7 +19,7 @@ class IonicProjectManager {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public void createProject(PropertiesData propertiesData, Path location) 
+    public void createProject(Properties propertiesData, Path location) 
     throws IOException {
         runIonicInit(propertiesData, location);
         updateGlobalScss(location);
@@ -28,13 +28,13 @@ class IonicProjectManager {
         createPagesFolder(location);
     }
 
-    private void runIonicInit(PropertiesData propertiesData, Path location) 
+    private void runIonicInit(Properties propertiesData, Path location) 
     throws IOException {
         generateIonicProject(propertiesData);
         moveProjectFolderTo(propertiesData, location);
     }
 
-    private void generateIonicProject(PropertiesData propertiesData) throws IOException {
+    private void generateIonicProject(Properties propertiesData) throws IOException {
         exec(
             "ionic", 
             "start", 
@@ -47,7 +47,7 @@ class IonicProjectManager {
         );
     }
 
-    private void moveProjectFolderTo(PropertiesData propertiesData, Path location) 
+    private void moveProjectFolderTo(Properties propertiesData, Path location) 
     throws IOException {
         exec(
             "mv", 

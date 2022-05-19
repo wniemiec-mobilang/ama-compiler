@@ -54,7 +54,6 @@ class ReactNativeAppGenerator {
             mobileOutput
         );
         
-        Consolex.writeInfo("Generating Android app...");
         appGenerator.generateApp();
     }
 
@@ -64,7 +63,6 @@ class ReactNativeAppGenerator {
             mobileOutput
         );
 
-        Consolex.writeInfo("Generating iOS app...");
         appGenerator.generateApp();
     }
 }

@@ -36,7 +36,7 @@ class InputTagParser {
 
     private void parseInputTag(Tag tag) {
         if (!tag.hasAttribute("id")) {
-            throw new IllegalStateException("Every input tag must have an id");
+            throw new IllegalStateException("Every input tag must have an id: " + tag.toCode());
         }
 
         String id = "input_" + tag.getAttribute("id");

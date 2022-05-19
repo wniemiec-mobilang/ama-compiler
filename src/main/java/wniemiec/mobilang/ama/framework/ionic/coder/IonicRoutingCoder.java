@@ -1,4 +1,4 @@
-package wniemiec.mobilang.ama.framework.ionic;
+package wniemiec.mobilang.ama.framework.ionic.coder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,13 +6,22 @@ import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.Screen;
 
 
-class IonicRoutingCoder {
+public class IonicRoutingCoder {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
+    private static final String APP_PATH;
     private final List<CodeFile> routingCodes;
     private final List<Screen> screensData;
+
+
+    //-------------------------------------------------------------------------
+    //		Initialization block
+    //-------------------------------------------------------------------------
+    static {
+        APP_PATH = "src/app";
+    }
 
 
     //-------------------------------------------------------------------------
@@ -71,6 +80,6 @@ class IonicRoutingCoder {
         code.add("})");
         code.add("export class AppRoutingModule {}");
 
-        routingCodes.add(new CodeFile("app/app-routing.module.ts", code));
+        routingCodes.add(new CodeFile(APP_PATH + "/app-routing.module.ts", code));
     }
 }

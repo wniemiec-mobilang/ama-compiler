@@ -1,4 +1,4 @@
-package wniemiec.mobilang.ama.framework.ionic;
+package wniemiec.mobilang.ama.framework.ionic.coder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +13,12 @@ import wniemiec.util.java.StringUtils;
 /**
  * Responsible for generating Ionic framework code for screens.
  */
-class IonicScreensCoder {
+public class IonicScreensCoder {
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    private static final String SCREEN_NAME_PREFIX;
+    private static final String APP_PAGES_PATH;
     private final List<Screen> screensData;
     private IonicStructureParser structureParser;
 
@@ -27,7 +27,7 @@ class IonicScreensCoder {
     //		Initialization block
     //-------------------------------------------------------------------------
     static {
-        SCREEN_NAME_PREFIX = "src/app/pages/";
+        APP_PAGES_PATH = "src/app/pages";
     }
 
 
@@ -178,7 +178,8 @@ class IonicScreensCoder {
     private String generateScreenFilename(Screen screenData, String suffix) {
         StringBuilder filename = new StringBuilder();
 
-        filename.append(SCREEN_NAME_PREFIX);
+        filename.append(APP_PAGES_PATH);
+        filename.append('/');
         filename.append(screenData.getName());
         filename.append(suffix);
 

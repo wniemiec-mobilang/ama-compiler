@@ -9,6 +9,8 @@ import java.util.Set;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 import wniemiec.mobilang.ama.framework.Framework;
+import wniemiec.mobilang.ama.framework.ionic.coder.IonicRoutingCoder;
+import wniemiec.mobilang.ama.framework.ionic.coder.IonicScreensCoder;
 import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.Project;
 import wniemiec.mobilang.ama.models.Properties;
@@ -40,9 +42,9 @@ public class IonicFramework implements Framework {
     //		Methods
     //-------------------------------------------------------------------------
     @Override
-    public void createProject(Properties propertiesData, Path location) 
+    public void createProject(Properties properties, Path location) 
     throws IOException {
-        projectManager.createProject(propertiesData, location);
+        projectManager.createProject(properties, location);
     }
 
     @Override
@@ -52,26 +54,26 @@ public class IonicFramework implements Framework {
     }
 
     @Override
-    public Project generateCode(List<Screen> screensData) 
+    public Project generateCode(List<Screen> screens) 
     throws CoderException {
         List<CodeFile> code = new ArrayList<>();
         Set<String> dependencies = new HashSet<>();
         
-        generateScreensCode(code, screensData);
-        generateScreensRouting(code, screensData);
+        generateScreensCode(code, screens);
+        generateScreensRouting(code, screens);
 
         return new Project(code, dependencies);
     }
 
-    private void generateScreensCode(List<CodeFile> code, List<Screen> screensData) 
+    private void generateScreensCode(List<CodeFile> code, List<Screen> screens) 
     throws CoderException {
-        IonicScreensCoder screensCoder = new IonicScreensCoder(screensData);
+        IonicScreensCoder screensCoder = new IonicScreensCoder(screens);
 
         code.addAll(screensCoder.generateCode());
     }
 
-    private void generateScreensRouting(List<CodeFile> code, List<Screen> screensData) {
-        IonicRoutingCoder routingCoder = new IonicRoutingCoder(screensData);
+    private void generateScreensRouting(List<CodeFile> code, List<Screen> screens) {
+        IonicRoutingCoder routingCoder = new IonicRoutingCoder(screens);
 
         code.addAll(routingCoder.generateCode());
     }

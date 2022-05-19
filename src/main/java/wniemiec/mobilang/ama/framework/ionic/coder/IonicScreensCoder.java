@@ -172,7 +172,7 @@ public class IonicScreensCoder {
         code.add("})");
         code.add("export class " + name + "PageRoutingModule {}");
 
-        return generateCodeFileFor(screen, "routing.module.ts", code);
+        return generateCodeFileFor(screen, "-routing.module.ts", code);
     }
 
     private String generateScreenFilename(Screen screen, String suffix) {

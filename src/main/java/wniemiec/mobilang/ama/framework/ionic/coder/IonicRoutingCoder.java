@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.Screen;
+import wniemiec.util.java.StringUtils;
 
 
 public class IonicRoutingCoder {
@@ -60,13 +61,15 @@ public class IonicRoutingCoder {
         code.add("  },");
 
         for (Screen screen : screensData) {
+            String normalizedScreenName = normalizeScreenName(screen.getName());
+
             code.add("  {");
             code.add("    path: '" + screen.getName() + "',");
-            code.add("    loadChildren: () => import('./pages/" + screen.getName() + "/" + screen.getName() + ".module').then( m => m." + screen.getName() + "PageModule)");
+            code.add("    loadChildren: () => import('./pages/" + screen.getName() + "/" + screen.getName() + ".module').then( m => m." + normalizedScreenName + "PageModule)");
             code.add("  },");
             code.add("  {");
             code.add("    path: '" + screen.getName() + "/:q',");
-            code.add("    loadChildren: () => import('./pages/" + screen.getName() + "/" + screen.getName() + ".module').then( m => m." + screen.getName() + "PageModule)");
+            code.add("    loadChildren: () => import('./pages/" + screen.getName() + "/" + screen.getName() + ".module').then( m => m." + normalizedScreenName + "PageModule)");
             code.add("  },");
         }
 
@@ -81,5 +84,15 @@ public class IonicRoutingCoder {
         code.add("export class AppRoutingModule {}");
 
         routingCodes.add(new CodeFile(APP_PATH + "/app-routing.module.ts", code));
+    }
+
+    private String normalizeScreenName(String name) {
+        StringBuilder normalizedName = new StringBuilder();
+        
+        for (String term : name.split("-")) {
+            normalizedName.append(StringUtils.capitalize(term));
+        }
+
+        return normalizedName.toString();
     }
 }

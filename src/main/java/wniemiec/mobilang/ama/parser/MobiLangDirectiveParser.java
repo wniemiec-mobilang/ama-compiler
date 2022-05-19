@@ -84,7 +84,7 @@ public abstract class MobiLangDirectiveParser {
     }
 
     private String parseScreenDirectiveWithParameters(String line) {
-        Pattern pattern = Pattern.compile(".+mobilang::screen::([A-z0-9-_]+)\\?([^\"'?\\/\\\\]+).+");
+        Pattern pattern = Pattern.compile(".+mobilang::screen::([A-z0-9-_]+)\\?([^?\\/\\\\]+).+");
         Matcher matcher = pattern.matcher(line);
 
         if (!matcher.matches()) {
@@ -94,7 +94,8 @@ public abstract class MobiLangDirectiveParser {
         String screenName = matcher.group(1);
         Map<String, String> parameters = new HashMap<>();
         
-        String rawParameters = matcher.group(2); // id=${data[item].id}&q=123
+        String rawParameters = matcher.group(2); // ex: id=" + data[item].id + "&q=123&f=" + data[item].f + "
+        rawParameters = cleanRawParameters(rawParameters);
         for (String rawParameter : rawParameters.split("&")) {
             String[] terms = rawParameter.split("=");
             
@@ -104,6 +105,25 @@ public abstract class MobiLangDirectiveParser {
         
         String directive = "mobilang::screen::([A-z0-9-_]+\\?)[^\"']+";
         return line.replaceAll(directive, swapScreenDirectiveWithParametersFor(screenName, parameters));
+    }
+
+    private String cleanRawParameters(String rawParameters) {
+        // in:  id=" + data[item].id + "&q=123&f=" + data[item].f + "
+        // out: id=data[item].id&q=123&f=data[item].f
+        String cleanedParameters = rawParameters;
+
+        cleanedParameters = removeWhiteSpaces(cleanedParameters);
+        cleanedParameters = removeStringConcatenationTokens(cleanedParameters);
+
+        return cleanedParameters;
+    }
+
+    private String removeWhiteSpaces(String text) {
+        return text.replace(" ", "");
+    }
+
+    private String removeStringConcatenationTokens(String text) {
+        return text.replaceAll("((\"\\+)|(\\+\"))", "");
     }
 
     protected abstract String swapScreenDirectiveWithParametersFor(String screenName, Map<String, String> parameters);

@@ -65,25 +65,24 @@ public class IonicScreensCoder {
 
     private CodeFile buildModuleFileCode(Screen screen) {
         List<String> code = new ArrayList<>();
-        String name = StringUtils.capitalize(screen.getName());
 
         code.add("import { NgModule } from '@angular/core';");
         code.add("import { CommonModule } from '@angular/common';");
         code.add("import { FormsModule } from '@angular/forms';");
         code.add("import { IonicModule, IonicRouteStrategy } from '@ionic/angular';");
-        code.add("import { " + name + "Page } from './" + name.toLowerCase() + ".page';");
-        code.add("import { " + name + "PageRoutingModule } from './" + name.toLowerCase() + "-routing.module';");
+        code.add("import { " + screen.getName() + "Page } from './" + screen.getRawName().toLowerCase() + ".page';");
+        code.add("import { " + screen.getName() + "PageRoutingModule } from './" + screen.getRawName().toLowerCase() + "-routing.module';");
         code.add("");
         code.add("@NgModule({");
         code.add("  imports: [");
         code.add("    CommonModule,");
         code.add("    FormsModule,");
         code.add("    IonicModule,");
-        code.add("    " + name + "PageRoutingModule");
+        code.add("    " + screen.getName() + "PageRoutingModule");
         code.add("  ],");
-        code.add("  declarations: [" + name + "Page]");
+        code.add("  declarations: [" + screen.getName() + "Page]");
         code.add("})");
-        code.add("export class " + name + "PageModule {}");
+        code.add("export class " + screen.getName() + "PageModule {}");
 
         return generateCodeFileFor(screen, ".module.ts", code);
     }
@@ -120,17 +119,16 @@ public class IonicScreensCoder {
         List<String> behaviorCode = behaviorProcessor.getParsedCode();
 
         List<String> code = new ArrayList<>();
-        String name = StringUtils.capitalize(screen.getName());
 
         code.add("import { Component, OnInit, ViewEncapsulation } from '@angular/core';");
         code.add("import { ActivatedRoute } from '@angular/router';");
         code.add("@Component({");
-        code.add("  selector: '" + name.toLowerCase() + "-page',");
-        code.add("  templateUrl: '" + name.toLowerCase() + ".page.html',");
-        code.add("  styleUrls: ['" + name.toLowerCase() + ".page.scss'],");
+        code.add("  selector: '" + screen.getRawName().toLowerCase() + "-page',");
+        code.add("  templateUrl: '" + screen.getRawName().toLowerCase() + ".page.html',");
+        code.add("  styleUrls: ['" + screen.getRawName().toLowerCase() + ".page.scss'],");
         code.add("  encapsulation: ViewEncapsulation.None");
         code.add("})");
-        code.add("export class " + name + " implements OnInit {");
+        code.add("export class " + screen.getName() + " implements OnInit {");
 
         for (String id : structureParser.getInputIds()) {
             String normalizedId = id.replace("-", "_");
@@ -153,16 +151,15 @@ public class IonicScreensCoder {
 
     private CodeFile buildRoutingFileCode(Screen screen) {
         List<String> code = new ArrayList<>();
-        String name = StringUtils.capitalize(screen.getName());
 
-        code.add("import { " + name + "Page } from './" + name.toLowerCase() + ".page';");
+        code.add("import { " + screen.getName() + "Page } from './" + screen.getRawName().toLowerCase() + ".page';");
         code.add("import { NgModule } from '@angular/core';");
         code.add("import { PreloadAllModules, RouterModule, Routes } from '@angular/router';");
         code.add("");
         code.add("const routes: Routes = [");
         code.add("  {");
         code.add("    path: '',");
-        code.add("    component: " + name + "Page");
+        code.add("    component: " + screen.getName() + "Page");
         code.add("  }");
         code.add("];");
         code.add("");
@@ -170,7 +167,7 @@ public class IonicScreensCoder {
         code.add("  imports: [RouterModule.forChild(routes)],");
         code.add("  exports: [RouterModule],");
         code.add("})");
-        code.add("export class " + name + "PageRoutingModule {}");
+        code.add("export class " + screen.getName() + "PageRoutingModule {}");
 
         return generateCodeFileFor(screen, "-routing.module.ts", code);
     }
@@ -180,9 +177,9 @@ public class IonicScreensCoder {
 
         filename.append(APP_PAGES_PATH);
         filename.append('/');
-        filename.append(screen.getName());
+        filename.append(screen.getRawName());
         filename.append('/');
-        filename.append(screen.getName());
+        filename.append(screen.getRawName());
         filename.append(suffix);
 
         return filename.toString();

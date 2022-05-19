@@ -59,7 +59,6 @@ class FunctionParser {
         parsedLine.append(functionHeader.replaceAll("function([\\s\\t]+)", "const "));
         parsedLine.append(" = ");
         parsedLine.append(line.substring(idxParametersBegin, idxParametersEnd + 1));
-        parsedLine.append(" => ");
         parsedLine.append(line.substring(idxParametersEnd + 1));
 
         return parsedLine.toString();

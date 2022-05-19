@@ -2,6 +2,7 @@ package wniemiec.mobilang.ama.models;
 
 import wniemiec.mobilang.ama.models.behavior.Behavior;
 import wniemiec.mobilang.ama.models.tag.Tag;
+import wniemiec.util.java.StringUtils;
 
 
 /**
@@ -12,6 +13,7 @@ public class Screen {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
+    private final String rawName;
     private final String name;
     private final Tag structure;
     private final Style style;
@@ -27,7 +29,8 @@ public class Screen {
         Style style,
         Behavior behavior
     ) {
-        this.name = name;
+        this.rawName = name;
+        this.name = normalize(name);
         this.structure = structure;
         this.style = (style == null) ? new Style() : style;
         this.behavior = (behavior == null) ? new Behavior() : behavior;
@@ -99,8 +102,26 @@ public class Screen {
 
 
     //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    private String normalize(String name) {
+        StringBuilder normalizedName = new StringBuilder();
+        
+        for (String term : name.split("-")) {
+            normalizedName.append(StringUtils.capitalize(term));
+        }
+
+        return normalizedName.toString();
+    }
+
+
+    //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
+    public String getRawName() {
+        return rawName;
+    }
+
     public String getName() {
         return name;
     }

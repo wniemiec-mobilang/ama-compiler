@@ -85,7 +85,7 @@ class ReactNativeScreensCoder {
 
     private void putHead(List<String> code, Screen screenData) {
         code.add("    <head>");
-        code.add("    <title>" + screenData.getName() + "</title>");
+        code.add("    <title>" + screenData.getRawName() + "</title>");
         putStyle(code, screenData);
         code.add("    </head>");
     }

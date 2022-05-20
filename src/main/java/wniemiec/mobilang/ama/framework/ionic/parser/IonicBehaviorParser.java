@@ -40,7 +40,7 @@ public class IonicBehaviorParser {
         validateArgument(behavior);
         //runBabel(behavior);
         parsedCode = behavior.toCode();
-        runFunctionProcessor();
+        //runFunctionProcessor();
         runDirectiveParser();
     }
 

@@ -14,7 +14,7 @@ public class IonicRoutingCoder {
     //-------------------------------------------------------------------------
     private static final String APP_PATH;
     private final List<CodeFile> routingCodes;
-    private final List<Screen> screensData;
+    private final List<Screen> screens;
 
 
     //-------------------------------------------------------------------------
@@ -28,8 +28,8 @@ public class IonicRoutingCoder {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public IonicRoutingCoder(List<Screen> screensData) {
-        this.screensData = screensData;
+    public IonicRoutingCoder(List<Screen> screens) {
+        this.screens = screens;
         routingCodes = new ArrayList<>();
     }
 
@@ -60,7 +60,7 @@ public class IonicRoutingCoder {
         code.add("    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)");
         code.add("  },");
 
-        for (Screen screen : screensData) {
+        for (Screen screen : screens) {
 
             code.add("  {");
             code.add("    path: '" + screen.getRawName() + "',");

@@ -1,7 +1,6 @@
 package wniemiec.mobilang.ama.framework.ionic;
 
 import java.nio.file.Path;
-import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 
 // ANDROID
@@ -58,8 +57,7 @@ class IonicAppGenerator {
             sourceCode, 
             mobileOutput
         );
-        
-        Consolex.writeInfo("Generating Android app...");
+
         appGenerator.generateApp();
     }
 
@@ -67,8 +65,6 @@ class IonicAppGenerator {
         IosAppGenerator appGenerator = new IosAppGenerator(
             sourceCode, mobileOutput
         );
-
-        Consolex.writeInfo("Generating iOS app...");
         appGenerator.generateApp();
     }
 }

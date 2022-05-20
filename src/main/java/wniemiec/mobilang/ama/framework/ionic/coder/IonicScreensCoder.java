@@ -7,7 +7,6 @@ import wniemiec.mobilang.ama.framework.ionic.parser.IonicBehaviorParser;
 import wniemiec.mobilang.ama.framework.ionic.parser.IonicStructureParser;
 import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.Screen;
-import wniemiec.util.java.StringUtils;
 
 
 /**
@@ -19,7 +18,7 @@ public class IonicScreensCoder {
     //		Constructor
     //-------------------------------------------------------------------------
     private static final String APP_PAGES_PATH;
-    private final List<Screen> screensData;
+    private final List<Screen> screens;
     private IonicStructureParser structureParser;
 
 
@@ -34,8 +33,8 @@ public class IonicScreensCoder {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public IonicScreensCoder(List<Screen> screensData) {
-        this.screensData = screensData;
+    public IonicScreensCoder(List<Screen> screens) {
+        this.screens = screens;
     }
 
 
@@ -45,7 +44,7 @@ public class IonicScreensCoder {
     public List<CodeFile> generateCode() throws CoderException {
         List<CodeFile> screensCode = new ArrayList<>();
 
-        for (Screen screenData : screensData) {
+        for (Screen screenData : screens) {
             screensCode.addAll(generateCodeForScreen(screenData));
         }
 

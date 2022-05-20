@@ -82,12 +82,16 @@ class FunctionParser {
     }
 
     private String extractFunctionHeaderFromVariable(String line) {
-        return line.substring(0, line.indexOf("function"));
+        return line.substring(0, getIndexOfFunctionBegin(line));
+    }
+
+    private int getIndexOfFunctionBegin(String line) {
+        return line.indexOf("function");
     }
 
     private String extractFunctionHeader(String line) {
         StringBuilder header = new StringBuilder();
-        int indexOfParametersBegin = line.indexOf("(", line.indexOf("function"));
+        int indexOfParametersBegin = line.indexOf("(", getIndexOfFunctionBegin(line));
         String functionHeader = line.substring(0, indexOfParametersBegin);
         
         header.append(functionHeader.replaceAll("function([ \\t]+)", "const "));
@@ -97,13 +101,13 @@ class FunctionParser {
     }
 
     private String extractFunctionBody(String line) {
-        int indexOfParametersEnd = line.indexOf(")", line.indexOf("function"));
+        int indexOfParametersEnd = line.indexOf(")", getIndexOfFunctionBegin(line));
 
         return line.substring(indexOfParametersEnd + 1);
     }
 
     private String extractFunctionParameters(String line) {
-        int indexOfFunction = line.indexOf("function");
+        int indexOfFunction = getIndexOfFunctionBegin(line);
         int indexOfParametersBegin = line.indexOf("(", indexOfFunction);
         int indexOfParametersEnd = line.indexOf(")", indexOfFunction);
 

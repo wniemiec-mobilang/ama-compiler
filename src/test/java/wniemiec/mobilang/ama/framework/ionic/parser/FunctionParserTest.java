@@ -175,6 +175,15 @@ class FunctionParserTest {
         assertCodeEquals("alert(() => { return 'Hello!!!'; })");
     }
 
+    @Test
+    void testTemp() {
+        String x = "<a href=\"mobilang::screen::glossary-desc?id=${data[item].id}\">Leia mais</a>";
+        String directive = "mobilang::screen::([A-z0-9\\-_]+\\?)[^\"']+";
+
+        x.replaceAll(directive, "glossary-desc/id=\\${data[item].id}");
+    }
+    
+
 
     //-------------------------------------------------------------------------
     //		Methods

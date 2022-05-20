@@ -43,6 +43,7 @@ public class App {
         }
         catch (IllegalArgumentException e) {
             Consolex.writeError("Invalid cmd args: " + e.getMessage());
+            e.printStackTrace();
         }
         catch (FactoryException e) {
             Consolex.writeError("There is no compatibility with this framework: " + CLI_PARSER.getFrameworkName());

@@ -38,7 +38,8 @@ public class IonicBehaviorParser {
     //-------------------------------------------------------------------------
     public void parse(Behavior behavior) throws CoderException {
         validateArgument(behavior);
-        runBabel(behavior);
+        //runBabel(behavior);
+        parsedCode = behavior.toCode();
         runFunctionProcessor();
         runDirectiveParser();
     }

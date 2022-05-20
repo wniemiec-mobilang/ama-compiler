@@ -140,6 +140,34 @@ class FunctionParserTest {
         assertCodeEquals();
     }
 
+    @Test
+    void testCodeWithFunctionBelongingToAVariableInDeclaration() {
+        withCode(
+            "const callMe = function () { alert('Hello!!!'); }",
+            "callMe();"
+        );
+        doParsing();
+        assertCodeEquals(
+            "const callMe = () => { alert('Hello!!!'); }",
+            "callMe();"
+        );
+    }
+
+    @Test
+    void testCodeWithFunctionBelongingToAVariableInAssignment() {
+        withCode(
+            "let callMe;",
+            "callMe = function () { alert('Hello!!!'); }",
+            "callMe();"
+        );
+        doParsing();
+        assertCodeEquals(
+            "let callMe;",
+            "callMe = () => { alert('Hello!!!'); }",
+            "callMe();"
+        );
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods

@@ -52,16 +52,27 @@ class FunctionParser {
 
     private String convertFunctionToArrowFunction(String line) {
         StringBuilder parsedLine = new StringBuilder();
-        int idxParametersBegin = line.indexOf("(");
-        int idxParametersEnd = line.lastIndexOf(")");
-        String functionHeader = line.substring(0, idxParametersBegin);
-
-        parsedLine.append(functionHeader.replaceAll("function([\\s\\t]+)", "const "));
-        parsedLine.append(" = ");
+        int idxParametersBegin = line.indexOf("(", line.indexOf("function"));
+        int idxParametersEnd = line.indexOf(")", line.indexOf("function"));
+        
+        if (!belongsToAVariable(line)) {
+            String functionHeader = line.substring(0, idxParametersBegin);
+            parsedLine.append(functionHeader.replaceAll("function([\\s\\t]+)", "const "));
+            parsedLine.append(" = ");
+        }
+        else {
+            parsedLine.append(line.substring(0, line.indexOf("function")));
+        }
+        
         parsedLine.append(line.substring(idxParametersBegin, idxParametersEnd + 1));
+        parsedLine.append(" => ");
         parsedLine.append(line.substring(idxParametersEnd + 1));
 
         return parsedLine.toString();
+    }
+
+    private boolean belongsToAVariable(String line) {
+        return line.matches("[^{]+=[^>]+.*");
     }
 
 

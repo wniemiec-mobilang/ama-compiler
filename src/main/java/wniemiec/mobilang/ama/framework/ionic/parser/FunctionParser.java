@@ -67,13 +67,7 @@ class FunctionParser {
     private String convertFunctionToArrowFunction(String line) {
         StringBuilder parsedLine = new StringBuilder();
         
-        if (belongsToAVariable(line)) {
-            parsedLine.append(extractFunctionHeaderFromVariable(line));
-        }
-        else {
-            parsedLine.append(extractFunctionHeader(line));
-        }
-        
+        parsedLine.append(extractFunctionHeader(line));
         parsedLine.append(extractFunctionParameters(line));
         parsedLine.append(ARROW_FUNCTION_CONNECTOR);
         parsedLine.append(extractFunctionBody(line));
@@ -81,15 +75,11 @@ class FunctionParser {
         return parsedLine.toString();
     }
 
-    private String extractFunctionHeaderFromVariable(String line) {
-        return line.substring(0, getIndexOfFunctionBegin(line));
-    }
-
-    private int getIndexOfFunctionBegin(String line) {
-        return line.indexOf("function");
-    }
-
     private String extractFunctionHeader(String line) {
+        if (belongsToAVariable(line) || isAnArgument(line)) {
+            return line.substring(0, getIndexOfFunctionBegin(line));
+        }
+
         StringBuilder header = new StringBuilder();
         int indexOfParametersBegin = line.indexOf("(", getIndexOfFunctionBegin(line));
         String functionHeader = line.substring(0, indexOfParametersBegin);
@@ -98,6 +88,10 @@ class FunctionParser {
         header.append(" = ");
 
         return header.toString();
+    }
+
+    private int getIndexOfFunctionBegin(String line) {
+        return line.indexOf("function");
     }
 
     private String extractFunctionBody(String line) {
@@ -116,6 +110,10 @@ class FunctionParser {
 
     private boolean belongsToAVariable(String line) {
         return line.matches("[^{]+=[^>]+.*");
+    }
+
+    private boolean isAnArgument(String line) {
+        return line.matches(".*\\(.*function[ \\t]+.+\\).*");
     }
 
 

@@ -168,6 +168,13 @@ class FunctionParserTest {
         );
     }
 
+    @Test
+    void testCodeWithFunctionAsArgument() {
+        withCode("alert(function () { return 'Hello!!!'; })");
+        doParsing();
+        assertCodeEquals("alert(() => { return 'Hello!!!'; })");
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods

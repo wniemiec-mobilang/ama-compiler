@@ -9,7 +9,16 @@ class FunctionParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
+    private static final String ARROW_FUNCTION_CONNECTOR;
     private List<String> parsedCode;
+
+
+    //-------------------------------------------------------------------------
+    //		Initialization blocks
+    //-------------------------------------------------------------------------
+    static {
+        ARROW_FUNCTION_CONNECTOR = " => ";
+    }
 
 
     //-------------------------------------------------------------------------
@@ -24,7 +33,7 @@ class FunctionParser {
     //		Methods
     //-------------------------------------------------------------------------
     public void parse(List<String> code) {
-        if ((code == null) || code.isEmpty()) {
+        if (isEmpty(code)) {
             return;
         }
 
@@ -33,6 +42,11 @@ class FunctionParser {
         for (String line : code) {
             parsedCode.add(parseLine(line));
         }
+    }
+
+    private boolean isEmpty(List<String> code) {
+        return  (code == null) 
+                || code.isEmpty();
     }
 
     private String parseLine(String line) {
@@ -47,28 +61,53 @@ class FunctionParser {
     }
 
     private boolean hasFunction(String line) {
-        return line.matches(".*([\\s\\t]+|)function([\\s\\t]+).*");
+        return line.matches(".*([ \\t]+|)function([ \\t]+).*");
     }
 
     private String convertFunctionToArrowFunction(String line) {
         StringBuilder parsedLine = new StringBuilder();
-        int idxParametersBegin = line.indexOf("(", line.indexOf("function"));
-        int idxParametersEnd = line.indexOf(")", line.indexOf("function"));
         
-        if (!belongsToAVariable(line)) {
-            String functionHeader = line.substring(0, idxParametersBegin);
-            parsedLine.append(functionHeader.replaceAll("function([\\s\\t]+)", "const "));
-            parsedLine.append(" = ");
+        if (belongsToAVariable(line)) {
+            parsedLine.append(extractFunctionHeaderFromVariable(line));
         }
         else {
-            parsedLine.append(line.substring(0, line.indexOf("function")));
+            parsedLine.append(extractFunctionHeader(line));
         }
         
-        parsedLine.append(line.substring(idxParametersBegin, idxParametersEnd + 1));
-        parsedLine.append(" => ");
-        parsedLine.append(line.substring(idxParametersEnd + 1));
+        parsedLine.append(extractFunctionParameters(line));
+        parsedLine.append(ARROW_FUNCTION_CONNECTOR);
+        parsedLine.append(extractFunctionBody(line));
 
         return parsedLine.toString();
+    }
+
+    private String extractFunctionHeaderFromVariable(String line) {
+        return line.substring(0, line.indexOf("function"));
+    }
+
+    private String extractFunctionHeader(String line) {
+        StringBuilder header = new StringBuilder();
+        int indexOfParametersBegin = line.indexOf("(", line.indexOf("function"));
+        String functionHeader = line.substring(0, indexOfParametersBegin);
+        
+        header.append(functionHeader.replaceAll("function([ \\t]+)", "const "));
+        header.append(" = ");
+
+        return header.toString();
+    }
+
+    private String extractFunctionBody(String line) {
+        int indexOfParametersEnd = line.indexOf(")", line.indexOf("function"));
+
+        return line.substring(indexOfParametersEnd + 1);
+    }
+
+    private String extractFunctionParameters(String line) {
+        int indexOfFunction = line.indexOf("function");
+        int indexOfParametersBegin = line.indexOf("(", indexOfFunction);
+        int indexOfParametersEnd = line.indexOf(")", indexOfFunction);
+
+        return line.substring(indexOfParametersBegin, indexOfParametersEnd + 1);
     }
 
     private boolean belongsToAVariable(String line) {

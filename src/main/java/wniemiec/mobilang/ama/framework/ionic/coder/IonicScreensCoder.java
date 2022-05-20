@@ -128,7 +128,7 @@ public class IonicScreensCoder {
         code.add("  styleUrls: ['" + screen.getRawName().toLowerCase() + ".page.scss'],");
         code.add("  encapsulation: ViewEncapsulation.None");
         code.add("})");
-        code.add("export class " + screen.getName() + " implements OnInit {");
+        code.add("export class " + screen.getName() + "Page implements OnInit {");
 
         for (String id : structureParser.getInputIds()) {
             String normalizedId = id.replace("-", "_");

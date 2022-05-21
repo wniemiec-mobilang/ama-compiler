@@ -99,7 +99,7 @@ class IonicBehaviorParserTest {
             "string", 
             "let", 
             id, 
-            new Literal(assignment)
+            Literal.ofString(assignment)
         );
         
         return new Declaration("let", declarator);

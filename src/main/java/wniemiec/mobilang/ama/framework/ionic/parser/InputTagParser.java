@@ -40,8 +40,9 @@ class InputTagParser {
         }
 
         String id = "input_" + tag.getAttribute("id");
+        String normalizedId = id.replace("-", "_");
         
-        tag.addAttribute("[(ngModel)]", id);
+        tag.addAttribute("[(ngModel)]", normalizedId);
         
         inputFields.add(id);
     }

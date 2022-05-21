@@ -30,9 +30,9 @@ class StyleParserTest {
     //-------------------------------------------------------------------------
     @Test
     void testNumericAssignment() {
-        withCode("document.getElementById('body').style.opacity = 1;");
+        withCode("document.getElementById('body').style.opacity=1;");
         doParsing();
-        assertCodeEquals("document.getElementById('body').style.opacity = \"1\";");
+        assertCodeEquals("document.getElementById('body').style.opacity=\"1\";");
     }
 
     @Test
@@ -40,6 +40,13 @@ class StyleParserTest {
         withCode("document.getElementById('body').style.color = '#12345678';");
         doParsing();
         assertCodeEquals("document.getElementById('body').style.color = '#12345678';");
+    }
+
+    @Test
+    void testNumericAssignmentAsString() {
+        withCode("document.getElementById(\"body\").style.opacity=\"1\";");
+        doParsing();
+        assertCodeEquals("document.getElementById(\"body\").style.opacity=\"1\";");
     }
 
 

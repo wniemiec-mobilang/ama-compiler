@@ -46,9 +46,12 @@ class StyleParser {
         }
 
         String parsedLine = line;
+        System.out.println(line);
 
         if (hasNumericalAssignment(line)) {
+            System.out.println("numerical assignment");
             parsedLine = convertNumericalAssignmentToString(line);
+            System.out.println(parsedLine);
         }
 
         return parsedLine;
@@ -59,7 +62,7 @@ class StyleParser {
     }
 
     private boolean hasNumericalAssignment(String line) {
-        return line.matches(".+=[^=]+[0-9.]+.*");
+        return line.matches(".+=([^=]+|)[0-9.]+.*");
     }
 
     private String convertNumericalAssignmentToString(String line) {
@@ -72,6 +75,7 @@ class StyleParser {
 
         if (isNumeric(value)) {
             value = value.replaceAll("[\"';]", "");
+            //value = "\"" + value + "\";";
             value = "\"" + value + "\";";
         }
 

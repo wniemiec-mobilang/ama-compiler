@@ -63,6 +63,31 @@ class StyleParser {
     }
 
     private String convertNumericalAssignmentToString(String line) {
+        StringBuilder parsedLine = new StringBuilder();
+        int indexOfAssignment = line.lastIndexOf("=");
         
+        parsedLine.append(line.substring(0, indexOfAssignment+1));
+
+        String value = line.substring(indexOfAssignment+1);
+
+        if (isNumeric(value)) {
+            value = value.replaceAll("[\"']", "");
+        }
+
+        parsedLine.append(value);
+
+        return parsedLine.toString();
+    }
+
+    private boolean isNumeric(String line) {
+        return line.matches("([ \t]+|)['\"]*[0-9.]+['\"]*[^A-z]+");
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
+    public List<String> getParsedCode() {
+        return parsedCode;
     }
 }

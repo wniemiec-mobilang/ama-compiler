@@ -71,7 +71,8 @@ class StyleParser {
         String value = line.substring(indexOfAssignment+1);
 
         if (isNumeric(value)) {
-            value = value.replaceAll("[\"']", "");
+            value = value.replaceAll("[\"';]", "");
+            value = "\"" + value + "\";";
         }
 
         parsedLine.append(value);

@@ -91,11 +91,11 @@ class EventParser {
 
         String buttonOnClickValue = extractOnClickValueFrom(line);
 
+        parsedLine += ";document.getElementById(" + buttonId + ").onclick = () => " + buttonOnClickValue;
+
         if (hasThis(line)) {
             parsedLine = parsedLine.replace("this", "document.getElementById(" + buttonId + ")");
         }
-
-        parsedLine += ";document.getElementById(" + buttonId + ").onclick = () => " + buttonOnClickValue + ";";
 
         return parsedLine;
     }

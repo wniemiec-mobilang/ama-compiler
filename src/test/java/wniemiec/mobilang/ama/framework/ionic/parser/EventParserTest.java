@@ -30,9 +30,9 @@ class EventParserTest {
     //-------------------------------------------------------------------------
     @Test
     void testOnClickAndThis() {
-        withCode("glossaryContent.innerHTML+=`<button id=\"foo\" class=\"item\" onclick=\"openDescription(this);\">`");
+        withCode("`<button id=\"foo\" class=\"item\" onclick=\"openDescription(this);\">`");
         doParsing();
-        assertCodeEquals("glossaryContent.innerHTML+=`<button id=\"foo\" class=\"item\" onclick=\"openDescription(this);\">`;document.getElementById(foo).onclick = () => openDescription(document.getElementById(foo));");
+        assertCodeEquals("`<button id=\"foo\" class=\"item\" onclick=\"openDescription(document.getElementById(foo));\">`;document.getElementById(foo).onclick = () => openDescription(document.getElementById(foo));");
     }
 
 

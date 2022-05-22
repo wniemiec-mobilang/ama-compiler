@@ -60,7 +60,7 @@ class EventParser {
     }
 
     private boolean hasOnClick(String line) {
-        return line.matches(".*([^A-z]+|)onclick=.*");
+        return line.toLowerCase().matches(".*([^A-z]+|)onclick=.*");
     }
 
     /*
@@ -109,7 +109,7 @@ class EventParser {
     }
 
     private String extractValueFromAttribute(String attribute, String line) {
-        Pattern pattern = Pattern.compile(attribute + "=\"[^\"]+\"");
+        Pattern pattern = Pattern.compile(attribute + "=\"[^\"]+\"", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(line);
 
         if (!matcher.find()) {

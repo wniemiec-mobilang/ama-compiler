@@ -35,6 +35,13 @@ class EventParserTest {
         assertCodeEquals("`<button id=\"foo\" class=\"item\" onclick=\"openDescription(document.getElementById(foo));\">`;document.getElementById(foo).onclick = () => openDescription(document.getElementById(foo));");
     }
 
+    @Test
+    void testOnClickWithCamelCase() {
+        withCode("`<button id=\"foo\" class=\"item\" onClick=\"alert('Hello!')\">`");
+        doParsing();
+        assertCodeEquals("`<button id=\"foo\" class=\"item\" onClick=\"alert('Hello!')\">`;document.getElementById(foo).onclick = () => alert('Hello!')");
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods

@@ -32,21 +32,21 @@ class EventParserTest {
     void testOnClickAndThis() {
         withCode("`<button id=\"foo\" class=\"item\" onclick=\"openDescription(this);\">`");
         doParsing();
-        assertCodeEquals("`<button id=\"foo\" class=\"item\" onclick=\"openDescription(document.getElementById(foo));\">`;document.getElementById(foo).onclick = () => openDescription(document.getElementById(foo));");
+        assertCodeEquals("`<button id=\"foo\" class=\"item\">`;document.getElementById(\"foo\").onclick = () => openDescription(document.getElementById(\"foo\"));");
     }
 
     @Test
     void testOnClickWithCamelCase() {
         withCode("`<button id=\"foo\" class=\"item\" onClick=\"alert('Hello!')\">`");
         doParsing();
-        assertCodeEquals("`<button id=\"foo\" class=\"item\" onClick=\"alert('Hello!')\">`;document.getElementById(foo).onclick = () => alert('Hello!')");
+        assertCodeEquals("`<button id=\"foo\" class=\"item\">`;document.getElementById(\"foo\").onclick = () => alert('Hello!')");
     }
 
     @Test
     void testOnClickWithoutId() {
         withCode("`<button class=\"item\" onClick=\"alert('Hello!')\">`");
         doParsing();
-        assertCodeEquals("`<button class=\"item\" onClick=\"alert('Hello!')\" id=\"" + getLastGeneratedId() + "\">`;document.getElementById(\"" + getLastGeneratedId() + "\").onclick = () => alert('Hello!')");
+        assertCodeEquals("`<button class=\"item\" id=\"" + getLastGeneratedId() + "\">`;document.getElementById(\"" + getLastGeneratedId() + "\").onclick = () => alert('Hello!')");
     }
 
     @Test
@@ -54,7 +54,7 @@ class EventParserTest {
         withCode("`<button class=\"item\" onclick=\"openDescription(this);\">`");
         doParsing();
         
-        assertCodeEquals("`<button class=\"item\" onclick=\"openDescription(document.getElementById(\"" + getLastGeneratedId() + "\"));\" id=\"" + getLastGeneratedId() + "\">`;" 
+        assertCodeEquals("`<button class=\"item\" id=\"" + getLastGeneratedId() + "\">`;" 
                          + "document.getElementById(\"" + getLastGeneratedId() + "\").onclick = () => openDescription(document.getElementById(\"" + getLastGeneratedId() + "\"));");
     }
 

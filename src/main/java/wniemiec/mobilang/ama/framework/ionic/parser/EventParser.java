@@ -93,6 +93,7 @@ class EventParser {
         }
 
         String buttonOnClickValue = extractOnClickValueFrom(line);
+        parsedLine = removeOnClickFrom(parsedLine);
 
         parsedLine += ";document.getElementById(\"" + buttonId + "\").onclick = () => " + buttonOnClickValue;
 
@@ -152,6 +153,17 @@ class EventParser {
 
     private String extractOnClickValueFrom(String line) {
         return extractValueFromAttribute("onclick", line);
+    }
+
+    private String removeOnClickFrom(String line) {
+        Pattern pattern = Pattern.compile("onclick=\"[^\"]+\"", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(line);
+
+        if (!matcher.find()) {
+            return line;
+        }
+
+        return matcher.replaceFirst("");
     }
 
     private boolean hasThis(String line) {

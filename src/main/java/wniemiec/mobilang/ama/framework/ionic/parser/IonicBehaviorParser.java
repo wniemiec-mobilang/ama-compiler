@@ -18,6 +18,7 @@ public class IonicBehaviorParser {
     private final IonicMobiLangDirectiveParser directiveParser;
     private final FunctionParser functionConverter;
     private final StyleParser styleParser;
+    private final EventParser eventParser;
     private List<String> parsedCode;
     private List<String> babelErrorLog;
 
@@ -32,6 +33,7 @@ public class IonicBehaviorParser {
         directiveParser = new IonicMobiLangDirectiveParser();
         functionConverter = new FunctionParser();
         styleParser = new StyleParser();
+        eventParser = new EventParser();
     }
 
 
@@ -43,7 +45,8 @@ public class IonicBehaviorParser {
         //runBabel(behavior);
         parsedCode = behavior.toCode();
         //runFunctionProcessor();
-        runStyleProcessor();
+        runStyleParser();
+        runEventParser();
         runDirectiveParser();
     }
 
@@ -81,9 +84,14 @@ public class IonicBehaviorParser {
         parsedCode = functionConverter.getParsedCode();
     }
 
-    private void runStyleProcessor() {  
+    private void runStyleParser() {  
         styleParser.parse(parsedCode);
         parsedCode = styleParser.getParsedCode();
+    }
+
+    private void runEventParser() {  
+        eventParser.parse(parsedCode);
+        parsedCode = eventParser.getParsedCode();
     }
 
     private void runDirectiveParser() {

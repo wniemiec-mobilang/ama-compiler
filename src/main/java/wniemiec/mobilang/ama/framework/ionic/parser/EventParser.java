@@ -80,6 +80,10 @@ class EventParser {
             addLinha("document.getElementById(button_id).onclick = () => button_onclick")
     */
     private String parseOnClick(String line) {
+        if (!isOnClickInsideATag(line)) {
+            return line;
+        }
+
         String parsedLine = line;
         String buttonId;
 
@@ -102,6 +106,13 @@ class EventParser {
         }
 
         return parsedLine;
+    }
+
+    private boolean isOnClickInsideATag(String line) {
+        Pattern pattern = Pattern.compile("([^=]+|)<[^=]+.+onclick=.+[^=]+>([^=]+|)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(line);
+
+        return matcher.find();
     }
 
     private boolean hasId(String line) {

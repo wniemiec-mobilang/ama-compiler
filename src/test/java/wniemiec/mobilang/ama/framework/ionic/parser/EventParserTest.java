@@ -53,9 +53,15 @@ class EventParserTest {
     void testOnClickAndThisWithoutId() {
         withCode("`<button class=\"item\" onclick=\"openDescription(this);\">`");
         doParsing();
-        
         assertCodeEquals("`<button class=\"item\" id=\"" + getLastGeneratedId() + "\">`;" 
                          + "document.getElementById(\"" + getLastGeneratedId() + "\").onclick = () => openDescription(document.getElementById(\"" + getLastGeneratedId() + "\"));");
+    }
+
+    @Test
+    void testOnClickAsAttribute() {
+        withCode("document.getElementById('foo').onclick=()=>alert('bar')");
+        doParsing();
+        assertCodeEquals("document.getElementById('foo').onclick=()=>alert('bar')");
     }
 
 

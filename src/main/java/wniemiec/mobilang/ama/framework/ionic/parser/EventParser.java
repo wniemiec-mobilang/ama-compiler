@@ -18,6 +18,7 @@ class EventParser {
     //-------------------------------------------------------------------------
     private final Encryptor encryptor;
     private List<String> parsedCode;
+    private List<String> generatedIds;
 
 
     //-------------------------------------------------------------------------
@@ -25,6 +26,7 @@ class EventParser {
     //-------------------------------------------------------------------------
     public EventParser() {
         parsedCode = new ArrayList<>();
+        generatedIds = new ArrayList<>();
         encryptor = Encryptors.md5();
     }
     
@@ -87,14 +89,15 @@ class EventParser {
         else {
             buttonId = generateUniqueIdentifier();
             parsedLine = putId(buttonId, line);
+            generatedIds.add(buttonId);
         }
 
         String buttonOnClickValue = extractOnClickValueFrom(line);
 
-        parsedLine += ";document.getElementById(" + buttonId + ").onclick = () => " + buttonOnClickValue;
+        parsedLine += ";document.getElementById(\"" + buttonId + "\").onclick = () => " + buttonOnClickValue;
 
         if (hasThis(line)) {
-            parsedLine = parsedLine.replace("this", "document.getElementById(" + buttonId + ")");
+            parsedLine = parsedLine.replace("this", "document.getElementById(\"" + buttonId + "\")");
         }
 
         return parsedLine;
@@ -161,5 +164,9 @@ class EventParser {
     //-------------------------------------------------------------------------
     public List<String> getParsedCode() {
         return parsedCode;
+    }
+
+    List<String> getGeneratedIds() {
+        return generatedIds;
     }
 }

@@ -42,6 +42,22 @@ class EventParserTest {
         assertCodeEquals("`<button id=\"foo\" class=\"item\" onClick=\"alert('Hello!')\">`;document.getElementById(foo).onclick = () => alert('Hello!')");
     }
 
+    @Test
+    void testOnClickWithoutId() {
+        withCode("`<button class=\"item\" onClick=\"alert('Hello!')\">`");
+        doParsing();
+        assertCodeEquals("`<button class=\"item\" onClick=\"alert('Hello!')\" id=\"" + getLastGeneratedId() + "\">`;document.getElementById(\"" + getLastGeneratedId() + "\").onclick = () => alert('Hello!')");
+    }
+
+    @Test
+    void testOnClickAndThisWithoutId() {
+        withCode("`<button class=\"item\" onclick=\"openDescription(this);\">`");
+        doParsing();
+        
+        assertCodeEquals("`<button class=\"item\" onclick=\"openDescription(document.getElementById(\"" + getLastGeneratedId() + "\"));\" id=\"" + getLastGeneratedId() + "\">`;" 
+                         + "document.getElementById(\"" + getLastGeneratedId() + "\").onclick = () => openDescription(document.getElementById(\"" + getLastGeneratedId() + "\"));");
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods
@@ -80,5 +96,9 @@ class EventParserTest {
 
     private String removeWhiteSpaces(String text) {
         return text.replaceAll("[\\s\\t]+", "");
+    }
+
+    private String getLastGeneratedId() {
+        return parser.getGeneratedIds().get(0);
     }
 }

@@ -2,16 +2,19 @@ package wniemiec.mobilang.ama.framework.ionic.parser;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import wniemiec.data.java.Encryptor;
 import wniemiec.data.java.Encryptors;
+import wniemiec.mobilang.ama.models.InlineEventTag;
+import wniemiec.mobilang.ama.models.Range;
 
 
-class EventParser {
-
+class EventBehaviorParser {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -24,7 +27,7 @@ class EventParser {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public EventParser() {
+    public EventBehaviorParser() {
         parsedCode = new ArrayList<>();
         generatedIds = new ArrayList<>();
         encryptor = Encryptors.md5();
@@ -53,12 +56,46 @@ class EventParser {
 
     private String parseLine(String line) {
         String parsedLine = line;
+        Pattern pattern = Pattern.compile("<[^<>]+>");
+        Matcher matcher = pattern.matcher(line);
+        Stack<Range<Integer>> tagsToParse = new Stack<>();
+        StringBuilder codesToAdd = new StringBuilder();
 
-        if (hasOnClick(line)) {
-            parsedLine = parseOnClick(line);
+        while (matcher.find()) {
+            int indexOfTagBegins = matcher.start();
+            int indexOfTagEnds = matcher.end();
+
+            tagsToParse.push(new Range<>(indexOfTagBegins, indexOfTagEnds));
+        }
+        
+        while (!tagsToParse.empty()) {
+            Range<Integer> currentTag = tagsToParse.pop();
+            InlineEventTag parsedTag = parseTag(parsedLine.substring(currentTag.getBegin(), currentTag.getEnd() + 1));
+
+            if (parsedTag.hasEvent()) {
+                parsedLine = parsedLine.substring(0, currentTag.getBegin()) + parsedTag.getCode() + parsedLine.substring(currentTag.getEnd()+1);
+                codesToAdd.append(";document.getElementById(\"" + parsedTag.getId() + "\")." + parsedTag.getEventName() + " = () => " + parsedTag.getEventValue());    
+            }
+            //codesToAdd.append(";document.getElementById(\"" + buttonId + "\").onclick = () => " + buttonOnClickValue);    
         }
 
+        parsedLine += codesToAdd.toString();
+
+        /*if (hasOnClick(line)) {
+            parsedLine = parseOnClick(line);
+        }*/
+
         return parsedLine;
+    }
+
+    private InlineEventTag parseTag(String tag) {
+        InlineEventTag parsedTag = new InlineEventTag(tag);
+
+        if (hasOnClick(tag)) {
+            parseOnClick(parsedTag);
+        }
+
+        return parsedTag;
     }
 
     private boolean hasOnClick(String line) {
@@ -79,7 +116,29 @@ class EventParser {
                 substituir 'this' por document.getElementById(button_id)
             addLinha("document.getElementById(button_id).onclick = () => button_onclick")
     */
-    private String parseOnClick(String line) {
+    private void parseOnClick(InlineEventTag tag) {
+        tag.setEventName("onclick");
+        tag.setEventValue(extractOnClickValueFrom(tag));
+        removeOnClickFrom(tag);
+
+        String id;
+
+        if (hasId(tag)) {
+            id = extractIdFrom(tag);
+        }
+        else {
+            id = generateUniqueIdentifier();
+            putId(id, tag);
+            generatedIds.add(id);
+        }
+
+        if (hasThis(tag)) {
+            tag.setCode(tag.getCode().replace("this", "document.getElementById(\"" + id + "\")"));
+        }
+
+        tag.setId(id);
+
+        /*
         if (!isOnClickInsideATag(line)) {
             return line;
         }
@@ -99,13 +158,14 @@ class EventParser {
         String buttonOnClickValue = extractOnClickValueFrom(line);
         parsedLine = removeOnClickFrom(parsedLine);
 
-        parsedLine += ";document.getElementById(\"" + buttonId + "\").onclick = () => " + buttonOnClickValue;
+        parsedLine += ";document.getElementById(\"" + buttonId + "\").onclick = () => " + buttonOnClickValue; // TODO: apos final das tags - n pd ser no meio da string
 
         if (hasThis(line)) {
             parsedLine = parsedLine.replace("this", "document.getElementById(\"" + buttonId + "\")");
         }
 
         return parsedLine;
+        */
     }
 
     private boolean isOnClickInsideATag(String line) {
@@ -115,12 +175,12 @@ class EventParser {
         return matcher.find();
     }
 
-    private boolean hasId(String line) {
-        return line.matches(".*([^A-z]+|)id=.*");
+    private boolean hasId(InlineEventTag tag) {
+        return tag.getCode().matches(".*([^A-z]+|)id=.*");
     }
 
-    private String extractIdFrom(String line) {
-        return extractValueFromAttribute("id", line);
+    private String extractIdFrom(InlineEventTag tag) {
+        return extractValueFromAttribute("id", tag.getCode());
     }
 
     private String extractValueFromAttribute(String attribute, String line) {
@@ -148,37 +208,35 @@ class EventParser {
 		return (new Date().getTime() + (Math.random() * 9999 + 1));
 	}
 
-    private String putId(String id, String line) {
+    private void putId(String id, InlineEventTag tag) {
         StringBuilder parsedLine = new StringBuilder();
-        int indexOfTagEnd = line.indexOf(">");
+        int indexOfTagEnd = tag.getCode().indexOf(">");
 
-        parsedLine.append(line.substring(0, indexOfTagEnd));
+        parsedLine.append(tag.getCode().substring(0, indexOfTagEnd));
         parsedLine.append(' ');
         parsedLine.append("id=\"");
         parsedLine.append(id);
         parsedLine.append('\"');
-        parsedLine.append(line.substring(indexOfTagEnd));
+        parsedLine.append(tag.getCode().substring(indexOfTagEnd));
 
-        return parsedLine.toString();
+        tag.setCode(parsedLine.toString());
     }
 
-    private String extractOnClickValueFrom(String line) {
-        return extractValueFromAttribute("onclick", line);
+    private String extractOnClickValueFrom(InlineEventTag tag) {
+        return extractValueFromAttribute("onclick", tag.getCode());
     }
 
-    private String removeOnClickFrom(String line) {
+    private void removeOnClickFrom(InlineEventTag tag) {
         Pattern pattern = Pattern.compile("onclick=\"[^\"]+\"", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(line);
+        Matcher matcher = pattern.matcher(tag.getCode());
 
-        if (!matcher.find()) {
-            return line;
+        if (matcher.find()) {
+            tag.setCode(matcher.replaceFirst(""));
         }
-
-        return matcher.replaceFirst("");
     }
 
-    private boolean hasThis(String line) {
-        return line.matches(".*([^A-z]+|)this([^A-z]+|).*");
+    private boolean hasThis(InlineEventTag tag) {
+        return tag.getCode().matches(".*([^A-z]+|)this([^A-z]+|).*");
     }
 
 

@@ -7,12 +7,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-class EventParserTest {
+class EventBehaviorParserTest {
     
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private EventParser parser;
+    private EventBehaviorParser parser;
     private List<String> code;
     
 
@@ -21,7 +21,7 @@ class EventParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        parser = new EventParser();
+        parser = new EventBehaviorParser();
     }
 
 
@@ -46,15 +46,15 @@ class EventParserTest {
     void testOnClickWithoutId() {
         withCode("`<button class=\"item\" onClick=\"alert('Hello!')\">`");
         doParsing();
-        assertCodeEquals("`<button class=\"item\" id=\"" + getLastGeneratedId() + "\">`;document.getElementById(\"" + getLastGeneratedId() + "\").onclick = () => alert('Hello!')");
+        assertCodeEquals("`<button class=\"item\" id=\"" + getGeneratedId(0) + "\">`;document.getElementById(\"" + getGeneratedId(0) + "\").onclick = () => alert('Hello!')");
     }
 
     @Test
     void testOnClickAndThisWithoutId() {
         withCode("`<button class=\"item\" onclick=\"openDescription(this);\">`");
         doParsing();
-        assertCodeEquals("`<button class=\"item\" id=\"" + getLastGeneratedId() + "\">`;" 
-                         + "document.getElementById(\"" + getLastGeneratedId() + "\").onclick = () => openDescription(document.getElementById(\"" + getLastGeneratedId() + "\"));");
+        assertCodeEquals("`<button class=\"item\" id=\"" + getGeneratedId(0) + "\">`;" 
+                         + "document.getElementById(\"" + getGeneratedId(0) + "\").onclick = () => openDescription(document.getElementById(\"" + getGeneratedId(0) + "\"));");
     }
 
     @Test
@@ -62,6 +62,17 @@ class EventParserTest {
         withCode("document.getElementById('foo').onclick=()=>alert('bar')");
         doParsing();
         assertCodeEquals("document.getElementById('foo').onclick=()=>alert('bar')");
+    }
+
+    @Test
+    void testOnClickWithoutIdWithMultipleTags() {
+        withCode("`<div><button class=\"item\" onClick=\"alert('Hello!')\"></button>" 
+                 + "<button class=\"item\" onClick=\"alert('World!')\"></button></div>`");
+        doParsing();
+        assertCodeEquals("`<div><button class=\"item\" id=\"" + getGeneratedId(0) + "\"></button>" 
+                         + "<button class=\"item\" id=\"" + getGeneratedId(1) + "\"></button></div>`;" 
+                         + "document.getElementById(\"" + getGeneratedId(0) + "\").onclick = () => alert('Hello!');"
+                         + "document.getElementById(\"" + getGeneratedId(1) + "\").onclick = () => alert('World!');");
     }
 
 
@@ -104,7 +115,11 @@ class EventParserTest {
         return text.replaceAll("[\\s\\t]+", "");
     }
 
-    private String getLastGeneratedId() {
-        return parser.getGeneratedIds().get(0);
+    private String getGeneratedId(int index) {
+        if (index >= parser.getGeneratedIds().size()) {
+            return "NULL";
+        }
+
+        return parser.getGeneratedIds().get(index);
     }
 }

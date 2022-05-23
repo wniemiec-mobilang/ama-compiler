@@ -80,7 +80,10 @@ class EventBehaviorParser {
                     + parsedTag.getCode() 
                     + parsedLine.substring(offset + currentTag.getEnd()+1);
                 offset += newLength - oldLength;
-                codesToAdd.append(";document.getElementById(\"" + parsedTag.getId() + "\")." + parsedTag.getEventName() + " = () => " + parsedTag.getEventValue());    
+                
+                String attributeAssignmentCode = ";document.getElementById(\"" + parsedTag.getId() + "\")." + parsedTag.getEventName() + " = () => " + parsedTag.getEventValue();
+                attributeAssignmentCode = attributeAssignmentCode.replace("this", "document.getElementById(\"" + parsedTag.getId() + "\")");
+                codesToAdd.append(attributeAssignmentCode);
             }
             //codesToAdd.append(";document.getElementById(\"" + buttonId + "\").onclick = () => " + buttonOnClickValue);    
         }

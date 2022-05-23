@@ -71,14 +71,15 @@ class EventTagParserTest {
     }
 
     private void assertHasEvent(String event) {
-        Assertions.assertTrue(getFirstEventFromParser().contains(event));
+        Assertions.assertTrue(containsEvent(event));
     }
 
-    private String getFirstEventFromParser() {
+    private boolean containsEvent(String event) {
         return parser
             .getEvents()
-            .values()
-            .iterator()
-            .next();
+            .stream()
+            .filter(e -> e.getEventName().equals(event))
+            .findAny()
+            .isPresent();
     }
 }

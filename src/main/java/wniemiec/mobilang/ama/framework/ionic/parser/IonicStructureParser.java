@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.function.UnaryOperator;
+
+import wniemiec.mobilang.ama.models.EventTag;
 import wniemiec.mobilang.ama.models.tag.Tag;
 
 
@@ -109,7 +111,7 @@ public class IonicStructureParser {
         return inputParser.getInputIds();
     }
 
-    public Map<String, String> getEvents() {
+    public List<EventTag> getEvents() {
         return eventParser.getEvents();
     }
 

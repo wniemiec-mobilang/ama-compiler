@@ -1,10 +1,13 @@
 package wniemiec.mobilang.ama.framework.ionic.parser;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import wniemiec.data.java.Encryptor;
 import wniemiec.data.java.Encryptors;
+import wniemiec.mobilang.ama.models.EventTag;
 import wniemiec.mobilang.ama.models.tag.Tag;
 
 
@@ -13,7 +16,7 @@ class EventTagParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final Map<String, String> events;
+    private final List<EventTag> events;
     private static final String ATTRIBUTE_ONCLICK;
     private Tag parsedTag;
     private Encryptor encryptor;
@@ -31,7 +34,7 @@ class EventTagParser {
     //		Constructor
     //-------------------------------------------------------------------------
     public EventTagParser() {
-        events = new HashMap<>();
+        events = new ArrayList<>();
         parsedTag = Tag.getEmptyInstance();
         encryptor = Encryptors.md5();
     }
@@ -53,11 +56,19 @@ class EventTagParser {
     }
 
     private void parseTagWithOnClick(Tag tag) {
-        String id = generateUniqueIdentifier();
+        String id;
         
-        tag.addAttribute("id", id);
+        if (tag.hasAttribute("id")) {
+            id = tag.getAttribute("id");
+        }
+        else {
+            id = generateUniqueIdentifier();
+            tag.addAttribute("id", id);
+        }
         
-        events.put(id, "onclick = () => {" + tag.getAttribute(ATTRIBUTE_ONCLICK) + "}");
+        EventTag event = new EventTag(id, ATTRIBUTE_ONCLICK, tag.getAttribute(ATTRIBUTE_ONCLICK));
+        events.add(event);
+        //events.put(id, "onclick = () => " + tag.getAttribute(ATTRIBUTE_ONCLICK));
 
         tag.removeAttribute(ATTRIBUTE_ONCLICK);
     }
@@ -74,7 +85,7 @@ class EventTagParser {
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public Map<String, String> getEvents() {
+    public List<EventTag> getEvents() {
         return events;
     }
 

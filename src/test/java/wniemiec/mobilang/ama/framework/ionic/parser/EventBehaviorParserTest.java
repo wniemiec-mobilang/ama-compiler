@@ -75,6 +75,13 @@ class EventBehaviorParserTest {
                          + "document.getElementById(\"" + getGeneratedId(1) + "\").onclick = () => alert('World!')");
     }
 
+    @Test
+    void testOnClickWithTemplateStringAndThis() {
+        withCode("`<button id=\"foo\" class=\"item\" onclick=\"openDescription(${1});\">`");
+        doParsing();
+        assertCodeEquals("`<button id=\"foo\" class=\"item\">`;document.getElementById(\"foo\").onclick = () => openDescription(`${1}`);");
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods

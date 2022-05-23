@@ -232,7 +232,23 @@ class EventBehaviorParser {
     }
 
     private String extractOnClickValueFrom(InlineEventTag tag) {
-        return extractValueFromAttribute("onclick", tag.getCode());
+        String value = extractValueFromAttribute("onclick", tag.getCode());
+
+        if (hasTemplateStringTokens(value)) {
+            int indexOfParametersBegins = value.indexOf("(");
+            int indexOfParametersEnds = value.lastIndexOf(")");
+            
+            value = value.substring(0, indexOfParametersBegins+1) 
+                + "`" + value.substring(indexOfParametersBegins+1, indexOfParametersEnds) + "`" 
+                + value.substring(indexOfParametersEnds);
+            //value = "`" + value + "`";
+        }
+
+        return value;
+    }
+
+    private boolean hasTemplateStringTokens(String line) {
+        return line.matches(".*\\$\\{.+\\}.*");
     }
 
     private void removeOnClickFrom(InlineEventTag tag) {

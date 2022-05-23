@@ -1,11 +1,13 @@
 package wniemiec.mobilang.ama.framework.ionic.coder;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.framework.ionic.parser.IonicBehaviorParser;
 import wniemiec.mobilang.ama.framework.ionic.parser.IonicStructureParser;
 import wniemiec.mobilang.ama.models.CodeFile;
+import wniemiec.mobilang.ama.models.EventTag;
 import wniemiec.mobilang.ama.models.Screen;
 
 
@@ -140,6 +142,7 @@ public class IonicScreensCoder {
         code.add("  }");
         code.add("");
         code.add("  ngOnInit(): void {");
+        code.addAll(buildTagEventsCode());
         code.addAll(behaviorCode);
         code.add("");
         code.add("  }");
@@ -147,6 +150,17 @@ public class IonicScreensCoder {
 
         return generateCodeFileFor(screen, ".page.ts", code);
     }
+
+    private List<String> buildTagEventsCode() {
+        List<String> code = new ArrayList<>();
+
+        for (EventTag tag : structureParser.getEvents()) {
+            code.add("document.getElementById(\"" + tag.getId() + "\")." + tag.getEventName() + " = () => " + tag.getEventValue());
+        }
+
+        return code;
+    }
+
 
     private CodeFile buildRoutingFileCode(Screen screen) {
         List<String> code = new ArrayList<>();

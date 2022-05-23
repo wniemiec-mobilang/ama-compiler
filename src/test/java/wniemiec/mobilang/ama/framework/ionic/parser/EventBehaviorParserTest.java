@@ -72,7 +72,7 @@ class EventBehaviorParserTest {
         assertCodeEquals("`<div><button class=\"item\" id=\"" + getGeneratedId(0) + "\"></button>" 
                          + "<button class=\"item\" id=\"" + getGeneratedId(1) + "\"></button></div>`;" 
                          + "document.getElementById(\"" + getGeneratedId(0) + "\").onclick = () => alert('Hello!');"
-                         + "document.getElementById(\"" + getGeneratedId(1) + "\").onclick = () => alert('World!');");
+                         + "document.getElementById(\"" + getGeneratedId(1) + "\").onclick = () => alert('World!')");
     }
 
 

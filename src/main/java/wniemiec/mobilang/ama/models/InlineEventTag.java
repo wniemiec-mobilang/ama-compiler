@@ -39,7 +39,7 @@ public class InlineEventTag {
     //		Methods
     //-------------------------------------------------------------------------
     public boolean hasEvent() {
-        return !eventName.equals(NULL_VALUE);
+        return (eventName != NULL_VALUE);
     }
 
 

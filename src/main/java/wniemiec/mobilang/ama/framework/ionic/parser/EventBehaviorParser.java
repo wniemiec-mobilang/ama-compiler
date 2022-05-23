@@ -58,22 +58,28 @@ class EventBehaviorParser {
         String parsedLine = line;
         Pattern pattern = Pattern.compile("<[^<>]+>");
         Matcher matcher = pattern.matcher(line);
-        Stack<Range<Integer>> tagsToParse = new Stack<>();
+        Queue<Range<Integer>> tagsToParse = new LinkedList<>();
         StringBuilder codesToAdd = new StringBuilder();
 
         while (matcher.find()) {
             int indexOfTagBegins = matcher.start();
-            int indexOfTagEnds = matcher.end();
-
-            tagsToParse.push(new Range<>(indexOfTagBegins, indexOfTagEnds));
+            int indexOfTagEnds = matcher.end() - 1;
+            tagsToParse.add(new Range<>(indexOfTagBegins, indexOfTagEnds));
         }
         
-        while (!tagsToParse.empty()) {
-            Range<Integer> currentTag = tagsToParse.pop();
-            InlineEventTag parsedTag = parseTag(parsedLine.substring(currentTag.getBegin(), currentTag.getEnd() + 1));
+        int offset = 0;
+        while (!tagsToParse.isEmpty()) {
+            Range<Integer> currentTag = tagsToParse.poll();
+            InlineEventTag parsedTag = parseTag(line.substring(currentTag.getBegin(), currentTag.getEnd() + 1));
 
             if (parsedTag.hasEvent()) {
-                parsedLine = parsedLine.substring(0, currentTag.getBegin()) + parsedTag.getCode() + parsedLine.substring(currentTag.getEnd()+1);
+                int oldLength = currentTag.getEnd() - currentTag.getBegin() + 1;
+                int newLength = parsedTag.getCode().length();
+
+                parsedLine = parsedLine.substring(0, currentTag.getBegin() + offset) 
+                    + parsedTag.getCode() 
+                    + parsedLine.substring(offset + currentTag.getEnd()+1);
+                offset += newLength - oldLength;
                 codesToAdd.append(";document.getElementById(\"" + parsedTag.getId() + "\")." + parsedTag.getEventName() + " = () => " + parsedTag.getEventValue());    
             }
             //codesToAdd.append(";document.getElementById(\"" + buttonId + "\").onclick = () => " + buttonOnClickValue);    

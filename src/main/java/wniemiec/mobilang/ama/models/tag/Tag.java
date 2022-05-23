@@ -16,11 +16,11 @@ public class Tag implements Cloneable {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
+    private Map<String, String> attributes;
     private List<Tag> children;
     private String name;
     private String value;
     private Tag parent;
-    private Map<String, String> attributes;
     private Map<String, String> style;
     private boolean voidTag;
 
@@ -28,11 +28,11 @@ public class Tag implements Cloneable {
     //-------------------------------------------------------------------------
     //		Constructors
     //-------------------------------------------------------------------------
-    private Tag(String name, boolean voidTag) {
+    public Tag(String name, boolean voidTag) {
         this(name, new HashMap<>(), voidTag);
     }
 
-    public Tag(String name, Map<String, String> tagAttributes, boolean voidTag) {
+    private Tag(String name, Map<String, String> tagAttributes, boolean voidTag) {
         this.name = name;
         this.attributes = tagAttributes;
         children = new ArrayList<>();
@@ -104,11 +104,11 @@ public class Tag implements Cloneable {
     }
 
     public void addAttribute(String name, String value) {
-        attributes.put(name, value);
+        attributes.put(name.toLowerCase(), value);
     }
 
     public boolean hasAttribute(String name) {
-        return attributes.containsKey(name);
+        return attributes.containsKey(name.toLowerCase());
     }
 
     /**
@@ -398,11 +398,11 @@ public class Tag implements Cloneable {
         return attributes;
     }
 
-    public String getStyle(String attribute) {
-        return style.get(attribute);
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
     }
 
-    public void setAttributes(Map<String, String> newAttributes) {
-        attributes = newAttributes;
+    public String getStyle(String attribute) {
+        return style.get(attribute);
     }
 }

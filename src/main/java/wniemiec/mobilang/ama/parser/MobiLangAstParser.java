@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.SortedMap;
 
 import wniemiec.mobilang.ama.models.Node;
-import wniemiec.mobilang.ama.models.PropertiesData;
-import wniemiec.mobilang.ama.models.ScreenData;
+import wniemiec.mobilang.ama.models.Properties;
+import wniemiec.mobilang.ama.models.Screen;
 import wniemiec.mobilang.ama.parser.exception.ParseException;
 import wniemiec.mobilang.ama.parser.properties.PropertiesParser;
 import wniemiec.mobilang.ama.parser.screens.ScreensParser;
@@ -96,11 +96,11 @@ public class MobiLangAstParser {
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public List<ScreenData> getScreensData() {
+    public List<Screen> getScreensData() {
         return screensParser.getScreensData();
     }
 
-    public PropertiesData getPropertiesData() {
+    public Properties getPropertiesData() {
         return propertiesParser.getPropertiesData();
     }
 }

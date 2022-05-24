@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.StandardTerminalBuilder;
 import wniemiec.io.java.Terminal;
-import wniemiec.mobilang.ama.models.PropertiesData;
+import wniemiec.mobilang.ama.models.Properties;
 
 
 /**
@@ -17,22 +17,37 @@ class ReactNativeProjectManager {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public void createProject(PropertiesData propertiesData, Path location) 
+    public void createProject(Properties propertiesData, Path location) 
     throws IOException {
         runReactNativeInit(propertiesData, location);
         removeOldAppFile(location);
     }
 
-    private void runReactNativeInit(PropertiesData propertiesData, Path location) 
+    private void runReactNativeInit(Properties propertiesData, Path location) 
+    throws IOException {
+        generateReactNativeProject(propertiesData);
+        removeAptGeneratedFolder(propertiesData);
+        moveProjectFolderTo(propertiesData, location);
+    }
+
+    private void generateReactNativeProject(Properties propertiesData) 
     throws IOException {
         exec(
             "react-native", 
             "init", 
             propertiesData.getAppName()
         );
+    }
 
-        removeAptGeneratedFolder(Path.of(propertiesData.getAppName()));
+    private void removeAptGeneratedFolder(Properties propertiesData) 
+    throws IOException {
+        Path location = Path.of(propertiesData.getAppName());
+        
+        Files.deleteIfExists(location.resolve(".apt_generated"));
+    }
 
+    private void moveProjectFolderTo(Properties propertiesData, Path location) 
+    throws IOException {
         exec(
             "mv", 
             propertiesData.getAppName(), 
@@ -44,10 +59,6 @@ class ReactNativeProjectManager {
             location.getFileName().toString(),
             location.getParent().toString()
         );
-    }
-
-    private void removeAptGeneratedFolder(Path location) throws IOException {
-        Files.delete(location.resolve(".apt_generated"));
     }
 
     private void removeOldAppFile(Path location) throws IOException {

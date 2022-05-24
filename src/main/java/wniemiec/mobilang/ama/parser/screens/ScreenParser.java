@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.SortedMap;
 
 import wniemiec.mobilang.ama.models.Node;
-import wniemiec.mobilang.ama.models.ScreenData;
+import wniemiec.mobilang.ama.models.Screen;
 import wniemiec.mobilang.ama.models.Style;
 import wniemiec.mobilang.ama.models.behavior.Behavior;
 import wniemiec.mobilang.ama.models.tag.Tag;
@@ -29,7 +29,7 @@ public class ScreenParser {
     private Node structureNode;
     private Node styleNode;
     private Node behaviorNode;
-    private ScreenData screenData;
+    private Screen screenData;
 
 
     //-------------------------------------------------------------------------
@@ -97,7 +97,7 @@ public class ScreenParser {
 
     private void parseScreen(Tag structure, Style style, Behavior behavior) 
     throws ParseException, IOException {
-        screenData = new ScreenData.Builder()
+        screenData = new Screen.Builder()
             .name(id) 
             .structure(structure)
             .style(style)
@@ -109,7 +109,7 @@ public class ScreenParser {
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public ScreenData getScreenData() {
+    public Screen getScreenData() {
         return screenData;
     }
 

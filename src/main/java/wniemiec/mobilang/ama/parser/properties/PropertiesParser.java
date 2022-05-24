@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import wniemiec.mobilang.ama.models.Node;
-import wniemiec.mobilang.ama.models.PropertiesData;
+import wniemiec.mobilang.ama.models.Properties;
 import wniemiec.mobilang.ama.parser.exception.ParseException;
 
 
@@ -20,7 +20,7 @@ public class PropertiesParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private final String propertiesContent;
-    private final PropertiesData propertiesData;
+    private final Properties propertiesData;
 
 
     //-------------------------------------------------------------------------
@@ -34,7 +34,7 @@ public class PropertiesParser {
      */
     public PropertiesParser(SortedMap<String, List<Node>> ast, Node propertiesNode) {
         propertiesContent = ast.get(propertiesNode.getId()).get(0).getLabel();
-        propertiesData = new PropertiesData();
+        propertiesData = new Properties();
     }
     
 
@@ -70,7 +70,7 @@ public class PropertiesParser {
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public PropertiesData getPropertiesData() {
+    public Properties getPropertiesData() {
         return propertiesData;
     }
 }

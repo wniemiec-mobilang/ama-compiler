@@ -8,8 +8,8 @@ import java.util.Set;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.framework.Framework;
 import wniemiec.mobilang.ama.models.CodeFile;
-import wniemiec.mobilang.ama.models.ProjectCodes;
-import wniemiec.mobilang.ama.models.ScreenData;
+import wniemiec.mobilang.ama.models.Project;
+import wniemiec.mobilang.ama.models.Screen;
 
 
 /**
@@ -20,7 +20,7 @@ public class MobiLangCoder {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final List<ScreenData> screensData;
+    private final List<Screen> screensData;
     private final Framework framework;
     private final List<CodeFile> codeFiles;
     private final Set<String> dependencies;
@@ -37,7 +37,7 @@ public class MobiLangCoder {
      * @param       framework Framework that will handle with code generation
      */
     public MobiLangCoder(
-        List<ScreenData> screensData,
+        List<Screen> screensData,
         Framework framework
     ) {
         this.screensData = screensData;
@@ -51,7 +51,7 @@ public class MobiLangCoder {
     //		Methods
     //-------------------------------------------------------------------------
     public void generateCode() throws CoderException {
-        ProjectCodes codes = framework.generateCode(screensData);
+        Project codes = framework.generateCode(screensData);
 
         codeFiles.addAll(codes.getCodeFiles());
         dependencies.addAll(codes.getDependencies());

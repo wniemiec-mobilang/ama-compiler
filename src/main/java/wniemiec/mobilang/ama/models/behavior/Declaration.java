@@ -20,6 +20,10 @@ public class Declaration implements Instruction {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
+    public Declaration(String kind, Declarator declaration) {
+        this(kind, List.of(declaration));
+    }
+
     public Declaration(String kind, List<Declarator> declarations) {
         this.kind = kind;
         this.declarations = (declarations == null) ? new ArrayList<>() : declarations;

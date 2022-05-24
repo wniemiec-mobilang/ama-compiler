@@ -5,9 +5,9 @@ import java.nio.file.Path;
 import java.util.List;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
-import wniemiec.mobilang.ama.models.ProjectCodes;
-import wniemiec.mobilang.ama.models.PropertiesData;
-import wniemiec.mobilang.ama.models.ScreenData;
+import wniemiec.mobilang.ama.models.Project;
+import wniemiec.mobilang.ama.models.Properties;
+import wniemiec.mobilang.ama.models.Screen;
 
 
 /**
@@ -25,7 +25,7 @@ public interface Framework {
      * 
      * @throws      IOException If project cannot be created
      */
-    void createProject(PropertiesData propertiesData, Path location) 
+    void createProject(Properties propertiesData, Path location) 
     throws IOException;
   
     /**
@@ -48,8 +48,7 @@ public interface Framework {
      * 
      * @throws      CoderException If code cannot be generated
      */
-    ProjectCodes generateCode(List<ScreenData> screensData) 
-    throws CoderException;
+    Project generateCode(List<Screen> screensData) throws CoderException;
 
     /**
      * Generates mobile application for a platform.

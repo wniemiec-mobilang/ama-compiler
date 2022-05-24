@@ -95,9 +95,13 @@ class TagParser {
 
     private Tag parseTagContent(JSONObject tagContent) {
         Tag parsedTag = new Tag(
-            extractTagName(tagContent), 
-            extractTagAttributes(tagContent)
+            extractTagName(tagContent),
+            extractTagType(tagContent)
         );
+        
+        for (Map.Entry<String, String> attribute : extractTagAttributes(tagContent).entrySet()) {
+            parsedTag.addAttribute(attribute.getKey(), attribute.getValue());
+        }
         
         if (hasChildren(tagContent)) {
             parseTagChildren(parsedTag, tagContent);
@@ -132,6 +136,14 @@ class TagParser {
         }
 
         return attributes;
+    }
+
+    private boolean extractTagType(JSONObject tag) {
+        if (!tag.has("selfClosing")) {
+            return false;
+        }
+
+        return tag.getBoolean("selfClosing");
     }
 
     private String extractKeyFromAttribute(JSONObject attributeObject) {

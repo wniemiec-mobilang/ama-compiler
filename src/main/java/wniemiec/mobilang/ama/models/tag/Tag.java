@@ -5,44 +5,75 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-
 import wniemiec.io.java.Consolex;
 
 
 /**
  * Responsible for representing a tag.
  */
-public class Tag {
+public class Tag implements Cloneable {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
+    private Map<String, String> attributes;
     private List<Tag> children;
     private String name;
     private String value;
     private Tag parent;
-    private Map<String, String> attributes;
     private Map<String, String> style;
+    private boolean voidTag;
 
 
     //-------------------------------------------------------------------------
     //		Constructors
     //-------------------------------------------------------------------------
-    public Tag(String name, Map<String, String> tagAttributes) {
+    public Tag(String name, boolean voidTag) {
+        this(name, new HashMap<>(), voidTag);
+    }
+
+    private Tag(String name, Map<String, String> tagAttributes, boolean voidTag) {
         this.name = name;
         this.attributes = tagAttributes;
         children = new ArrayList<>();
         style = new HashMap<>();
+        this.voidTag = voidTag;
     }
     
-    public Tag(String name) {
-        this(name, new HashMap<>());
+
+    //-------------------------------------------------------------------------
+    //		Factories
+    //-------------------------------------------------------------------------
+    public static Tag getEmptyInstance() {
+        return new Tag("null", true);
+    }
+
+    public static Tag getNormalInstance(String name) {
+        return new Tag(name, false);
+    }
+
+    public static Tag getVoidInstance(String name) {
+        return new Tag(name, true);
     }
     
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    public Tag clone() {
+        Tag clonedTag = new Tag(name, attributes, voidTag);
+
+        clonedTag.setStyle(new HashMap<>(style));
+        clonedTag.setParent(parent);
+        clonedTag.setValue(value);
+
+        this.getChildren().forEach(child -> {
+            clonedTag.addChild(child.clone());
+        });
+
+        return clonedTag;
+    }
+
     public void addChild(Tag child) {
         if (child == null) {
             return;
@@ -73,11 +104,16 @@ public class Tag {
     }
 
     public void addAttribute(String name, String value) {
-        attributes.put(name, value);
+        if (name.matches(".*[\\[\\]\\(\\)]+.*")) {
+            attributes.put(name, value);
+        }
+        else {
+            attributes.put(name.toLowerCase(), value);
+        }
     }
 
     public boolean hasAttribute(String name) {
-        return attributes.containsKey(name);
+        return attributes.containsKey(name.toLowerCase());
     }
 
     /**
@@ -138,20 +174,33 @@ public class Tag {
     public List<String> toCode() {
         List<String> code = new ArrayList<>();
 
-        code.add(buildTagOpen());
-        
-        if (getValue() != null) {
-            code.add(getValue());
+        if (isVoidTag()) {
+            code.add(buildVoidTag());
         }
         else {
-            for (Tag child : getChildren()) {
-                code.addAll(child.toCode());
+            code.add(buildTagOpen());
+
+            if (getValue() != null) {
+                code.add(getValue());
             }
+            else {
+                for (Tag child : getChildren()) {
+                    code.addAll(child.toCode());
+                }
+            }
+
+            code.add(buildTagClose());
         }
 
-        code.add(buildTagClose());
-
         return code;
+    }
+
+    private boolean isVoidTag() {
+        return voidTag;
+    }
+
+    private String buildVoidTag() {
+        return buildTagOpen().replace(">", "/>");
     }
 
     private String buildTagOpen() {
@@ -164,7 +213,7 @@ public class Tag {
             code.append(' ');
             code.append(stringifyAttributes());
         }
-        
+
         code.append('>');
 
         return code.toString();
@@ -236,6 +285,10 @@ public class Tag {
         this.style.putAll(style);
     }
 
+    public void removeAttribute(String attribute) {
+        attributes.remove(attribute);
+    }
+
     @Override
     public String toString() {
         return "Tag [" 
@@ -247,6 +300,57 @@ public class Tag {
             + "]";
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        
+        result = prime * result + ((attributes == null) ? 0 : attributes.hashCode());
+        result = prime * result + ((children == null) ? 0 : children.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((parent == null) ? 0 : parent.hashCode());
+        result = prime * result + ((style == null) ? 0 : style.hashCode());
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Tag other = (Tag) obj;
+        if (attributes == null) {
+            if (other.attributes != null)
+                return false;
+        } else if (!attributes.equals(other.attributes))
+            return false;
+        if (children == null) {
+            if (other.children != null)
+                return false;
+        } else if (!children.equals(other.children))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (style == null) {
+            if (other.style != null)
+                return false;
+        } else if (!style.equals(other.style))
+            return false;
+        if (value == null) {
+            if (other.value != null)
+                return false;
+        } else if (!value.equals(other.value))
+            return false;
+        return true;
+    }
 
     //-------------------------------------------------------------------------
     //		Getters & Setters
@@ -291,12 +395,16 @@ public class Tag {
         return parent;
     }
 
-    public void setParent(Tag father) {
-        this.parent = father;
+    public void setParent(Tag parent) {
+        this.parent = parent;
     }
 
     public Map<String, String> getAttributes() {
         return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
     }
 
     public String getStyle(String attribute) {

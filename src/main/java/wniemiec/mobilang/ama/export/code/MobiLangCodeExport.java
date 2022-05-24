@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 import wniemiec.mobilang.ama.export.exception.CodeExportException;
 import wniemiec.mobilang.ama.models.CodeFile;
-import wniemiec.mobilang.ama.models.PropertiesData;
+import wniemiec.mobilang.ama.models.Properties;
 
 
 /**
@@ -16,7 +16,7 @@ public abstract class MobiLangCodeExport {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    protected final PropertiesData propertiesData;
+    protected final Properties propertiesData;
     protected final Set<String> dependencies;
     protected final Path outputLocation;
     protected final Path codeLocation;
@@ -35,7 +35,7 @@ public abstract class MobiLangCodeExport {
      * @param       outputLocation Location where the files will be exported
      */
     protected MobiLangCodeExport(
-        PropertiesData propertiesData,
+        Properties propertiesData,
         List<CodeFile> codeFiles,
         Set<String> dependencies,
         Path outputLocation
@@ -51,7 +51,7 @@ public abstract class MobiLangCodeExport {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private Path setUpAppLocation(PropertiesData propertiesData, Path outputLocation) {
+    private Path setUpAppLocation(Properties propertiesData, Path outputLocation) {
         if (outputLocation == null) {
             return Path.of(propertiesData.getAppName()).resolve("code");
         }

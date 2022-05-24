@@ -48,16 +48,16 @@ class LiteralExpressionJsonParser implements ExpressionJsonParser {
         Object value = jsonObject.get(VALUE);
 
         if (value instanceof String) {
-            expression = new Literal(jsonObject.getString(VALUE));
+            expression = Literal.ofString(jsonObject.getString(VALUE));
         }
         else if (value instanceof Integer) {
-            expression = new Literal(String.valueOf(jsonObject.getInt(VALUE)));
+            expression = Literal.ofNumber(String.valueOf(jsonObject.getInt(VALUE)));
         }
         else if (value instanceof Float) {
-            expression = new Literal(String.valueOf(jsonObject.getFloat(VALUE)));
+            expression = Literal.ofNumber(String.valueOf(jsonObject.getFloat(VALUE)));
         }
         else if (value instanceof Double) {
-            expression = new Literal(String.valueOf(jsonObject.getDouble(VALUE)));
+            expression = Literal.ofNumber(String.valueOf(jsonObject.getDouble(VALUE)));
         }
 
         return expression;

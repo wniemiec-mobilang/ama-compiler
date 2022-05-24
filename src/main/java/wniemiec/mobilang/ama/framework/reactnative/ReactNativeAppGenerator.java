@@ -1,13 +1,14 @@
 package wniemiec.mobilang.ama.framework.reactnative;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import org.apache.commons.io.FileUtils;
 import wniemiec.io.java.Consolex;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 
 
+/**
+ * Responsible for generating mobile applications through React Native 
+ * framework.
+ */
 class ReactNativeAppGenerator {
 
     //-------------------------------------------------------------------------
@@ -40,23 +41,28 @@ class ReactNativeAppGenerator {
             generateIosApp();
         }
         else {
-            throw new AppGenerationException("There is no compatibility with this mobile platform: " + platform);
+            throw new AppGenerationException("There is no compatibility with " +
+                                             "this mobile platform: " + platform);
         }
 
         return mobileOutput;
     }
 
     private void generateAndroidApp() throws AppGenerationException {
-        AndroidAppGenerator appGenerator = new AndroidAppGenerator(sourceCode, mobileOutput);
+        AndroidAppGenerator appGenerator = new AndroidAppGenerator(
+            sourceCode, 
+            mobileOutput
+        );
         
-        Consolex.writeInfo("Generating Android app...");
         appGenerator.generateApp();
     }
 
     private void generateIosApp() throws AppGenerationException {
-        IosAppGenerator appGenerator = new IosAppGenerator(sourceCode, mobileOutput);
+        IosAppGenerator appGenerator = new IosAppGenerator(
+            sourceCode, 
+            mobileOutput
+        );
 
-        Consolex.writeInfo("Generating iOS app...");
         appGenerator.generateApp();
     }
 }

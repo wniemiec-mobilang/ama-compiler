@@ -25,7 +25,7 @@ class IonicMobiLangDirectiveParser extends MobiLangDirectiveParser {
         
         parameters.forEach((key, value) -> {
             code.append(key);
-            code.append('=');
+            code.append("__eq__");
             code.append(value);
             code.append('&');
         });
@@ -41,7 +41,7 @@ class IonicMobiLangDirectiveParser extends MobiLangDirectiveParser {
 
         code.append("this.routeParams.snapshot.params.q.split('");
         code.append(paramName);
-        code.append("=')[1].split('&')[0]");
+        code.append("__eq__')[1].split('&')[0]");
 
         return code.toString();
     }

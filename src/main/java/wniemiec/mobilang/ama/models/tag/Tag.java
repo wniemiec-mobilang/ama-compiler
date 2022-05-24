@@ -104,7 +104,12 @@ public class Tag implements Cloneable {
     }
 
     public void addAttribute(String name, String value) {
-        attributes.put(name.toLowerCase(), value);
+        if (name.matches(".*[\\[\\]\\(\\)]+.*")) {
+            attributes.put(name, value);
+        }
+        else {
+            attributes.put(name.toLowerCase(), value);
+        }
     }
 
     public boolean hasAttribute(String name) {

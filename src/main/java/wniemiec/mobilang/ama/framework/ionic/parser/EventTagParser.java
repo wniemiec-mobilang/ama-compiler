@@ -16,8 +16,9 @@ class EventTagParser {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final List<EventTag> events;
     private static final String ATTRIBUTE_ONCLICK;
+    private final List<EventTag> events;
+    private final IonicMobiLangDirectiveParser directiveParser;
     private Tag parsedTag;
     private Encryptor encryptor;
 
@@ -34,9 +35,11 @@ class EventTagParser {
     //		Constructor
     //-------------------------------------------------------------------------
     public EventTagParser() {
+        directiveParser = new IonicMobiLangDirectiveParser();
         events = new ArrayList<>();
         parsedTag = Tag.getEmptyInstance();
         encryptor = Encryptors.md5();
+
     }
     
 
@@ -66,7 +69,8 @@ class EventTagParser {
             tag.addAttribute("id", id);
         }
         
-        EventTag event = new EventTag(id, ATTRIBUTE_ONCLICK, tag.getAttribute(ATTRIBUTE_ONCLICK));
+        String parsedValue = directiveParser.parse(tag.getAttribute(ATTRIBUTE_ONCLICK));
+        EventTag event = new EventTag(id, ATTRIBUTE_ONCLICK, parsedValue);
         events.add(event);
         //events.put(id, "onclick = () => " + tag.getAttribute(ATTRIBUTE_ONCLICK));
 

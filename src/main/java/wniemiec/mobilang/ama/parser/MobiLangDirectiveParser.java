@@ -32,6 +32,12 @@ public abstract class MobiLangDirectiveParser {
     //-------------------------------------------------------------------------
     //      Methods
     //-------------------------------------------------------------------------
+    public final String parse(String line) {
+        parse(List.of(line));
+
+        return parsedLines.get(0);
+    }
+
     public final void parse(List<String> lines) {
         parsedLines = new ArrayList<>();
         screenParameters = new ArrayList<>();

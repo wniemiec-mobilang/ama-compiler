@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.FileAttribute;
+
 import org.apache.commons.io.FileUtils;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.StandardTerminalBuilder;
@@ -23,6 +25,7 @@ class IonicProjectManager {
     throws IOException {
         runIonicInit(propertiesData, location);
         updateGlobalScss(location);
+        eraseVariablesScss(location);
         removeHomeFolder(location);
         removeAppRoutingModule(location);
         createPagesFolder(location);
@@ -96,6 +99,13 @@ class IonicProjectManager {
             string.getBytes(), 
             StandardOpenOption.APPEND
         );
+    }
+
+    private void eraseVariablesScss(Path location) throws IOException {
+        Path variablesScss = location.resolve("src").resolve("theme").resolve("variables.scss");
+        
+        Files.delete(variablesScss);
+        Files.createFile(variablesScss);
     }
 
     private void removeHomeFolder(Path location) throws IOException {

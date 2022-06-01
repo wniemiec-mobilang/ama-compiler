@@ -43,6 +43,7 @@ class InputTagParser {
         String normalizedId = id.replace("-", "_");
         
         tag.addAttribute("[(ngModel)]", normalizedId);
+        tag.setName("ion-input");
         
         inputFields.add(id);
     }

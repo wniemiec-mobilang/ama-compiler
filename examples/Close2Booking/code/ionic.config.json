@@ -1,0 +1,7 @@
+{
+  "name": "Close2Booking",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

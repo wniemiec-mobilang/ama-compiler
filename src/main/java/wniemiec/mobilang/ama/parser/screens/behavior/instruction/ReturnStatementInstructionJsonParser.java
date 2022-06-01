@@ -47,7 +47,7 @@ class ReturnStatementInstructionJsonParser implements InstructionJsonParser {
     @Override
     public Instruction parse(JSONObject jsonObject) 
     throws JSONException, ParseException {
-        if (!jsonObject.has("argument")) {
+        if (!jsonObject.has("argument") || jsonObject.isNull("argument")) {
             return new ReturnStatement(null);    
         }
 

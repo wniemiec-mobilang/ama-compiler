@@ -84,16 +84,19 @@ public class StructureParser {
     private JSONObject getBodyTagFromStructureNode(JSONObject json) 
     throws ParseException {
         JSONObject htmlTag = getHtmlTag(json);
+
+        if (hasBodyTag(htmlTag)) {
+            return getBodyTagFromHtmlTag(htmlTag);    
+        }
         
-        return getBodyTagFromHtmlTag(htmlTag);
+        return htmlTag;
     }
 
     private JSONObject getHtmlTag(JSONObject structureJson) throws ParseException {
         JSONObject htmlTagContent = structureJson
             .getJSONObject("content")
             .getJSONArray("children")
-            .getJSONObject(0)
-            .getJSONObject("content");
+            .getJSONObject(0);
 
         validateHtmlTag(htmlTagContent);
         
@@ -101,14 +104,25 @@ public class StructureParser {
     }
 
     private void validateHtmlTag(JSONObject htmlTagContent) throws ParseException {
-        if (!htmlTagContent.getString("name").equals("html")) {
+        if (!htmlTagContent.getJSONObject("content").getString("name").equals("html")) {
             throw new ParseException("HTML tag not found");
         }
+    }
+
+    private boolean hasBodyTag(JSONObject htmlTag) {
+        return htmlTag
+            .getJSONObject("content")
+            .getJSONArray("children")
+            .getJSONObject(0)
+            .getJSONObject("content")
+            .getString("name")
+            .equals("body");
     }
 
     private JSONObject getBodyTagFromHtmlTag(JSONObject htmlTagContent) 
     throws ParseException {
         JSONObject bodyTag = htmlTagContent
+            .getJSONObject("content")
             .getJSONArray("children")
             .getJSONObject(0);
 

@@ -1,0 +1,266 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video {
+margin: 0;
+padding: 0;
+border: 0;
+font-size: 100%;
+font: inherit;
+vertical-align: baseline;
+}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+display: block;
+}
+body {
+line-height: 1;
+}
+ol,ul {
+list-style: none;
+}
+blockquote,q {
+quotes: none;
+}
+blockquote:before,blockquote:after,q:before,q:after {
+content: none;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+* {
+box-sizing: border-box;
+}
+.container {
+height: 100vh;
+width: 100vw;
+display: flex;
+}
+.side-bar-container {
+display: flex;
+flex-direction: column;
+width: 100%;
+}
+.side-bar-container header {
+height: 15vh;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+background-color: #003580;
+margin-bottom: 5vh;
+}
+.side-bar-container .body {
+flex: 1;
+background-color: white;
+overflow-y: auto;
+}
+p.big {
+width: 33vw;
+}
+.up {
+min-height: 10vh;
+background-color: #003580;
+}
+.down {
+min-height: 10vh;
+background-color: white;
+border-bottom: 0.11vh solid #999;
+padding-top: 5vh;
+}
+.back {
+height: 2vh;
+background-color: transparent;
+border: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+border-radius: 50%;
+}
+.back:after {
+content: '\2190';
+color: black;
+font-size: 6vh;
+margin-bottom: 2vh;
+}
+.center {
+position: absolute;
+top: 6vh;
+border: 0.5vh solid gold;
+border-radius: 1vh;
+height: 8vh;
+background-color: white;
+margin: 0 5vw;
+width: 90%;
+display: flex;
+align-items: center;
+}
+.tab-bar {
+height: 5vh;
+display: flex;
+justify-content: center;
+width: 100%;
+}
+.text-buttons {
+display: flex;
+width: 100%;
+padding: 0 4vw;
+justify-content: space-between;
+}
+.text-buttons button .icon {
+display: flex;
+justify-content: center;
+align-items: center;
+margin-right: 2vw;
+}
+.text-buttons button .icon img {
+height: 3vh;
+}
+.text-buttons button {
+margin: 0 0vw;
+}
+.tab-bar .text {
+color: black;
+background-color: transparent;
+border-radius: 10vw;
+border: 0;
+outline: 0;
+padding: 1.4vh 4vw;
+font-size: 2.0vh;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.header-text {
+font-size: 2.0vh;
+font-family: Arial, Helvetica, sans-serif;
+}
+.body {
+padding: 2vw;
+}
+.item {
+width: 100%;
+display: flex;
+max-height: 41vh;
+border: 0.1vh solid #999;
+min-height: 41vh;
+margin-bottom: 2vh;
+font-family: Arial, Helvetica, sans-serif;
+}
+.item .left {
+}
+.item .left p {
+background-color: green;
+color: white;
+text-align: center;
+font-size: 2.1vh;
+line-height: 3.1vh;
+max-width: 35vw;
+position: relative;
+bottom: 40vh;
+margin-top: 1vh;
+font-family: Arial, Helvetica, sans-serif;
+}
+.item .left img {
+height: 41vh;
+max-width: 35vw;
+}
+.item .right {
+font-size: 2vh;
+padding: 2vh 3vw;
+width: 100%;
+}
+.row1 {
+display: flex;
+width: 100%;
+justify-content: space-between;
+}
+.row1 h1 {
+font-size: 2vh;
+font-weight: bold;
+}
+.row1 .icon {
+}
+.row1 .icon img {
+height: 2vh;
+width: 2vh;
+}
+.row2 img {
+height: 3vh;
+}
+.row3 {
+display: flex;
+align-items: center;
+}
+.row3 .rate {
+padding: 1vh;
+background-color: #003580;
+border-radius: 1vh;
+color: white;
+margin-right: 2vw;
+}
+.row3 small {
+font-size: 1.5vh;
+color: gray;
+}
+.highlight {
+font-weight: bold;
+color: black;
+}
+.row4,.row5 {
+display: flex;
+align-items: center;
+margin: 0.7vh 0;
+}
+.row4 .icon,.row5 .icon {
+display: flex;
+justify-content: center;
+align-items: center;
+margin-right: 2vw;
+}
+.row4 .icon img,.row5 .icon img {
+width: 3vh;
+height: 3vh;
+}
+.highlight-accent {
+background-color: green;
+color: white;
+padding: 1vh;
+font-size: 1.7vh;
+max-width: 32vw;
+}
+.row6,.row7,.row9 {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: flex-end;
+margin: 0.6vh 0;
+}
+.row6 {
+font-size: 1.6vh;
+}
+.row6 p {
+margin-bottom: 0.7vh;
+}
+.row7 {
+font-size: 1.8vh;
+}
+.row8 {
+display: flex;
+justify-content: flex-end;
+align-items: flex-end;
+margin: 1vh 0;
+}
+.row8 .before {
+text-decoration: line-through;
+color: red;
+font-weight: bold;
+font-size: 2vh;
+margin-right: 2vw;
+}
+.row8 .current {
+color: black;
+font-weight: bold;
+font-size: 3.1vh;
+}
+.row9 p {
+color: gray;
+font-size: 1.6vh;
+}

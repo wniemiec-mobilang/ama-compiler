@@ -38,12 +38,20 @@ class CssRulesParser {
     }   
 
     private void parseCssRule(JSONObject cssRule) {
+        if (isComment(cssRule)) {
+            return;
+        }
+
         StyleSheetRule rule = new StyleSheetRule();
         
         parseRuleSelectors(rule, cssRule);
         parseRuleDeclarations(rule, cssRule);
 
         style.addRule(rule);
+    }
+
+    private boolean isComment(JSONObject cssRule) {
+        return cssRule.has("comment");
     }
 
     private void parseRuleSelectors(StyleSheetRule rule, JSONObject cssRule) {

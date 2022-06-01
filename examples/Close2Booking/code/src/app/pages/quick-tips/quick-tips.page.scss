@@ -1,0 +1,162 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video {
+margin: 0;
+padding: 0;
+border: 0;
+font-size: 100%;
+font: inherit;
+vertical-align: baseline;
+}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+display: block;
+}
+body {
+line-height: 1;
+}
+ol,ul {
+list-style: none;
+}
+blockquote,q {
+quotes: none;
+}
+blockquote:before,blockquote:after,q:before,q:after {
+content: none;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+* {
+box-sizing: border-box;
+}
+.container {
+height: 100vh;
+width: 100vw;
+display: flex;
+}
+.side-bar-container {
+display: flex;
+flex-direction: column;
+width: 100%;
+}
+.side-bar-container header {
+height: 10vh;
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: #003580;
+}
+.side-bar-container header .header-text {
+color: white;
+font-size: 3vh;
+font-weight: bold;
+font-family: Arial, Helvetica, sans-serif;
+text-align: center;
+width: 100%;
+padding-right: 5vw;
+}
+.side-bar-container .body {
+flex: 1;
+background-color: white;
+overflow-y: auto;
+}
+p.big {
+width: 33vw;
+}
+.back {
+height: 8vh;
+background-color: transparent;
+border: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+border-radius: 50%;
+}
+.back:after {
+content: '\2190';
+color: white;
+font-size: 6vh;
+margin-bottom: 2vh;
+}
+.body {
+font-family: Arial, Helvetica, sans-serif;
+padding: 2vh;
+}
+.body h2 {
+font-size: 3vh;
+font-weight: bold;
+margin-bottom: 2vh;
+}
+.body h3 {
+font-size: 2.6vh;
+font-weight: bold;
+color: gray;
+line-height: 4vh;
+margin-bottom: 2vh;
+}
+.widget {
+margin: 6vh 0;
+}
+.widget h2 {
+font-size: 2.7vh;
+}
+.widget h3 {
+font-size: 0.9vh;
+font-weight: bold;
+}
+.carrosel {
+display: flex;
+overflow-x: scroll;
+}
+.box {
+display: flex;
+flex-direction: column;
+height: 45vh;
+width: 70vw;
+min-width: 70vw;
+border: 0.1vh solid #999;
+margin-right: 5vw;
+background-color: transparent;
+}
+.box .image img {
+width: 70vw;
+min-width: 70vw;
+}
+.box img {
+height: 25vh;
+max-width: 70vw;
+}
+.box .header {
+display: flex;
+flex-direction: column;
+padding: 2vh 2vw;
+}
+.box .header h1 {
+font-size: 3vh;
+font-weight: bold;
+margin-bottom: 3vh;
+width: 100%;
+text-align: left;
+}
+.box .header .info {
+display: flex;
+flex-direction: column;
+}
+.box .header .info .item-row {
+display: flex;
+margin: 0.5vh 0;
+}
+.box .header .info .item-row .icon {
+display: flex;
+justify-content: center;
+align-items: center;
+margin-right: 2vw;
+}
+.box .header .info .item-row .icon img {
+height: 3vh;
+width: 3vh;
+}
+.box .header .info .item-row p {
+color: gray;
+font-size: 2vh;
+}

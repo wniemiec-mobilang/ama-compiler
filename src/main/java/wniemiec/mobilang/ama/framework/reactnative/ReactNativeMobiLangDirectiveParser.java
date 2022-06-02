@@ -11,15 +11,10 @@ class ReactNativeMobiLangDirectiveParser extends MobiLangDirectiveParser {
     //      Methods
     //-------------------------------------------------------------------------
     @Override
-    protected String swapScreenDirectiveFor(String screenName) {
-        return screenName + ".html";
-    }
-
-    @Override
     protected String swapScreenDirectiveWithParametersFor(String screenName, Map<String, String> parameters) {
         StringBuilder code = new StringBuilder();
 
-        code.append(screenName);
+        code.append(swapScreenDirectiveFor(screenName));
         code.append('?');
         
         parameters.forEach((key, value) -> {
@@ -32,6 +27,11 @@ class ReactNativeMobiLangDirectiveParser extends MobiLangDirectiveParser {
         code.deleteCharAt(code.length()-1); // Removes last '&'
 
         return code.toString();
+    }
+
+    @Override
+    protected String swapScreenDirectiveFor(String screenName) {
+        return screenName + ".html";
     }
 
     @Override

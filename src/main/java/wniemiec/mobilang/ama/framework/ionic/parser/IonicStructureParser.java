@@ -86,6 +86,7 @@ public class IonicStructureParser {
         base.setName(target.getName());
         base.setStyle(target.getStyle());
         base.setValue(target.getValue());
+        base.setVoidTag(target.isVoidTag());
     }
 
     private void runEventParser() {

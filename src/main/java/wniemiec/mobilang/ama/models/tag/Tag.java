@@ -195,7 +195,7 @@ public class Tag implements Cloneable {
         return code;
     }
 
-    private boolean isVoidTag() {
+    public boolean isVoidTag() {
         return voidTag;
     }
 
@@ -409,5 +409,9 @@ public class Tag implements Cloneable {
 
     public String getStyle(String attribute) {
         return style.get(attribute);
+    }
+
+    public void setVoidTag(boolean voidTag) {
+        this.voidTag = voidTag;
     }
 }

@@ -44,6 +44,7 @@ class InputTagParser {
         
         tag.addAttribute("[(ngModel)]", normalizedId);
         tag.setName("ion-input");
+        tag.setVoidTag(false);
         
         inputFields.add(id);
     }

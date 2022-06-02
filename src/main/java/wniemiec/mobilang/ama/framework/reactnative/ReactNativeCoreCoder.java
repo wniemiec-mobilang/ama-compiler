@@ -96,7 +96,7 @@ class ReactNativeCoreCoder {
         code.add("  const {width, height} = useWindowDimensions();");
         code.add("");
         code.add("  const html = `");
-        code.add("    <iframe allowfullscreen style=\"width:${width}px; height: ${height}px\" src='${content}'></iframe>");
+        code.add("    <iframe allowfullscreen style=\"width:${width}px; height: ${height-25}px\" src='${content}'></iframe>");
         code.add("  `;");
         code.add("");
         code.add("  const renderProps = {");

@@ -92,6 +92,7 @@ class ReactNativeScreensCoder {
 
     private void putStyle(List<String> code, Screen screenData) {
         code.add("        <style>");
+        code.add("button { padding: 0; }");
         code.addAll(screenData.getStyle().toCode());
         code.add("        </style>");
     }
@@ -182,7 +183,7 @@ class ReactNativeScreensCoder {
         StringBuilder filename = new StringBuilder();
 
         filename.append(prefix);
-        filename.append(screenData.getName());
+        filename.append(screenData.getRawName());
         filename.append(SCREEN_NAME_SUFFIX);
 
         return filename.toString();

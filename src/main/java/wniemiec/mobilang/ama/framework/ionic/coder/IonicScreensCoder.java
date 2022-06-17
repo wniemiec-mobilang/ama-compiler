@@ -134,7 +134,7 @@ public class IonicScreensCoder {
         for (String id : structureParser.getInputIds()) {
             String normalizedId = id.replace("-", "_");
 
-            code.add("  " + normalizedId + " = \"\";");
+            code.add("  _" + normalizedId + " = \"\";");
         }
 
         code.add("");

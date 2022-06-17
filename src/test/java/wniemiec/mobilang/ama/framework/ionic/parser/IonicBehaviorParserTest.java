@@ -44,35 +44,14 @@ class IonicBehaviorParserTest {
     void testParamDirective() throws CoderException {
         withBehavior(buildDeclarationWithIdAndAssignment("id", "mobilang::param::id"));
         doParsing();
-        assertCodeEquals(
-            "\"use strict\";",
-            "",
-            "var id = this.routeParams.snapshot.params.q.split('id=')[1].split('&')[0];"
-        );
+        assertCodeEquals("let id = this.routeParams.snapshot.params.q.split('id__eq__')[1].split('&')[0]");
     }
 
     @Test
     void testInputDirective() throws CoderException {
         withBehavior(buildDeclarationWithIdAndAssignment("foo", "mobilang::input::foo"));
         doParsing();
-        assertCodeEquals(
-            "\"use strict\";",
-            "",
-            "var foo = this._input_foo;"
-        );
-    }
-
-    @Test
-    void testFunctionToArrowFunction() throws CoderException {
-        withBehavior(buildSumFunctionBetweenTwoNumbers());
-        doParsing();
-        assertCodeEquals(
-            "\"use strict\";",
-            "",
-            "const sum = (arg1, arg2) => {",
-            "    return arg1 + arg2;",
-            "}"
-        );
+        assertCodeEquals("let foo = this._input_foo");
     }
 
     @Test

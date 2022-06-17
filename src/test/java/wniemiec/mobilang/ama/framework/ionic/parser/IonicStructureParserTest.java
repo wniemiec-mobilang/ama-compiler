@@ -34,7 +34,10 @@ class IonicStructureParserTest {
     void testInputWithId() {
         withRootTag(buildInputWithId("foo"));
         doParsing();
-        assertCodeEquals("<input [(ngModel)]=\"input_foo\" id=\"foo\"/>");
+        assertCodeEquals(
+            "<ion-input [(ngModel)]=\"input_foo\" id=\"foo\">",
+            "</ion-input>"
+        );
         assertContainsInputIds("input_foo");
     }
 

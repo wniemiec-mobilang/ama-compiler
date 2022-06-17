@@ -51,7 +51,7 @@ class IonicMobiLangDirectiveParser extends MobiLangDirectiveParser {
         String normalizedId = inputId.replace("-", "_");
         StringBuilder code = new StringBuilder();
         
-        code.append("this.input_");
+        code.append("this._input_");
         code.append(normalizedId);
 
         return code.toString();

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.Screen;
-import wniemiec.util.java.StringUtils;
 
 
 public class IonicRoutingCoder {

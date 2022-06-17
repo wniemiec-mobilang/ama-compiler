@@ -35,7 +35,7 @@ class IonicMobiLangDirectiveParserTest {
         );
         doParsing();
         assertCodeEquals(
-            "window.location.href(\"foo/id=2\")"
+            "window.location.href(\"foo/id__eq__2\")"
         );
     }
 
@@ -46,7 +46,7 @@ class IonicMobiLangDirectiveParserTest {
         );
         doParsing();
         assertCodeEquals(
-            "window.location.href('foo/id=2')"
+            "window.location.href('foo/id__eq__2')"
         );
     }
 
@@ -57,7 +57,7 @@ class IonicMobiLangDirectiveParserTest {
         );
         doParsing();
         assertCodeEquals(
-            "window.location.href(\"foo/id=2&value=something\")"
+            "window.location.href(\"foo/id__eq__2&value__eq__something\")"
         );
     }
 
@@ -68,7 +68,7 @@ class IonicMobiLangDirectiveParserTest {
         );
         doParsing();
         assertCodeEquals(
-            "window.location.href('foo/id=2&value=something')"
+            "window.location.href('foo/id__eq__2&value__eq__something')"
         );
     }
 
@@ -101,7 +101,7 @@ class IonicMobiLangDirectiveParserTest {
         );
         doParsing();
         assertCodeEquals(
-            "const bar = this._input_foo"
+            "const bar = this.__input_foo"
         );
     }
 
@@ -112,7 +112,7 @@ class IonicMobiLangDirectiveParserTest {
         );
         doParsing();
         assertCodeEquals(
-            "const bar = this._input_foo"
+            "const bar = this.__input_foo"
         );
     }
 
@@ -123,7 +123,7 @@ class IonicMobiLangDirectiveParserTest {
         );
         doParsing();
         assertCodeEquals(
-            "const id = this.routeParams.snapshot.params.q.split('id=')[1].split('&')[0]"
+            "const id = this.routeParams.snapshot.params.q.split('id__eq__')[1].split('&')[0]"
         );
     }
 
@@ -134,7 +134,7 @@ class IonicMobiLangDirectiveParserTest {
         );
         doParsing();
         assertCodeEquals(
-            "const id = this.routeParams.snapshot.params.q.split('id=')[1].split('&')[0]"
+            "const id = this.routeParams.snapshot.params.q.split('id__eq__')[1].split('&')[0]"
         );
     }
 

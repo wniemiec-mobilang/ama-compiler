@@ -51,7 +51,7 @@ class IonicBehaviorParserTest {
     void testInputDirective() throws CoderException {
         withBehavior(buildDeclarationWithIdAndAssignment("foo", "mobilang::input::foo"));
         doParsing();
-        assertCodeEquals("let foo = this._input_foo");
+        assertCodeEquals("let foo = this.__input_foo");
     }
 
     @Test

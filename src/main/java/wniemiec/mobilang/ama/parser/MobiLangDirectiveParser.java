@@ -90,7 +90,7 @@ public abstract class MobiLangDirectiveParser {
     }
 
     private String parseScreenDirectiveWithParameters(String line) {
-        Pattern pattern = Pattern.compile(".+mobilang::screen::([A-z0-9\\-_]+)\\?([^?\\/\\\\]+).+");
+        Pattern pattern = Pattern.compile(".+mobilang::screen::([A-z0-9\\-_]+)\\?([^?\\/\\\\]+)[\"'].+");
         Matcher matcher = pattern.matcher(line);
 
         if (!matcher.matches()) {
@@ -112,7 +112,7 @@ public abstract class MobiLangDirectiveParser {
             screenParameters.add(terms[0]);
         }
         
-        String directive = "mobilang::screen::([A-z0-9\\-_]+\\?)[^\\\\]+";
+        String directive = "mobilang::screen::([A-z0-9\\-_]+\\?)[^\\\\]+[^\"')]+";
         String replacement = swapScreenDirectiveWithParametersFor(screenName, parameters);
 
         return line.replaceAll(directive, replacement.replace("$", "\\$"));

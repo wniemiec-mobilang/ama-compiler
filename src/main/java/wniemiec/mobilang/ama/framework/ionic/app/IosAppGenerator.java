@@ -1,8 +1,9 @@
-package wniemiec.mobilang.ama.framework.ionic;
+package wniemiec.mobilang.ama.framework.ionic.app;
 
 import java.nio.file.Path;
-import wniemiec.io.java.Consolex;
+import wniemiec.io.java.Terminal;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
+import wniemiec.mobilang.ama.util.io.FileManager;
 
 
 class IosAppGenerator {
@@ -12,14 +13,23 @@ class IosAppGenerator {
     //-------------------------------------------------------------------------
     private final Path sourceCodePath;
     private final Path mobileOutput;
+    private final Terminal terminal;
+    private final FileManager fileManager;
     
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public IosAppGenerator(Path sourceCodePath, Path mobileOutput) {
+    public IosAppGenerator(
+        Path sourceCodePath, 
+        Path mobileOutput, 
+        Terminal terminal,
+        FileManager fileManager
+    ) {
         this.sourceCodePath = sourceCodePath;
         this.mobileOutput = mobileOutput;
+        this.terminal = terminal;
+        this.fileManager = fileManager;
     }
     
 

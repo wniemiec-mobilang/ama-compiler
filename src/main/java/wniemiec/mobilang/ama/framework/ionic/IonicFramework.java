@@ -9,6 +9,7 @@ import java.util.Set;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 import wniemiec.mobilang.ama.framework.Framework;
+import wniemiec.mobilang.ama.framework.ionic.app.IonicAppGenerator;
 import wniemiec.mobilang.ama.framework.ionic.coder.IonicRoutingCoder;
 import wniemiec.mobilang.ama.framework.ionic.coder.IonicScreensCoder;
 import wniemiec.mobilang.ama.models.CodeFile;

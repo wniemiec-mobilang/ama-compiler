@@ -44,14 +44,14 @@ class IonicBehaviorParserTest {
     void testParamDirective() throws CoderException {
         withBehavior(buildDeclarationWithIdAndAssignment("id", "mobilang::param::id"));
         doParsing();
-        assertCodeEquals("let id = this.routeParams.snapshot.params.q.split('id__eq__')[1].split('&')[0]");
+        assertCodeEquals("let id = this.routeParams.snapshot.params.q.split('id__eq__')[1].split('&')[0];");
     }
 
     @Test
     void testInputDirective() throws CoderException {
         withBehavior(buildDeclarationWithIdAndAssignment("foo", "mobilang::input::foo"));
         doParsing();
-        assertCodeEquals("let foo = this.__input_foo");
+        assertCodeEquals("let foo = this.__input_foo;");
     }
 
     @Test

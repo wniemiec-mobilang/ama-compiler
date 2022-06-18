@@ -1,7 +1,6 @@
 package wniemiec.mobilang.ama.framework.ionic.coder;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.framework.ionic.parser.IonicBehaviorParser;

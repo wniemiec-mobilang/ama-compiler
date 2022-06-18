@@ -47,39 +47,38 @@ public class StyleSheetRule {
     }
 
     public List<String> toCode() {
-        List<String> code = new ArrayList<>();
+        List<String> codeLines = new ArrayList<>();
 
-        code.add(buildHeader());
-        code.add(buildBody());
+        buildHeader(codeLines);
+        buildBody(codeLines);
 
-        return code;
+        return codeLines;
     }
 
-    private String buildHeader() {
+    private void buildHeader(List<String> codeLines) {
         StringBuilder code = new StringBuilder();
         
         code.append(StringUtils.implode(selectors, ","));
         code.append(' ');
         code.append('{');
 
-        return code.toString();
+        codeLines.add(code.toString());
     }
 
-    private String buildBody() {
-        StringBuilder code = new StringBuilder();
-
+    private void buildBody(List<String> codeLines) {
+        StringBuilder code;
+        
         for (Map.Entry<String, String> entry : declarations.entrySet()) {
+            code = new StringBuilder();
             code.append(entry.getKey());
             code.append(':');
             code.append(' ');
             code.append(entry.getValue());
             code.append(';');
-            code.append('\n');
+            codeLines.add(code.toString());
         }
 
-        code.append('}');
-
-        return code.toString();
+        codeLines.add("}");
     }
 
     @Override

@@ -86,7 +86,7 @@ class AndroidAppGeneratorTest {
             "bundleRelease"
         );
         assertFileManagerExecuted(
-            "REMOVE: myapp/foo/android/app/myapp.keystore",
+            "REMOVE FILE: myapp/foo/android/app/myapp.keystore",
             "APPEND: myapp/foo/android/gradle.properties:MYAPP_UPLOAD_STORE_FILE=myapp.keystore",
             "APPEND: myapp/foo/android/gradle.properties:MYAPP_UPLOAD_KEY_ALIAS=myapp",
             "APPEND: myapp/foo/android/gradle.properties:MYAPP_UPLOAD_STORE_PASSWORD=abcdef12",

@@ -1,5 +1,6 @@
-package wniemiec.mobilang.ama.framework.ionic.app;
+package wniemiec.mobilang.ama.framework.ionic;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
@@ -14,20 +15,22 @@ import wniemiec.io.java.Consolex;
 import wniemiec.io.java.LogLevel;
 import wniemiec.io.java.Terminal;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
+import wniemiec.mobilang.ama.models.Properties;
 
 
-class IonicAppGeneratorTest {
-
+class IonicProjectManagerTest {
+    
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private IonicAppGenerator appGenerator;
+    private IonicProjectManager projectManager;
     private MockInputTerminal mockInputTerminal;
     private MockOutputTerminal mockOutputTerminal;
     private MockFileManager mockFileManager;
     private Terminal terminal;
+    private Properties properties;
     private Path sourceCodePath;
-    private Path mobileOutput;
+    private Path projectLocation;
     private String keystorePassword;
 
 
@@ -39,7 +42,9 @@ class IonicAppGeneratorTest {
         mockInputTerminal = new MockInputTerminal();
         mockOutputTerminal = new MockOutputTerminal();
         terminal = new Terminal(mockInputTerminal, mockOutputTerminal);
+        properties = new Properties();
         mockFileManager = new MockFileManager();
+        projectManager = new IonicProjectManager(terminal, mockFileManager);
         Consolex.setLoggerLevel(LogLevel.OFF);
     }
 
@@ -53,83 +58,121 @@ class IonicAppGeneratorTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testAndroidGeneration() throws AppGenerationException {
-        withSourceCodePath("myapp/foo");
-        withMobileOutputPath("myapp/bar");
+    void testProjectCreator() throws IOException {
+        withAppName("myapp");
+        withTargetPlatforms("android");
+        withLocation("myapp/bar");
         withKeystorePassword("abcdef12");
-        runAppGenerator("android");
+        runProjectCreator();
         assertTerminalHistoryIsEmpty();
         assertTerminalErrorHistoryIsEmpty();
         assertInputTerminalWas(
-            "keytool",
-            "-genkeypair",
-            "-v",
-            "-keystore",
-            "myapp/foo/android/app/myapp.keystore",
-            "-alias",
+            "ionic", 
+            "start", 
             "myapp",
-            "-keyalg",
-            "RSA",
-            "-keysize",
-            "2048",
-            "-validity",
-            "10000",
-            "-dname",
-            "cn=Unknown,ou=Unknown,o=Unknown,c=Unknown",
-            "-storepass",
-            "abcdef12",
-            "-keypass",
-            "abcdef12",
-            "gradlew",
-            "-p",
-            "myapp/foo/android",
-            "bundleRelease"
+            "blank",
+            "--type=angular",
+            "--capacitor",
+            "--confirm",
+            "--no-interactive",
+            "mv", 
+            "myapp", 
+            "bar",
+            "mv",
+            "bar",
+            "myapp"
         );
         assertFileManagerExecuted(
-            "REMOVE FILE: myapp/foo/android/app/myapp.keystore",
-            "APPEND: myapp/foo/android/gradle.properties:MYAPP_UPLOAD_STORE_FILE=myapp.keystore",
-            "APPEND: myapp/foo/android/gradle.properties:MYAPP_UPLOAD_KEY_ALIAS=myapp",
-            "APPEND: myapp/foo/android/gradle.properties:MYAPP_UPLOAD_STORE_PASSWORD=abcdef12",
-            "APPEND: myapp/foo/android/gradle.properties:MYAPP_UPLOAD_KEY_PASSWORD=abcdef12",
-            "APPEND: myapp/foo/android/gradle.properties:org.gradle.jvmargs=-Xmx4608m",
-            "WRITE: myapp/foo/android/app/build.gradle:// Modified by SCMA",
-            "COPY: myapp/foo/android/app/build/outputs/bundle/release/app-release.aab -> myapp/bar/mobile/android/myapp.aab"
+            "APPEND: myapp/bar/src/global.scss:global.scss\n.ion-page {\n  justify-content: flex-start;\n}",
+            "REMOVE FILE: myapp/bar/src/theme/variables.scss",
+            "CREATE FILE: myapp/bar/src/theme/variables.scss",
+            "REMOVE DIRECTORY: myapp/bar/src/app/home",
+            "REMOVE FILE: myapp/bar/src/app/app-routing.module.ts",
+            "CREATE DIRECTORY: myapp/bar/src/app/pages"
         );
     }
 
     @Test
-    void testUnsupportedPlatform() {
-        withSourceCodePath("myapp/foo");
-        withMobileOutputPath("myapp/bar");
+    void testProjectDependencies() throws IOException {
+        withAppName("myapp");
+        withTargetPlatforms("android");
+        withLocation("myapp/bar");
         withKeystorePassword("abcdef12");
-
-        Assertions.assertThrows(AppGenerationException.class, () -> {
-            runAppGenerator("and2roid");
-        });
+        runProjectCreator();
+        addProjectDependencies(
+            "dependency1/somelib",
+            "@somecompany/foo"
+        );
+        assertTerminalHistoryIsEmpty();
+        assertTerminalErrorHistoryIsEmpty();
+        assertInputTerminalWas(
+            "ionic", 
+            "start", 
+            "myapp",
+            "blank",
+            "--type=angular",
+            "--capacitor",
+            "--confirm",
+            "--no-interactive",
+            "mv", 
+            "myapp", 
+            "bar",
+            "mv",
+            "bar",
+            "myapp",
+            "npm", 
+            "install", 
+            "--prefix",
+            "myapp/bar",
+            "--save", 
+            "dependency1/somelib",
+            "npm", 
+            "install", 
+            "--prefix",
+            "myapp/bar",
+            "--save", 
+            "@somecompany/foo"
+        );
+        assertFileManagerExecuted(
+            "APPEND: myapp/bar/src/global.scss:global.scss\n.ion-page {\n  justify-content: flex-start;\n}",
+            "REMOVE FILE: myapp/bar/src/theme/variables.scss",
+            "CREATE FILE: myapp/bar/src/theme/variables.scss",
+            "REMOVE DIRECTORY: myapp/bar/src/app/home",
+            "REMOVE FILE: myapp/bar/src/app/app-routing.module.ts",
+            "CREATE DIRECTORY: myapp/bar/src/app/pages"
+        );
     }
-
+    
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void withSourceCodePath(String location) {
-        sourceCodePath = Path.of(location);
+    private void withAppName(String name) {
+        properties.setAppName(name);
     }
 
-    private void withMobileOutputPath(String location) {
-        mobileOutput = Path.of(location);
+    private void withTargetPlatforms(String... platforms) {
+        for (String platform : platforms) {
+            properties.addPlatform(platform);
+        }
+    }
+
+    private void withLocation(String location) {
+        projectLocation = Path.of(location);
     }
 
     private void withKeystorePassword(String password) {
         keystorePassword = password;
     }
 
-    private void runAppGenerator(String platform) throws AppGenerationException {
-        appGenerator = new IonicAppGenerator(sourceCodePath, mobileOutput);
+    private void runProjectCreator() throws IOException  {
+        projectManager.createProject(properties, projectLocation);
+    }
 
-        appGenerator.setTerminal(terminal);
-        appGenerator.setFileManager(mockFileManager);
-        appGenerator.generateMobileApplicationFor(platform);
+    private void addProjectDependencies(String... dependencies) throws IOException {
+        for (String dependency : dependencies) {
+            projectManager.addProjectDependency(dependency, projectLocation);
+        }
     }
 
     private void assertTerminalHistoryIsEmpty() {

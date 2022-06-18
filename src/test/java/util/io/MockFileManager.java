@@ -34,7 +34,7 @@ public class MockFileManager implements FileManager {
     //-------------------------------------------------------------------------
     @Override
     public void removeFile(Path file) throws IOException {
-        log.add("REMOVE: " + file.toString());
+        log.add("REMOVE FILE: " + file.toString());
     }
 
     @Override
@@ -65,6 +65,21 @@ public class MockFileManager implements FileManager {
     @Override
     public void copy(Path source, Path destination) throws IOException {
         log.add("COPY: " + source.toString() + " -> " + destination.toString());
+    }
+
+    @Override
+    public void removeDirectory(Path file) throws IOException {
+        log.add("REMOVE DIRECTORY: " + file.toString());
+    }
+
+    @Override
+    public void createFile(Path file) throws IOException {
+        log.add("CREATE FILE: " + file.toString());
+    }
+
+    @Override
+    public void createDirectory(Path path) throws IOException {
+        log.add("CREATE DIRECTORY: " + path.toString());
     }
 
 

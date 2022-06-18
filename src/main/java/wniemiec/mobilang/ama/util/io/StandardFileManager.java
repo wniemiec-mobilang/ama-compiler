@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 
 
 public class StandardFileManager implements FileManager {
@@ -56,5 +57,20 @@ public class StandardFileManager implements FileManager {
     @Override
     public void copy(Path source, Path destination) throws IOException {
         Files.copy(source, destination);
+    }
+
+    @Override
+    public void removeDirectory(Path file) throws IOException {
+        FileUtils.deleteDirectory(file.toFile());
+    }
+
+    @Override
+    public void createFile(Path file) throws IOException {
+        Files.createFile(file);
+    }
+
+    @Override
+    public void createDirectory(Path path) throws IOException {
+        Files.createDirectory(path);
     }
 }

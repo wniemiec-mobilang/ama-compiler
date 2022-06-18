@@ -1,22 +1,33 @@
 package wniemiec.mobilang.ama.framework.ionic;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.nio.file.attribute.FileAttribute;
-
-import org.apache.commons.io.FileUtils;
-import wniemiec.io.java.Consolex;
-import wniemiec.io.java.StandardTerminalBuilder;
+import java.util.List;
 import wniemiec.io.java.Terminal;
 import wniemiec.mobilang.ama.models.Properties;
+import wniemiec.mobilang.ama.util.io.FileManager;
 
 
 /**
  * Responsible for project management of Ionic framework.
  */
 class IonicProjectManager {
+
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private Terminal terminal;
+    private FileManager fileManager;
+    
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    public IonicProjectManager(Terminal terminal, FileManager fileManager) {
+        this.terminal = terminal;
+        this.fileManager = fileManager;
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods
@@ -38,7 +49,7 @@ class IonicProjectManager {
     }
 
     private void generateIonicProject(Properties propertiesData) throws IOException {
-        exec(
+        terminal.exec(
             "ionic", 
             "start", 
             propertiesData.getAppName(),
@@ -52,13 +63,13 @@ class IonicProjectManager {
 
     private void moveProjectFolderTo(Properties propertiesData, Path location) 
     throws IOException {
-        exec(
+        terminal.exec(
             "mv", 
             propertiesData.getAppName(), 
             location.getFileName().toString()
         );
 
-        exec(
+        terminal.exec(
             "mv",
             location.getFileName().toString(),
             location.getParent().toString()
@@ -81,7 +92,7 @@ class IonicProjectManager {
     private String generateScssFixCode() {
         StringBuilder code = new StringBuilder();
 
-        code.append("// FIX HTML FLEX CSS");
+        code.append("global.scss");
         code.append('\n');
         code.append(".ion-page {");
         code.append('\n');
@@ -94,24 +105,23 @@ class IonicProjectManager {
 
     private void appendStringInFile(String string, Path globalScss) 
     throws IOException {
-        Files.write(
-            globalScss, 
-            string.getBytes(), 
-            StandardOpenOption.APPEND
-        );
+        fileManager.append(globalScss, List.of(string));
     }
 
     private void eraseVariablesScss(Path location) throws IOException {
-        Path variablesScss = location.resolve("src").resolve("theme").resolve("variables.scss");
+        Path variablesScss = location
+            .resolve("src")
+            .resolve("theme")
+            .resolve("variables.scss");
         
-        Files.delete(variablesScss);
-        Files.createFile(variablesScss);
+        fileManager.removeFile(variablesScss);
+        fileManager.createFile(variablesScss);
     }
 
     private void removeHomeFolder(Path location) throws IOException {
         Path homeFolderPath = generateHomeFolderPath(location);
         
-        FileUtils.deleteDirectory(homeFolderPath.toFile());
+        fileManager.removeDirectory(homeFolderPath);
     }
 
     private Path generateHomeFolderPath(Path location) {
@@ -125,7 +135,7 @@ class IonicProjectManager {
     }
 
     private void removeAppRoutingModule(Path location) throws IOException {
-        Files.delete(generateAppRoutingModulePath(location));
+        fileManager.removeFile(generateAppRoutingModulePath(location));
     }
 
     private Path generateAppRoutingModulePath(Path location) {
@@ -133,27 +143,17 @@ class IonicProjectManager {
     }
 
     private void createPagesFolder(Path location) throws IOException {
-        Files.createDirectory(generatePagesFolderPath(location));
+        fileManager.createDirectory(generatePagesFolderPath(location));
     }
 
     private Path generatePagesFolderPath(Path location) {
         return generateAppPath(location).resolve("pages");
     }
 
-    private void exec(String... command) throws IOException {
-        Terminal terminal = StandardTerminalBuilder
-            .getInstance()
-            .outputHandler(Consolex::writeDebug)
-            .outputErrorHandler(Consolex::writeDebug)
-            .build();
-        
-        terminal.exec(command);
-    }
-
     public void addProjectDependency(String dependency, Path projectLocation) 
     throws IOException {
         for (String dependencyName : dependency.split(" ")) {
-            exec(
+            terminal.exec(
                 "npm", 
                 "install", 
                 "--prefix",

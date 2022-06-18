@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import wniemiec.io.java.Consolex;
+import wniemiec.io.java.StandardTerminalBuilder;
+import wniemiec.io.java.Terminal;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 import wniemiec.mobilang.ama.framework.Framework;
@@ -16,6 +20,7 @@ import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.Project;
 import wniemiec.mobilang.ama.models.Properties;
 import wniemiec.mobilang.ama.models.Screen;
+import wniemiec.mobilang.ama.util.io.StandardFileManager;
 
 
 /**
@@ -35,13 +40,24 @@ public class IonicFramework implements Framework {
     //		Constructor
     //-------------------------------------------------------------------------
     public IonicFramework() {
-        projectManager = new IonicProjectManager();
+        projectManager = new IonicProjectManager(
+            buildStandardTerminal(), 
+            new StandardFileManager()
+        );
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    private Terminal buildStandardTerminal() {
+        return StandardTerminalBuilder
+            .getInstance()
+            .outputHandler(Consolex::writeDebug)
+            .outputErrorHandler(Consolex::writeDebug)
+            .build();
+    }
+    
     @Override
     public void createProject(Properties properties, Path location) 
     throws IOException {

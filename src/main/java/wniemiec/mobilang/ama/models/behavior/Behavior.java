@@ -50,9 +50,13 @@ public class Behavior {
     }
 
     private List<String> extractCodeFromInstruction(Instruction instruction) {
-        String[] code = instruction.toCode().split("\n");
+        List<String> code = new ArrayList<>();
 
-        return Arrays.asList(code);
+        for (String rawCode : instruction.toCode().split("\n")) {
+            code.add(rawCode + ";");
+        }
+
+        return code;
     }
 
 

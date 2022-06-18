@@ -151,13 +151,22 @@ public class IonicScreensCoder {
     }
 
     private List<String> buildTagEventsCode() {
-        List<String> code = new ArrayList<>();
+        List<String> codeLines = new ArrayList<>();
 
         for (EventTag tag : structureParser.getEvents()) {
-            code.add("document.getElementById(\"" + tag.getId() + "\")." + tag.getEventName() + " = () => " + tag.getEventValue());
+            StringBuilder code = new StringBuilder();
+
+            code.append("document.getElementById(\"");
+            code.append(tag.getId());
+            code.append("\").");
+            code.append(tag.getEventName());
+            code.append(" = () => ");
+            code.append(tag.getEventValue());
+            code.append(';');
+            codeLines.add(code.toString());
         }
 
-        return code;
+        return codeLines;
     }
 
 

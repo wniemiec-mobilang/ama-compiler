@@ -127,7 +127,7 @@ class IonicScreensCoderTest {
             "",
             "  ngOnInit(): void {",
             "document.getElementById(\"" + TAG_ID + "\").onclick = () => alert('hey!! you pressed the button!');",
-            "let id = \"hello\";",
+            "let hello = \"world\";",
             "",
             "  }",
             "}"

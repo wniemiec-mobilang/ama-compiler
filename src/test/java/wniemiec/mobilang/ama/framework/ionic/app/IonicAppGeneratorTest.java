@@ -125,10 +125,13 @@ class IonicAppGeneratorTest {
     }
 
     private void runAppGenerator(String platform) throws AppGenerationException {
-        appGenerator = new IonicAppGenerator(sourceCodePath, mobileOutput);
-
-        appGenerator.setTerminal(terminal);
-        appGenerator.setFileManager(mockFileManager);
+        appGenerator = new IonicAppGenerator(
+            sourceCodePath, 
+            mobileOutput,
+            terminal,
+            mockFileManager
+        );
+        
         appGenerator.generateMobileApplicationFor(platform);
     }
 

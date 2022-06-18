@@ -17,12 +17,12 @@ import wniemiec.io.java.Terminal;
 import wniemiec.mobilang.ama.models.Properties;
 
 
-class IonicProjectManagerTest {
+class IonicFrameworkTest {
     
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private IonicProjectManager projectManager;
+    private IonicFramework ionicFramework;
     private MockInputTerminal mockInputTerminal;
     private MockOutputTerminal mockOutputTerminal;
     private MockFileManager mockFileManager;
@@ -42,7 +42,7 @@ class IonicProjectManagerTest {
         terminal = new Terminal(mockInputTerminal, mockOutputTerminal);
         properties = new Properties();
         mockFileManager = new MockFileManager();
-        projectManager = new IonicProjectManager(terminal, mockFileManager);
+        ionicFramework = new IonicFramework(terminal, mockFileManager);
         Consolex.setLoggerLevel(LogLevel.OFF);
     }
 
@@ -164,12 +164,12 @@ class IonicProjectManagerTest {
     }
 
     private void runProjectCreator() throws IOException  {
-        projectManager.createProject(properties, projectLocation);
+        ionicFramework.createProject(properties, projectLocation);
     }
 
     private void addProjectDependencies(String... dependencies) throws IOException {
         for (String dependency : dependencies) {
-            projectManager.addProjectDependency(dependency, projectLocation);
+            ionicFramework.addProjectDependency(dependency, projectLocation);
         }
     }
 

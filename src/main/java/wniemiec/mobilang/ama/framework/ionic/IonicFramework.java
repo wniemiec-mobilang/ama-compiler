@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.StandardTerminalBuilder;
 import wniemiec.io.java.Terminal;
@@ -20,6 +19,7 @@ import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.Project;
 import wniemiec.mobilang.ama.models.Properties;
 import wniemiec.mobilang.ama.models.Screen;
+import wniemiec.mobilang.ama.util.io.FileManager;
 import wniemiec.mobilang.ama.util.io.StandardFileManager;
 
 
@@ -34,16 +34,23 @@ public class IonicFramework implements Framework {
     //		Attributes
     //-------------------------------------------------------------------------
     private final IonicProjectManager projectManager;
+    private final Terminal terminal;
+    private final FileManager fileManager;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
     public IonicFramework() {
-        projectManager = new IonicProjectManager(
-            buildStandardTerminal(), 
-            new StandardFileManager()
-        );
+        terminal = buildStandardTerminal();
+        fileManager = new StandardFileManager();
+        projectManager = new IonicProjectManager(terminal, fileManager);
+    }
+
+    public IonicFramework(Terminal terminal, FileManager fileManager) {
+        projectManager = new IonicProjectManager(terminal, fileManager);
+        this.terminal = terminal;
+        this.fileManager = fileManager;
     }
 
 
@@ -98,7 +105,12 @@ public class IonicFramework implements Framework {
     @Override
     public void generateMobileApplicationFor(String platform, Path source, Path output) 
     throws AppGenerationException {
-        IonicAppGenerator appGenerator = new IonicAppGenerator(source, output);
+        IonicAppGenerator appGenerator = new IonicAppGenerator(
+            source, 
+            output, 
+            terminal, 
+            fileManager
+        );
 
         appGenerator.generateMobileApplicationFor(platform);
     }

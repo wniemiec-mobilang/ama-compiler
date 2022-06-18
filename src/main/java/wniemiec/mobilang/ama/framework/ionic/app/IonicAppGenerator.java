@@ -33,25 +33,22 @@ public class IonicAppGenerator {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public IonicAppGenerator(Path sourceCode, Path output) {
+    public IonicAppGenerator(
+        Path sourceCode, 
+        Path output, 
+        Terminal terminal, 
+        FileManager fileManager
+    ) {
         mobileOutput = output.resolve("mobile");
         this.sourceCode = sourceCode;
-        terminal = buildStandardTerminal();
-        fileManager = new StandardFileManager();
+        this.terminal = terminal;
+        this.fileManager = fileManager;
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private Terminal buildStandardTerminal() {
-        return StandardTerminalBuilder
-            .getInstance()
-            .outputHandler(Consolex::writeDebug)
-            .outputErrorHandler(Consolex::writeDebug)
-            .build();
-    }
-
     public Path generateMobileApplicationFor(String platform) 
     throws AppGenerationException {
         String normalizedPlatform = platform.toLowerCase();

@@ -1,4 +1,4 @@
-package wniemiec.mobilang.ama.framework.ionic.coder;
+package wniemiec.mobilang.ama.framework.reactnative.coder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,18 +19,14 @@ import wniemiec.mobilang.ama.models.behavior.Literal;
 import wniemiec.mobilang.ama.models.tag.Tag;
 
 
-class IonicScreensCoderTest {
-    
+class ReactNativeScreensCoderTest {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private static final int INDEX_MODULE;
-    private static final int INDEX_HTML;
-    private static final int INDEX_SCSS;
-    private static final int INDEX_PAGE;
-    private static final int INDEX_ROUTING;
+    private static final int INDEX_ANDROID;
+    private static final int INDEX_IOS;
     private static final String TAG_ID;
-    private IonicScreensCoder coder;
+    private ReactNativeScreensCoder coder;
     private List<Screen> screens;
     private List<CodeFile> obtainedCode;
 
@@ -39,11 +35,8 @@ class IonicScreensCoderTest {
     //		Initialization block
     //-------------------------------------------------------------------------
     static {
-        INDEX_MODULE = 0;
-        INDEX_HTML = 1;
-        INDEX_SCSS = 2;
-        INDEX_PAGE = 3;
-        INDEX_ROUTING = 4;
+        INDEX_ANDROID = 0;
+        INDEX_IOS = 1;
         TAG_ID = "tagid";
     }
 
@@ -61,7 +54,7 @@ class IonicScreensCoderTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testSingleScreen() throws CoderException {
+    void testSingleAndroidScreen() throws CoderException {
         withScreen(new Screen.Builder()
             .name("about")
             .structure(buildButtonWithOnClickAndValue("click me"))
@@ -72,82 +65,75 @@ class IonicScreensCoderTest {
         runCoder();
         assertCoderGeneratedSomething();
         assertCodeFileHasName(
-            "src/app/pages/about/about.module.ts",
-            "src/app/pages/about/about.page.html",
-            "src/app/pages/about/about.page.scss",
-            "src/app/pages/about/about.page.ts",
-            "src/app/pages/about/about-routing.module.ts"
+            "android/app/src/main/assets/about.html",
+            "ios/assets/about.html"
         );
-        assertModuleCodeEquals(
-            "import { NgModule } from '@angular/core';",
-            "import { CommonModule } from '@angular/common';",
-            "import { FormsModule } from '@angular/forms';",
-            "import { IonicModule, IonicRouteStrategy } from '@ionic/angular';",
-            "import { AboutPage } from './about.page';",
-            "import { AboutPageRoutingModule } from './about-routing.module';",
+        assertAndroidCodeEquals(
+            "<!DOCTYPE html>",
+            "<html>",
+            "    <head>",
+            "        <title>about</title>",
+            "            <style>",
+            "                button { padding: 0; }",
+            "                button {",
+            "                    background-color: blue;",
+            "                    color: white;",
+            "                }",
+            "            </style>",
+            "    </head>",
+            "    <body>",
+            "        <button onclick=\"alert('hey!! you pressed the button!')\" id=\"" + TAG_ID + "\">",
+            "            click me", 
+            "        </button>",
+            "    </body>",
+            "    <script>",
+            "\"use strict\";",
             "",
-            "@NgModule({",
-            "  imports: [",
-            "    CommonModule,",
-            "    FormsModule,",
-            "    IonicModule,",
-            "    AboutPageRoutingModule",
-            "  ],",
-            "  declarations: [AboutPage]",
-            "})",
-            "export class AboutPageModule {}"
+            "        var hello = \"world\";",
+            "    </script>",
+            "</html>"
         );
-        assertHtmlCodeEquals(
-            "<ion-content>",
-            "    <button id=\"" + TAG_ID + "\">",
-            "        click me", 
-            "    </button>",
-            "</ion-content>"
+    }
+
+    @Test
+    void testSingleIosScreen() throws CoderException {
+        withScreen(new Screen.Builder()
+            .name("about")
+            .structure(buildButtonWithOnClickAndValue("click me"))
+            .style(buildButtonStyleUsingBlueAndWhite())
+            .behavior(buildDeclarationWithIdAndAssignment("hello", "world"))
+            .build()
         );
-        assertScssCodeEquals(
-            "button {",
-            "    background-color: blue;",
-            "    color: white;",
-            "}"
+        runCoder();
+        assertCoderGeneratedSomething();
+        assertCodeFileHasName(
+            "android/app/src/main/assets/about.html",
+            "ios/assets/about.html"
         );
-        assertPageCodeEquals(
-            "import { Component, OnInit, ViewEncapsulation } from '@angular/core';",
-            "import { ActivatedRoute } from '@angular/router';",
-            "@Component({",
-            "  selector: 'about-page',",
-            "  templateUrl: 'about.page.html',",
-            "  styleUrls: ['about.page.scss'],",
-            "  encapsulation: ViewEncapsulation.None",
-            "})",
-            "export class AboutPage implements OnInit {",
+        assertIosCodeEquals(
+            "<!DOCTYPE html>",
+            "<html>",
+            "    <head>",
+            "        <title>about</title>",
+            "            <style>",
+            "                button { padding: 0; }",
+            "                button {",
+            "                    background-color: blue;",
+            "                    color: white;",
+            "                }",
+            "            </style>",
+            "    </head>",
+            "    <body>",
+            "        <button onclick=\"alert('hey!! you pressed the button!')\" id=\"" + TAG_ID + "\">",
+            "            click me", 
+            "        </button>",
+            "    </body>",
+            "    <script>",
+            "\"use strict\";",
             "",
-            "  constructor(private routeParams: ActivatedRoute) {",
-            "  }",
-            "",
-            "  ngOnInit(): void {",
-            "document.getElementById(\"" + TAG_ID + "\").onclick = () => alert('hey!! you pressed the button!');",
-            "let hello = \"world\";",
-            "",
-            "  }",
-            "}"
-        );
-        assertRoutingCodeEquals(
-            "import { AboutPage } from './about.page';",
-            "import { NgModule } from '@angular/core';",
-            "import { PreloadAllModules, RouterModule, Routes } from '@angular/router';",
-            "",
-            "const routes: Routes = [",
-            "  {",
-            "    path: '',",
-            "    component: AboutPage",
-            "  }",
-            "];",
-            "",
-            "@NgModule({",
-            "  imports: [RouterModule.forChild(routes)],",
-            "  exports: [RouterModule],",
-            "})",
-            "export class AboutPageRoutingModule {}"
+            "        var hello = \"world\";",
+            "    </script>",
+            "</html>"
         );
     }
 
@@ -203,7 +189,7 @@ class IonicScreensCoderTest {
     }
 
     private void runCoder() throws CoderException {
-        coder = new IonicScreensCoder(screens);
+        coder = new ReactNativeScreensCoder(screens);
         obtainedCode = coder.generateCode();
     }
 
@@ -217,8 +203,8 @@ class IonicScreensCoderTest {
         }
     }
 
-    private void assertModuleCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_MODULE, lines);
+    private void assertAndroidCodeEquals(String... lines) {
+        assertCodeEquals(INDEX_ANDROID, lines);
     }
 
     private void assertCodeEquals(int index, String... lines) {
@@ -249,19 +235,7 @@ class IonicScreensCoderTest {
         return text.replaceAll("[\\s\\t]+", "");
     }
 
-    private void assertHtmlCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_HTML, lines);
-    }
-
-    private void assertScssCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_SCSS, lines);
-    }
-
-    private void assertPageCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_PAGE, lines);
-    }
-
-    private void assertRoutingCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_ROUTING, lines);
+    private void assertIosCodeEquals(String... lines) {
+        assertCodeEquals(INDEX_IOS, lines);
     }
 }

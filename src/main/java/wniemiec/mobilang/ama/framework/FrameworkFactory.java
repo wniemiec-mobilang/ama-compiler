@@ -1,7 +1,6 @@
 package wniemiec.mobilang.ama.framework;
 
 import java.lang.reflect.InvocationTargetException;
-
 import wniemiec.mobilang.ama.parser.exception.FactoryException;
 import wniemiec.util.java.StringUtils;
 

@@ -83,10 +83,17 @@ public class ReactNativeFramework implements Framework {
         List<CodeFile> code = new ArrayList<>();
         Set<String> dependencies = new HashSet<>();
         
-        generateCoreCode(code, dependencies);
         generateScreensCode(code, screensData);
+        generateCoreCode(code, dependencies);
 
         return new Project(code, dependencies);
+    }
+    
+    private void generateScreensCode(List<CodeFile> code, List<Screen> screensData) 
+    throws CoderException {
+        ReactNativeScreensCoder screensCoder = new ReactNativeScreensCoder(screensData);
+
+        code.addAll(screensCoder.generateCode());
     }
 
     private void generateCoreCode(List<CodeFile> code, Set<String> dependencies) {
@@ -94,13 +101,6 @@ public class ReactNativeFramework implements Framework {
 
         code.addAll(coreCoder.generateCode());
         dependencies.addAll(coreCoder.getDependencies());
-    }
-
-    private void generateScreensCode(List<CodeFile> code, List<Screen> screensData) 
-    throws CoderException {
-        ReactNativeScreensCoder screensCoder = new ReactNativeScreensCoder(screensData);
-
-        code.addAll(screensCoder.generateCode());
     }
 
     @Override

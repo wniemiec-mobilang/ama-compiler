@@ -140,6 +140,10 @@ public class ReactNativeCoreCoder {
         code.add("");
     }
 
+    boolean hasDependency(String name) {
+        return dependencies.contains(name);
+    }
+
 
     //-------------------------------------------------------------------------
     //		Getters

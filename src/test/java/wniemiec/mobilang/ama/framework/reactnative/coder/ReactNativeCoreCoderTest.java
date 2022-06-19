@@ -59,6 +59,86 @@ class ReactNativeCoreCoderTest {
         );
     }
 
+    @Test
+    void testAppFile() {
+        runCoder();
+        assertCoderGeneratedSomething();
+        assertCodeFileHasName(
+            "index.js",
+            "src/App.js"
+        );
+        assertAppCodeEquals(
+            "import React, { useState } from 'react';",
+            "import { Platform, ScrollView, useWindowDimensions } from 'react-native';",
+            "import { WebView } from 'react-native-webview';",
+            "import IframeRenderer, {iframeModel} from '@native-html/iframe-plugin';",
+            "import RenderHTML from 'react-native-render-html';",
+            "",
+            "const App = () => {",
+            "",
+            "  const [content, setContent] = useState(Platform.OS === 'ios' ? './assets/home.html' : 'file:///android_asset/home.html');",
+            "",
+            "  const renderers = {",
+            "    iframe: IframeRenderer,",
+            "  };",
+            "",
+            "  const customHTMLElementModels = {",
+            "    iframe: iframeModel,",
+            "  };",
+            "",
+            "  const {width, height} = useWindowDimensions();",
+            "",
+            "  const html = `",
+            "    <iframe allowfullscreen style=\"width:${width}px; height: ${height-25}px\" src='${content}'></iframe>",
+            "  `;",
+            "",
+            "  const renderProps = {",
+            "    a: {",
+            "      onPress: (_, href) => {",
+            "        setContent('');",
+            "        setContent(href);",
+            "      }",
+            "    },",
+            "    iframe: {",
+            "      scalesPageToFit: true,",
+            "      webViewProps: webViewProps,",
+            "    }",
+            "  };",
+            "",
+            "  const webViewProps = {",
+            "    originWhitelist: '*',",
+            "    javaScriptCanOpenWindowsAutomatically: true,",
+            "    allowFileAccessFromFileURLs: true,",
+            "    allowFileAccess: true,",
+            "    allowUniversalAccessFromFileURLs: true,",
+            "    allowingReadAccessToURL: true,",
+            "  };",
+            "",
+            "  return (",
+            "      <ScrollView>",
+            "        <RenderHTML",
+            "          contentWidth={height * 2}",
+            "          renderers={renderers}",
+            "          customHTMLElementModels={customHTMLElementModels}",
+            "          source={{html: html}}",
+            "          WebView={WebView}",
+            "          defaultWebViewProps={webViewProps}",
+            "          renderersProps={renderProps}",
+            "        />",
+            "      </ScrollView>",
+            "  );",
+            "}",
+            "",
+            "export default App;",
+            ""
+        );
+        assertHasDependencies(
+            "react-native-webview@11.17.2",
+            "react-native-render-html",
+            "@native-html/iframe-plugin"
+        );
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods
@@ -84,8 +164,8 @@ class ReactNativeCoreCoderTest {
     private void assertCodeEquals(int index, String... lines) {
         List<String> expectedCode = Arrays.asList(lines);
 
-        assertHasSameSize(expectedCode, obtainedCode.get(0).getCode());
-        assertHasSameLines(expectedCode, obtainedCode.get(0).getCode());
+        assertHasSameSize(expectedCode, obtainedCode.get(index).getCode());
+        assertHasSameLines(expectedCode, obtainedCode.get(index).getCode());
     }
 
     private void assertHasSameSize(List<String> expected, List<String> obtained) {
@@ -111,5 +191,11 @@ class ReactNativeCoreCoderTest {
 
     private void assertAppCodeEquals(String... lines) {
         assertCodeEquals(INDEX_APP_JS, lines);
+    }
+
+    private void assertHasDependencies(String... dependencies) {
+        for (String dependency : dependencies) {
+            Assertions.assertTrue(coder.hasDependency(dependency));
+        }
     }
 }

@@ -111,9 +111,11 @@ public abstract class MobiLangDirectiveParser {
             parameters.put(terms[0], terms[1]);
             screenParameters.add(terms[0]);
         }
-        
-        String directive = "mobilang::screen::([A-z0-9\\-_]+\\?)[^\\\\]+[^\"')]+";
-        String replacement = swapScreenDirectiveWithParametersFor(screenName, parameters);
+
+        int indexOfMobilang = line.indexOf("mobilang");
+        String quote = line.substring(indexOfMobilang-1, indexOfMobilang).equals("\"") ? "\"" : "'";
+        String directive = quote + "mobilang::screen::([A-z0-9\\-_]+\\?)[^\\\\]+" + quote;
+        String replacement = quote + swapScreenDirectiveWithParametersFor(screenName, parameters) + quote;
 
         return line.replaceAll(directive, replacement.replace("$", "\\$"));
     }

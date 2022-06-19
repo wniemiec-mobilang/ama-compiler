@@ -1,11 +1,11 @@
-package wniemiec.mobilang.ama.framework.reactnative;
+package wniemiec.mobilang.ama.framework.reactnative.parser;
 
 import java.util.Map;
 
 import wniemiec.mobilang.ama.parser.MobiLangDirectiveParser;
 
 
-class ReactNativeMobiLangDirectiveParser extends MobiLangDirectiveParser {
+public class ReactNativeMobiLangDirectiveParser extends MobiLangDirectiveParser {
 
     //-------------------------------------------------------------------------
     //      Methods
@@ -38,9 +38,9 @@ class ReactNativeMobiLangDirectiveParser extends MobiLangDirectiveParser {
     protected String replaceParamDirectiveWith(String paramName) {
         StringBuilder code = new StringBuilder();
 
-        code.append("window.location.href.split('?')[1].split(\"");
+        code.append("window.location.href.split('?')[1].split('");
         code.append(paramName);
-        code.append("=\")[1].split(\"&\")[0]");
+        code.append("=')[1].split('&')[0]");
 
         return code.toString();
     }
@@ -49,9 +49,9 @@ class ReactNativeMobiLangDirectiveParser extends MobiLangDirectiveParser {
     protected String swapInputDirectiveFor(String inputId) {
         StringBuilder code = new StringBuilder();
 
-        code.append("document.getElementById(");
+        code.append("document.getElementById('");
         code.append(inputId);
-        code.append(");");
+        code.append("')");
 
         return code.toString();
     }

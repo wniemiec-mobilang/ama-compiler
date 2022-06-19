@@ -1,4 +1,4 @@
-package wniemiec.mobilang.ama.framework.reactnative;
+package wniemiec.mobilang.ama.framework.reactnative.app;
 
 import java.nio.file.Path;
 import wniemiec.io.java.Consolex;
@@ -9,7 +9,7 @@ import wniemiec.mobilang.ama.export.exception.AppGenerationException;
  * Responsible for generating mobile applications through React Native 
  * framework.
  */
-class ReactNativeAppGenerator {
+public class ReactNativeAppGenerator {
 
     //-------------------------------------------------------------------------
     //		Attributes

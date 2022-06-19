@@ -1,4 +1,4 @@
-package wniemiec.mobilang.ama.framework.reactnative;
+package wniemiec.mobilang.ama.framework.reactnative.coder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ import wniemiec.mobilang.ama.models.CodeFile;
 /**
  * Responsible for generating React Native framework code for core.
  */
-class ReactNativeCoreCoder {
+public class ReactNativeCoreCoder {
 
     //-------------------------------------------------------------------------
     //		Attributes

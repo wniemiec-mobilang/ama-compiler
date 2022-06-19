@@ -1,4 +1,4 @@
-package wniemiec.mobilang.ama.framework.reactnative;
+package wniemiec.mobilang.ama.framework.reactnative.coder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import wniemiec.io.java.BabelTranspiler;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
+import wniemiec.mobilang.ama.framework.reactnative.parser.ReactNativeMobiLangDirectiveParser;
 import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.Screen;
 import wniemiec.mobilang.ama.models.behavior.Behavior;
@@ -14,7 +15,7 @@ import wniemiec.mobilang.ama.models.behavior.Behavior;
 /**
  * Responsible for generating React Native framework code for screens.
  */
-class ReactNativeScreensCoder {
+public class ReactNativeScreensCoder {
 
     //-------------------------------------------------------------------------
     //		Constructor

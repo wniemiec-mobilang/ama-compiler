@@ -1,4 +1,4 @@
-package wniemiec.mobilang.ama.framework.reactnative;
+package wniemiec.mobilang.ama.framework.reactnative.app;
 
 import java.nio.file.Path;
 import wniemiec.io.java.Consolex;

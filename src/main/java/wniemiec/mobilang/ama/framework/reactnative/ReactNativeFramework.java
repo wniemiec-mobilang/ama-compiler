@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import wniemiec.io.java.Consolex;
+import wniemiec.io.java.StandardTerminalBuilder;
+import wniemiec.io.java.Terminal;
 import wniemiec.mobilang.ama.coder.exception.CoderException;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 import wniemiec.mobilang.ama.framework.Framework;
@@ -16,6 +19,8 @@ import wniemiec.mobilang.ama.models.CodeFile;
 import wniemiec.mobilang.ama.models.Project;
 import wniemiec.mobilang.ama.models.Properties;
 import wniemiec.mobilang.ama.models.Screen;
+import wniemiec.mobilang.ama.util.io.FileManager;
+import wniemiec.mobilang.ama.util.io.StandardFileManager;
 
 
 /**
@@ -29,19 +34,37 @@ public class ReactNativeFramework implements Framework {
     //		Attributes
     //-------------------------------------------------------------------------
     private final ReactNativeProjectManager projectManager;
+    private final Terminal terminal;
+    private final FileManager fileManager;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
     public ReactNativeFramework() {
-        projectManager = new ReactNativeProjectManager();
+        terminal = buildStandardTerminal();
+        fileManager = new StandardFileManager();
+        projectManager = new ReactNativeProjectManager(terminal, fileManager);
+    }
+
+    public ReactNativeFramework(Terminal terminal, FileManager fileManager) {
+        projectManager = new ReactNativeProjectManager(terminal, fileManager);
+        this.terminal = terminal;
+        this.fileManager = fileManager;
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    private Terminal buildStandardTerminal() {
+        return StandardTerminalBuilder
+            .getInstance()
+            .outputHandler(Consolex::writeDebug)
+            .outputErrorHandler(Consolex::writeDebug)
+            .build();
+    }
+    
     @Override
     public void createProject(Properties propertiesData, Path location) 
     throws IOException {
@@ -83,7 +106,12 @@ public class ReactNativeFramework implements Framework {
     @Override
     public void generateMobileApplicationFor(String platform, Path source, Path output) 
     throws AppGenerationException {
-        ReactNativeAppGenerator appGenerator = new ReactNativeAppGenerator(source, output);
+        ReactNativeAppGenerator appGenerator = new ReactNativeAppGenerator(
+            source, 
+            output, 
+            terminal, 
+            fileManager
+        );
 
         appGenerator.generateMobileApplicationFor(platform);
     }

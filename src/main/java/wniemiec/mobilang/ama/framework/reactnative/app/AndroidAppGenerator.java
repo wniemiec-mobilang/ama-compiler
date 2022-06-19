@@ -1,17 +1,14 @@
 package wniemiec.mobilang.ama.framework.reactnative.app;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import wniemiec.io.java.Consolex;
-import wniemiec.io.java.StandardTerminalBuilder;
 import wniemiec.io.java.Terminal;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
+import wniemiec.mobilang.ama.util.io.FileManager;
 
 
 class AndroidAppGenerator {
@@ -23,7 +20,9 @@ class AndroidAppGenerator {
     private final Path androidProjectPath;
     private final Path androidOutput;
     private final String appName;
-    
+    private final Terminal terminal;
+    private final FileManager fileManager;
+
 
     //-------------------------------------------------------------------------
     //		Initialization block
@@ -36,16 +35,31 @@ class AndroidAppGenerator {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public AndroidAppGenerator(Path sourceCodePath, Path mobileOutput) {
+    public AndroidAppGenerator(
+        Path sourceCodePath, 
+        Path mobileOutput, 
+        Terminal terminal,
+        FileManager fileManager
+    ) {
         androidProjectPath = sourceCodePath.resolve("android").normalize();
         androidOutput = mobileOutput.resolve("android");
-        appName = sourceCodePath.getParent().getFileName().toString();
+        appName =  extractAppName(sourceCodePath);
+        this.terminal = terminal;
+        this.fileManager = fileManager;
     }
     
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    private String extractAppName(Path srcPath) {
+        if (srcPath.getParent() == null) {
+            return srcPath.getFileName().toString();
+        }
+
+        return srcPath.getParent().getFileName().toString();
+    }
+
     public void generateApp() throws AppGenerationException {
         try {
             generateAndroidApp();
@@ -68,10 +82,9 @@ class AndroidAppGenerator {
 
 	private void generateKeyStore() throws IOException {
         Path javaBinPath = Path.of(System.getProperty("java.home"), "bin");
-        Terminal terminal = buildTerminalWithErrorsMuted();
         Path keystore = androidProjectPath.resolve(Path.of("app", appName + ".keystore"));
 
-        Files.deleteIfExists(keystore);
+        fileManager.removeFile(keystore);
 
         Consolex.writeDebug("Generating keystore...");
 
@@ -98,20 +111,12 @@ class AndroidAppGenerator {
         );
 	}
 
-    private Terminal buildTerminalWithErrorsMuted() {
-        return StandardTerminalBuilder
-            .getInstance()
-            .outputHandler(Consolex::writeDebug)
-            .outputErrorHandler(Consolex::writeDebug)
-            .build();
-    }
-
 	private void updateGradlePropertiesFromAppFolder() throws IOException {
         Path gradleFile = androidProjectPath.resolve("gradle.properties");
-        List<String> gradleFileContent = Files.readAllLines(gradleFile);
+        List<String> gradleFileContent = fileManager.readLines(gradleFile);
 
         
-        if (!gradleFileContent.get(gradleFileContent.size()-2).startsWith("MYAPP_")) {
+        if (gradleFileContent.size() < 2 || !gradleFileContent.get(gradleFileContent.size()-2).startsWith("MYAPP_")) {
             Consolex.writeDebug("Updating gradle properties...");
             List<String> lines = new ArrayList<>();
     
@@ -121,22 +126,21 @@ class AndroidAppGenerator {
             lines.add("MYAPP_UPLOAD_KEY_PASSWORD=" + KEYSTORE_PASSWORD);
             lines.add("org.gradle.jvmargs=-Xmx4608m");
     
-            Files.write(gradleFile, lines, Charset.defaultCharset(), StandardOpenOption.APPEND);
+            fileManager.append(gradleFile, lines);
         }
 	}
 
 	private void updateGradleBuildFromAppFolder() throws IOException {
         Path gradleFile = androidProjectPath.resolve(Path.of("app", "build.gradle"));
-        List<String> gradleBuild = Files.readAllLines(gradleFile);
+        List<String> gradleBuild = fileManager.readLines(gradleFile);
 
-        if (!gradleBuild.get(0).matches("// Modified by SCMA")) {
+        if (gradleBuild.isEmpty() || !gradleBuild.get(0).matches("// Modified by SCMA")) {
             Consolex.writeDebug("Updating gradle build from app folder...");
             List<String> updatedGradleBuild = new ArrayList<>();
     
             updatedGradleBuild.add("// Modified by SCMA");
     
             for (int i=0; i < gradleBuild.size(); i++) {
-    
                 if (gradleBuild.get(i).contains("signingConfigs {")) {
                     updatedGradleBuild.add(gradleBuild.get(i));
                     updatedGradleBuild.addAll(Arrays.asList(
@@ -157,14 +161,13 @@ class AndroidAppGenerator {
                     updatedGradleBuild.add(gradleBuild.get(i));
                 }
             }
-            Files.write(gradleFile, updatedGradleBuild, Charset.defaultCharset(), StandardOpenOption.WRITE);
+
+            fileManager.write(gradleFile, updatedGradleBuild);
         }
 
 	}
 
 	private void runGradlew() throws IOException {
-        Terminal terminal = buildTerminal();
-
         Consolex.writeDebug("Running gradlew...");
 
         terminal.exec(
@@ -175,22 +178,14 @@ class AndroidAppGenerator {
         );
 	}
 
-    private Terminal buildTerminal() {
-        return StandardTerminalBuilder
-            .getInstance()
-            .outputHandler(Consolex::writeDebug)
-            .outputErrorHandler(Consolex::writeDebug)
-            .build();
-    }
-
     private void setUpOutputLocation() throws IOException {
-        if (Files.exists(androidOutput)) {
+        if (fileManager.exists(androidOutput)) {
             return;
         }
 
         Consolex.writeDebug("Setting up output location...");
 
-        Files.createDirectories(androidOutput);
+        fileManager.createDirectories(androidOutput);
     }
 
 	private void moveAabToOutputLocation() throws IOException {
@@ -198,7 +193,7 @@ class AndroidAppGenerator {
 
         Consolex.writeDebug("Moving android app to output location...");
         
-        Files.copy(aab, buildAndroidOutputAabPath());
+        fileManager.copy(aab, buildAndroidOutputAabPath());
 	}
 
     private Path buildAndroidOutputAabPath() {

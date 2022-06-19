@@ -1,13 +1,9 @@
 package wniemiec.mobilang.ama.framework.ionic.app;
 
 import java.nio.file.Path;
-import java.util.concurrent.Callable;
-import wniemiec.io.java.Consolex;
-import wniemiec.io.java.StandardTerminalBuilder;
 import wniemiec.io.java.Terminal;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
 import wniemiec.mobilang.ama.util.io.FileManager;
-import wniemiec.mobilang.ama.util.io.StandardFileManager;
 
 
 /**

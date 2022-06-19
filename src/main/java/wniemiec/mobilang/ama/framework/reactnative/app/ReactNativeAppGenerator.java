@@ -1,8 +1,9 @@
 package wniemiec.mobilang.ama.framework.reactnative.app;
 
 import java.nio.file.Path;
-import wniemiec.io.java.Consolex;
+import wniemiec.io.java.Terminal;
 import wniemiec.mobilang.ama.export.exception.AppGenerationException;
+import wniemiec.mobilang.ama.util.io.FileManager;
 
 
 /**
@@ -16,14 +17,23 @@ public class ReactNativeAppGenerator {
     //-------------------------------------------------------------------------
     private final Path sourceCode;
     private final Path mobileOutput;
+    private Terminal terminal;
+    private FileManager fileManager;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public ReactNativeAppGenerator(Path sourceCode, Path output) {
+    public ReactNativeAppGenerator(
+        Path sourceCode, 
+        Path output, 
+        Terminal terminal, 
+        FileManager fileManager
+    ) {
         mobileOutput = output.resolve("mobile");
         this.sourceCode = sourceCode;
+        this.terminal = terminal;
+        this.fileManager = fileManager;
     }
 
 
@@ -51,18 +61,33 @@ public class ReactNativeAppGenerator {
     private void generateAndroidApp() throws AppGenerationException {
         AndroidAppGenerator appGenerator = new AndroidAppGenerator(
             sourceCode, 
-            mobileOutput
+            mobileOutput,
+            terminal,
+            fileManager
         );
-        
+
         appGenerator.generateApp();
     }
 
     private void generateIosApp() throws AppGenerationException {
         IosAppGenerator appGenerator = new IosAppGenerator(
             sourceCode, 
-            mobileOutput
+            mobileOutput,
+            terminal,
+            fileManager
         );
-
         appGenerator.generateApp();
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Setters
+    //-------------------------------------------------------------------------
+    public void setTerminal(Terminal terminal) {
+        this.terminal = terminal;
+    }
+
+    public void setFileManager(FileManager fileManager) {
+        this.fileManager = fileManager;
     }
 }

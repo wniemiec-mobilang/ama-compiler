@@ -1,18 +1,32 @@
 package wniemiec.mobilang.ama.framework.reactnative;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import wniemiec.io.java.Consolex;
-import wniemiec.io.java.StandardTerminalBuilder;
 import wniemiec.io.java.Terminal;
 import wniemiec.mobilang.ama.models.Properties;
+import wniemiec.mobilang.ama.util.io.FileManager;
 
 
 /**
  * Responsible for project management of React Native framework.
  */
 class ReactNativeProjectManager {
+
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private Terminal terminal;
+    private FileManager fileManager;
+    
+
+    //-------------------------------------------------------------------------
+    //		Constructor
+    //-------------------------------------------------------------------------
+    public ReactNativeProjectManager(Terminal terminal, FileManager fileManager) {
+        this.terminal = terminal;
+        this.fileManager = fileManager;
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods
@@ -32,7 +46,7 @@ class ReactNativeProjectManager {
 
     private void generateReactNativeProject(Properties propertiesData) 
     throws IOException {
-        exec(
+        terminal.exec(
             "react-native", 
             "init", 
             propertiesData.getAppName()
@@ -43,18 +57,18 @@ class ReactNativeProjectManager {
     throws IOException {
         Path location = Path.of(propertiesData.getAppName());
         
-        Files.deleteIfExists(location.resolve(".apt_generated"));
+        fileManager.removeFile(location.resolve(".apt_generated"));
     }
 
     private void moveProjectFolderTo(Properties propertiesData, Path location) 
     throws IOException {
-        exec(
+        terminal.exec(
             "mv", 
             propertiesData.getAppName(), 
             location.getFileName().toString()
         );
 
-        exec(
+        terminal.exec(
             "mv",
             location.getFileName().toString(),
             location.getParent().toString()
@@ -62,22 +76,12 @@ class ReactNativeProjectManager {
     }
 
     private void removeOldAppFile(Path location) throws IOException {
-        Files.delete(location.resolve("App.js"));
-    }
-
-    private void exec(String... command) throws IOException {
-        Terminal terminal = StandardTerminalBuilder
-            .getInstance()
-            .outputHandler(Consolex::writeDebug)
-            .outputErrorHandler(Consolex::writeDebug)
-            .build();
-        
-        terminal.exec(command);
+        fileManager.removeFile(location.resolve("App.js"));
     }
 
     public void addProjectDependency(String dependency, Path projectLocation) throws IOException {
         for (String dependencyName : dependency.split(" ")) {
-            exec(
+            terminal.exec(
                 "npm", 
                 "install", 
                 "--prefix",

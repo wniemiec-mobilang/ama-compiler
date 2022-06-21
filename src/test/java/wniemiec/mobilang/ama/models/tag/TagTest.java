@@ -1,6 +1,8 @@
 package wniemiec.mobilang.ama.models.tag;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.List;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
@@ -26,6 +28,17 @@ class TagTest {
 
         Tag clonedTag = htmlTag.clone();
 
-        assertEquals(htmlTag, clonedTag);
+        Assertions.assertEquals(htmlTag, clonedTag);
+    }
+
+    @Test
+    void testAddChild() {
+        Tag htmlTag = Tag.getNormalInstance("html");
+        Tag headTag = Tag.getNormalInstance("head");
+
+        htmlTag.addChild(headTag);
+
+        Assertions.assertEquals(List.of(headTag), htmlTag.getChildren());
+        Assertions.assertEquals(htmlTag, headTag.getParent());
     }
 }

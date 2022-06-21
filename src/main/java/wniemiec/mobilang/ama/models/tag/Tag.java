@@ -91,22 +91,6 @@ public class Tag implements Cloneable {
         newTag.setParent(this);
     }
 
-    public void print() {
-        print(this, 0);
-    }
-
-    private static void print(Tag tag, int level) {
-        for (int i = 0; i < level; i++) {
-            Consolex.writeLine("  ");
-        }
-
-        Consolex.writeLine(tag);
-
-        for (Tag child : tag.getChildren()) {
-            print(child, level+1);
-        }
-    }
-
     public void addAttribute(String name, String value) {
         if (name.matches(".*[\\[\\]\\(\\)]+.*")) {
             attributes.put(name, value);
@@ -183,7 +167,7 @@ public class Tag implements Cloneable {
         return voidTag;
     }
 
-    public void mergeChildren(List<Tag> newChildren) {
+    public void addChildren(List<Tag> newChildren) {
         children.addAll(newChildren);
     }
 

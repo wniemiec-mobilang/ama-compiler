@@ -141,4 +141,16 @@ class TagTest {
             "</html>"
         ), htmlTag.toCode());
     }
+
+    @Test
+    void testAddChildren() {
+        Tag htmlTag = Tag.getNormalInstance("html");
+        Tag headTag = Tag.getNormalInstance("head");
+        Tag bodyTag = Tag.getNormalInstance("body");
+        List<Tag> newChildren = List.of(headTag, bodyTag);
+
+        htmlTag.addChildren(newChildren);
+
+        Assertions.assertEquals(newChildren, htmlTag.getChildren());
+    }
 }

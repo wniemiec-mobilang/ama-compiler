@@ -85,6 +85,8 @@ public class Tag implements Cloneable {
 
     public void replaceChild(Tag tag, Tag newTag) {
         children.set(children.indexOf(tag), newTag);
+        tag.setParent(null);
+        newTag.setParent(this);
     }
 
     public void print() {

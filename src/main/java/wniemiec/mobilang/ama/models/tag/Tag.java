@@ -183,8 +183,8 @@ public class Tag implements Cloneable {
         style.remove(attribute);
     }
 
-    public void mergeStyle(Map<String, String> style) {
-        this.style.putAll(style);
+    public void addStyles(Map<String, String> styles) {
+        style.putAll(styles);
     }
 
     public void removeAttribute(String attribute) {

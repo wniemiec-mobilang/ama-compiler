@@ -153,4 +153,16 @@ class TagTest {
 
         Assertions.assertEquals(newChildren, htmlTag.getChildren());
     }
+
+    @Test
+    void testAddStyle() {
+        Tag pTag = Tag.getNormalInstance("p");
+        String key = "color";
+        String value = "red";
+        pTag.addStyle(key, value);
+
+        Assertions.assertTrue(pTag.hasStyle(key));
+        Assertions.assertEquals(value, pTag.getStyle(key));
+
+    }
 }

@@ -106,4 +106,39 @@ class TagTest {
 
         Assertions.assertFalse(pTag.isIdEqualTo("something"));
     }
+
+    @Test
+    void testToCode() {
+        Tag htmlTag = Tag.getNormalInstance("html");
+        Tag headTag = Tag.getNormalInstance("head");
+        Tag titleTag = Tag.getNormalInstance("title");
+        titleTag.setValue("foo title");
+        Tag bodyTag = Tag.getNormalInstance("body");
+        Tag divTag = Tag.getNormalInstance("div");
+        Tag pTag = Tag.getNormalInstance("p");
+        pTag.setValue("some text");
+
+        htmlTag.addChild(headTag);
+        headTag.addChild(titleTag);
+        htmlTag.addChild(bodyTag);
+        bodyTag.addChild(divTag);
+        divTag.addChild(pTag);
+
+        Assertions.assertEquals(List.of(
+            "<html>",
+            "<head>",
+            "<title>",
+            "foo title",
+            "</title>",
+            "</head>",
+            "<body>",
+            "<div>",
+            "<p>",
+            "some text",
+            "</p>",
+            "</div>",
+            "</body>",
+            "</html>"
+        ), htmlTag.toCode());
+    }
 }

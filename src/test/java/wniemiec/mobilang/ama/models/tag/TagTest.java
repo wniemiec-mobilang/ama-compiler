@@ -69,6 +69,18 @@ class TagTest {
     }
 
     @Test
+    void testRemoveAttribute() {
+        Tag pTag = Tag.getNormalInstance("p");
+        String key = "id";
+        String value = "article-body";
+
+        pTag.addAttribute(key, value);
+        pTag.removeAttribute(key);
+
+        Assertions.assertFalse(pTag.hasAttribute(key));
+    }
+
+    @Test
     void testGetTagWithId() {
         Tag htmlTag = Tag.getNormalInstance("html");
         Tag headTag = Tag.getNormalInstance("head");
@@ -163,6 +175,5 @@ class TagTest {
 
         Assertions.assertTrue(pTag.hasStyle(key));
         Assertions.assertEquals(value, pTag.getStyle(key));
-
     }
 }

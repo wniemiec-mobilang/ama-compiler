@@ -23,6 +23,7 @@ public class Tag implements Cloneable {
     private Tag parent;
     private Map<String, String> style;
     private boolean voidTag;
+    private TagCoder tagCoder;
 
 
     //-------------------------------------------------------------------------
@@ -38,6 +39,7 @@ public class Tag implements Cloneable {
         children = new ArrayList<>();
         style = new HashMap<>();
         this.voidTag = voidTag;
+        tagCoder = new TagCoder();
     }
     
 
@@ -174,97 +176,11 @@ public class Tag implements Cloneable {
     }
 
     public List<String> toCode() {
-        List<String> code = new ArrayList<>();
-
-        if (isVoidTag()) {
-            code.add(buildVoidTag());
-        }
-        else {
-            code.add(buildTagOpen());
-
-            if (getValue() != null) {
-                code.add(getValue());
-            }
-            else {
-                for (Tag child : getChildren()) {
-                    code.addAll(child.toCode());
-                }
-            }
-
-            code.add(buildTagClose());
-        }
-
-        return code;
+        return tagCoder.toCode(this);
     }
 
     public boolean isVoidTag() {
         return voidTag;
-    }
-
-    private String buildVoidTag() {
-        return buildTagOpen().replace(">", "/>");
-    }
-
-    private String buildTagOpen() {
-        StringBuilder code = new StringBuilder();
-
-        code.append('<');
-        code.append(name);
-
-        if (!attributes.isEmpty()) {
-            code.append(' ');
-            code.append(stringifyAttributes());
-        }
-
-        code.append('>');
-
-        return code.toString();
-    }
-
-    private String stringifyAttributes() {
-        StringBuilder code = new StringBuilder();
-
-        for (Map.Entry<String, String> attribute : attributes.entrySet()) {
-            code.append(attribute.getKey());
-            code.append('=');
-
-            if (attribute.getValue().startsWith("{")) {
-                code.append(attribute.getValue());
-            }
-            else {
-                code.append('\"');
-                code.append(attribute.getValue());
-                code.append('\"');
-            }
-
-            code.append(' ');
-        }
-
-        if (code.length() > 0) {
-            code.deleteCharAt(code.length()-1);
-        }
-
-        return code.toString();
-    }
-
-    private String buildTagClose() {
-        StringBuilder code = new StringBuilder();
-
-        code.append("</");
-        code.append(name);
-        code.append('>');
-
-        return code.toString();
-    }
-
-    public String toChildrenCode() {
-        StringBuilder code = new StringBuilder();
-
-        for (Tag child : getChildren()) {
-            code.append(child.toCode());
-        }
-
-        return code.toString();
     }
 
     public void mergeChildren(List<Tag> newChildren) {

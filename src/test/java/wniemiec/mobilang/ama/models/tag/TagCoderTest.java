@@ -86,16 +86,45 @@ class TagCoderTest {
 
     @Test
     void testNormalTagWithAttributes() {
-        Tag htmlTag = Tag.getNormalInstance("html");
         Tag imgTag = Tag.getVoidInstance("img");
         String id = "some-id";
         imgTag.addAttribute("id", id);
+       
+        Assertions.assertEquals(List.of(
+            "<img id=\"" + id + "\"/>"
+        ), tagCoder.toCode(imgTag));
+    }
+
+    @Test
+    void testNormalTagWithAttributesAndChildren() {
+        Tag htmlTag = Tag.getNormalInstance("html");
+        Tag imgTag = Tag.getVoidInstance("img");
+        String id = "some-id";
+        htmlTag.addAttribute("id", id);
 
         htmlTag.addChild(imgTag);
        
         Assertions.assertEquals(List.of(
-            "<html>",
-            "<img id=\"" + id + "\"/>",
+            "<html id=\"" + id + "\">",
+            "<img/>",
+            "</html>"
+        ), tagCoder.toCode(htmlTag));
+    }
+
+    @Test
+    void testNormalTagWithAttributesAndChildrenWithAttributes() {
+        Tag htmlTag = Tag.getNormalInstance("html");
+        Tag imgTag = Tag.getVoidInstance("img");
+        String htmlId = "foo";
+        String imgId = "bar";
+        htmlTag.addAttribute("id", htmlId);
+        imgTag.addAttribute("id", imgId);
+
+        htmlTag.addChild(imgTag);
+       
+        Assertions.assertEquals(List.of(
+            "<html id=\"" + htmlId + "\">",
+            "<img id=\"" + imgId + "\"/>",
             "</html>"
         ), tagCoder.toCode(htmlTag));
     }

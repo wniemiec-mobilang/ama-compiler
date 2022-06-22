@@ -69,4 +69,34 @@ class TagCoderTest {
             "</p>"
         ), tagCoder.toCode(pTag));
     }
+
+    @Test
+    void testNormalTagWithChildren() {
+        Tag htmlTag = Tag.getNormalInstance("html");
+        Tag imgTag = Tag.getVoidInstance("img");
+
+        htmlTag.addChild(imgTag);
+       
+        Assertions.assertEquals(List.of(
+            "<html>",
+            "<img/>",
+            "</html>"
+        ), tagCoder.toCode(htmlTag));
+    }
+
+    @Test
+    void testNormalTagWithAttributes() {
+        Tag htmlTag = Tag.getNormalInstance("html");
+        Tag imgTag = Tag.getVoidInstance("img");
+        String id = "some-id";
+        imgTag.addAttribute("id", id);
+
+        htmlTag.addChild(imgTag);
+       
+        Assertions.assertEquals(List.of(
+            "<html>",
+            "<img id=\"" + id + "\"/>",
+            "</html>"
+        ), tagCoder.toCode(htmlTag));
+    }
 }

@@ -10,7 +10,7 @@ class TagContainerTest {
     TagContainer tagContainer;
     
     @Test
-    void testTagWith() {
+    void testAddSibling() {
         Tag htmlTag = Tag.getNormalInstance("html");
         Tag divTag = Tag.getNormalInstance("div");
         Tag pTag = Tag.getNormalInstance("p");
@@ -22,6 +22,24 @@ class TagContainerTest {
 
         Assertions.assertEquals(
             List.of(divTag, pTag),
+            tagContainer.getParent().getChildren()
+        );
+        Assertions.assertEquals(htmlTag, pTag.getParent());
+    }
+
+    @Test
+    void testReplaceTagTo() {
+        Tag htmlTag = Tag.getNormalInstance("html");
+        Tag divTag = Tag.getNormalInstance("div");
+        Tag pTag = Tag.getNormalInstance("p");
+
+        tagContainer = new TagContainer(divTag, htmlTag);
+
+        htmlTag.addChild(divTag);
+        tagContainer.replaceTagTo(pTag);
+
+        Assertions.assertEquals(
+            List.of(pTag),
             tagContainer.getParent().getChildren()
         );
         Assertions.assertEquals(htmlTag, pTag.getParent());

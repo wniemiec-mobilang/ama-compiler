@@ -46,6 +46,7 @@ public class Node {
 
     private void initializeAttributes() {
         String label = getLabel();
+        attributes = new HashMap<>();
 
         if (!label.contains(" ")) {
             return;
@@ -57,8 +58,6 @@ public class Node {
     }
 
     private void parseRawAttributes(String rawAttributes) {
-        attributes = new HashMap<>();
-        
         for (String unparsedAttribute : rawAttributes.split(" ")) {
             parseAttribute(unparsedAttribute);
         }

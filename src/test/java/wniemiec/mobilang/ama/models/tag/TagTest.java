@@ -14,6 +14,7 @@ class TagTest {
     //-------------------------------------------------------------------------
     protected Tag firstTag;
     protected Tag secondTag;
+    protected Tag thirdTag;
     
 
     //-------------------------------------------------------------------------
@@ -23,6 +24,7 @@ class TagTest {
     void setUp() {
         firstTag = null;
         secondTag = null;
+        thirdTag = null;
     }
 
 
@@ -207,6 +209,10 @@ class TagTest {
 
     protected void withSecondTag(Tag tag) {
         secondTag = tag;
+    }
+
+    protected void withThirdTag(Tag tag) {
+        thirdTag = tag;
     }
 
     protected void addChildInFirstTag(Tag tag) {

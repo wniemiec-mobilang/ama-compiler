@@ -1,47 +1,79 @@
 package wniemiec.mobilang.ama.models.tag;
 
-import java.util.List;
-
+import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class TagContainerTest {
 
-    TagContainer tagContainer;
+class TagContainerTest extends TagTest {
+
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    private TagContainer tagContainer;
+
+
+    //-------------------------------------------------------------------------
+    //		Test hooks
+    //-------------------------------------------------------------------------
+    @BeforeEach
+    void setUp() {
+        tagContainer = null;
+    }
     
+
+    //-------------------------------------------------------------------------
+    //		Tests
+    //-------------------------------------------------------------------------
     @Test
     void testAddSibling() {
-        Tag htmlTag = Tag.getNormalInstance("html");
-        Tag divTag = Tag.getNormalInstance("div");
-        Tag pTag = Tag.getNormalInstance("p");
-
-        tagContainer = new TagContainer(divTag, htmlTag);
-
-        htmlTag.addChild(divTag);
-        tagContainer.addSibling(pTag);
-
-        Assertions.assertEquals(
-            List.of(divTag, pTag),
-            tagContainer.getParent().getChildren()
-        );
-        Assertions.assertEquals(htmlTag, pTag.getParent());
+        withFirstTag(Tag.getNormalInstance("html"));
+        withSecondTag(Tag.getNormalInstance("div"));
+        withThirdTag(Tag.getNormalInstance("p"));
+        addChildInFirstTag(secondTag);
+        createTagContainer(secondTag, firstTag);
+        usingTagContainerAddSibling(thirdTag);
+        assertChildrenOfTagContainerParentIs(secondTag, thirdTag);
+        assertThirdTagParentIs(firstTag);
     }
 
     @Test
     void testReplaceTagTo() {
-        Tag htmlTag = Tag.getNormalInstance("html");
-        Tag divTag = Tag.getNormalInstance("div");
-        Tag pTag = Tag.getNormalInstance("p");
+        withFirstTag(Tag.getNormalInstance("html"));
+        withSecondTag(Tag.getNormalInstance("div"));
+        withThirdTag(Tag.getNormalInstance("p"));
+        addChildInFirstTag(secondTag);
+        createTagContainer(secondTag, firstTag);
+        usingTagContainerReplaceTagTo(thirdTag);
+        assertChildrenOfTagContainerParentIs(thirdTag);
+        assertThirdTagParentIs(firstTag);
+    }
 
-        tagContainer = new TagContainer(divTag, htmlTag);
 
-        htmlTag.addChild(divTag);
-        tagContainer.replaceTagTo(pTag);
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    private void createTagContainer(Tag tag, Tag parent) {
+        tagContainer = new TagContainer(tag, parent);
+    }
 
+    private void usingTagContainerAddSibling(Tag tag) {
+        tagContainer.addSibling(tag);
+    }
+
+    private void assertChildrenOfTagContainerParentIs(Tag... children) {
         Assertions.assertEquals(
-            List.of(pTag),
+            Arrays.asList(children),
             tagContainer.getParent().getChildren()
         );
-        Assertions.assertEquals(htmlTag, pTag.getParent());
+    }
+
+    private void assertThirdTagParentIs(Tag tag) {
+        Assertions.assertEquals(tag, thirdTag.getParent());
+    }
+
+    private void usingTagContainerReplaceTagTo(Tag tag) {
+        tagContainer.replaceTagTo(tag);
     }
 }

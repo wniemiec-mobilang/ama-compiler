@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-import wniemiec.io.java.Consolex;
 
 
 /**
@@ -219,40 +218,63 @@ public class Tag implements Cloneable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        
+        if ((obj == null) || getClass() != obj.getClass()) { 
             return false;
-        if (getClass() != obj.getClass())
-            return false;
+        }
+
         Tag other = (Tag) obj;
-        if (attributes == null) {
-            if (other.attributes != null)
-                return false;
-        } else if (!attributes.equals(other.attributes))
-            return false;
-        if (children == null) {
-            if (other.children != null)
-                return false;
-        } else if (!children.equals(other.children))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (style == null) {
-            if (other.style != null)
-                return false;
-        } else if (!style.equals(other.style))
-            return false;
-        if (value == null) {
-            if (other.value != null)
-                return false;
-        } else if (!value.equals(other.value))
-            return false;
-        return true;
+
+        return  hasSameAttributes(other)
+                && hasSameChildren(other)
+                && hasSameName(other)
+                && hasSameStyle(other)
+                && hasSameValue(other);
     }
+
+    private boolean hasSameAttributes(Tag other) {
+        if ((attributes == null) && (other.attributes == null)) {
+            return true;
+        }
+
+        return (attributes != null) && attributes.equals(other.attributes);
+    }
+
+    private boolean hasSameChildren(Tag other) {
+        if ((children == null) && (other.children == null)) {
+            return true;
+        }
+
+        return (children != null) && children.equals(other.children);
+    }
+
+    private boolean hasSameName(Tag other) {
+        if ((name == null) && (other.name == null)) {
+            return true;
+        }
+
+        return (name != null) && name.equals(other.name);
+    }
+
+    private boolean hasSameStyle(Tag other) {
+        if ((style == null) && (other.style == null)) {
+            return true;
+        }
+
+        return (style != null) && style.equals(other.style);
+    }
+
+    private boolean hasSameValue(Tag other) {
+        if ((value == null) && (other.value == null)) {
+            return true;
+        }
+
+        return (value != null) && value.equals(other.value);
+    }
+
 
     //-------------------------------------------------------------------------
     //		Getters & Setters

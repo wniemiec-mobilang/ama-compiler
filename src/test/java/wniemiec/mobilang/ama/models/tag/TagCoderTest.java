@@ -1,18 +1,20 @@
 package wniemiec.mobilang.ama.models.tag;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-class TagCoderTest {
+class TagCoderTest extends TagTest {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
     private TagCoder tagCoder;
+    private List<String> generatedCode;
 
 
     //-------------------------------------------------------------------------
@@ -21,6 +23,7 @@ class TagCoderTest {
     @BeforeEach
     void setUp() {
         tagCoder = new TagCoder();
+        generatedCode = new ArrayList<>();
     }
     
 
@@ -29,103 +32,159 @@ class TagCoderTest {
     //-------------------------------------------------------------------------
     @Test
     void testVoidTagWithoutValue() {
-        Tag imgTag = Tag.getVoidInstance("img");
-       
-        Assertions.assertEquals(List.of(
-            "<img/>"
-        ), tagCoder.toCode(imgTag));
+        withFirstTag(Tag.getVoidInstance("img"));
+        runTagCoder(firstTag);
+        assertToCodeIs("<img />");
     }
 
     @Test
     void testVoidTagWithValue() {
-        Tag imgTag = Tag.getVoidInstance("img");
-        imgTag.setValue("wrong value");
-       
-        Assertions.assertEquals(List.of(
-            "<img/>"
-        ), tagCoder.toCode(imgTag));
+        withFirstTag(buildVoidTagWithValue("img", "wrong value"));
+        runTagCoder(firstTag);
+        assertToCodeIs("<img />");
     }
 
     @Test
     void testVoidTagWithChildren() {
-        Tag imgTag = Tag.getVoidInstance("img");
-        Tag htmlTag = Tag.getNormalInstance("html");
+        withFirstTag(Tag.getVoidInstance("img"));
+        withSecondTag(Tag.getNormalInstance("html"));
+        addChildInFirstTag(secondTag);
+        runTagCoder(firstTag);
+        assertToCodeIs("<img />");
+    }
 
-        htmlTag.addChild(imgTag);
-       
-        Assertions.assertEquals(List.of(
-            "<img/>"
-        ), tagCoder.toCode(imgTag));
+    @Test
+    void testVoidTagWithAttributes() {
+        withFirstTag(buildVoidTagWithIdAttribute("img", "some-id"));
+        runTagCoder(firstTag);
+        assertToCodeIs("<img id=\"some-id\"/>");
     }
 
     @Test
     void testNormalTagWithValue() {
-        Tag pTag = Tag.getNormalInstance("p");
-        pTag.setValue("some text");
-       
-        Assertions.assertEquals(List.of(
+        withFirstTag(buildNormalTagWithValue("p", "some text"));
+        runTagCoder(firstTag);
+        assertToCodeIs(
             "<p>",
             "some text",
             "</p>"
-        ), tagCoder.toCode(pTag));
+        );
     }
 
     @Test
     void testNormalTagWithChildren() {
-        Tag htmlTag = Tag.getNormalInstance("html");
-        Tag imgTag = Tag.getVoidInstance("img");
-
-        htmlTag.addChild(imgTag);
-       
-        Assertions.assertEquals(List.of(
+        withFirstTag(Tag.getNormalInstance("html"));
+        withSecondTag(Tag.getVoidInstance("img"));
+        addChildInFirstTag(secondTag);
+        runTagCoder(firstTag);
+        assertToCodeIs(
             "<html>",
             "<img/>",
             "</html>"
-        ), tagCoder.toCode(htmlTag));
+        );
     }
 
     @Test
     void testNormalTagWithAttributes() {
-        Tag imgTag = Tag.getVoidInstance("img");
-        String id = "some-id";
-        imgTag.addAttribute("id", id);
-       
-        Assertions.assertEquals(List.of(
-            "<img id=\"" + id + "\"/>"
-        ), tagCoder.toCode(imgTag));
+        withFirstTag(buildNormalTagWithIdAttribute("div", "some-id"));
+        runTagCoder(firstTag);
+        assertToCodeIs(
+            "<div id=\"some-id\">",
+            "</div>"
+        );
     }
 
     @Test
     void testNormalTagWithAttributesAndChildren() {
-        Tag htmlTag = Tag.getNormalInstance("html");
-        Tag imgTag = Tag.getVoidInstance("img");
-        String id = "some-id";
-        htmlTag.addAttribute("id", id);
-
-        htmlTag.addChild(imgTag);
-       
-        Assertions.assertEquals(List.of(
-            "<html id=\"" + id + "\">",
+        withFirstTag(buildNormalTagWithIdAttribute("div", "some-id"));
+        withSecondTag(Tag.getVoidInstance("img"));
+        addChildInFirstTag(secondTag);
+        runTagCoder(firstTag);
+        assertToCodeIs(
+            "<div id=\"some-id\">",
             "<img/>",
-            "</html>"
-        ), tagCoder.toCode(htmlTag));
+            "</div>"
+        );
     }
 
     @Test
     void testNormalTagWithAttributesAndChildrenWithAttributes() {
-        Tag htmlTag = Tag.getNormalInstance("html");
-        Tag imgTag = Tag.getVoidInstance("img");
-        String htmlId = "foo";
-        String imgId = "bar";
-        htmlTag.addAttribute("id", htmlId);
-        imgTag.addAttribute("id", imgId);
+        withFirstTag(buildNormalTagWithIdAttribute("div", "some-id"));
+        withSecondTag(buildVoidTagWithIdAttribute("img", "other-id"));
+        addChildInFirstTag(secondTag);
+        runTagCoder(firstTag);
+        assertToCodeIs(
+            "<div id=\"some-id\">",
+            "<img id=\"other-id\"/>",
+            "</div>"
+        );
+    }
 
-        htmlTag.addChild(imgTag);
-       
-        Assertions.assertEquals(List.of(
-            "<html id=\"" + htmlId + "\">",
-            "<img id=\"" + imgId + "\"/>",
-            "</html>"
-        ), tagCoder.toCode(htmlTag));
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    private void runTagCoder(Tag tag) {
+        generatedCode = tagCoder.toCode(tag);
+    }
+
+    private void assertToCodeIs(String... lines) {
+        List<String> expectedCode = Arrays.asList(lines);
+
+        assertHasSameSize(expectedCode, generatedCode);
+        assertHasSameLines(expectedCode, generatedCode);
+    }
+
+    private void assertHasSameSize(List<String> expected, List<String> obtained) {
+        Assertions.assertEquals(expected.size(), obtained.size());
+    }
+
+    private void assertHasSameLines(List<String> expected, List<String> obtained) {
+        for (int i = 0; i < expected.size(); i++) {            
+            assertHasSameLine(expected.get(i), obtained.get(i));
+        }
+    }
+
+    private void assertHasSameLine(String expected, String obtained) {
+        Assertions.assertEquals(
+            removeWhiteSpaces(expected),
+            removeWhiteSpaces(obtained)
+        );
+    }
+
+    private String removeWhiteSpaces(String text) {
+        return text.replaceAll("[\\s\\t]+", "");
+    }
+
+    private Tag buildVoidTagWithValue(String tagName, String value) {
+        Tag tag = Tag.getVoidInstance(tagName);
+        
+        tag.setValue(value);
+
+        return tag;
+    }
+
+    private Tag buildNormalTagWithValue(String tagName, String value) {
+        Tag tag = Tag.getNormalInstance(tagName);
+        
+        tag.setValue(value);
+
+        return tag;
+    }
+
+    private Tag buildVoidTagWithIdAttribute(String tagName, String id) {
+        Tag tag = Tag.getVoidInstance(tagName);
+
+        tag.addAttribute("id", id);
+
+        return tag;
+    }
+
+    private Tag buildNormalTagWithIdAttribute(String tagName, String id) {
+        Tag tag = Tag.getNormalInstance(tagName);
+
+        tag.addAttribute("id", id);
+
+        return tag;
     }
 }

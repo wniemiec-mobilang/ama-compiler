@@ -6,13 +6,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class JsonTagTest {
+
+class JsonTagTest extends TagTest {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private Tag firstTag;
-    private Tag secondTag;
     private JsonTag jsonTag;
     private JSONObject jsonObject;
     
@@ -22,8 +21,6 @@ class JsonTagTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        firstTag = null;
-        secondTag = null;
         jsonTag = null;
         jsonObject = null;
     }
@@ -49,27 +46,12 @@ class JsonTagTest {
         withJsonObject(new JSONObject());
         buildJsonTagUsingAsParent(firstTag);
         assertGetTagIsCorrect();
-
-        Tag divTag = Tag.getNormalInstance("div");
-        JSONObject jsonObject = new JSONObject();
-
-        jsonTag = new JsonTag(jsonObject, divTag);
-        
-        Assertions.assertEquals(jsonObject, jsonTag.getTag());
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void withFirstTag(Tag tag) {
-        firstTag = tag;
-    }
-
-    private void withSecondTag(Tag tag) {
-        secondTag = tag;
-    }
-
     private void withJsonObject(JSONObject json) {
         jsonObject = json;
     }
@@ -87,10 +69,6 @@ class JsonTagTest {
             Arrays.asList(tags),
             jsonTag.getParent().getChildren()
         );
-    }
-
-    private void assertSecondTagParentIs(Tag tag) {
-        Assertions.assertEquals(tag, secondTag.getParent());
     }
 
     private void assertGetTagIsCorrect() {

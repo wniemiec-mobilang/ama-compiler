@@ -1,14 +1,34 @@
 package wniemiec.mobilang.ama.models.tag;
 
+import java.util.Arrays;
 import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
 class TagTest {
-    // TODO: refactor this code
 
+    //-------------------------------------------------------------------------
+    //		Attributes
+    //-------------------------------------------------------------------------
+    protected Tag firstTag;
+    protected Tag secondTag;
+    
+
+    //-------------------------------------------------------------------------
+    //		Test hooks
+    //-------------------------------------------------------------------------
+    @BeforeEach
+    void setUp() {
+        firstTag = null;
+        secondTag = null;
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Tests
+    //-------------------------------------------------------------------------
     @Test
     void testClone() {
         Tag htmlTag = Tag.getNormalInstance("html");
@@ -175,5 +195,32 @@ class TagTest {
 
         Assertions.assertTrue(pTag.hasStyle(key));
         Assertions.assertEquals(value, pTag.getStyle(key));
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Methods
+    //-------------------------------------------------------------------------
+    protected void withFirstTag(Tag tag) {
+        firstTag = tag;
+    }
+
+    protected void withSecondTag(Tag tag) {
+        secondTag = tag;
+    }
+
+    protected void addChildInFirstTag(Tag tag) {
+        firstTag.addChild(tag);
+    }
+
+    protected void assertChildrenOfFirstTagIs(Tag... tags) {
+        Assertions.assertEquals(
+            Arrays.asList(tags),
+            firstTag.getChildren()
+        );
+    }
+
+    protected void assertSecondTagParentIs(Tag tag) {
+        Assertions.assertEquals(tag, secondTag.getParent());
     }
 }

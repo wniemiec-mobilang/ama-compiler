@@ -163,28 +163,4 @@ class TagCoderTest extends TagTest {
 
         return tag;
     }
-
-    private Tag buildNormalTagWithValue(String tagName, String value) {
-        Tag tag = Tag.getNormalInstance(tagName);
-        
-        tag.setValue(value);
-
-        return tag;
-    }
-
-    private Tag buildVoidTagWithIdAttribute(String tagName, String id) {
-        Tag tag = Tag.getVoidInstance(tagName);
-
-        tag.addAttribute("id", id);
-
-        return tag;
-    }
-
-    private Tag buildNormalTagWithIdAttribute(String tagName, String id) {
-        Tag tag = Tag.getNormalInstance(tagName);
-
-        tag.addAttribute("id", id);
-
-        return tag;
-    }
 }

@@ -15,6 +15,7 @@ class TagTest {
     protected Tag firstTag;
     protected Tag secondTag;
     protected Tag thirdTag;
+    private Tag clonedTag;
     
 
     //-------------------------------------------------------------------------
@@ -25,6 +26,7 @@ class TagTest {
         firstTag = null;
         secondTag = null;
         thirdTag = null;
+        clonedTag = null;
     }
 
 
@@ -33,170 +35,107 @@ class TagTest {
     //-------------------------------------------------------------------------
     @Test
     void testClone() {
-        Tag htmlTag = Tag.getNormalInstance("html");
-        Tag headTag = Tag.getNormalInstance("head");
-        Tag titleTag = Tag.getNormalInstance("title");
-        titleTag.setValue("foo title");
-        Tag bodyTag = Tag.getNormalInstance("body");
-        Tag divTag = Tag.getNormalInstance("div");
-        Tag pTag = Tag.getNormalInstance("p");
-        pTag.setValue("some text");
-
-        htmlTag.addChild(headTag);
-        headTag.addChild(titleTag);
-        htmlTag.addChild(bodyTag);
-        bodyTag.addChild(divTag);
-        divTag.addChild(pTag);
-
-        Tag clonedTag = htmlTag.clone();
-
-        Assertions.assertEquals(htmlTag, clonedTag);
+        withFirstTag(Tag.getNormalInstance("html"));
+        withSecondTag(Tag.getNormalInstance("head"));
+        withThirdTag(buildNormalTagWithValue("title", "foo title"));
+        addChildInFirstTag(secondTag);
+        addChildInSecondTag(thirdTag);
+        cloneTag(firstTag);
+        assertClonedTagIsEqualTo(firstTag);
     }
 
     @Test
     void testAddChild() {
-        Tag htmlTag = Tag.getNormalInstance("html");
-        Tag headTag = Tag.getNormalInstance("head");
-
-        htmlTag.addChild(headTag);
-
-        Assertions.assertEquals(List.of(headTag), htmlTag.getChildren());
-        Assertions.assertEquals(htmlTag, headTag.getParent());
+        withFirstTag(Tag.getNormalInstance("html"));
+        withSecondTag(Tag.getNormalInstance("head"));
+        addChildInFirstTag(secondTag);
+        assertChildrenOfFirstTagIs(secondTag);
+        assertSecondTagParentIs(firstTag);
     }
 
     @Test
     void testReplaceChild() {
-        Tag htmlTag = Tag.getNormalInstance("html");
-        Tag headTag = Tag.getNormalInstance("head");
-        Tag bodyTag = Tag.getNormalInstance("body");
-
-        htmlTag.addChild(headTag);
-        htmlTag.replaceChild(headTag, bodyTag);
-        
-        Assertions.assertEquals(List.of(bodyTag), htmlTag.getChildren());
-        Assertions.assertEquals(htmlTag, bodyTag.getParent());
-        Assertions.assertFalse(headTag.hasParent());
+        withFirstTag(Tag.getNormalInstance("html"));
+        withSecondTag(Tag.getNormalInstance("head"));
+        withThirdTag(Tag.getNormalInstance("body"));
+        addChildInFirstTag(secondTag);
+        replaceChildOfFirstTagWith(secondTag, thirdTag);
+        assertChildrenOfFirstTagIs(thirdTag);
+        assertSecondTagParentIs(firstTag);
+        assertTagHasNoParent(secondTag);
     }
 
     @Test
     void testAddAttribute() {
-        Tag pTag = Tag.getNormalInstance("p");
-        String key = "id";
-        String value = "article-body";
-
-        pTag.addAttribute(key, value);
-
-        Assertions.assertTrue(pTag.hasAttribute(key));
-        Assertions.assertEquals(value, pTag.getAttribute(key));
+        withFirstTag(buildNormalTagWithIdAttribute("p", "some-id"));
+        assertFirstTagHasAttribute("id");
+        assertFirstTagHasId("some-id");
     }
 
     @Test
     void testRemoveAttribute() {
-        Tag pTag = Tag.getNormalInstance("p");
-        String key = "id";
-        String value = "article-body";
-
-        pTag.addAttribute(key, value);
-        pTag.removeAttribute(key);
-
-        Assertions.assertFalse(pTag.hasAttribute(key));
+        withFirstTag(buildNormalTagWithIdAttribute("p", "some-id"));
+        removeAttributeFromFirstTag("id");
+        assertFirstTagDoesNotHaveAttribute("id");
     }
 
     @Test
     void testGetTagWithId() {
-        Tag htmlTag = Tag.getNormalInstance("html");
-        Tag headTag = Tag.getNormalInstance("head");
-        Tag bodyTag = Tag.getNormalInstance("body");
-        
-        Tag pTag = Tag.getNormalInstance("p");
-        String id = "article-body";
-        pTag.addAttribute("id", id);
-
-        htmlTag.addChild(headTag);
-        htmlTag.addChild(bodyTag);
-        bodyTag.addChild(pTag);
-
-        Assertions.assertEquals(pTag, htmlTag.getTagWithId(id));
+        withFirstTag(Tag.getNormalInstance("html"));
+        withSecondTag(Tag.getNormalInstance("body"));
+        withThirdTag(buildNormalTagWithIdAttribute("p", "some-id"));
+        addChildInFirstTag(secondTag);
+        addChildInSecondTag(thirdTag);
+        assertGetTagWithIdUsingFirstTagIs(thirdTag, "some-id");
     }
 
     @Test
     void testIsIdEqualToWithCorrectId() {
-        Tag pTag = Tag.getNormalInstance("p");
-        String key = "id";
-        String value = "article-body";
-
-        pTag.addAttribute(key, value);
-
-        Assertions.assertTrue(pTag.isIdEqualTo(value));
+        withFirstTag(buildNormalTagWithIdAttribute("p", "some-id"));
+        assertFirstTagHasAttribute("id");
+        assertIsIdEqualToUsingFirstTagIs("some-id");
     }
 
     @Test
     void testIsIdEqualToWithIncorrectId() {
-        Tag pTag = Tag.getNormalInstance("p");
-        String key = "id";
-        String value = "article-body";
-
-        pTag.addAttribute(key, value);
-
-        Assertions.assertFalse(pTag.isIdEqualTo("something"));
+        withFirstTag(buildNormalTagWithIdAttribute("p", "some-id"));
+        assertFirstTagHasAttribute("id");
+        assertIsIdEqualToUsingFirstTagIsNot("some-id");
     }
 
     @Test
     void testToCode() {
-        Tag htmlTag = Tag.getNormalInstance("html");
-        Tag headTag = Tag.getNormalInstance("head");
-        Tag titleTag = Tag.getNormalInstance("title");
-        titleTag.setValue("foo title");
-        Tag bodyTag = Tag.getNormalInstance("body");
-        Tag divTag = Tag.getNormalInstance("div");
-        Tag pTag = Tag.getNormalInstance("p");
-        pTag.setValue("some text");
-
-        htmlTag.addChild(headTag);
-        headTag.addChild(titleTag);
-        htmlTag.addChild(bodyTag);
-        bodyTag.addChild(divTag);
-        divTag.addChild(pTag);
-
-        Assertions.assertEquals(List.of(
-            "<html>",
-            "<head>",
-            "<title>",
-            "foo title",
-            "</title>",
-            "</head>",
+        withFirstTag(Tag.getNormalInstance("html"));
+        withSecondTag(Tag.getNormalInstance("head"));
+        withThirdTag(buildNormalTagWithValue("p", "some text"));
+        addChildInFirstTag(secondTag);
+        addChildInSecondTag(thirdTag);
+        assertToCodeUsingFirstTagIs(
             "<body>",
             "<div>",
             "<p>",
             "some text",
             "</p>",
             "</div>",
-            "</body>",
-            "</html>"
-        ), htmlTag.toCode());
+            "</body>"
+        );
     }
 
     @Test
     void testAddChildren() {
-        Tag htmlTag = Tag.getNormalInstance("html");
-        Tag headTag = Tag.getNormalInstance("head");
-        Tag bodyTag = Tag.getNormalInstance("body");
-        List<Tag> newChildren = List.of(headTag, bodyTag);
-
-        htmlTag.addChildren(newChildren);
-
-        Assertions.assertEquals(newChildren, htmlTag.getChildren());
+        withFirstTag(Tag.getNormalInstance("html"));
+        withSecondTag(Tag.getNormalInstance("head"));
+        withThirdTag(Tag.getNormalInstance("body"));
+        addChildrenInFirstTag(secondTag, thirdTag);
+        assertChildrenOfFirstTagIs(secondTag, thirdTag);
     }
 
     @Test
     void testAddStyle() {
-        Tag pTag = Tag.getNormalInstance("p");
-        String key = "color";
-        String value = "red";
-        pTag.addStyle(key, value);
-
-        Assertions.assertTrue(pTag.hasStyle(key));
-        Assertions.assertEquals(value, pTag.getStyle(key));
+        withFirstTag(Tag.getNormalInstance("p"));
+        addStyleToFirstTag("color", "red");
+        assertFirstTagHasStyle("color");
+        assertFirstTagStyleIs("color", "red");
     }
 
 
@@ -219,6 +158,22 @@ class TagTest {
         firstTag.addChild(tag);
     }
 
+    protected void addChildInSecondTag(Tag tag) {
+        secondTag.addChild(tag);
+    }
+
+    private void cloneTag(Tag tag) {
+        clonedTag = tag.clone();
+    }
+
+    private void assertClonedTagIsEqualTo(Tag tag) {
+        Assertions.assertEquals(tag, clonedTag);
+    }
+
+    private void replaceChildOfFirstTagWith(Tag child, Tag newChild) {
+        firstTag.replaceChild(child, newChild);
+    }
+
     protected void assertChildrenOfFirstTagIs(Tag... tags) {
         Assertions.assertEquals(
             Arrays.asList(tags),
@@ -228,5 +183,106 @@ class TagTest {
 
     protected void assertSecondTagParentIs(Tag tag) {
         Assertions.assertEquals(tag, secondTag.getParent());
+    }
+
+    protected Tag buildNormalTagWithValue(String tagName, String value) {
+        Tag tag = Tag.getNormalInstance(tagName);
+        
+        tag.setValue(value);
+
+        return tag;
+    }
+
+    protected Tag buildVoidTagWithIdAttribute(String tagName, String id) {
+        Tag tag = Tag.getVoidInstance(tagName);
+
+        tag.addAttribute("id", id);
+
+        return tag;
+    }
+
+    protected Tag buildNormalTagWithIdAttribute(String tagName, String id) {
+        Tag tag = Tag.getNormalInstance(tagName);
+
+        tag.addAttribute("id", id);
+
+        return tag;
+    }
+
+    private void assertTagHasNoParent(Tag tag) {
+        Assertions.assertFalse(tag.hasParent());
+    }
+
+    private void assertFirstTagHasAttribute(String attribute) {
+        Assertions.assertTrue(firstTag.hasAttribute(attribute));
+    }
+
+    private void assertFirstTagHasId(String id) {
+        Assertions.assertEquals(id, firstTag.getAttribute("id"));
+    }
+
+    private void removeAttributeFromFirstTag(String attribute) {
+        firstTag.removeAttribute(attribute);
+    }
+
+    private void assertFirstTagDoesNotHaveAttribute(String attribute) {
+        Assertions.assertFalse(firstTag.hasAttribute(attribute));
+    }
+
+    private void assertGetTagWithIdUsingFirstTagIs(Tag tag, String id) {
+        Assertions.assertEquals(tag, firstTag.getTagWithId(id));
+    }
+
+    private void assertIsIdEqualToUsingFirstTagIs(String id) {
+        Assertions.assertTrue(firstTag.isIdEqualTo(id));
+    }
+
+    private void assertIsIdEqualToUsingFirstTagIsNot(String id) {
+        Assertions.assertFalse(firstTag.isIdEqualTo(id));
+    }
+
+    private void assertToCodeUsingFirstTagIs(String... lines) {
+        List<String> expectedCode = Arrays.asList(lines);
+        List<String> generatedCode = firstTag.toCode();
+
+        assertHasSameSize(expectedCode, generatedCode);
+        assertHasSameLines(expectedCode, generatedCode);
+    }
+
+    private void assertHasSameSize(List<String> expected, List<String> obtained) {
+        Assertions.assertEquals(expected.size(), obtained.size());
+    }
+
+    private void assertHasSameLines(List<String> expected, List<String> obtained) {
+        for (int i = 0; i < expected.size(); i++) {            
+            assertHasSameLine(expected.get(i), obtained.get(i));
+        }
+    }
+
+    private void assertHasSameLine(String expected, String obtained) {
+        Assertions.assertEquals(
+            removeWhiteSpaces(expected),
+            removeWhiteSpaces(obtained)
+        );
+    }
+
+    private String removeWhiteSpaces(String text) {
+        return text.replaceAll("[\\s\\t]+", "");
+    }
+
+    private void addChildrenInFirstTag(Tag... children) {
+        firstTag.addChildren(Arrays.asList(children));
+    }
+
+    private void addStyleToFirstTag(String key, String value) {
+        firstTag.addStyle(key, value);
+    }
+
+    private void assertFirstTagHasStyle(String key) {
+        Assertions.assertTrue(firstTag.hasStyle(key));
+    }
+
+    private void assertFirstTagStyleIs(String key, String value) {
+        Assertions.assertEquals(value, firstTag.getStyle(key));
     }
 }

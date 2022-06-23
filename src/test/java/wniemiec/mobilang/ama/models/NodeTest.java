@@ -1,12 +1,8 @@
 package wniemiec.mobilang.ama.models;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import com.paypal.digraph.parser.GraphNode;
 
 
@@ -16,8 +12,8 @@ class NodeTest {
     //		Attributes
     //-------------------------------------------------------------------------
     private Node node;
-    private GraphNode graphNode;
-    private Map<String, String> attributes;
+    private String id;
+    private String label;
 
 
     //-------------------------------------------------------------------------
@@ -26,8 +22,8 @@ class NodeTest {
     @BeforeEach
     void setUp() {
         node = null;
-        graphNode = null;
-        attributes = new HashMap<>();
+        id = null;
+        label = null;
     }
 
 
@@ -36,39 +32,68 @@ class NodeTest {
     //-------------------------------------------------------------------------
     @Test
     void testGetAttributeWithoutAttributes() {
-        withGraphNode(buildGraphNodeWithLabel("<foo>"));
+        withId("n1");
+        withLabel("<foo>");
         buildNode();
-        assertIdAttributeIs("");
+        assertAttributeEquals("id", "");
     }
 
     @Test
     void testGetAttribute() {
-        withGraphNode(buildGraphNodeWithLabel("<screen id=\"stays\">"));
+        withId("n1");
+        withLabel("<foo id=\"some-id\">");
         buildNode();
-        assertIdAttributeIs("stays");
+        assertAttributeEquals("id", "some-id");
+    }
+
+    @Test
+    void testGetId() {
+        withId("n1");
+        buildNode();
+        assertIdIs("n1");
+    }
+
+    @Test
+    void testGetLabel() {
+        withId("n1");
+        withLabel("<foo>");
+        buildNode();
+        assertLabelIs("<foo>");
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private GraphNode buildGraphNodeWithLabel(String value) {
-        GraphNode labeledNode = new GraphNode("n1");
+    private void withId(String nodeId) {
+        id = nodeId;
+    }
 
-        labeledNode.setAttribute("label", value);
+    private void withLabel(String nodeLabel) {
+        label = nodeLabel;
+    }
+
+    private void buildNode() {
+        node = new Node(buildGraphNode());
+    }
+
+    private GraphNode buildGraphNode() {
+        GraphNode labeledNode = new GraphNode(id);
+
+        labeledNode.setAttribute("label", label);
 
         return labeledNode;
     }
 
-    private void withGraphNode(GraphNode graphNode) {
-        this.graphNode = graphNode;
+    private void assertAttributeEquals(String attribute, String value) {
+        Assertions.assertEquals(value, node.getAttribute(attribute));
     }
 
-    private void buildNode() {
-        node = new Node(graphNode);
+    private void assertIdIs(String id) {
+        Assertions.assertEquals(id, node.getId());
     }
 
-    private void assertIdAttributeIs(String value) {
-        Assertions.assertEquals(value, node.getAttribute("id"));
+    private void assertLabelIs(String label) {
+        Assertions.assertEquals(label, node.getLabel());
     }
 }

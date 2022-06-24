@@ -60,4 +60,12 @@ public class Style {
     public String toString() {
         return "StyleSheet [rules=" + rules + "]";
     }
+
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
+    List<StyleSheetRule> getRules() {
+        return rules;
+    }
 }

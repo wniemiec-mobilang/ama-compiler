@@ -32,6 +32,10 @@ public class TemplateElement implements Expression {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    public boolean isTail() {
+        return tail;
+    }
+
     @Override
     public String toCode() {
         return value;

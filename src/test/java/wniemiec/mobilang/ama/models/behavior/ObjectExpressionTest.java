@@ -1,6 +1,5 @@
 package wniemiec.mobilang.ama.models.behavior;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;

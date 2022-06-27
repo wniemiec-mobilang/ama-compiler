@@ -38,7 +38,7 @@ public class ObjectExpression implements Expression {
             code.append(',');
         }
 
-        if (code.length() > 0) {
+        if (code.length() > 1) {
             code.deleteCharAt(code.length()-1);
         }
 

@@ -40,13 +40,16 @@ public class TemplateLiteral implements Expression {
         List<String> quasisAsCode = getQuasisCode();
 
         for (int i = 0; i < expressionsAsCode.size(); i++) {
-            code.append(quasisAsCode.get(i));
+            if (!quasisAsCode.isEmpty()) {
+                code.append(quasisAsCode.get(i));
+            }
+
             code.append("${");
             code.append(expressionsAsCode.get(i));
             code.append('}');
         }
 
-        if ((code.length() > 0) || (expressionsAsCode.isEmpty())) {
+        if (expressionsAsCode.isEmpty() && !quasisAsCode.isEmpty()) {
             code.append(quasisAsCode.get(quasisAsCode.size()-1));
         }
 

@@ -21,18 +21,14 @@ public class FunctionExpression implements Expression {
     //-------------------------------------------------------------------------
     //		Constructors
     //-------------------------------------------------------------------------
-    private FunctionExpression(boolean async, List<Expression> params, String bodyCode) {
-        this.async = async;
-        this.params = (params == null) ? new ArrayList<>() : params;
-        this.bodyCode = bodyCode;
-    }
-    
     public FunctionExpression(boolean async, List<Expression> params, Instruction body) {
         this(async, params, body.toCode());
     }
 
-    public FunctionExpression(boolean async, List<Expression> params, Expression body) {
-        this(async, params, body.toCode());
+    private FunctionExpression(boolean async, List<Expression> params, String bodyCode) {
+        this.async = async;
+        this.params = (params == null) ? new ArrayList<>() : params;
+        this.bodyCode = bodyCode;
     }
 
 

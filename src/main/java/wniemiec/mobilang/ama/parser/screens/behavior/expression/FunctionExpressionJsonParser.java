@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import wniemiec.mobilang.ama.models.behavior.Expression;
+import wniemiec.mobilang.ama.models.behavior.ExpressionStatement;
 import wniemiec.mobilang.ama.models.behavior.FunctionExpression;
 import wniemiec.mobilang.ama.parser.exception.ParseException;
 import wniemiec.mobilang.ama.parser.screens.behavior.instruction.InstructionParser;
@@ -53,7 +54,7 @@ class FunctionExpressionJsonParser implements ExpressionJsonParser {
             return new FunctionExpression(
                 jsonObject.getBoolean("async"),
                 expressionParser.parse(jsonObject.getJSONArray("params")),
-                expressionParser.parse(jsonObject.getJSONObject("body"))
+                new ExpressionStatement(expressionParser.parse(jsonObject.getJSONObject("body")))
             );
         }
 

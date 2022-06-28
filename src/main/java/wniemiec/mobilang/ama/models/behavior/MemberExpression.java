@@ -29,8 +29,8 @@ public class MemberExpression implements Expression {
         boolean optional
     ) {
         this.object = object;
-        this.propertyType = propertyType;
-        this.propertyName = propertyName;
+        this.propertyType = (propertyType == null) ? "" : propertyType;
+        this.propertyName = (propertyName == null) ? "" : propertyName;
         this.value = value;
         this.computed = computed;
         this.optional = optional;
@@ -109,5 +109,9 @@ public class MemberExpression implements Expression {
         sb.append("} }");
 
         return sb.toString();
+    }
+
+    public boolean isOptional() {
+        return optional;
     }
 }

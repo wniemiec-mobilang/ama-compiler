@@ -32,7 +32,13 @@ public class IfStatement implements Instruction {
         code.append("if (");
         code.append(test.toCode());
         code.append(") " );
-        code.append(body.toCode());
+
+        if (body == null) {
+            code.append("{ }");
+        }
+        else {
+            code.append(body.toCode());
+        }
 
         return code.toString();
     }

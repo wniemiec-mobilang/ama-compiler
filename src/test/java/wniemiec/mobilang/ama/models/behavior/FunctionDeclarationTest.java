@@ -8,12 +8,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-class FunctionExpressionTest {
-    
+class FunctionDeclarationTest {
+
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private FunctionExpression functionExpression;
+    private FunctionDeclaration functionDeclaration;
+    private String name;
     private boolean async;
     private List<Expression> params;
     private Instruction bodyCode;
@@ -24,7 +25,8 @@ class FunctionExpressionTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        functionExpression = null;
+        functionDeclaration = null;
+        name = null;
         async = false;
         params = new ArrayList<>();
         bodyCode = null;
@@ -35,27 +37,33 @@ class FunctionExpressionTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testToCodeWithAsyncFunctionAndBodyAndParams() {
+    void testToCodeWithAsyncFunctionAndNameAndBodyAndParams() {
         withAsync(true);
+        withName("getFirst");
         withParameters(new Identifier("a"), new Identifier("b"));
-        withBody(new ReturnStatement(new Identifier("a")));
+        withBody(buildBlockCode(new ReturnStatement(new Identifier("a"))));
         buildFunctionExpression();
-        assertToCodeIs("async (a, b) => return a");
+        assertToCodeIs("async function getFirst(a, b) { return a }");
     }
 
     @Test
-    void testToCodeWithBodyAndParams() {
+    void testToCodeWithNameAndBodyAndParams() {
         withAsync(false);
+        withName("getFirst");
         withParameters(new Identifier("a"), new Identifier("b"));
-        withBody(new ReturnStatement(new Identifier("a")));
+        withBody(buildBlockCode(new ReturnStatement(new Identifier("a"))));
         buildFunctionExpression();
-        assertToCodeIs("(a, b) => return a");
+        assertToCodeIs("function getFirst(a, b) { return a }");
     }
 
-    
+
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    private void withName(String name) {
+        this.name = name;
+    }
+
     private void withAsync(boolean value) {
         async = value;
     }
@@ -64,16 +72,20 @@ class FunctionExpressionTest {
         Arrays.stream(parameters).forEach(params::add);
     }
 
+    private Instruction buildBlockCode(Instruction instruction) {
+        return new BlockStatement(List.of(instruction));
+    }
+
     private void withBody(Instruction instruction) {
         bodyCode = instruction;
     }
 
     private void buildFunctionExpression() {
-        functionExpression = new FunctionExpression(async, params, bodyCode);
+        functionDeclaration = new FunctionDeclaration(name, async, params, bodyCode);
     }
 
     private void assertToCodeIs(String expectedCode) {
-        assertHasSameLine(expectedCode, functionExpression.toCode());
+        assertHasSameLine(expectedCode, functionDeclaration.toCode());
     }
 
     private void assertHasSameLine(String expected, String obtained) {

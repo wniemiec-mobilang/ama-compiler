@@ -2,7 +2,6 @@ package wniemiec.mobilang.ama.parser.screens.behavior.expression;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import wniemiec.mobilang.ama.models.behavior.Expression;
 import wniemiec.mobilang.ama.models.behavior.ExpressionStatement;
 import wniemiec.mobilang.ama.models.behavior.FunctionExpression;

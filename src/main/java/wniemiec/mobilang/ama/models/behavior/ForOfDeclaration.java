@@ -10,8 +10,8 @@ public class ForOfDeclaration implements Instruction {
     //		Attributes
     //-------------------------------------------------------------------------
     private final Instruction left;
-    private final Expression right; 
     private final Instruction body;
+    private final Expression right; 
 
 
     //-------------------------------------------------------------------------

@@ -20,6 +20,10 @@ public class CallExpression implements Expression {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
+    public CallExpression(Expression callee) {
+        this(callee, null);
+    }
+
     public CallExpression(Expression callee, List<Expression> arguments) {
         this.callee = callee;
         this.arguments = (arguments == null) ? new ArrayList<>() : arguments;

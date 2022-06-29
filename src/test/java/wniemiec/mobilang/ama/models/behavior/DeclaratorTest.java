@@ -42,6 +42,7 @@ class DeclaratorTest {
         buildDeclarator();
         assertToCodeIs("i = 0");
     }
+    
 
     //-------------------------------------------------------------------------
     //		Methods

@@ -38,6 +38,7 @@ class DeclarationTest {
         buildDeclaration();
         assertToCodeIs("let i = 0");
     }
+    
 
     //-------------------------------------------------------------------------
     //		Methods

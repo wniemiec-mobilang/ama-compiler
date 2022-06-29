@@ -1,9 +1,7 @@
 package wniemiec.mobilang.ama.models.behavior;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
 import wniemiec.io.java.Consolex;
 
 

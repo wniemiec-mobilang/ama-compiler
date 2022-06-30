@@ -1,19 +1,19 @@
 package wniemiec.mobilang.ama.models.behavior;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-class AssignmentExpressionTest {
+class ArrayExpressionTest {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private AssignmentExpression assignmentExpression;
-    private String operator;
-    private Expression left;
-    private Expression right;
+    private ArrayExpression arrayExpression;
+    private List<Expression> elements;
 
 
     //-------------------------------------------------------------------------
@@ -21,10 +21,8 @@ class AssignmentExpressionTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        assignmentExpression = null;
-        operator = null;
-        left = null;
-        right = null;
+        arrayExpression = null;
+        elements = new ArrayList<>();
     }
 
 
@@ -32,36 +30,34 @@ class AssignmentExpressionTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testToCodeWithOperatorAndLeftAndRight() {
-        withOperator("=");
-        withLeft(new Identifier("index"));
-        withRight(Literal.ofNumber("0"));
-        buildAssignmentExpression();
-        assertToCodeIs("index = 0");
+    void testToCodeWithOneElement() {
+        withElement(new Identifier("index"));
+        buildArrayExpression();
+        assertToCodeIs("[index]");
+    }
+
+    @Test
+    void testToCodeWithTwoElements() {
+        withElement(Literal.ofNumber("0"));
+        withElement(Literal.ofNumber("1"));
+        buildArrayExpression();
+        assertToCodeIs("[0, 1]");
     }
 
     
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void withOperator(String operator) {
-        this.operator = operator;
+    private void withElement(Expression expression) {
+        elements.add(expression);
     }
 
-    private void withLeft(Expression expression) {
-        left = expression;
-    }
-
-    private void withRight(Expression expression) {
-        right = expression;
-    }
-
-    private void buildAssignmentExpression() {
-        assignmentExpression = new AssignmentExpression(operator, left, right);
+    private void buildArrayExpression() {
+        arrayExpression = new ArrayExpression(elements);
     }
 
     private void assertToCodeIs(String expectedCode) {
-        assertHasSameLine(expectedCode, assignmentExpression.toCode());
+        assertHasSameLine(expectedCode, arrayExpression.toCode());
     }
 
     private void assertHasSameLine(String expected, String obtained) {

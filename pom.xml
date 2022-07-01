@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>wniemiec.mobilang</groupId>
+  <groupId>wniemiec.mobilex</groupId>
   <artifactId>ama-compiler</artifactId>
   <packaging>jar</packaging>
   <version>1.0.0</version>
   <name>ama-compiler</name>
-  <url>https://github.com/williamniemiec/ama-compiler</url>
+  <url>https://github.com/wniemiec-mobilex/ama-compiler</url>
 
   <properties>
     <version.major>1</version.major>

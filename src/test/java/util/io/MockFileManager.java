@@ -1,7 +1,5 @@
 package util.io;
 
-import wniemiec.mobilang.ama.util.io.FileManager;
-import wniemiec.mobilang.ama.util.io.StandardFileManager;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -9,6 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+
+import wniemiec.mobilex.ama.util.io.FileManager;
+import wniemiec.mobilex.ama.util.io.StandardFileManager;
 
 
 public class MockFileManager implements FileManager {

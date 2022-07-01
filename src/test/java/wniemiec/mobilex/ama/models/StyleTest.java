@@ -7,9 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import wniemiec.mobilex.ama.models.Style;
-import wniemiec.mobilex.ama.models.StyleSheetRule;
-
 
 class StyleTest {
     

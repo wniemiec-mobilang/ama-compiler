@@ -4,10 +4,6 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import wniemiec.mobilex.ama.models.Screen;
-import wniemiec.mobilex.ama.models.Style;
-import wniemiec.mobilex.ama.models.StyleSheetRule;
 import wniemiec.mobilex.ama.models.behavior.Behavior;
 import wniemiec.mobilex.ama.models.behavior.Declaration;
 import wniemiec.mobilex.ama.models.behavior.Declarator;

@@ -5,9 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import wniemiec.mobilex.ama.models.tag.Tag;
-import wniemiec.mobilex.ama.models.tag.TagContainer;
-
 
 class TagContainerTest extends TagTest {
 

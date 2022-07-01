@@ -2,8 +2,6 @@ package wniemiec.mobilex.ama.parser;
 
 import java.util.Map;
 
-import wniemiec.mobilex.ama.parser.MobilangDirectiveParser;
-
 
 class MockMobilangDirectiveParser extends MobilangDirectiveParser {
 

@@ -6,10 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import wniemiec.mobilex.ama.models.behavior.CallExpression;
-import wniemiec.mobilex.ama.models.behavior.Expression;
-import wniemiec.mobilex.ama.models.behavior.Identifier;
-
 
 class CallExpressionTest {
     

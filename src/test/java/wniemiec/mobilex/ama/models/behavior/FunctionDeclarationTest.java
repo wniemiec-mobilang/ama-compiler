@@ -7,13 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import wniemiec.mobilex.ama.models.behavior.BlockStatement;
-import wniemiec.mobilex.ama.models.behavior.Expression;
-import wniemiec.mobilex.ama.models.behavior.FunctionDeclaration;
-import wniemiec.mobilex.ama.models.behavior.Identifier;
-import wniemiec.mobilex.ama.models.behavior.Instruction;
-import wniemiec.mobilex.ama.models.behavior.ReturnStatement;
-
 
 class FunctionDeclarationTest {
 

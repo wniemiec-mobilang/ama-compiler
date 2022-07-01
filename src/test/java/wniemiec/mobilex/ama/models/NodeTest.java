@@ -5,8 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.paypal.digraph.parser.GraphNode;
 
-import wniemiec.mobilex.ama.models.Node;
-
 
 class NodeTest {
     

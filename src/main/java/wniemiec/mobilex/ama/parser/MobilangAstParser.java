@@ -95,11 +95,11 @@ public class MobilangAstParser {
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public List<Screen> getScreensData() {
+    public List<Screen> getScreens() {
         return screensParser.getScreensData();
     }
 
-    public Properties getPropertiesData() {
+    public Properties getProperties() {
         return propertiesParser.getPropertiesData();
     }
 }

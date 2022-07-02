@@ -22,7 +22,7 @@ public class InstructionJsonParserFactory {
     //		Initialization block
     //-------------------------------------------------------------------------
     static {
-        EXPRESSION_PACKAGE = "wniemiec.mobilang.ama.parser.screens.behavior.instruction.";
+        EXPRESSION_PACKAGE = "wniemiec.mobilex.ama.parser.screens.behavior.instruction.";
         CLASS_SUFFIX = "InstructionJsonParser";
     }
 

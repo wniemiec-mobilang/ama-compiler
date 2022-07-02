@@ -92,7 +92,7 @@ public class Ama {
 
     private void generateMobilangCode() throws CoderException {
         mobilangCoder = new MobiLangCoder(
-            mobilangAstParser.getScreensData(),
+            mobilangAstParser.getScreens(),
             framework
         );
         
@@ -103,7 +103,7 @@ public class Ama {
     private void exportMobilangCode() 
     throws CodeExportException {
         MobiLangCodeExport mobilangCodeExport = new FileMobiLangCodeExport(
-            mobilangAstParser.getPropertiesData(),
+            mobilangAstParser.getProperties(),
             mobilangCoder.getCodeFiles(),
             mobilangCoder.getDependencies(),
             framework,
@@ -121,7 +121,7 @@ public class Ama {
             framework, 
             srcCodeLocation, 
             outputLocation, 
-            mobilangAstParser.getPropertiesData().getPlatforms()
+            mobilangAstParser.getProperties().getPlatforms()
         );
         Consolex.writeInfo("Generating mobile applications...");
 
@@ -129,6 +129,6 @@ public class Ama {
     }
 
     private Path buildOutputApplicationPath() {
-        return outputLocationPath.resolve(mobilangAstParser.getPropertiesData().getAppName());
+        return outputLocationPath.resolve(mobilangAstParser.getProperties().getAppName());
     }
 }

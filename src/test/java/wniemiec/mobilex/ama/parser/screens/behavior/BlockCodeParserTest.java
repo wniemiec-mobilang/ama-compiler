@@ -94,23 +94,6 @@ class BlockCodeParserTest {
     }
 
     private void doParsing() throws ParseException, IOException {
-        /*
-         * [
-         *     {
-         *         "type": "ExpressionStatement",
-         *         "expression": {
-         *             "operator": "=",
-         *             "left": { "type": "Identifier", "name": "pi" },
-         *             "right": { "type": "Literal", "value": 3.1416 },
-         *         }
-         *     }
-         * ]
-         * 
-         * 
-         * {
-         *     pi = 3.1416;
-         * }
-         */
         parsedInstructions = parser.parse(blockCode);
     }
 

@@ -1,9 +1,7 @@
 package wniemiec.mobilex.ama.parser.screens;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.SortedMap;
-
 import wniemiec.mobilex.ama.models.Node;
 import wniemiec.mobilex.ama.models.Screen;
 import wniemiec.mobilex.ama.models.Style;
@@ -13,7 +11,6 @@ import wniemiec.mobilex.ama.parser.exception.ParseException;
 import wniemiec.mobilex.ama.parser.screens.behavior.BehaviorParser;
 import wniemiec.mobilex.ama.parser.screens.structure.StructureParser;
 import wniemiec.mobilex.ama.parser.screens.style.StyleParser;
-import wniemiec.util.java.StringUtils;
 
 
 /**
@@ -29,7 +26,7 @@ public class ScreenParser {
     private Node structureNode;
     private Node styleNode;
     private Node behaviorNode;
-    private Screen screenData;
+    private Screen screen;
 
 
     //-------------------------------------------------------------------------
@@ -41,10 +38,7 @@ public class ScreenParser {
      * @param       ast MobiLang AST
      * @param       screenNode Screen node
      */
-    public ScreenParser(
-        SortedMap<String, List<Node>> ast, 
-        Node screenNode
-    ) {
+    public ScreenParser(SortedMap<String, List<Node>> ast, Node screenNode) {
         this.ast = ast;
         id = screenNode.getAttribute("id");
 
@@ -69,7 +63,7 @@ public class ScreenParser {
         }
     }
     
-    public void parse() throws ParseException, IOException {
+    public void parse() throws ParseException {
         Tag structure = parseStructureNode();
         Style style = parseStyleNode();
         Behavior behavior = parseBehaviorNode();
@@ -83,7 +77,7 @@ public class ScreenParser {
         return structureParser.parse();
     }
 
-    private Style parseStyleNode() throws ParseException {
+    private Style parseStyleNode() {
         StyleParser styleParser = new StyleParser(ast, styleNode);
         
         return styleParser.parse();
@@ -95,9 +89,8 @@ public class ScreenParser {
         return behaviorParser.parse();
     }
 
-    private void parseScreen(Tag structure, Style style, Behavior behavior) 
-    throws ParseException, IOException {
-        screenData = new Screen.Builder()
+    private void parseScreen(Tag structure, Style style, Behavior behavior) {
+        screen = new Screen.Builder()
             .name(id) 
             .structure(structure)
             .style(style)
@@ -109,8 +102,7 @@ public class ScreenParser {
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public Screen getScreenData() {
-        return screenData;
+    public Screen getScreen() {
+        return screen;
     }
-
 }

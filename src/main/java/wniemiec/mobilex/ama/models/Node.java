@@ -81,7 +81,13 @@ public class Node {
     //		Getters
     //-------------------------------------------------------------------------
     public String getLabel() {
-        return ((String) graphNode.getAttribute("label"));
+        String label = ((String) graphNode.getAttribute("label"));
+
+        if (label == null) {
+            throw new IllegalStateException("Each node must have a label attribute");
+        }
+
+        return label;
     }
 
     public String getId() {

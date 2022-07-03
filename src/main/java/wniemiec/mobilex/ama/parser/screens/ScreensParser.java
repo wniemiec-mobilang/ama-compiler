@@ -52,7 +52,7 @@ public class ScreensParser {
             );
             
             screenParser.parse();
-            screens.add(screenParser.getScreenData());
+            screens.add(screenParser.getScreen());
         }
     }
 

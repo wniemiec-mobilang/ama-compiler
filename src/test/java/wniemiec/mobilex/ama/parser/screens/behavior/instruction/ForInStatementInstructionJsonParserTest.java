@@ -10,12 +10,12 @@ import wniemiec.mobilex.ama.models.behavior.Instruction;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
 
 
-class ForOfStatementInstructionJsonParserTest {
+class ForInStatementInstructionJsonParserTest {
     
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private ForOfStatementInstructionJsonParser parser;
+    private ForInStatementInstructionJsonParser parser;
     private Instruction parsedInstruction;
     private JSONObject left;
     private JSONObject right;
@@ -27,7 +27,7 @@ class ForOfStatementInstructionJsonParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        parser = ForOfStatementInstructionJsonParser.getInstance();
+        parser = ForInStatementInstructionJsonParser.getInstance();
         parsedInstruction = null;
         left = null;
         right = null;
@@ -118,13 +118,13 @@ class ForOfStatementInstructionJsonParserTest {
     }
 
     private void doParsing() throws ParseException, IOException {
-        parsedInstruction = parser.parse(buildForOfStatement());
+        parsedInstruction = parser.parse(buildForInStatement());
     }
 
-    private JSONObject buildForOfStatement() {
+    private JSONObject buildForInStatement() {
         JSONObject instruction = new JSONObject();
 
-        instruction.put("type", "ForOfStatement");
+        instruction.put("type", "ForInStatement");
         instruction.put("left", left);
         instruction.put("right", right);
         instruction.put("body", body);

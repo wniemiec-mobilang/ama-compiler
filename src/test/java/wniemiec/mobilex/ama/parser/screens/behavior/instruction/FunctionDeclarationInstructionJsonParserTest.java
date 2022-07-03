@@ -1,6 +1,8 @@
 package wniemiec.mobilex.ama.parser.screens.behavior.instruction;
 
 import java.io.IOException;
+import java.util.Arrays;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,15 +11,17 @@ import wniemiec.mobilex.ama.models.behavior.Instruction;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
 
 
-class IfStatementInstructionJsonParserTest {
-
+class FunctionDeclarationInstructionJsonParserTest {
+    
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private IfStatementInstructionJsonParser parser;
+    private FunctionDeclarationInstructionJsonParser parser;
     private Instruction parsedInstruction;
-    private JSONObject test;
-    private JSONObject consequent;
+    private boolean async;
+    private String name;
+    private JSONArray params;
+    private JSONObject body;
 
 
     //-------------------------------------------------------------------------
@@ -25,10 +29,12 @@ class IfStatementInstructionJsonParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        parser = IfStatementInstructionJsonParser.getInstance();
+        parser = FunctionDeclarationInstructionJsonParser.getInstance();
         parsedInstruction = null;
-        test = new JSONObject();
-        consequent = new JSONObject();
+        async = false;
+        name = null;
+        params = new JSONArray();;
+        body = null;
     }
 
 
@@ -36,17 +42,45 @@ class IfStatementInstructionJsonParserTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testParseWithTestAndConsequent() throws ParseException, IOException {
-        withTest(buildIdentifier("hasValue"));
-        withConsequent(buildReturnInstruction());
+    void testParseAsyncFunctionWithNameAndBodyAndParams() 
+    throws ParseException, IOException {
+        withAsync(true);
+        withName("getFirst");
+        withParams(
+            buildIdentifier("n1"), 
+            buildIdentifier("n2")
+        );
+        withBody(buildReturnInstruction(buildIdentifier("n1")));
         doParsing();
-        assertParsedCodeIs("if (hasValue) return");
+        assertParsedCodeIs("async function getFirst(n1, n2) return n1");
+    }
+
+    @Test
+    void testParseSyncFunctionWithNameAndBodyAndParams() 
+    throws ParseException, IOException {
+        withAsync(false);
+        withName("getFirst");
+        withParams(
+            buildIdentifier("n1"), 
+            buildIdentifier("n2")
+        );
+        withBody(buildReturnInstruction(buildIdentifier("n1")));
+        doParsing();
+        assertParsedCodeIs("function getFirst(n1, n2) return n1");
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    private void withAsync(boolean value) {
+        async = value;
+    }
+
+    private void withName(String name) {
+        this.name = name;
+    }
+
     private JSONObject buildIdentifier(String name) {
         JSONObject expression = new JSONObject();
 
@@ -56,32 +90,37 @@ class IfStatementInstructionJsonParserTest {
         return expression;
     }
 
-    private void withTest(JSONObject expression) {
-        test = expression;
+    private void withParams(JSONObject... parameters) {
+        Arrays.stream(parameters).forEach(params::put);
     }
 
-    private JSONObject buildReturnInstruction() {
+    private JSONObject buildReturnInstruction(JSONObject argument) {
         JSONObject expression = new JSONObject();
 
         expression.put("type", "ReturnStatement");
+        expression.put("argument", argument);
 
         return expression;
     }
 
-    private void withConsequent(JSONObject instruction) {
-        consequent = instruction;
+    private void withBody(JSONObject instruction) {
+        body = instruction;
     }
 
     private void doParsing() throws ParseException, IOException {
-        parsedInstruction = parser.parse(buildIfStatement());
+        parsedInstruction = parser.parse(buildFunctionDeclaration());
     }
 
-    private JSONObject buildIfStatement() {
+    private JSONObject buildFunctionDeclaration() {
         JSONObject expression = new JSONObject();
+        JSONObject id = new JSONObject();
 
-        expression.put("type", "IfStatement");
-        expression.put("test", test);
-        expression.put("consequent", consequent);
+        id.put("name", name);
+        expression.put("type", "FunctionDeclaration");
+        expression.put("id", id);
+        expression.put("async", async);
+        expression.put("params", params);
+        expression.put("body", body);
 
         return expression;
     }

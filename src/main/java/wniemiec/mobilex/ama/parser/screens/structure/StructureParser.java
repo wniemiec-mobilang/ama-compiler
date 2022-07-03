@@ -3,7 +3,6 @@ package wniemiec.mobilex.ama.parser.screens.structure;
 import java.util.List;
 import java.util.SortedMap;
 import org.json.JSONObject;
-
 import wniemiec.mobilex.ama.models.Node;
 import wniemiec.mobilex.ama.models.tag.Tag;
 import wniemiec.mobilex.ama.parser.exception.ParseException;

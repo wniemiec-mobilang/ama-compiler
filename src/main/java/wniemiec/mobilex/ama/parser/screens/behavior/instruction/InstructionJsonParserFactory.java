@@ -2,7 +2,6 @@ package wniemiec.mobilex.ama.parser.screens.behavior.instruction;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import wniemiec.mobilex.ama.parser.exception.FactoryException;
 
 

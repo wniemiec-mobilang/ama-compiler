@@ -1,28 +1,30 @@
-package wniemiec.mobilex.ama.parser;
+package wniemiec.mobilex.ama.parser.screens;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.paypal.digraph.parser.GraphNode;
+import wniemiec.mobilex.ama.models.Node;
 import wniemiec.mobilex.ama.models.Screen;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
 import wniemiec.mobilex.ama.reader.DotReader;
 
 
-class MobilangAstParserTest {
-    
+class ScreensParserTest {
+
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
     private static final Path RESOURCES;
     private DotReader dotReader;
-    private MobilangAstParser parser;
+    private ScreensParser parser;
+    private Node screenNode;
 
 
     //-------------------------------------------------------------------------
@@ -40,6 +42,7 @@ class MobilangAstParserTest {
     void setUp() {
         dotReader = new DotReader();
         parser = null;
+        screenNode = null;
     }
 
 
@@ -47,7 +50,9 @@ class MobilangAstParserTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testParseWithNodeAndTwoChildren() throws ParseException, IOException {
+    void testParseOneScreenWithStructureAndStyleAndBehavior() 
+    throws ParseException, IOException {
+        withScreenNode("n1");
         withAst("HelloWorld.dot");
         doParsing();
         assertHasScreens("Home");
@@ -72,20 +77,22 @@ class MobilangAstParserTest {
             "Home",
             "alert(\"World\");"
         );
-        assertApplicationName("HelloWorld");
-        assertPlatformsProperty("android", "ios");
     }
 
-
+    
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    private void withScreenNode(String id) {
+        screenNode = new Node(new GraphNode(id));
+    }
+
     private void withAst(String file) throws FileNotFoundException {
         dotReader.read(RESOURCES.resolve(file));
     }
 
     private void doParsing() throws ParseException, IOException {
-        parser = new MobilangAstParser(dotReader.getTree());
+        parser = new ScreensParser(dotReader.getTree(), screenNode);
         
         parser.parse();
     }
@@ -170,17 +177,4 @@ class MobilangAstParserTest {
     private void assertBehaviorCodeIs(Screen screen, String... code) {
         assertCode(screen.getBehavior().toCode(), code);
     }
-
-    private void assertApplicationName(String name) {
-        Assertions.assertEquals(name, parser.getProperties().getAppName());
-    }
-
-    private void assertPlatformsProperty(String... platforms) {
-        Set<String> obtainedPlatforms = parser.getProperties().getPlatforms();
-
-        for (String platform : platforms) {
-            Assertions.assertTrue(obtainedPlatforms.contains(platform));
-        }
-        
-    }    
 }

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
-
 import wniemiec.mobilex.ama.models.Node;
 import wniemiec.mobilex.ama.models.Screen;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
@@ -19,8 +18,8 @@ public class ScreensParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private final SortedMap<String, List<Node>> ast;
-    private final List<Node> screens;
-    private final List<Screen> screensData;
+    private final List<Node> screenNodes;
+    private final List<Screen> screens;
 
 
     //-------------------------------------------------------------------------
@@ -37,8 +36,8 @@ public class ScreensParser {
         Node screensNode
     ) {
         this.ast = ast;
-        screens = ast.get(screensNode.getId());
-        screensData = new ArrayList<>();
+        screenNodes = ast.get(screensNode.getId());
+        screens = new ArrayList<>();
     }
 
 
@@ -46,14 +45,14 @@ public class ScreensParser {
     //		Methods
     //-------------------------------------------------------------------------
     public void parse() throws ParseException, IOException {
-        for (Node screen : screens) {   
+        for (Node screen : screenNodes) {   
             ScreenParser screenParser = new ScreenParser(
                 ast, 
                 screen
             );
             
             screenParser.parse();
-            screensData.add(screenParser.getScreenData());
+            screens.add(screenParser.getScreenData());
         }
     }
 
@@ -61,7 +60,7 @@ public class ScreensParser {
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public List<Screen> getScreensData() {
-        return screensData;
+    public List<Screen> getScreens() {
+        return screens;
     }
 }

@@ -96,7 +96,7 @@ public class MobilangAstParser {
     //		Getters
     //-------------------------------------------------------------------------
     public List<Screen> getScreens() {
-        return screensParser.getScreensData();
+        return screensParser.getScreens();
     }
 
     public Properties getProperties() {

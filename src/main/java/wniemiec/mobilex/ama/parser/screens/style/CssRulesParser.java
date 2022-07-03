@@ -2,7 +2,6 @@ package wniemiec.mobilex.ama.parser.screens.style;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import wniemiec.mobilex.ama.models.Style;
 import wniemiec.mobilex.ama.models.StyleSheetRule;
 

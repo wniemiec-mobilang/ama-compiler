@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,14 +17,14 @@ import wniemiec.mobilex.ama.parser.exception.ParseException;
 import wniemiec.mobilex.ama.reader.DotReader;
 
 
-class StyleParserTest {
- 
+class CssRulesParserTest {
+    
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
     private static final Path RESOURCES;
     private DotReader dotReader;
-    private StyleParser parser;
+    private CssRulesParser parser;
     private Node styleNode;
     private Style parsedStyle;
 
@@ -41,7 +43,7 @@ class StyleParserTest {
     @BeforeEach
     void setUp() {
         dotReader = new DotReader();
-        parser = null;
+        parser = new CssRulesParser();
         styleNode = null;
         parsedStyle = null;
     }
@@ -84,9 +86,21 @@ class StyleParserTest {
     }
 
     private void doParsing() throws ParseException, IOException {
-        parser = new StyleParser(dotReader.getTree(), styleNode);
-        
-        parsedStyle = parser.parse();
+        parsedStyle = parser.parseRules(extractRulesFromAst());
+    }
+
+    private JSONArray extractRulesFromAst() {
+        return parseJson(new JSONObject(getLabelFromAst(styleNode.getId())));
+    }
+
+    private String getLabelFromAst(String nodeId) {
+        return dotReader.getTree().get(nodeId).get(0).getLabel();
+    }
+
+    private JSONArray parseJson(JSONObject jsonStyle) {
+        return jsonStyle
+            .getJSONObject("stylesheet")
+            .getJSONArray("rules");
     }
 
     private void assertStyleIs(String... code) {

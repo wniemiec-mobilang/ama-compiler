@@ -129,7 +129,7 @@ class VariableDeclarationInstructionJsonParserTest {
     }
 
     private void assertParsedCodeIs(String code) {
-        assertHasSameLine(parsedInstruction.toCode(), code);
+        assertHasSameLine(code, parsedInstruction.toCode());
     }
 
     private void assertHasSameLine(String expected, String obtained) {

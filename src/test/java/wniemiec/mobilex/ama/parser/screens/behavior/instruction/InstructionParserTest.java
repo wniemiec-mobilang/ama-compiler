@@ -154,6 +154,56 @@ class InstructionParserTest {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    private JSONObject buildLiteral(Object value) {
+        JSONObject expression = new JSONObject();
+
+        expression.put("type", "Literal");
+        expression.put("value", value);
+
+        return expression;
+    }
+
+    private JSONObject buildVariableDeclaration(String kind, String name) {
+        return buildVariableDeclaration(kind, name, null);
+    }
+
+    private JSONObject buildVariableDeclaration(String kind, String name, JSONObject value) {
+        JSONObject expression = new JSONObject();
+        JSONArray declarations = new JSONArray();
+
+        declarations.put(buildDeclarator("undefined", name, value));
+        expression.put("type", "VariableDeclaration");
+        expression.put("kind", kind);
+        expression.put("declarations", declarations);
+
+        return expression;
+    }
+
+    private JSONObject buildDeclarator(String type, String name, JSONObject value) {
+        JSONObject declarator = new JSONObject();
+        JSONObject idObject = new JSONObject();
+
+        declarator.put("type", "Identifier");
+        declarator.put("id", idObject);
+        declarator.put("init", value);
+
+        idObject.put("type", type);
+        idObject.put("name", name);
+
+        return declarator;
+    }
+
+    private JSONObject buildBlockStatement(JSONObject... instructions) {
+        JSONObject instruction = new JSONObject();
+        JSONArray body = new JSONArray();
+
+        Arrays.stream(instructions).forEach(body::put);
+        instruction.put("type", "BlockStatement");
+        instruction.put("body", body);
+
+        return instruction;
+    }
+
     private void withInstruction(JSONObject instruction) {
         this.instruction = instruction;
     }
@@ -175,17 +225,6 @@ class InstructionParserTest {
 
     private String removeWhiteSpaces(String text) {
         return text.replaceAll("[\\s\\t]+", "");
-    }
-
-    private JSONObject buildBlockStatement(JSONObject... instructions) {
-        JSONObject instruction = new JSONObject();
-        JSONArray body = new JSONArray();
-
-        Arrays.stream(instructions).forEach(body::put);
-        instruction.put("type", "BlockStatement");
-        instruction.put("body", body);
-
-        return instruction;
     }
 
     private JSONObject buildClassDeclaration(String name, JSONArray body) {
@@ -353,44 +392,5 @@ class InstructionParserTest {
         expression.put("name", name);
 
         return expression;
-    }
-
-    private JSONObject buildLiteral(Object value) {
-        JSONObject expression = new JSONObject();
-
-        expression.put("type", "Literal");
-        expression.put("value", value);
-
-        return expression;
-    }
-
-    private JSONObject buildVariableDeclaration(String kind, String name) {
-        return buildVariableDeclaration(kind, name, null);
-    }
-
-    private JSONObject buildVariableDeclaration(String kind, String name, JSONObject value) {
-        JSONObject expression = new JSONObject();
-        JSONArray declarations = new JSONArray();
-
-        declarations.put(buildDeclarator("undefined", name, value));
-        expression.put("type", "VariableDeclaration");
-        expression.put("kind", kind);
-        expression.put("declarations", declarations);
-
-        return expression;
-    }
-
-    private JSONObject buildDeclarator(String type, String name, JSONObject value) {
-        JSONObject declarator = new JSONObject();
-        JSONObject idObject = new JSONObject();
-
-        declarator.put("type", "Identifier");
-        declarator.put("id", idObject);
-        declarator.put("init", value);
-
-        idObject.put("type", type);
-        idObject.put("name", name);
-
-        return declarator;
     }
 }

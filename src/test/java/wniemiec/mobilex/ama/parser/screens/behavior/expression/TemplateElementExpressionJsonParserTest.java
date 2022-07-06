@@ -1,7 +1,6 @@
 package wniemiec.mobilex.ama.parser.screens.behavior.expression;
 
 import java.io.IOException;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,15 +9,15 @@ import wniemiec.mobilex.ama.models.behavior.Expression;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
 
 
-class TemplateLiteralExpressionJsonParserTest {
-
+class TemplateElementExpressionJsonParserTest {
+    
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private TemplateLiteralExpressionJsonParser parser;
+    private TemplateElementExpressionJsonParser parser;
     private Expression parsedExpression;
-    private JSONArray expressions;
-    private JSONArray quasis;
+    private Object value;
+    private boolean tail;
 
 
     //-------------------------------------------------------------------------
@@ -26,10 +25,10 @@ class TemplateLiteralExpressionJsonParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        parser = TemplateLiteralExpressionJsonParser.getInstance();
+        parser = TemplateElementExpressionJsonParser.getInstance();
         parsedExpression = null;
-        expressions = new JSONArray();
-        quasis = new JSONArray();
+        value = null;
+        tail = false;
     }
 
 
@@ -37,58 +36,39 @@ class TemplateLiteralExpressionJsonParserTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testParseWithArgumentsAndQuasis() throws ParseException, IOException {
-        withExpression(buildIdentifier("i"));
-        withQuasis(buildTemplateElement("index: "));
+    void testParseWithValueAndTail() throws ParseException, IOException {
+        withTail(true);
+        withValue("hello world");
         doParsing();
-        assertParsedCodeIs("`index: ${i}`");
+        assertParsedCodeIs("hello world");
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private JSONObject buildIdentifier(String name) {
-        JSONObject expression = new JSONObject();
-
-        expression.put("type", "Identifier");
-        expression.put("name", name);
-
-        return expression;
+    private void withTail(boolean value) {
+        tail = value;
     }
 
-    private void withExpression(JSONObject expression) {
-        expressions.put(expression);
+    private void withValue(Object value) {
+        this.value = value;
     }
 
-    private JSONObject buildTemplateElement(Object value) {
+    private void doParsing() throws ParseException, IOException {
+        parsedExpression = parser.parse(buildTemplateElement());
+    }
+
+    private JSONObject buildTemplateElement() {
         JSONObject expression = new JSONObject();
         JSONObject jsonValue = new JSONObject();
 
         jsonValue.put("raw", value);
         expression.put("type", "TemplateElement");
         expression.put("value", jsonValue);
-        expression.put("tail", false);
+        expression.put("tail", tail);
 
         return expression;
-    }
-
-    private void withQuasis(JSONObject expression) {
-        quasis.put(expression);
-    }
-
-    private void doParsing() throws ParseException, IOException {
-        parsedExpression = parser.parse(buildTemplateLiteralExpression());
-    }
-
-    private JSONObject buildTemplateLiteralExpression() {
-        JSONObject instruction = new JSONObject();
-
-        instruction.put("type", "TemplateLiteral");
-        instruction.put("expressions", expressions);
-        instruction.put("quasis", quasis);
-
-        return instruction;
     }
 
     private void assertParsedCodeIs(String code) {

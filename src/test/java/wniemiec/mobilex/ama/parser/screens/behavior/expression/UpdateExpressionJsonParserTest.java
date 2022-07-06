@@ -38,8 +38,7 @@ class UpdateExpressionJsonParserTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testParseWithOperatorAndPrefixAndArgument() 
-    throws ParseException, IOException {
+    void testParseWithOperatorAndPrefixAndArgument() throws ParseException, IOException {
         withOperator("++");
         withPrefix(true);
         withArgument(buildIdentifier("i"));

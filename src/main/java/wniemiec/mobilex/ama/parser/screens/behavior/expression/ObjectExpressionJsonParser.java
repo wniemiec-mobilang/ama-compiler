@@ -2,11 +2,9 @@ package wniemiec.mobilex.ama.parser.screens.behavior.expression;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import wniemiec.mobilex.ama.models.behavior.Expression;
 import wniemiec.mobilex.ama.models.behavior.ObjectExpression;
 import wniemiec.mobilex.ama.parser.exception.ParseException;

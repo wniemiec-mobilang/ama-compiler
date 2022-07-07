@@ -9,14 +9,14 @@ import wniemiec.mobilex.ama.models.behavior.Expression;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
 
 
-class LiteralExpressionJsonParserTest {
+class ExpressionParserTest {
     
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private LiteralExpressionJsonParser parser;
+    private ExpressionParser parser;
     private Expression parsedExpression;
-    private Object value;
+    private JSONObject expression;
 
 
     //-------------------------------------------------------------------------
@@ -24,9 +24,9 @@ class LiteralExpressionJsonParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        parser = LiteralExpressionJsonParser.getInstance();
+        parser = ExpressionParser.getInstance();
         parsedExpression = null;
-        value = null;
+        expression = null;
     }
 
 
@@ -34,52 +34,31 @@ class LiteralExpressionJsonParserTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testParseWithStringLiteral() throws ParseException, IOException {
-        withValue("sum");
+    void testParseWithExpression() throws ParseException, IOException {
+        withExpression(buildIdentifier("i"));
         doParsing();
-        assertParsedCodeIs("\"sum\"");
-    }
-
-    @Test
-    void testParseWithIntegerLiteral() throws ParseException, IOException {
-        withValue(0);
-        doParsing();
-        assertParsedCodeIs("0");
-    }
-
-    @Test
-    void testParseWithFloatLiteral() throws ParseException, IOException {
-        withValue(0.0f);
-        doParsing();
-        assertParsedCodeIs("0.0");
-    }
-
-    @Test
-    void testParseWithDoubleLiteral() throws ParseException, IOException {
-        withValue(0.0);
-        doParsing();
-        assertParsedCodeIs("0.0");
+        assertParsedCodeIs("i");
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void withValue(Object literal) {
-        value = literal;
+    private JSONObject buildIdentifier(String name) {
+        JSONObject expression = new JSONObject();
+
+        expression.put("type", "Identifier");
+        expression.put("name", name);
+
+        return expression;
+    }
+
+    private void withExpression(JSONObject expression) {
+        this.expression = expression;
     }
 
     private void doParsing() throws ParseException, IOException {
-        parsedExpression = parser.parse(buildLiteralExpression());
-    }
-
-    private JSONObject buildLiteralExpression() {
-        JSONObject expression = new JSONObject();
-
-        expression.put("type", "LiteralExpression");
-        expression.put("value", value);
-
-        return expression;
+        parsedExpression = parser.parse(expression);
     }
 
     private void assertParsedCodeIs(String code) {

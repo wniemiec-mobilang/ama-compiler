@@ -30,6 +30,7 @@ class FunctionExpressionJsonParserTest {
     void setUp() {
         parser = FunctionExpressionJsonParser.getInstance();
         async = null;
+        parsedExpression = null;
         params = new JSONArray();
         body = null;
     }

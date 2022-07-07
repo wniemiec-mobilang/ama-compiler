@@ -25,6 +25,7 @@ class IdentifierExpressionJsonParserTest {
     @BeforeEach
     void setUp() {
         parser = IdentifierExpressionJsonParser.getInstance();
+        parsedExpression = null;
         name = null;
     }
 

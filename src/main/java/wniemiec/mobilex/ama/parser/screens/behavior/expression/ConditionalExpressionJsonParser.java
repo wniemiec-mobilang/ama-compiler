@@ -2,7 +2,6 @@ package wniemiec.mobilex.ama.parser.screens.behavior.expression;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import wniemiec.mobilex.ama.models.behavior.ConditionalExpression;
 import wniemiec.mobilex.ama.models.behavior.Expression;
 import wniemiec.mobilex.ama.parser.exception.ParseException;

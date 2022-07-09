@@ -76,7 +76,7 @@ class PropertiesTest {
     }
 
     private void assertGetAppNameIsCorrect() {
-        Assertions.assertEquals(name, properties.getAppName());
+        Assertions.assertEquals(name, properties.getApplicationName());
     }
 
     private void withPlatforms(String... appPlatforms) {
@@ -84,6 +84,6 @@ class PropertiesTest {
     }
 
     private void assertGetPlatformsIsCorrect() {
-        Assertions.assertEquals(platforms, properties.getPlatforms());
+        Assertions.assertEquals(platforms, properties.getTargetPlatforms());
     }
 }

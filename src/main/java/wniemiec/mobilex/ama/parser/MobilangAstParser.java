@@ -100,6 +100,6 @@ public class MobilangAstParser {
     }
 
     public Properties getProperties() {
-        return propertiesParser.getPropertiesData();
+        return propertiesParser.getProperties();
     }
 }

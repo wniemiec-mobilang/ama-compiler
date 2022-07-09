@@ -51,7 +51,7 @@ public class ConsoleMobiLangCodeExport extends MobiLangCodeExport {
 
     @Override
     public void createProject() {
-        Consolex.writeLine("Creating project " + propertiesData.getAppName());
+        Consolex.writeLine("Creating project " + propertiesData.getApplicationName());
 
         for (String dependency : dependencies) {
             Consolex.writeLine("Installing dependency " + dependency);

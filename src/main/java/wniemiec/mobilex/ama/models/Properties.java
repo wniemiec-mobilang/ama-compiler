@@ -27,7 +27,7 @@ public class Properties {
     //-------------------------------------------------------------------------
     //		Getters & Setters
     //-------------------------------------------------------------------------
-    public String getAppName() {
+    public String getApplicationName() {
         return name;
     }
 
@@ -35,7 +35,7 @@ public class Properties {
         this.name = name;
     }
 
-    public Set<String> getPlatforms() {
+    public Set<String> getTargetPlatforms() {
         return platforms;
     }
 

@@ -49,13 +49,13 @@ class ReactNativeProjectManager {
         terminal.exec(
             "react-native", 
             "init", 
-            propertiesData.getAppName()
+            propertiesData.getApplicationName()
         );
     }
 
     private void removeAptGeneratedFolder(Properties propertiesData) 
     throws IOException {
-        Path location = Path.of(propertiesData.getAppName());
+        Path location = Path.of(propertiesData.getApplicationName());
         
         fileManager.removeFile(location.resolve(".apt_generated"));
     }
@@ -64,7 +64,7 @@ class ReactNativeProjectManager {
     throws IOException {
         terminal.exec(
             "mv", 
-            propertiesData.getAppName(), 
+            propertiesData.getApplicationName(), 
             location.getFileName().toString()
         );
 

@@ -52,7 +52,7 @@ class IonicProjectManager {
         terminal.exec(
             "ionic", 
             "start", 
-            propertiesData.getAppName(),
+            propertiesData.getApplicationName(),
             "blank",
             "--type=angular",
             "--capacitor",
@@ -65,7 +65,7 @@ class IonicProjectManager {
     throws IOException {
         terminal.exec(
             "mv", 
-            propertiesData.getAppName(), 
+            propertiesData.getApplicationName(), 
             location.getFileName().toString()
         );
 

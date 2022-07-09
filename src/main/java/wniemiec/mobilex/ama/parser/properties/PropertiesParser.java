@@ -2,10 +2,8 @@ package wniemiec.mobilex.ama.parser.properties;
 
 import java.util.List;
 import java.util.SortedMap;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import wniemiec.mobilex.ama.models.Node;
 import wniemiec.mobilex.ama.models.Properties;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
@@ -70,7 +68,7 @@ public class PropertiesParser {
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public Properties getPropertiesData() {
+    public Properties getProperties() {
         return propertiesData;
     }
 }

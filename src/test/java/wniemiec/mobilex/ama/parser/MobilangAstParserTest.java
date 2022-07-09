@@ -172,11 +172,11 @@ class MobilangAstParserTest {
     }
 
     private void assertApplicationName(String name) {
-        Assertions.assertEquals(name, parser.getProperties().getAppName());
+        Assertions.assertEquals(name, parser.getProperties().getApplicationName());
     }
 
     private void assertPlatformsProperty(String... platforms) {
-        Set<String> obtainedPlatforms = parser.getProperties().getPlatforms();
+        Set<String> obtainedPlatforms = parser.getProperties().getTargetPlatforms();
 
         for (String platform : platforms) {
             Assertions.assertTrue(obtainedPlatforms.contains(platform));

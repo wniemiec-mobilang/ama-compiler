@@ -121,7 +121,7 @@ public class Ama {
             framework, 
             srcCodeLocation, 
             outputLocation, 
-            mobilangAstParser.getProperties().getPlatforms()
+            mobilangAstParser.getProperties().getTargetPlatforms()
         );
         Consolex.writeInfo("Generating mobile applications...");
 
@@ -129,6 +129,6 @@ public class Ama {
     }
 
     private Path buildOutputApplicationPath() {
-        return outputLocationPath.resolve(mobilangAstParser.getProperties().getAppName());
+        return outputLocationPath.resolve(mobilangAstParser.getProperties().getApplicationName());
     }
 }

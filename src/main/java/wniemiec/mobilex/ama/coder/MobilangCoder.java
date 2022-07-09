@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import wniemiec.mobilex.ama.coder.exception.CoderException;
 import wniemiec.mobilex.ama.framework.Framework;
 import wniemiec.mobilex.ama.models.CodeFile;
@@ -13,9 +12,9 @@ import wniemiec.mobilex.ama.models.Screen;
 
 
 /**
- * Responsible for MobiLang code generation.
+ * Responsible for Mobilang code generation.
  */
-public class MobiLangCoder {
+public class MobilangCoder {
     
     //-------------------------------------------------------------------------
     //		Attributes
@@ -30,17 +29,13 @@ public class MobiLangCoder {
     //		Constructor
     //-------------------------------------------------------------------------
     /**
-     * MobiLang code generator.
+     * Mobilang code generator.
      * 
-     * @param       persistenceData Persistence data
-     * @param       screensData Screens data
+     * @param       screens Screens data
      * @param       framework Framework that will handle with code generation
      */
-    public MobiLangCoder(
-        List<Screen> screensData,
-        Framework framework
-    ) {
-        this.screensData = screensData;
+    public MobilangCoder(List<Screen> screens, Framework framework) {
+        this.screensData = screens;
         this.framework = framework;
         this.codeFiles = new ArrayList<>();
         dependencies = new HashSet<>();

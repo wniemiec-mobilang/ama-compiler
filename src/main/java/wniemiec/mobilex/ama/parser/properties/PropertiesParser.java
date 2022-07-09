@@ -54,7 +54,7 @@ public class PropertiesParser {
     }
 
     private void parseApplicationName(JSONObject json) {
-        propertiesData.setAppName(json.getString("application_name"));
+        propertiesData.setApplicationName(json.getString("application_name"));
     }
 
     private void parsePlatforms(JSONObject json) {

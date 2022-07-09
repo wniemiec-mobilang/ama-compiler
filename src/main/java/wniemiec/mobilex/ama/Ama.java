@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.SortedMap;
 import wniemiec.io.java.Consolex;
-import wniemiec.mobilex.ama.coder.MobiLangCoder;
+import wniemiec.mobilex.ama.coder.MobilangCoder;
 import wniemiec.mobilex.ama.coder.exception.CoderException;
 import wniemiec.mobilex.ama.export.app.MobiLangAppExport;
 import wniemiec.mobilex.ama.export.code.FileMobiLangCodeExport;
@@ -36,7 +36,7 @@ public class Ama {
     private final Framework framework;
     private SortedMap<String, List<Node>> ast;
     private MobilangAstParser mobilangAstParser;
-    private MobiLangCoder mobilangCoder;
+    private MobilangCoder mobilangCoder;
     private Path srcCodeLocation;
     
 
@@ -91,7 +91,7 @@ public class Ama {
     }
 
     private void generateMobilangCode() throws CoderException {
-        mobilangCoder = new MobiLangCoder(
+        mobilangCoder = new MobilangCoder(
             mobilangAstParser.getScreens(),
             framework
         );

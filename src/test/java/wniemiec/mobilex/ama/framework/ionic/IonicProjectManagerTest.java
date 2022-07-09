@@ -147,7 +147,7 @@ class IonicProjectManagerTest {
     //		Methods
     //-------------------------------------------------------------------------
     private void withAppName(String name) {
-        properties.setAppName(name);
+        properties.setApplicationName(name);
     }
 
     private void withTargetPlatforms(String... platforms) {

@@ -71,7 +71,7 @@ class PropertiesTest {
     }
 
     private void buildProperties() {
-        properties.setAppName(name);
+        properties.setApplicationName(name);
         platforms.forEach(properties::addPlatform);
     }
 

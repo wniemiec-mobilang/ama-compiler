@@ -105,6 +105,10 @@ public class Screen {
     //		Methods
     //-------------------------------------------------------------------------
     private String normalize(String name) {
+        if (!name.contains("-")) {
+            return name;
+        }
+        
         StringBuilder normalizedName = new StringBuilder();
         
         for (String term : name.split("-")) {

@@ -31,7 +31,7 @@ public class Properties {
         return name;
     }
 
-    public void setAppName(String name) {
+    public void setApplicationName(String name) {
         this.name = name;
     }
 

@@ -3,7 +3,6 @@ package wniemiec.mobilex.ama.framework;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
-
 import wniemiec.mobilex.ama.coder.exception.CoderException;
 import wniemiec.mobilex.ama.export.exception.AppGenerationException;
 import wniemiec.mobilex.ama.models.Project;
@@ -21,13 +20,12 @@ public interface Framework {
     /**
      * Creates a new framework project.
      * 
-     * @param       propertiesData Application information
+     * @param       properties Application information
      * @param       location Path where the project will be created
      * 
      * @throws      IOException If project cannot be created
      */
-    void createProject(Properties propertiesData, Path location) 
-    throws IOException;
+    void createProject(Properties properties, Path location) throws IOException;
   
     /**
      * Adds a dependency on the project.
@@ -37,19 +35,18 @@ public interface Framework {
      * 
      * @throws      IOException If dependency cannot be added
      */
-    void addProjectDependency(String dependency, Path location) 
-    throws IOException;
+    void addProjectDependency(String dependency, Path location) throws IOException;
 
     /**
      * Generates application code.
      * 
-     * @param       screensData Information about application screens 
+     * @param       screens Information about application screens 
      * 
      * @return      Code files along with the necessary dependencies
      * 
      * @throws      CoderException If code cannot be generated
      */
-    Project generateCode(List<Screen> screensData) throws CoderException;
+    Project generateCode(List<Screen> screens) throws CoderException;
 
     /**
      * Generates mobile application for a platform.

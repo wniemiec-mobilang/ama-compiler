@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import wniemiec.mobilex.ama.models.Screen;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
-import wniemiec.mobilex.ama.reader.DotReader;
+import wniemiec.mobilex.ama.reader.MobilangDotReader;
 
 
 class MobilangAstParserTest {
@@ -21,7 +21,7 @@ class MobilangAstParserTest {
     //		Attributes
     //-------------------------------------------------------------------------
     private static final Path RESOURCES;
-    private DotReader dotReader;
+    private MobilangDotReader dotReader;
     private MobilangAstParser parser;
 
 
@@ -38,7 +38,7 @@ class MobilangAstParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        dotReader = new DotReader();
+        dotReader = new MobilangDotReader();
         parser = null;
     }
 
@@ -73,7 +73,7 @@ class MobilangAstParserTest {
             "alert(\"World\");"
         );
         assertApplicationName("HelloWorld");
-        assertPlatformsProperty("android", "ios");
+        assertTargetPlatforms("android", "ios");
     }
 
 
@@ -175,12 +175,11 @@ class MobilangAstParserTest {
         Assertions.assertEquals(name, parser.getProperties().getApplicationName());
     }
 
-    private void assertPlatformsProperty(String... platforms) {
+    private void assertTargetPlatforms(String... platforms) {
         Set<String> obtainedPlatforms = parser.getProperties().getTargetPlatforms();
 
         for (String platform : platforms) {
             Assertions.assertTrue(obtainedPlatforms.contains(platform));
         }
-        
-    }    
+    }
 }

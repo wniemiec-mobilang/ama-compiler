@@ -11,7 +11,7 @@ import com.paypal.digraph.parser.GraphNode;
 import wniemiec.mobilex.ama.models.Node;
 import wniemiec.mobilex.ama.models.Properties;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
-import wniemiec.mobilex.ama.reader.DotReader;
+import wniemiec.mobilex.ama.reader.MobilangDotReader;
 
 
 class PropertiesParserTest {
@@ -20,7 +20,7 @@ class PropertiesParserTest {
     //		Attributes
     //-------------------------------------------------------------------------
     private static final Path RESOURCES;
-    private DotReader dotReader;
+    private MobilangDotReader dotReader;
     private PropertiesParser parser;
     private Node propertiesNode;
     private Properties obtainedProperties;
@@ -39,7 +39,7 @@ class PropertiesParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        dotReader = new DotReader();
+        dotReader = new MobilangDotReader();
         parser = null;
         propertiesNode = null;
         obtainedProperties = null;

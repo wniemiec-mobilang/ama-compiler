@@ -13,7 +13,7 @@ import com.paypal.digraph.parser.GraphNode;
 import wniemiec.mobilex.ama.models.Node;
 import wniemiec.mobilex.ama.models.Screen;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
-import wniemiec.mobilex.ama.reader.DotReader;
+import wniemiec.mobilex.ama.reader.MobilangDotReader;
 
 
 class ScreensParserTest {
@@ -22,7 +22,7 @@ class ScreensParserTest {
     //		Attributes
     //-------------------------------------------------------------------------
     private static final Path RESOURCES;
-    private DotReader dotReader;
+    private MobilangDotReader dotReader;
     private ScreensParser parser;
     private Node screenNode;
 
@@ -40,7 +40,7 @@ class ScreensParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        dotReader = new DotReader();
+        dotReader = new MobilangDotReader();
         parser = null;
         screenNode = null;
     }

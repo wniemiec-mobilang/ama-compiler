@@ -19,7 +19,7 @@ import wniemiec.mobilex.ama.models.Node;
 import wniemiec.mobilex.ama.parser.MobilangAstParser;
 import wniemiec.mobilex.ama.parser.exception.FactoryException;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
-import wniemiec.mobilex.ama.reader.DotReader;
+import wniemiec.mobilex.ama.reader.MobilangDotReader;
 
 
 /**
@@ -75,7 +75,7 @@ public class Ama {
     }
 
     private void readMobilangDotFile() throws FileNotFoundException {
-        DotReader dotReader = new DotReader();
+        MobilangDotReader dotReader = new MobilangDotReader();
         
         Consolex.writeInfo("Reading MobiLang AST...");
         dotReader.read(mobilangAstFilePath);

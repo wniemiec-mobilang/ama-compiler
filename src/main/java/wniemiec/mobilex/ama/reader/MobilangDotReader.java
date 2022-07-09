@@ -11,14 +11,13 @@ import java.util.TreeMap;
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
 import com.paypal.digraph.parser.GraphParser;
-
 import wniemiec.mobilex.ama.models.Node;
 
 
 /**
- * Responsible for reading dot files.
+ * Responsible for reading Mobilang dot files.
  */
-public class DotReader {
+public class MobilangDotReader {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -29,7 +28,7 @@ public class DotReader {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public DotReader() {
+    public MobilangDotReader() {
         tree = new TreeMap<>();
     }
     

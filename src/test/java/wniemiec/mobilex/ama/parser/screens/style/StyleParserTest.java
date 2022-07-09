@@ -12,7 +12,7 @@ import com.paypal.digraph.parser.GraphNode;
 import wniemiec.mobilex.ama.models.Node;
 import wniemiec.mobilex.ama.models.Style;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
-import wniemiec.mobilex.ama.reader.DotReader;
+import wniemiec.mobilex.ama.reader.MobilangDotReader;
 
 
 class StyleParserTest {
@@ -21,7 +21,7 @@ class StyleParserTest {
     //		Attributes
     //-------------------------------------------------------------------------
     private static final Path RESOURCES;
-    private DotReader dotReader;
+    private MobilangDotReader dotReader;
     private StyleParser parser;
     private Node styleNode;
     private Style parsedStyle;
@@ -40,7 +40,7 @@ class StyleParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        dotReader = new DotReader();
+        dotReader = new MobilangDotReader();
         parser = null;
         styleNode = null;
         parsedStyle = null;

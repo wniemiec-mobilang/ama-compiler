@@ -8,8 +8,10 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import wniemiec.mobilex.ama.coder.exception.CoderException;
 import wniemiec.mobilex.ama.export.exception.AppGenerationException;
+import wniemiec.mobilex.ama.framework.MockFramework;
 import wniemiec.mobilex.ama.models.CodeFile;
 import wniemiec.mobilex.ama.models.Project;
 import wniemiec.mobilex.ama.models.Properties;

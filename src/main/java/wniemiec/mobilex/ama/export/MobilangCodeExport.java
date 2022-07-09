@@ -1,4 +1,4 @@
-package wniemiec.mobilex.ama.export.code;
+package wniemiec.mobilex.ama.export;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -16,21 +16,26 @@ import wniemiec.mobilex.ama.models.Properties;
 
 
 /**
- * Responsible for exporting MobiLang code to files.
+ * Responsible for Mobilang code exportation.
  */
-public class FileMobiLangCodeExport extends MobiLangCodeExport {
+public class MobilangCodeExport {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private Framework framework;
+    private final Properties propertiesData;
+    private final Set<String> dependencies;
+    private final Path outputLocation;
+    private final Path codeLocation;
+    private final Framework framework;
+    private final List<CodeFile> codeFiles;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
     /**
-     * Exports MobiLang code to files.
+     * Mobilang code exportation.
      * 
      * @param       propertiesData Properties data
      * @param       codeFiles Code files
@@ -40,25 +45,35 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
      * 
      * @throws      CodeExportException If output location cannot be reached
      */
-    public FileMobiLangCodeExport(
-        Properties propertiesData, 
-        List<CodeFile> codeFiles, 
+    public MobilangCodeExport(
+        Properties propertiesData,
+        List<CodeFile> codeFiles,
         Set<String> dependencies,
         Framework framework, 
         Path outputLocation
     ) throws CodeExportException {
-        super(propertiesData, codeFiles, dependencies, outputLocation);
-        setUpOutputLocation();
-
+        this.propertiesData = propertiesData;
+        this.codeFiles = codeFiles;
+        this.dependencies = dependencies;
         this.framework = framework;
+        this.outputLocation = outputLocation;
+        codeLocation = setUpAppLocation(propertiesData, outputLocation);
+        setUpOutputLocation();
     }
 
-    
+
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void setUpOutputLocation() 
-    throws CodeExportException {
+    private Path setUpAppLocation(Properties propertiesData, Path outputLocation) {
+        if (outputLocation == null) {
+            return Path.of(propertiesData.getApplicationName()).resolve("code");
+        }
+        
+        return outputLocation.resolve(propertiesData.getApplicationName()).resolve("code");
+    }
+
+    private void setUpOutputLocation() throws CodeExportException {
         try {
             cleanOutputLocation(outputLocation);
         } 
@@ -76,8 +91,33 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
         Files.createDirectories(codeLocation);
     }
 
-    @Override
-    protected void exportCodeFile(String filename, List<String> code) 
+    public Path export() throws CodeExportException {
+        createProject();
+        exportCode();
+
+        return codeLocation;
+    }
+
+    public void createProject() throws CodeExportException {
+        try {
+            framework.createProject(propertiesData, codeLocation);
+
+            for (String dependency : dependencies) {
+                framework.addProjectDependency(dependency, codeLocation);
+            }
+        } 
+        catch (IOException e) {
+            throw new CodeExportException(e.getMessage());
+        }
+    }
+
+    private void exportCode() throws CodeExportException {
+        for (CodeFile file : codeFiles) {
+            exportCodeFile(file.getName(), file.getCode());
+        }
+    }
+
+    private void exportCodeFile(String filename, List<String> code) 
     throws CodeExportException {
         Path filepath = buildFilepath(filename);
         
@@ -108,18 +148,4 @@ public class FileMobiLangCodeExport extends MobiLangCodeExport {
 
         txtFileManager.writeLines(lines);
     }
-
-    @Override
-    public void createProject() throws CodeExportException {
-        try {
-            framework.createProject(propertiesData, codeLocation);
-
-            for (String dependency : dependencies) {
-                framework.addProjectDependency(dependency, codeLocation);
-            }
-        } 
-        catch (IOException e) {
-            throw new CodeExportException(e.getMessage());
-        }
-    }   
 }

@@ -1,4 +1,4 @@
-package wniemiec.mobilex.ama.coder;
+package wniemiec.mobilex.ama.framework;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -9,14 +9,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import wniemiec.mobilex.ama.coder.exception.CoderException;
 import wniemiec.mobilex.ama.export.exception.AppGenerationException;
-import wniemiec.mobilex.ama.framework.Framework;
 import wniemiec.mobilex.ama.models.CodeFile;
 import wniemiec.mobilex.ama.models.Project;
 import wniemiec.mobilex.ama.models.Properties;
 import wniemiec.mobilex.ama.models.Screen;
 
 
-class MockFramework implements Framework {
+public class MockFramework implements Framework {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -29,7 +28,7 @@ class MockFramework implements Framework {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    MockFramework() {
+    public MockFramework() {
         created = false;
         dependencies = new HashSet<>();
         generatedMobileApplication = null;

@@ -8,9 +8,8 @@ import java.util.SortedMap;
 import wniemiec.io.java.Consolex;
 import wniemiec.mobilex.ama.coder.MobilangCoder;
 import wniemiec.mobilex.ama.coder.exception.CoderException;
-import wniemiec.mobilex.ama.export.app.MobiLangAppExport;
-import wniemiec.mobilex.ama.export.code.FileMobiLangCodeExport;
-import wniemiec.mobilex.ama.export.code.MobiLangCodeExport;
+import wniemiec.mobilex.ama.export.MobilangAppExport;
+import wniemiec.mobilex.ama.export.MobilangCodeExport;
 import wniemiec.mobilex.ama.export.exception.AppGenerationException;
 import wniemiec.mobilex.ama.export.exception.CodeExportException;
 import wniemiec.mobilex.ama.framework.Framework;
@@ -102,7 +101,7 @@ public class Ama {
 
     private void exportMobilangCode() 
     throws CodeExportException {
-        MobiLangCodeExport mobilangCodeExport = new FileMobiLangCodeExport(
+        MobilangCodeExport mobilangCodeExport = new MobilangCodeExport(
             mobilangAstParser.getProperties(),
             mobilangCoder.getCodeFiles(),
             mobilangCoder.getDependencies(),
@@ -117,7 +116,7 @@ public class Ama {
 
     private void generateMobileApplications() throws AppGenerationException {
         Path outputLocation = buildOutputApplicationPath();
-        MobiLangAppExport appExport = new MobiLangAppExport(
+        MobilangAppExport appExport = new MobilangAppExport(
             framework, 
             srcCodeLocation, 
             outputLocation, 

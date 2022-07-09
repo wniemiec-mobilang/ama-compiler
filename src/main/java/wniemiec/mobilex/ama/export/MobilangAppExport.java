@@ -1,4 +1,4 @@
-package wniemiec.mobilex.ama.export.app;
+package wniemiec.mobilex.ama.export;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,9 +12,9 @@ import wniemiec.util.java.StringUtils;
 
 
 /**
- * Responsible for MobiLang code exportation.
+ * Responsible for Mobilang mobile application exportation.
  */
-public class MobiLangAppExport {
+public class MobilangAppExport {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -28,7 +28,7 @@ public class MobiLangAppExport {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public MobiLangAppExport(
+    public MobilangAppExport(
         Framework framework, 
         Path sourceCode, 
         Path output, 

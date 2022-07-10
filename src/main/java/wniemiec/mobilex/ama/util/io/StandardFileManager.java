@@ -35,12 +35,12 @@ public class StandardFileManager implements FileManager {
     }
 
     @Override
-    public void write(Path file, List<String>lines) throws IOException {
+    public void write(Path file, List<String> lines) throws IOException {
         Files.write(
             file, 
             lines, 
             Charset.defaultCharset(), 
-            StandardOpenOption.WRITE
+            StandardOpenOption.TRUNCATE_EXISTING
         );
     }
 

@@ -45,7 +45,7 @@ public class MobilangCodeExport {
      * 
      * @throws      CodeExportException If output location cannot be reached
      */
-    public MobilangCodeExport(
+    private MobilangCodeExport(
         Properties properties,
         List<CodeFile> codeFiles,
         Set<String> dependencies,
@@ -60,6 +60,109 @@ public class MobilangCodeExport {
         codeLocation = setUpAppLocation(properties, output);
         setUpOutputLocation();
     }
+
+
+    //-------------------------------------------------------------------------
+    //		Builder
+    //-------------------------------------------------------------------------
+    /**
+     * Required fields:
+     * 
+     * - properties
+     * - dependencies
+     * - output
+     * - framework
+     * - codeFiles
+     */
+    public static class Builder {
+
+        private Properties properties;
+        private Set<String> dependencies;
+        private Path output;
+        private Framework framework;
+        private List<CodeFile> codeFiles;
+
+        public Builder properties(Properties properties) {
+            this.properties = properties;
+            
+            return this;
+        }
+
+        public Builder dependencies(Set<String> dependencies) {
+            this.dependencies = dependencies;
+            
+            return this;
+        }
+
+        public Builder output(Path output) {
+            this.output = output;
+            
+            return this;
+        }
+
+        public Builder framework(Framework framework) {
+            this.framework = framework;
+            
+            return this;
+        }
+
+        public Builder codeFiles(List<CodeFile> codeFiles) {
+            this.codeFiles = codeFiles;
+            
+            return this;
+        }
+
+        public MobilangCodeExport build() throws CodeExportException {
+            validateFields();
+
+            return new MobilangCodeExport(
+                properties, 
+                codeFiles, 
+                dependencies, 
+                framework, 
+                output
+            );
+        }
+
+        private void validateFields() {
+            validateProperties();
+            validateCodeFiles();
+            validateDependencies();
+            validateFramework();
+            validateOutput();
+        }
+
+        private void validateProperties() {
+            if (properties == null) {
+                throw new IllegalStateException("Properties cannot be null");
+            }
+        }
+
+        private void validateCodeFiles() {
+            if (codeFiles == null) {
+                throw new IllegalStateException("Code files cannot be null");
+            }
+        }
+
+        private void validateDependencies() {
+            if (dependencies == null) {
+                throw new IllegalStateException("Dependencies cannot be null");
+            }
+        }
+
+        private void validateFramework() {
+            if (framework == null) {
+                throw new IllegalStateException("Framework cannot be null");
+            }
+        }
+
+        private void validateOutput() {
+            if (output == null) {
+                throw new IllegalStateException("Output cannot be null");
+            }
+        }
+    }
+
 
 
     //-------------------------------------------------------------------------

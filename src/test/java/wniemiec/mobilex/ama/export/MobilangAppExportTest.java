@@ -103,14 +103,15 @@ class MobilangAppExportTest {
     }
 
     private void doCodeExportation() throws CodeExportException {
-        codeExport = new MobilangCodeExport(
-            parser.getProperties(), 
-            generatedProject.getCodeFiles(), 
-            generatedProject.getDependencies(), 
-            framework, 
-            TEMP_DIRECTORY.resolve("mobilex")
-        );
-
+        codeExport = new MobilangCodeExport
+            .Builder()
+            .properties(parser.getProperties())
+            .dependencies(generatedProject.getDependencies())
+            .codeFiles(generatedProject.getCodeFiles())
+            .framework(framework)
+            .output(TEMP_DIRECTORY.resolve("mobilex"))
+            .build();
+            
         codeOutput = codeExport.export();
     }
 

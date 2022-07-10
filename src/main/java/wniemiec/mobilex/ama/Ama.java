@@ -101,13 +101,14 @@ public class Ama {
 
     private void exportMobilangCode() 
     throws CodeExportException {
-        MobilangCodeExport mobilangCodeExport = new MobilangCodeExport(
-            mobilangAstParser.getProperties(),
-            mobilangCoder.getCodeFiles(),
-            mobilangCoder.getDependencies(),
-            framework,
-            outputLocationPath
-        );
+        MobilangCodeExport mobilangCodeExport = new MobilangCodeExport
+            .Builder()
+            .properties(mobilangAstParser.getProperties())
+            .codeFiles(mobilangCoder.getCodeFiles())
+            .dependencies(mobilangCoder.getDependencies())
+            .framework(framework)
+            .output(outputLocationPath)
+            .build();
         
         Consolex.writeInfo("Exporting code...");
 

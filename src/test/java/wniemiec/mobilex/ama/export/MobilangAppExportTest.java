@@ -111,13 +111,19 @@ class MobilangAppExportTest {
             .framework(framework)
             .output(TEMP_DIRECTORY.resolve("mobilex"))
             .build();
-            
+
         codeOutput = codeExport.export();
     }
 
     private void doAppExportation() throws AppGenerationException {
-        appExport = new MobilangAppExport(framework, codeOutput, TEMP_DIRECTORY.resolve("mobilex"), parser.getProperties().getTargetPlatforms());
-
+        appExport = new MobilangAppExport
+            .Builder()
+            .framework(framework)
+            .sourceCode(codeOutput)
+            .output(TEMP_DIRECTORY.resolve("mobilex"))
+            .platforms(parser.getProperties().getTargetPlatforms())
+            .build();
+        
         generatedApp = appExport.generateMobileApplications();
     }
 

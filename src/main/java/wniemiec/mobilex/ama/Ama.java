@@ -31,11 +31,11 @@ public class Ama {
     //		Attributes
     //-------------------------------------------------------------------------
     private final Path mobilangAstFilePath;
-    private final Path outputLocationPath;
+    private final Path output;
     private final Framework framework;
     private SortedMap<String, List<Node>> ast;
-    private MobilangAstParser mobilangAstParser;
-    private MobilangCoder mobilangCoder;
+    private MobilangAstParser astParser;
+    private MobilangCoder coder;
     private Path srcCodeLocation;
     
 
@@ -45,16 +45,16 @@ public class Ama {
     /**
      * Manager for ASC compiler pipeline.
      * 
-     * @param       mobilangAstFilePath MobiLang AST dot file
-     * @param       outputLocationPath Path where compiler output will be put
-     * @param       frameworkName Framework to be used
+     * @param       mobilangAst MobiLang AST dot file
+     * @param       output Path where compiler output will be put
+     * @param       framework Framework to be used
      * @throws FactoryException
      */
-    public Ama(Path mobilangAstFilePath, Path outputLocationPath, String frameworkName) 
+    public Ama(Path mobilangAst, Path output, String framework) 
     throws FactoryException {
-        this.mobilangAstFilePath = mobilangAstFilePath;
-        this.outputLocationPath = outputLocationPath;
-        this.framework = FrameworkFactory.getInstance(frameworkName);
+        this.mobilangAstFilePath = mobilangAst;
+        this.output = output;
+        this.framework = FrameworkFactory.getInstance(framework);
     }
 
 
@@ -70,7 +70,7 @@ public class Ama {
         exportMobilangCode();
         generateMobileApplications();
 
-        return outputLocationPath;
+        return output;
     }
 
     private void readMobilangDotFile() throws FileNotFoundException {
@@ -83,31 +83,31 @@ public class Ama {
     }
 
     private void parseMobilangAst() throws ParseException, IOException {
-        mobilangAstParser = new MobilangAstParser(ast);
+        astParser = new MobilangAstParser(ast);
 
         Consolex.writeInfo("Parsing MobiLang AST...");
-        mobilangAstParser.parse();
+        astParser.parse();
     }
 
     private void generateMobilangCode() throws CoderException {
-        mobilangCoder = new MobilangCoder(
-            mobilangAstParser.getScreens(),
+        coder = new MobilangCoder(
+            astParser.getScreens(),
             framework
         );
         
         Consolex.writeInfo("Generating code...");
-        mobilangCoder.generateCode();
+        coder.generateCode();
     }
 
     private void exportMobilangCode() 
     throws CodeExportException {
         MobilangCodeExport mobilangCodeExport = new MobilangCodeExport
             .Builder()
-            .properties(mobilangAstParser.getProperties())
-            .codeFiles(mobilangCoder.getCodeFiles())
-            .dependencies(mobilangCoder.getDependencies())
+            .properties(astParser.getProperties())
+            .codeFiles(coder.getCodeFiles())
+            .dependencies(coder.getDependencies())
             .framework(framework)
-            .output(outputLocationPath)
+            .output(output)
             .build();
         
         Consolex.writeInfo("Exporting code...");
@@ -117,18 +117,20 @@ public class Ama {
 
     private void generateMobileApplications() throws AppGenerationException {
         Path outputLocation = buildOutputApplicationPath();
-        MobilangAppExport appExport = new MobilangAppExport(
-            framework, 
-            srcCodeLocation, 
-            outputLocation, 
-            mobilangAstParser.getProperties().getTargetPlatforms()
-        );
+        MobilangAppExport appExport = new MobilangAppExport
+            .Builder()
+            .framework(framework)
+            .sourceCode(srcCodeLocation)
+            .output(outputLocation)
+            .platforms(astParser.getProperties().getTargetPlatforms())
+            .build();
+        
         Consolex.writeInfo("Generating mobile applications...");
 
         appExport.generateMobileApplications();
     }
 
     private Path buildOutputApplicationPath() {
-        return outputLocationPath.resolve(mobilangAstParser.getProperties().getApplicationName());
+        return output.resolve(astParser.getProperties().getApplicationName());
     }
 }

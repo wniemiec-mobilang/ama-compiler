@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 import wniemiec.mobilex.ama.coder.exception.CoderException;
 import wniemiec.mobilex.ama.export.exception.AppGenerationException;
@@ -22,7 +23,8 @@ public class MockFramework implements Framework {
     //-------------------------------------------------------------------------
     private boolean created;
     private Set<String> dependencies;
-    private String generatedMobileApplication;
+    private Set<String> generatedMobileApplications;
+    private String lastGeneratedMobileApplication;
 
 
     //-------------------------------------------------------------------------
@@ -31,7 +33,8 @@ public class MockFramework implements Framework {
     public MockFramework() {
         created = false;
         dependencies = new HashSet<>();
-        generatedMobileApplication = null;
+        generatedMobileApplications = new HashSet<>();
+        lastGeneratedMobileApplication = null;
     }
 
 
@@ -77,7 +80,8 @@ public class MockFramework implements Framework {
     @Override
     public void generateMobileApplicationFor(String platform, Path source, Path output) 
     throws AppGenerationException {
-        generatedMobileApplication = platform;
+        lastGeneratedMobileApplication = platform;
+        generatedMobileApplications.add(platform);
     }
 
 
@@ -92,7 +96,11 @@ public class MockFramework implements Framework {
         return dependencies;
     }
 
-    public String getGeneratedMobileApplication() {
-        return generatedMobileApplication;
+    public String getLastGeneratedMobileApplication() {
+        return lastGeneratedMobileApplication;
+    }
+
+    public boolean wasGeneratedMobileApplicationFor(String platform) {
+        return generatedMobileApplications.contains(platform);
     }
 }

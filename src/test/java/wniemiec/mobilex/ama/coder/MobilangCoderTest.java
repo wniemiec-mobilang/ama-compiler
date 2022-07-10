@@ -241,6 +241,6 @@ class MobilangCoderTest {
     }
 
     private void assertGeneratedMobileApplicationForIsCorrect() {
-        Assertions.assertEquals(platform, framework.getGeneratedMobileApplication());
+        Assertions.assertEquals(platform, framework.getLastGeneratedMobileApplication());
     }
 }

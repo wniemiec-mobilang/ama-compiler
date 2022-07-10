@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.LogLevel;
 import wniemiec.mobilex.ama.coder.exception.CoderException;
+import wniemiec.mobilex.ama.export.exception.AppGenerationException;
 import wniemiec.mobilex.ama.export.exception.CodeExportException;
 import wniemiec.mobilex.ama.framework.MockFramework;
 import wniemiec.mobilex.ama.models.Project;
@@ -19,7 +20,7 @@ import wniemiec.mobilex.ama.parser.exception.ParseException;
 import wniemiec.mobilex.ama.reader.MobilangDotReader;
 
 
-class MobilangCodeExportTest {
+class MobilangAppExportTest {
     
     //-------------------------------------------------------------------------
     //		Attributes
@@ -29,9 +30,11 @@ class MobilangCodeExportTest {
     private MobilangDotReader dotReader;
     private MobilangAstParser parser;
     private MobilangCodeExport codeExport;
+    private MobilangAppExport appExport;
     private Path codeOutput;
     private MockFramework framework;
     private Project generatedProject;
+    private Path generatedApp;
 
 
     //-------------------------------------------------------------------------
@@ -54,6 +57,8 @@ class MobilangCodeExportTest {
         framework = new MockFramework();
         codeExport = null;
         generatedProject = null;
+        appExport = null;
+        generatedApp = null;
 
         Consolex.setLoggerLevel(LogLevel.OFF);
     }
@@ -69,13 +74,14 @@ class MobilangCodeExportTest {
     //-------------------------------------------------------------------------
     @Test
     void testExportWithAllRequiredFields() 
-    throws ParseException, IOException, CoderException, CodeExportException {
+    throws ParseException, IOException, CoderException, CodeExportException, AppGenerationException {
         withAst("HelloWorld.dot");
         doParsing();
         doCodeGeneration();
         doCodeExportation();
-        assertProjectWasCreated();
-        assertCodeWasExported();
+        doAppExportation();
+        assertAppWasExported();
+        assertAppWasGenerated();
     }
 
 
@@ -108,11 +114,19 @@ class MobilangCodeExportTest {
         codeOutput = codeExport.export();
     }
 
-    private void assertProjectWasCreated() {
-        Assertions.assertTrue(framework.wasProjectCreated());
+    private void doAppExportation() throws AppGenerationException {
+        appExport = new MobilangAppExport(framework, codeOutput, TEMP_DIRECTORY.resolve("mobilex"), parser.getProperties().getTargetPlatforms());
+
+        generatedApp = appExport.generateMobileApplications();
     }
 
-    private void assertCodeWasExported() {
-        Assertions.assertTrue(Files.exists(codeOutput));
+    private void assertAppWasExported() {
+        Assertions.assertTrue(Files.exists(generatedApp));
+    }
+
+    private void assertAppWasGenerated() {
+        parser.getProperties().getTargetPlatforms().forEach(platform -> {
+            Assertions.assertTrue(framework.wasGeneratedMobileApplicationFor(platform));
+        });
     }
 }

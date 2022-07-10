@@ -84,7 +84,7 @@ public class MockFramework implements Framework {
     //-------------------------------------------------------------------------
     //		Getters
     //-------------------------------------------------------------------------
-    public boolean isCreated() {
+    public boolean wasProjectCreated() {
         return created;
     }
 

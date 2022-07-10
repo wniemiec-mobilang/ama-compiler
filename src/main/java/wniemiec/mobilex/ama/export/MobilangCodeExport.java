@@ -23,9 +23,9 @@ public class MobilangCodeExport {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final Properties propertiesData;
+    private final Properties properties;
     private final Set<String> dependencies;
-    private final Path outputLocation;
+    private final Path output;
     private final Path codeLocation;
     private final Framework framework;
     private final List<CodeFile> codeFiles;
@@ -37,27 +37,27 @@ public class MobilangCodeExport {
     /**
      * Mobilang code exportation.
      * 
-     * @param       propertiesData Properties data
+     * @param       properties Properties data
      * @param       codeFiles Code files
      * @param       dependencies Project dependencies
      * @param       framework Framework that will handle with project management
-     * @param       outputLocation Location where the files will be exported
+     * @param       output Location where the files will be exported
      * 
      * @throws      CodeExportException If output location cannot be reached
      */
     public MobilangCodeExport(
-        Properties propertiesData,
+        Properties properties,
         List<CodeFile> codeFiles,
         Set<String> dependencies,
         Framework framework, 
-        Path outputLocation
+        Path output
     ) throws CodeExportException {
-        this.propertiesData = propertiesData;
+        this.properties = properties;
         this.codeFiles = codeFiles;
         this.dependencies = dependencies;
         this.framework = framework;
-        this.outputLocation = outputLocation;
-        codeLocation = setUpAppLocation(propertiesData, outputLocation);
+        this.output = output;
+        codeLocation = setUpAppLocation(properties, output);
         setUpOutputLocation();
     }
 
@@ -65,17 +65,17 @@ public class MobilangCodeExport {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private Path setUpAppLocation(Properties propertiesData, Path outputLocation) {
-        if (outputLocation == null) {
-            return Path.of(propertiesData.getApplicationName()).resolve("code");
+    private Path setUpAppLocation(Properties properties, Path output) {
+        if (output == null) {
+            return Path.of(properties.getApplicationName()).resolve("code");
         }
         
-        return outputLocation.resolve(propertiesData.getApplicationName()).resolve("code");
+        return output.resolve(properties.getApplicationName()).resolve("code");
     }
 
     private void setUpOutputLocation() throws CodeExportException {
         try {
-            cleanOutputLocation(outputLocation);
+            cleanOutputLocation(output);
         } 
         catch (IOException e) {
             throw new CodeExportException(e.getMessage());
@@ -98,9 +98,9 @@ public class MobilangCodeExport {
         return codeLocation;
     }
 
-    public void createProject() throws CodeExportException {
+    private void createProject() throws CodeExportException {
         try {
-            framework.createProject(propertiesData, codeLocation);
+            framework.createProject(properties, codeLocation);
 
             for (String dependency : dependencies) {
                 framework.addProjectDependency(dependency, codeLocation);

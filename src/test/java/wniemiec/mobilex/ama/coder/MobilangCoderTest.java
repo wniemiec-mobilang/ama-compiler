@@ -119,7 +119,7 @@ class MobilangCoderTest {
     }
 
     private void assertProjectWasCreated() {
-        Assertions.assertTrue(framework.isCreated());
+        Assertions.assertTrue(framework.wasProjectCreated());
     }
 
     private void withDependency(String dependency) {

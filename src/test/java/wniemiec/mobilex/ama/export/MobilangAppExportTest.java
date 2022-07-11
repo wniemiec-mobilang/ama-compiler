@@ -1,9 +1,11 @@
 package wniemiec.mobilex.ama.export;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +15,9 @@ import wniemiec.io.java.LogLevel;
 import wniemiec.mobilex.ama.coder.exception.CoderException;
 import wniemiec.mobilex.ama.export.exception.AppGenerationException;
 import wniemiec.mobilex.ama.export.exception.CodeExportException;
+import wniemiec.mobilex.ama.framework.Framework;
 import wniemiec.mobilex.ama.framework.MockFramework;
-import wniemiec.mobilex.ama.models.Project;
-import wniemiec.mobilex.ama.parser.MobilangAstParser;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
-import wniemiec.mobilex.ama.reader.MobilangDotReader;
 
 
 class MobilangAppExportTest {
@@ -25,23 +25,19 @@ class MobilangAppExportTest {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private static final Path RESOURCES;
     private static final Path TEMP_DIRECTORY;
-    private MobilangDotReader dotReader;
-    private MobilangAstParser parser;
-    private MobilangCodeExport codeExport;
     private MobilangAppExport appExport;
-    private Path codeOutput;
-    private MockFramework framework;
-    private Project generatedProject;
+    private Framework framework;
     private Path generatedApp;
+    private Path sourceCode;
+    private Path output;
+    private Set<String> platforms;
 
 
     //-------------------------------------------------------------------------
     //		Initialization block
     //-------------------------------------------------------------------------
     static {
-        RESOURCES = Path.of(".", "src", "test", "resources");
         TEMP_DIRECTORY = Path.of(System.getProperty("java.io.tmpdir"));
     }
 
@@ -51,14 +47,12 @@ class MobilangAppExportTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        dotReader = new MobilangDotReader();
-        parser = null;
-        codeOutput = null;
-        framework = new MockFramework();
-        codeExport = null;
-        generatedProject = null;
+        framework = null;
         appExport = null;
         generatedApp = null;
+        sourceCode = null;
+        output = null;
+        platforms = new HashSet<>();
 
         Consolex.setLoggerLevel(LogLevel.OFF);
     }
@@ -74,54 +68,43 @@ class MobilangAppExportTest {
     //-------------------------------------------------------------------------
     @Test
     void testExportWithAllRequiredFields() 
-    throws ParseException, IOException, CoderException, CodeExportException, AppGenerationException {
-        withAst("HelloWorld.dot");
-        doParsing();
-        doCodeGeneration();
-        doCodeExportation();
+    throws ParseException, IOException, CoderException, CodeExportException, 
+    AppGenerationException {
+        withFramework(new MockFramework());
+        withSourceCode(Path.of("source"));
+        withOutput(Path.of("mobilex"));
+        withPlatforms("android", "ios");
         doAppExportation();
         assertAppWasExported();
-        assertAppWasGenerated();
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void withAst(String file) throws FileNotFoundException {
-        dotReader.read(RESOURCES.resolve(file));
+    private void withFramework(Framework framework) {
+        this.framework = framework;
     }
 
-    private void doParsing() throws ParseException, IOException {
-        parser = new MobilangAstParser(dotReader.getTree());
-        
-        parser.parse();
+    private void withSourceCode(Path path) {
+        sourceCode = TEMP_DIRECTORY.resolve(path);
     }
 
-    private void doCodeGeneration() throws CoderException {
-        generatedProject = framework.generateCode(parser.getScreens());
+    private void withOutput(Path path) {
+        output = TEMP_DIRECTORY.resolve(path);
     }
 
-    private void doCodeExportation() throws CodeExportException {
-        codeExport = new MobilangCodeExport
-            .Builder()
-            .properties(parser.getProperties())
-            .dependencies(generatedProject.getDependencies())
-            .codeFiles(generatedProject.getCodeFiles())
-            .framework(framework)
-            .output(TEMP_DIRECTORY.resolve("mobilex"))
-            .build();
-
-        codeOutput = codeExport.export();
+    private void withPlatforms(String... platforms) {
+        this.platforms.addAll(Arrays.asList(platforms));
     }
 
     private void doAppExportation() throws AppGenerationException {
         appExport = new MobilangAppExport
             .Builder()
             .framework(framework)
-            .sourceCode(codeOutput)
-            .output(TEMP_DIRECTORY.resolve("mobilex"))
-            .platforms(parser.getProperties().getTargetPlatforms())
+            .sourceCode(sourceCode)
+            .output(output)
+            .platforms(platforms)
             .build();
         
         generatedApp = appExport.generateMobileApplications();
@@ -129,11 +112,5 @@ class MobilangAppExportTest {
 
     private void assertAppWasExported() {
         Assertions.assertTrue(Files.exists(generatedApp));
-    }
-
-    private void assertAppWasGenerated() {
-        parser.getProperties().getTargetPlatforms().forEach(platform -> {
-            Assertions.assertTrue(framework.wasGeneratedMobileApplicationFor(platform));
-        });
     }
 }

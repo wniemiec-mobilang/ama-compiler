@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import wniemiec.mobilex.ama.coder.exception.CoderException;
+import wniemiec.mobilex.ama.framework.Framework;
 import wniemiec.mobilex.ama.framework.MockFramework;
 import wniemiec.mobilex.ama.models.CodeFile;
 import wniemiec.mobilex.ama.models.Screen;
@@ -26,8 +27,8 @@ class MobilangCoderTest {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private List<Screen> screens;
-    private MockFramework framework;
+    private List<Screen> builtScreens;
+    private Framework framework;
     private MobilangCoder coder;
     private List<String> dependencies;
     private String screenName;
@@ -35,6 +36,7 @@ class MobilangCoderTest {
     private Style screenStyle;
     private Behavior screenBehavior;
     private List<CodeFile> codeFiles;
+    private List<Screen> screens;
 
 
     //-------------------------------------------------------------------------
@@ -42,8 +44,9 @@ class MobilangCoderTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        screens = new ArrayList<>();
-        framework = new MockFramework();
+        builtScreens = new ArrayList<>();
+        screens = null;
+        framework = null;
         dependencies = new ArrayList<>();
         screenName = null;
         screenStructure = null;
@@ -58,31 +61,72 @@ class MobilangCoderTest {
     //-------------------------------------------------------------------------
     @Test
     void testGenerateCodeWithDependencies() throws CoderException, IOException {
+        withFramework(new MockFramework());
         withDependency("foo/bar");
         withScreenName("SomeFunnyScreenName");
         withScreenStructure(buildPInsideADivWithValue("some text"));
         withScreenStyle(buildPStyleUsingBlueAndWhite());
         withScreenBehavior(buildDeclarationWithIdAndAssignment("pi", "3.1416"));
         buildScreen();
+        withScreens(builtScreens);
         doCodeGeneration();
         assertDependenciesAreCorrect();
     }
 
     @Test
-    void testGenerateCode() throws CoderException {
+    void testGenerateCodeWithoutDependencies() throws CoderException {
+        withFramework(new MockFramework());
         withScreenName("SomeFunnyScreenName");
         withScreenStructure(buildPInsideADivWithValue("some text"));
         withScreenStyle(buildPStyleUsingBlueAndWhite());
         withScreenBehavior(buildDeclarationWithIdAndAssignment("pi", "3.1416"));
         buildScreen();
+        withScreens(builtScreens);
         doCodeGeneration();
         assertHasCorrectCodeFiles();
+    }
+
+    @Test
+    void testGenerateCodeWithoutFramework() throws CoderException {
+        withFramework(null);
+        withScreenName("SomeFunnyScreenName");
+        withScreenStructure(buildPInsideADivWithValue("some text"));
+        withScreenStyle(buildPStyleUsingBlueAndWhite());
+        withScreenBehavior(buildDeclarationWithIdAndAssignment("pi", "3.1416"));
+        buildScreen();
+        withScreens(builtScreens);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            doCodeGeneration();
+        });
+    }
+
+    @Test
+    void testGenerateCodeWithoutScreens() throws CoderException {
+        withFramework(new MockFramework());
+        withScreens(null);
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            doCodeGeneration();
+        });
+    }
+
+    @Test
+    void testGenerateCodeWithEmptyScreens() throws CoderException {
+        withFramework(new MockFramework());
+        withScreens(new ArrayList<>());
+        doCodeGeneration();
+        assertHasEmptyCodeFiles();
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    private void withFramework(Framework framework) {
+        this.framework = framework;
+    }
+    
     private void withDependency(String dependency) throws IOException {
         dependencies.add(dependency);
         framework.addProjectDependency(dependency, null);
@@ -155,7 +199,7 @@ class MobilangCoderTest {
             .behavior(screenBehavior)
             .build();
         
-        screens.add(screen);
+        builtScreens.add(screen);
         codeFiles.add(new CodeFile(screenName, generateScreenCode()));
     }
 
@@ -167,6 +211,10 @@ class MobilangCoderTest {
         code.addAll(screenBehavior.toCode());
 
         return code;
+    }
+
+    private void withScreens(List<Screen> screens) {
+        this.screens = screens;
     }
 
     private void doCodeGeneration() throws CoderException {
@@ -181,5 +229,9 @@ class MobilangCoderTest {
 
     private void assertDependenciesAreCorrect() {
         Assertions.assertTrue(coder.getDependencies().containsAll(dependencies));
+    }
+
+    private void assertHasEmptyCodeFiles() {
+        Assertions.assertTrue(coder.getCodeFiles().isEmpty());
     }
 }

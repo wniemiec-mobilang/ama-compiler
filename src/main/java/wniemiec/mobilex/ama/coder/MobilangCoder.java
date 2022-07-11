@@ -19,7 +19,7 @@ public class MobilangCoder {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final List<Screen> screensData;
+    private final List<Screen> screens;
     private final Framework framework;
     private final List<CodeFile> codeFiles;
     private final Set<String> dependencies;
@@ -33,9 +33,14 @@ public class MobilangCoder {
      * 
      * @param       screens Screens data
      * @param       framework Framework that will handle with code generation
+     * 
+     * @throws      IllegalArgumentException If screens or framework are null
      */
     public MobilangCoder(List<Screen> screens, Framework framework) {
-        this.screensData = screens;
+        validateScreens(screens);
+        validateFramework(framework);
+
+        this.screens = screens;
         this.framework = framework;
         this.codeFiles = new ArrayList<>();
         dependencies = new HashSet<>();
@@ -45,8 +50,20 @@ public class MobilangCoder {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    private void validateScreens(List<Screen> screens) {
+        if (screens == null) {
+            throw new IllegalArgumentException("Screens cannot be null");
+        }
+    }
+
+    private void validateFramework(Framework framework) {
+        if (framework == null) {
+            throw new IllegalArgumentException("Framework cannot be null");
+        }
+    }
+    
     public void generateCode() throws CoderException {
-        Project codes = framework.generateCode(screensData);
+        Project codes = framework.generateCode(screens);
 
         codeFiles.addAll(codes.getCodeFiles());
         dependencies.addAll(codes.getDependencies());

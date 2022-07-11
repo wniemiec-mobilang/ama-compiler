@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -95,6 +96,104 @@ class MobilangCodeExportTest {
         doCodeExportation();
         assertCodeWasExported();
     }
+
+    @Test
+    void testExportWithoutFramework() 
+    throws ParseException, IOException, CoderException, CodeExportException {
+        withFramework(null);
+        withOutput(Path.of("mobilex"));
+        withPropertyApplicationName("something");
+        withPropertyPlatforms("android", "ios");
+        withProperties(builtProperties);
+        withDependency("foo/bar");
+        withDependencies(builtDependencies);
+        withCodeFiles(new ArrayList<>());
+        
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            doCodeExportation();
+        });
+    }
+
+    @Test
+    void testExportWithoutOutput() 
+    throws ParseException, IOException, CoderException, CodeExportException {
+        withFramework(new MockFramework());
+        withOutput(null);
+        withPropertyApplicationName("something");
+        withPropertyPlatforms("android", "ios");
+        withProperties(builtProperties);
+        withDependency("foo/bar");
+        withDependencies(builtDependencies);
+        withCodeFiles(new ArrayList<>());
+        
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            doCodeExportation();
+        });
+    }
+
+    @Test
+    void testExportWithoutProperties() 
+    throws ParseException, IOException, CoderException, CodeExportException {
+        withFramework(new MockFramework());
+        withOutput(Path.of("mobilex"));
+        withPropertyApplicationName("something");
+        withPropertyPlatforms("android", "ios");
+        withProperties(null);
+        withDependency("foo/bar");
+        withDependencies(builtDependencies);
+        withCodeFiles(new ArrayList<>());
+        
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            doCodeExportation();
+        });
+    }
+
+    @Test
+    void testExportWithoutDependencies() 
+    throws ParseException, IOException, CoderException, CodeExportException {
+        withFramework(new MockFramework());
+        withOutput(Path.of("mobilex"));
+        withPropertyApplicationName("something");
+        withPropertyPlatforms("android", "ios");
+        withProperties(builtProperties);
+        withDependencies(null);
+        withCodeFiles(new ArrayList<>());
+        doCodeExportation();
+        assertCodeWasExported();
+    }
+
+    @Test
+    void testExportWithoutCodeFiles() 
+    throws ParseException, IOException, CoderException, CodeExportException {
+        withFramework(new MockFramework());
+        withOutput(Path.of("mobilex"));
+        withPropertyApplicationName("something");
+        withPropertyPlatforms("android", "ios");
+        withProperties(builtProperties);
+        withDependency("foo/bar");
+        withDependencies(builtDependencies);
+        withCodeFiles(null);
+        
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            doCodeExportation();
+        });
+    }
+
+    @Test
+    void testExportWithEmptyCodeFiles() 
+    throws ParseException, IOException, CoderException, CodeExportException {
+        withFramework(new MockFramework());
+        withOutput(Path.of("mobilex"));
+        withPropertyApplicationName("something");
+        withPropertyPlatforms("android", "ios");
+        withProperties(builtProperties);
+        withDependency("foo/bar");
+        withDependencies(builtDependencies);
+        withCodeFiles(new ArrayList<>());
+        doCodeExportation();
+        assertCodeWasExported();
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods

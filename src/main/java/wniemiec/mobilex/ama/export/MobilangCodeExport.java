@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.io.FileUtils;
@@ -54,7 +56,7 @@ public class MobilangCodeExport {
     ) throws CodeExportException {
         this.properties = properties;
         this.codeFiles = codeFiles;
-        this.dependencies = dependencies;
+        this.dependencies = (dependencies == null) ? new HashSet<>() : dependencies;
         this.framework = framework;
         this.output = output;
         codeLocation = setUpAppLocation(properties, output);
@@ -127,7 +129,6 @@ public class MobilangCodeExport {
         private void validateFields() {
             validateProperties();
             validateCodeFiles();
-            validateDependencies();
             validateFramework();
             validateOutput();
         }
@@ -144,12 +145,6 @@ public class MobilangCodeExport {
             }
         }
 
-        private void validateDependencies() {
-            if (dependencies == null) {
-                throw new IllegalStateException("Dependencies cannot be null");
-            }
-        }
-
         private void validateFramework() {
             if (framework == null) {
                 throw new IllegalStateException("Framework cannot be null");
@@ -162,7 +157,6 @@ public class MobilangCodeExport {
             }
         }
     }
-
 
 
     //-------------------------------------------------------------------------

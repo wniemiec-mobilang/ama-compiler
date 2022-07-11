@@ -78,6 +78,62 @@ class MobilangAppExportTest {
         assertAppWasExported();
     }
 
+    @Test
+    void testExportWithoutFramework() 
+    throws ParseException, IOException, CoderException, CodeExportException, 
+    AppGenerationException {
+        withFramework(null);
+        withSourceCode(Path.of("source"));
+        withOutput(Path.of("mobilex"));
+        withPlatforms("android", "ios");
+        
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            doAppExportation();
+        });
+    }
+
+    @Test
+    void testExportWithoutSourceCode() 
+    throws ParseException, IOException, CoderException, CodeExportException, 
+    AppGenerationException {
+        withFramework(new MockFramework());
+        withSourceCode(null);
+        withOutput(Path.of("mobilex"));
+        withPlatforms("android", "ios");
+        
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            doAppExportation();
+        });
+    }
+
+    @Test
+    void testExportWithoutOutput() 
+    throws ParseException, IOException, CoderException, CodeExportException, 
+    AppGenerationException {
+        withFramework(new MockFramework());
+        withSourceCode(Path.of("source"));
+        withOutput(null);
+        withPlatforms("android", "ios");
+        
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            doAppExportation();
+        });
+    }
+
+    @Test
+    void testExportWithoutPlatforms() 
+    throws ParseException, IOException, CoderException, CodeExportException, 
+    AppGenerationException {
+        withFramework(new MockFramework());
+        withSourceCode(Path.of("source"));
+        withOutput(Path.of("mobilex"));
+        withPlatforms((String[]) null);
+        
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            doAppExportation();
+        });
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods
@@ -87,15 +143,20 @@ class MobilangAppExportTest {
     }
 
     private void withSourceCode(Path path) {
-        sourceCode = TEMP_DIRECTORY.resolve(path);
+        sourceCode = (path == null) ? null : TEMP_DIRECTORY.resolve(path);
     }
 
     private void withOutput(Path path) {
-        output = TEMP_DIRECTORY.resolve(path);
+        output = (path == null) ? null : TEMP_DIRECTORY.resolve(path);
     }
 
     private void withPlatforms(String... platforms) {
-        this.platforms.addAll(Arrays.asList(platforms));
+        if (platforms == null) {
+            this.platforms = null;
+        }
+        else {
+            this.platforms.addAll(Arrays.asList(platforms));
+        }
     }
 
     private void doAppExportation() throws AppGenerationException {

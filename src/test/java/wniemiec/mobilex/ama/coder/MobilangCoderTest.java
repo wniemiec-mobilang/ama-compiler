@@ -1,20 +1,15 @@
 package wniemiec.mobilex.ama.coder;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import wniemiec.mobilex.ama.coder.exception.CoderException;
-import wniemiec.mobilex.ama.export.exception.AppGenerationException;
 import wniemiec.mobilex.ama.framework.MockFramework;
 import wniemiec.mobilex.ama.models.CodeFile;
-import wniemiec.mobilex.ama.models.Project;
-import wniemiec.mobilex.ama.models.Properties;
 import wniemiec.mobilex.ama.models.Screen;
 import wniemiec.mobilex.ama.models.Style;
 import wniemiec.mobilex.ama.models.StyleSheetRule;
@@ -33,16 +28,13 @@ class MobilangCoderTest {
     //-------------------------------------------------------------------------
     private List<Screen> screens;
     private MockFramework framework;
-    private Properties properties;
-    private Path location;
+    private MobilangCoder coder;
     private List<String> dependencies;
     private String screenName;
     private Tag screenStructure;
     private Style screenStyle;
     private Behavior screenBehavior;
-    private Project obtainedProject;
     private List<CodeFile> codeFiles;
-    private String platform;
 
 
     //-------------------------------------------------------------------------
@@ -52,34 +44,27 @@ class MobilangCoderTest {
     void setUp() {
         screens = new ArrayList<>();
         framework = new MockFramework();
-        properties = new Properties();
-        location = null;
         dependencies = new ArrayList<>();
         screenName = null;
         screenStructure = null;
         screenStyle = null;
         screenBehavior = null;
-        obtainedProject = null;
         codeFiles = new ArrayList<>();
-        platform = null;
+        coder = null;
     }
 
     //-------------------------------------------------------------------------
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testCreateProject() throws IOException {
-        withApplicationName("hello-world");
-        withLocation(Path.of("tmp"));
-        runFrameworkCreateProject();
-        assertProjectWasCreated();
-    }
-
-    @Test
-    void testAddDependency() throws IOException {
+    void testGenerateCodeWithDependencies() throws CoderException, IOException {
         withDependency("foo/bar");
-        withLocation(Path.of("tmp"));
-        runFrameworkAddDependency();
+        withScreenName("SomeFunnyScreenName");
+        withScreenStructure(buildPInsideADivWithValue("some text"));
+        withScreenStyle(buildPStyleUsingBlueAndWhite());
+        withScreenBehavior(buildDeclarationWithIdAndAssignment("pi", "3.1416"));
+        buildScreen();
+        doCodeGeneration();
         assertDependenciesAreCorrect();
     }
 
@@ -90,56 +75,17 @@ class MobilangCoderTest {
         withScreenStyle(buildPStyleUsingBlueAndWhite());
         withScreenBehavior(buildDeclarationWithIdAndAssignment("pi", "3.1416"));
         buildScreen();
-        runFrameworkGenerateCode();
+        doCodeGeneration();
         assertHasCorrectCodeFiles();
     }
 
-    @Test
-    void testGenerateMobileApplicationFor() throws AppGenerationException {
-        withPlatform("android");
-        withLocation(Path.of("tmp"));
-        runFrameworkGenerateMobileApplicationFor();
-        assertGeneratedMobileApplicationForIsCorrect();
-    }
-    
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void withApplicationName(String name) {
-        properties.setApplicationName(name);
-    }
-
-    private void withLocation(Path path) {
-        location = path;
-    }
-
-    private void runFrameworkCreateProject() throws IOException {
-        framework.createProject(properties, location);
-    }
-
-    private void assertProjectWasCreated() {
-        Assertions.assertTrue(framework.wasProjectCreated());
-    }
-
-    private void withDependency(String dependency) {
+    private void withDependency(String dependency) throws IOException {
         dependencies.add(dependency);
-    }
-
-    private void runFrameworkAddDependency() throws IOException {
-        framework.addProjectDependency(getLastDependencyAdded(), location);
-    }
-
-    private String getLastDependencyAdded() {
-        if (dependencies.isEmpty()) {
-            return null;
-        }
-
-        return dependencies.get(dependencies.size()-1);
-    }
-
-    private void assertDependenciesAreCorrect() {
-        Assertions.assertTrue(framework.getDependencies().containsAll(dependencies));
+        framework.addProjectDependency(dependency, null);
     }
 
     private void withScreenName(String name) {
@@ -223,24 +169,17 @@ class MobilangCoderTest {
         return code;
     }
 
-    private void runFrameworkGenerateCode() throws CoderException {
-        obtainedProject = framework.generateCode(screens);
+    private void doCodeGeneration() throws CoderException {
+        coder = new MobilangCoder(screens, framework);
+
+        coder.generateCode();
     }
 
     private void assertHasCorrectCodeFiles() {
-        Assertions.assertEquals(codeFiles, obtainedProject.getCodeFiles());
+        Assertions.assertEquals(codeFiles, coder.getCodeFiles());
     }
 
-    private void withPlatform(String name) {
-        platform = name;
-    }
-
-    private void runFrameworkGenerateMobileApplicationFor() 
-    throws AppGenerationException {
-        framework.generateMobileApplicationFor(platform, location, location);
-    }
-
-    private void assertGeneratedMobileApplicationForIsCorrect() {
-        Assertions.assertEquals(platform, framework.getLastGeneratedMobileApplication());
+    private void assertDependenciesAreCorrect() {
+        Assertions.assertTrue(coder.getDependencies().containsAll(dependencies));
     }
 }

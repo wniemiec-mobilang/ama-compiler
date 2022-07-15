@@ -14,8 +14,8 @@ import util.terminal.MockOutputTerminal;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.LogLevel;
 import wniemiec.io.java.Terminal;
-import wniemiec.mobilex.ama.framework.reactnative.ReactNativeProjectManager;
 import wniemiec.mobilex.ama.models.Properties;
+import wniemiec.mobilex.ama.util.io.FileManager;
 
 
 class ReactNativeProjectManagerTest {
@@ -23,14 +23,27 @@ class ReactNativeProjectManagerTest {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
+    private static final Properties PRE_BUILT_PROPERTIES;
+    private static final Path PRE_BUILT_LOCATION;
+    private static final Path PRE_BUILT_PROJECT_LOCATION;
     private ReactNativeProjectManager projectManager;
     private MockInputTerminal mockInputTerminal;
     private MockOutputTerminal mockOutputTerminal;
     private MockFileManager mockFileManager;
+    private FileManager fileManager;
     private Terminal terminal;
-    private Properties properties;
-    private Path projectLocation;
-    private String keystorePassword;
+
+
+    //-------------------------------------------------------------------------
+    //		Initialization block
+    //-------------------------------------------------------------------------
+    static {
+        PRE_BUILT_PROPERTIES = new Properties();
+        PRE_BUILT_LOCATION = Path.of("foo", "bar");
+        PRE_BUILT_PROJECT_LOCATION = PRE_BUILT_LOCATION.resolve(
+            PRE_BUILT_PROPERTIES.getApplicationName()
+        );
+    }
 
 
     //-------------------------------------------------------------------------
@@ -38,12 +51,12 @@ class ReactNativeProjectManagerTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        mockInputTerminal = new MockInputTerminal();
-        mockOutputTerminal = new MockOutputTerminal();
-        terminal = new Terminal(mockInputTerminal, mockOutputTerminal);
-        properties = new Properties();
-        mockFileManager = new MockFileManager();
-        projectManager = new ReactNativeProjectManager(terminal, mockFileManager);
+        mockInputTerminal = null;
+        mockOutputTerminal = null;
+        terminal = null;
+        mockFileManager = null;
+        fileManager = null;
+        projectManager = null;
         Consolex.setLoggerLevel(LogLevel.OFF);
     }
 
@@ -58,101 +71,160 @@ class ReactNativeProjectManagerTest {
     //-------------------------------------------------------------------------
     @Test
     void testProjectCreator() throws IOException {
-        withAppName("myapp");
-        withTargetPlatforms("android");
-        withLocation("myapp/bar");
-        withKeystorePassword("abcdef12");
-        runProjectCreator();
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildProjectManager();
+        runProjectCreator(PRE_BUILT_PROPERTIES, PRE_BUILT_LOCATION);
         assertTerminalHistoryIsEmpty();
         assertTerminalErrorHistoryIsEmpty();
-        assertInputTerminalWas(
+        assertMockInputTerminalWas(
             "react-native", 
             "init", 
-            "myapp",
+            PRE_BUILT_PROPERTIES.getApplicationName(),
             "mv", 
-            "myapp", 
-            "bar",
+            PRE_BUILT_PROPERTIES.getApplicationName(), 
+            PRE_BUILT_LOCATION.getFileName().toString(),
             "mv",
-            "bar",
-            "myapp"
+            PRE_BUILT_LOCATION.getFileName().toString(),
+            PRE_BUILT_LOCATION.getParent().toString()
         );
-        assertFileManagerExecuted(
-            "REMOVE FILE: myapp/.apt_generated",
-            "REMOVE FILE: myapp/bar/App.js"
+        assertMockFileManagerExecuted(
+            "REMOVE FILE: " + PRE_BUILT_PROPERTIES.getApplicationName() + "/.apt_generated",
+            "REMOVE FILE: " + PRE_BUILT_LOCATION.toString() + "/App.js"
         );
     }
 
     @Test
     void testProjectDependencies() throws IOException {
-        withAppName("myapp");
-        withTargetPlatforms("android");
-        withLocation("myapp/bar");
-        withKeystorePassword("abcdef12");
-        runProjectCreator();
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildProjectManager();
+        runProjectCreator(PRE_BUILT_PROPERTIES, PRE_BUILT_LOCATION);
         addProjectDependencies(
+            PRE_BUILT_PROJECT_LOCATION,
             "dependency1/somelib",
             "@somecompany/foo"
         );
         assertTerminalHistoryIsEmpty();
         assertTerminalErrorHistoryIsEmpty();
-        assertInputTerminalWas(
+        assertMockInputTerminalWas(
             "react-native", 
             "init", 
-            "myapp",
+            PRE_BUILT_PROPERTIES.getApplicationName(),
             "mv", 
-            "myapp", 
-            "bar",
+            PRE_BUILT_PROPERTIES.getApplicationName(), 
+            PRE_BUILT_LOCATION.getFileName().toString(),
             "mv",
-            "bar",
-            "myapp",
+            PRE_BUILT_LOCATION.getFileName().toString(),
+            PRE_BUILT_LOCATION.getParent().toString(),
             "npm", 
             "install", 
             "--prefix",
-            "myapp/bar",
+            PRE_BUILT_PROJECT_LOCATION.toString(),
             "--save", 
             "dependency1/somelib",
             "npm", 
             "install", 
             "--prefix",
-            "myapp/bar",
+            PRE_BUILT_PROJECT_LOCATION.toString(),
             "--save", 
             "@somecompany/foo"
         );
-        assertFileManagerExecuted(
-            "REMOVE FILE: myapp/.apt_generated",
-            "REMOVE FILE: myapp/bar/App.js"
+        assertMockFileManagerExecuted(
+            "REMOVE FILE: " + PRE_BUILT_PROPERTIES.getApplicationName() + "/.apt_generated",
+            "REMOVE FILE: " + PRE_BUILT_LOCATION.toString() + "/App.js"
         );
+    }
+
+    @Test
+    void testProjectCreatorWithoutTerminal() throws IOException {
+        withTerminal(null);
+        withFileManager(buildMockFileManager());
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            buildProjectManager();
+        });
+    }
+
+    @Test
+    void testProjectCreatorWithoutFileManager() throws IOException {
+        withTerminal(buildMockTerminal());
+        withFileManager(null);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            buildProjectManager();
+        });
+    }
+
+    @Test
+    void testProjectDependenciesWithoutProjectLocation() throws IOException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildProjectManager();
+        runProjectCreator(PRE_BUILT_PROPERTIES, PRE_BUILT_LOCATION);
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            addProjectDependencies(
+                null,
+                "dependency1/somelib",
+                "@somecompany/foo"
+            );
+        });
+    }
+
+    @Test
+    void testProjectDependenciesWithoutProjectDependencies() throws IOException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildProjectManager();
+        runProjectCreator(PRE_BUILT_PROPERTIES, PRE_BUILT_LOCATION);
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            addProjectDependencies(
+                PRE_BUILT_PROJECT_LOCATION,
+                (String) null
+            );
+        });
     }
     
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void withAppName(String name) {
-        properties.setApplicationName(name);
+    private FileManager buildMockFileManager() {
+        mockFileManager = new MockFileManager();
+
+        return mockFileManager;
     }
 
-    private void withTargetPlatforms(String... platforms) {
-        for (String platform : platforms) {
-            properties.addPlatform(platform);
-        }
+    private void withFileManager(FileManager manager) {
+        fileManager = manager;
     }
 
-    private void withLocation(String location) {
-        projectLocation = Path.of(location);
+    private Terminal buildMockTerminal() {
+        mockInputTerminal = new MockInputTerminal();
+        mockOutputTerminal = new MockOutputTerminal();
+        
+        return new Terminal(mockInputTerminal, mockOutputTerminal);
     }
 
-    private void withKeystorePassword(String password) {
-        keystorePassword = password;
+    private void withTerminal(Terminal terminal) {
+        this.terminal = terminal;
     }
 
-    private void runProjectCreator() throws IOException  {
+    private void buildProjectManager() {
+        projectManager = new ReactNativeProjectManager(terminal, fileManager);
+    }
+
+    private void runProjectCreator(Properties properties, Path projectLocation)
+    throws IOException  {
         projectManager.createProject(properties, projectLocation);
     }
 
-    private void addProjectDependencies(String... dependencies) throws IOException {
+    private void addProjectDependencies(Path location, String... dependencies) 
+    throws IOException {
         for (String dependency : dependencies) {
-            projectManager.addProjectDependency(dependency, projectLocation);
+            projectManager.addProjectDependency(dependency, location);
         }
     }
 
@@ -164,7 +236,7 @@ class ReactNativeProjectManagerTest {
         Assertions.assertTrue(terminal.getErrorHistory().isEmpty());
     }
 
-    private void assertInputTerminalWas(String... actions) {
+    private void assertMockInputTerminalWas(String... actions) {
         assertCodeEquals(mockInputTerminal.getLog(), actions);
     }
 
@@ -196,7 +268,7 @@ class ReactNativeProjectManagerTest {
         return text.replaceAll("[\\s\\t]+", "");
     }
 
-    private void assertFileManagerExecuted(String... actions) {
+    private void assertMockFileManagerExecuted(String... actions) {
         assertCodeEquals(mockFileManager.getLog(), actions);
     }
 }

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 import wniemiec.mobilex.ama.coder.exception.CoderException;
 import wniemiec.mobilex.ama.export.exception.AppGenerationException;

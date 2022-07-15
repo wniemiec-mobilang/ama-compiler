@@ -23,6 +23,9 @@ class ReactNativeProjectManager {
     //		Constructor
     //-------------------------------------------------------------------------
     public ReactNativeProjectManager(Terminal terminal, FileManager fileManager) {
+        validateTerminal(terminal);
+        validateFileManager(fileManager);
+        
         this.terminal = terminal;
         this.fileManager = fileManager;
     }
@@ -31,40 +34,67 @@ class ReactNativeProjectManager {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public void createProject(Properties propertiesData, Path location) 
+    private void validateTerminal(Terminal instance) {
+        if (instance == null) {
+            throw new IllegalArgumentException("Terminal cannot be null");
+        }
+    }
+
+    private void validateFileManager(FileManager instance) {
+        if (instance == null) {
+            throw new IllegalArgumentException("File manager cannot be null");
+        }
+    }
+
+    public void createProject(Properties properties, Path location) 
     throws IOException {
-        runReactNativeInit(propertiesData, location);
+        validateProperties(properties);
+        validateLocation(location);
+
+        runReactNativeInit(properties, location);
         removeOldAppFile(location);
     }
 
-    private void runReactNativeInit(Properties propertiesData, Path location) 
-    throws IOException {
-        generateReactNativeProject(propertiesData);
-        removeAptGeneratedFolder(propertiesData);
-        moveProjectFolderTo(propertiesData, location);
+    private void validateProperties(Properties instance) {
+        if (instance == null) {
+            throw new IllegalArgumentException("Properties cannot be null");
+        }
     }
 
-    private void generateReactNativeProject(Properties propertiesData) 
+    private void validateLocation(Path path) {
+        if (path == null) {
+            throw new IllegalArgumentException("Location cannot be null");
+        }
+    }
+
+    private void runReactNativeInit(Properties properties, Path location) 
+    throws IOException {
+        generateReactNativeProject(properties);
+        removeAptGeneratedFolder(properties);
+        moveProjectFolderTo(properties, location);
+    }
+
+    private void generateReactNativeProject(Properties properties) 
     throws IOException {
         terminal.exec(
             "react-native", 
             "init", 
-            propertiesData.getApplicationName()
+            properties.getApplicationName()
         );
     }
 
-    private void removeAptGeneratedFolder(Properties propertiesData) 
+    private void removeAptGeneratedFolder(Properties properties) 
     throws IOException {
-        Path location = Path.of(propertiesData.getApplicationName());
+        Path location = Path.of(properties.getApplicationName());
         
         fileManager.removeFile(location.resolve(".apt_generated"));
     }
 
-    private void moveProjectFolderTo(Properties propertiesData, Path location) 
+    private void moveProjectFolderTo(Properties properties, Path location) 
     throws IOException {
         terminal.exec(
             "mv", 
-            propertiesData.getApplicationName(), 
+            properties.getApplicationName(), 
             location.getFileName().toString()
         );
 
@@ -79,7 +109,11 @@ class ReactNativeProjectManager {
         fileManager.removeFile(location.resolve("App.js"));
     }
 
-    public void addProjectDependency(String dependency, Path projectLocation) throws IOException {
+    public void addProjectDependency(String dependency, Path projectLocation)
+    throws IOException {
+        validateDependency(dependency);
+        validateLocation(projectLocation);
+
         for (String dependencyName : dependency.split(" ")) {
             terminal.exec(
                 "npm", 
@@ -89,6 +123,12 @@ class ReactNativeProjectManager {
                 "--save", 
                 dependencyName
             );
+        }
+    }
+
+    private void validateDependency(String dependency) {
+        if (dependency == null) {
+            throw new IllegalArgumentException("Dependency cannot be null");
         }
     }
 }

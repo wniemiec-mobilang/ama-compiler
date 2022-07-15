@@ -136,8 +136,6 @@ class MobilangCodeExportTest {
     throws ParseException, IOException, CoderException, CodeExportException {
         withFramework(new MockFramework());
         withOutput(Path.of("mobilex"));
-        withPropertyApplicationName("something");
-        withPropertyPlatforms("android", "ios");
         withProperties(null);
         withDependency("foo/bar");
         withDependencies(builtDependencies);

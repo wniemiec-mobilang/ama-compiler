@@ -17,7 +17,6 @@ import wniemiec.io.java.LogLevel;
 import wniemiec.io.java.Terminal;
 import wniemiec.mobilex.ama.coder.exception.CoderException;
 import wniemiec.mobilex.ama.export.exception.AppGenerationException;
-import wniemiec.mobilex.ama.framework.reactnative.ReactNativeFramework;
 import wniemiec.mobilex.ama.models.CodeFile;
 import wniemiec.mobilex.ama.models.Properties;
 import wniemiec.mobilex.ama.models.Screen;
@@ -29,6 +28,7 @@ import wniemiec.mobilex.ama.models.behavior.Declarator;
 import wniemiec.mobilex.ama.models.behavior.Instruction;
 import wniemiec.mobilex.ama.models.behavior.Literal;
 import wniemiec.mobilex.ama.models.tag.Tag;
+import wniemiec.mobilex.ama.util.io.FileManager;
 
 
 class ReactNativeFrameworkTest {
@@ -36,27 +36,33 @@ class ReactNativeFrameworkTest {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
+    private static final Properties PRE_BUILT_PROPERTIES;
+    private static final Path PRE_BUILT_LOCATION;
+    private static final Path PRE_BUILT_PROJECT_LOCATION;
     private static final int INDEX_ANDROID;
     private static final int INDEX_IOS;
     private static final String TAG_ID;
-    private ReactNativeFramework reactnativeFramework;
+    private ReactNativeFramework reactNativeFramework;
     private MockInputTerminal mockInputTerminal;
     private MockOutputTerminal mockOutputTerminal;
     private MockFileManager mockFileManager;
+    private FileManager fileManager;
     private Terminal terminal;
-    private Properties properties;
-    private Path projectLocation;
     private List<Screen> screens;
     private List<CodeFile> obtainedCode;
     private Path sourceCodePath;
     private Path mobileOutput;
-    private String keystorePassword;
 
 
     //-------------------------------------------------------------------------
     //		Initialization block
     //-------------------------------------------------------------------------
     static {
+        PRE_BUILT_PROPERTIES = new Properties();
+        PRE_BUILT_LOCATION = Path.of("foo", "bar");
+        PRE_BUILT_PROJECT_LOCATION = PRE_BUILT_LOCATION.resolve(
+            PRE_BUILT_PROPERTIES.getApplicationName()
+        );
         INDEX_ANDROID = 0;
         INDEX_IOS = 1;
         TAG_ID = "tagid";
@@ -68,14 +74,15 @@ class ReactNativeFrameworkTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        mockInputTerminal = new MockInputTerminal();
-        mockOutputTerminal = new MockOutputTerminal();
-        terminal = new Terminal(mockInputTerminal, mockOutputTerminal);
-        properties = new Properties();
-        mockFileManager = new MockFileManager();
-        reactnativeFramework = new ReactNativeFramework(terminal, mockFileManager);
+        mockInputTerminal = null;
+        mockOutputTerminal = null;
+        terminal = null;
+        mockFileManager = null;
+        fileManager = null;
+        reactNativeFramework = null;
         screens = new ArrayList<>();
         obtainedCode = new ArrayList<>();
+        
         Consolex.setLoggerLevel(LogLevel.OFF);
     }
 
@@ -90,38 +97,37 @@ class ReactNativeFrameworkTest {
     //-------------------------------------------------------------------------
     @Test
     void testProjectCreator() throws IOException {
-        withAppName("myapp");
-        withTargetPlatforms("android");
-        withLocation("myapp/bar");
-        withKeystorePassword("abcdef12");
-        runProjectCreator();
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildReactNativeFramework();
+        runProjectCreator(PRE_BUILT_PROPERTIES, PRE_BUILT_LOCATION);
         assertTerminalHistoryIsEmpty();
         assertTerminalErrorHistoryIsEmpty();
         assertInputTerminalWas(
             "react-native", 
             "init", 
-            "myapp",
+            PRE_BUILT_PROPERTIES.getApplicationName(),
             "mv", 
-            "myapp", 
-            "bar",
+            PRE_BUILT_PROPERTIES.getApplicationName(), 
+            PRE_BUILT_LOCATION.getFileName().toString(),
             "mv",
-            "bar",
-            "myapp"
+            PRE_BUILT_LOCATION.getFileName().toString(),
+            PRE_BUILT_LOCATION.getParent().toString()
         );
         assertFileManagerExecuted(
-            "REMOVE FILE: myapp/.apt_generated",
-            "REMOVE FILE: myapp/bar/App.js"
+            "REMOVE FILE: " + PRE_BUILT_PROPERTIES.getApplicationName() + "/.apt_generated",
+            "REMOVE FILE: " + PRE_BUILT_LOCATION.toString() + "/App.js"
         );
     }
 
     @Test
     void testProjectDependencies() throws IOException {
-        withAppName("myapp");
-        withTargetPlatforms("android");
-        withLocation("myapp/bar");
-        withKeystorePassword("abcdef12");
-        runProjectCreator();
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildReactNativeFramework();
+        runProjectCreator(PRE_BUILT_PROPERTIES, PRE_BUILT_LOCATION);
         addProjectDependencies(
+            PRE_BUILT_PROJECT_LOCATION,
             "dependency1/somelib",
             "@somecompany/foo"
         );
@@ -130,34 +136,36 @@ class ReactNativeFrameworkTest {
         assertInputTerminalWas(
             "react-native", 
             "init", 
-            "myapp",
+            PRE_BUILT_PROPERTIES.getApplicationName(),
             "mv", 
-            "myapp", 
-            "bar",
+            PRE_BUILT_PROPERTIES.getApplicationName(), 
+            PRE_BUILT_LOCATION.getFileName().toString(),
             "mv",
-            "bar",
-            "myapp",
+            PRE_BUILT_LOCATION.getFileName().toString(),
+            PRE_BUILT_LOCATION.getParent().toString(),
             "npm", 
             "install", 
             "--prefix",
-            "myapp/bar",
+            PRE_BUILT_PROJECT_LOCATION.toString(),
             "--save", 
             "dependency1/somelib",
             "npm", 
             "install", 
             "--prefix",
-            "myapp/bar",
+            PRE_BUILT_PROJECT_LOCATION.toString(),
             "--save", 
             "@somecompany/foo"
         );
         assertFileManagerExecuted(
-            "REMOVE FILE: myapp/.apt_generated",
-            "REMOVE FILE: myapp/bar/App.js"
+            "REMOVE FILE: " + PRE_BUILT_PROPERTIES.getApplicationName() + "/.apt_generated",
+            "REMOVE FILE: " + PRE_BUILT_LOCATION.toString() + "/App.js"
         );
     }
 
     @Test
     void testSingleScreen() throws CoderException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
         withScreen(new Screen.Builder()
             .name("about")
             .structure(buildButtonWithOnClickAndValue("click me"))
@@ -165,6 +173,7 @@ class ReactNativeFrameworkTest {
             .behavior(buildDeclarationWithIdAndAssignment("hello", "world"))
             .build()
         );
+        buildReactNativeFramework();
         runCodeGeneration();
         assertCodeFileHasName(
             "android/app/src/main/assets/about.html",
@@ -199,9 +208,11 @@ class ReactNativeFrameworkTest {
 
     @Test
     void testAndroidGeneration() throws AppGenerationException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
         withSourceCodePath("myapp/foo");
         withMobileOutputPath("myapp/bar");
-        withKeystorePassword("abcdef12");
+        buildReactNativeFramework();
         runAppGenerator("android");
         assertTerminalHistoryIsEmpty();
         assertTerminalErrorHistoryIsEmpty();
@@ -246,31 +257,40 @@ class ReactNativeFrameworkTest {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void withAppName(String name) {
-        properties.setApplicationName(name);
+    private FileManager buildMockFileManager() {
+        mockFileManager = new MockFileManager();
+
+        return mockFileManager;
     }
 
-    private void withTargetPlatforms(String... platforms) {
-        for (String platform : platforms) {
-            properties.addPlatform(platform);
-        }
+    private void withFileManager(FileManager manager) {
+        fileManager = manager;
     }
 
-    private void withLocation(String location) {
-        projectLocation = Path.of(location);
+    private Terminal buildMockTerminal() {
+        mockInputTerminal = new MockInputTerminal();
+        mockOutputTerminal = new MockOutputTerminal();
+        
+        return new Terminal(mockInputTerminal, mockOutputTerminal);
+    }
+    
+    private void withTerminal(Terminal terminal) {
+        this.terminal = terminal;
     }
 
-    private void withKeystorePassword(String password) {
-        keystorePassword = password;
+    private void buildReactNativeFramework() {
+        reactNativeFramework = new ReactNativeFramework(terminal, fileManager);
     }
 
-    private void runProjectCreator() throws IOException  {
-        reactnativeFramework.createProject(properties, projectLocation);
+    private void runProjectCreator(Properties properties, Path projectLocation)
+    throws IOException  {
+        reactNativeFramework.createProject(properties, projectLocation);
     }
 
-    private void addProjectDependencies(String... dependencies) throws IOException {
+    private void addProjectDependencies(Path location, String... dependencies) 
+    throws IOException {
         for (String dependency : dependencies) {
-            reactnativeFramework.addProjectDependency(dependency, projectLocation);
+            reactNativeFramework.addProjectDependency(dependency, location);
         }
     }
 
@@ -366,7 +386,7 @@ class ReactNativeFrameworkTest {
     }
 
     private void runCodeGeneration() throws CoderException {
-        obtainedCode = reactnativeFramework.generateCode(screens).getCodeFiles();
+        obtainedCode = reactNativeFramework.generateCode(screens).getCodeFiles();
     }
 
     private void assertCodeFileHasName(String... names) {
@@ -399,7 +419,7 @@ class ReactNativeFrameworkTest {
     }
 
     private void runAppGenerator(String platform) throws AppGenerationException {
-        reactnativeFramework.generateMobileApplicationFor(
+        reactNativeFramework.generateMobileApplicationFor(
             platform, 
             sourceCodePath, 
             mobileOutput

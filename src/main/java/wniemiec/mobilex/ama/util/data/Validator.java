@@ -7,6 +7,7 @@ import wniemiec.io.java.Terminal;
 import wniemiec.mobilex.ama.framework.Framework;
 import wniemiec.mobilex.ama.models.Properties;
 import wniemiec.mobilex.ama.models.Screen;
+import wniemiec.mobilex.ama.models.behavior.Behavior;
 import wniemiec.mobilex.ama.util.io.FileManager;
 
 
@@ -96,6 +97,12 @@ public class Validator {
     public static void validateLine(String line) {
         if (line == null) {
             throw new IllegalArgumentException("Line cannot be null");
+        }
+    }
+
+    public static void validateBehavior(Behavior behavior) {
+        if (behavior == null) {
+            throw new IllegalArgumentException("Behavior cannot be null");
         }
     }
 }

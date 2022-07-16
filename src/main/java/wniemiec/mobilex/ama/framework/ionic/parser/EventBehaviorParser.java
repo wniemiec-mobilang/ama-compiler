@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import wniemiec.data.java.Encryptor;
@@ -82,6 +81,7 @@ class EventBehaviorParser {
                 offset += newLength - oldLength;
                 
                 String attributeAssignmentCode = ";document.getElementById(\"" + parsedTag.getId() + "\")." + parsedTag.getEventName() + " = () => " + parsedTag.getEventValue();
+                
                 attributeAssignmentCode = attributeAssignmentCode.replace("this", "document.getElementById(\"" + parsedTag.getId() + "\")");
                 codesToAdd.append(attributeAssignmentCode);
             }
@@ -89,6 +89,7 @@ class EventBehaviorParser {
         }
 
         parsedLine += codesToAdd.toString();
+        parsedLine = parsedLine.replace(";;", ";");
 
         /*if (hasOnClick(line)) {
             parsedLine = parseOnClick(line);

@@ -1,24 +1,21 @@
 package wniemiec.mobilex.ama.framework.ionic.parser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import wniemiec.mobilex.ama.coder.exception.CoderException;
-import wniemiec.mobilex.ama.framework.ionic.parser.IonicBehaviorParser;
-import wniemiec.mobilex.ama.models.behavior.AssignmentExpression;
 import wniemiec.mobilex.ama.models.behavior.Behavior;
-import wniemiec.mobilex.ama.models.behavior.BlockStatement;
 import wniemiec.mobilex.ama.models.behavior.Declaration;
 import wniemiec.mobilex.ama.models.behavior.Declarator;
 import wniemiec.mobilex.ama.models.behavior.Expression;
-import wniemiec.mobilex.ama.models.behavior.FunctionDeclaration;
-import wniemiec.mobilex.ama.models.behavior.Identifier;
+import wniemiec.mobilex.ama.models.behavior.ExpressionStatement;
 import wniemiec.mobilex.ama.models.behavior.Instruction;
 import wniemiec.mobilex.ama.models.behavior.Literal;
-import wniemiec.mobilex.ama.models.behavior.ReturnStatement;
+import wniemiec.mobilex.ama.models.behavior.TemplateElement;
+import wniemiec.mobilex.ama.models.behavior.TemplateLiteral;
 
 
 class IonicBehaviorParserTest {
@@ -65,7 +62,24 @@ class IonicBehaviorParserTest {
         });
     }
 
-    
+    @Test
+    void testEventBehavior() throws CoderException {
+        withBehavior(buildTemplateLiteralWithoutExpression("<button onclick=\"alert('hi!')\">"));
+        doParsing();
+        assertCodeEquals(
+            "`<button id=\"" + getGeneratedId(0) + "\">`;"
+            + "document.getElementById(\"" + getGeneratedId(0) + "\").onclick=()=>alert('hi!')"
+        );
+    }
+
+    @Test
+    void testStyleBehavior() throws CoderException {
+        withBehavior(buildTemplateLiteralWithoutExpression("document.getElementById('body').style.opacity=0"));
+        doParsing();
+        assertCodeEquals("`document.getElementById('body').style.opacity=\"0\"`;");
+    }
+
+
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
@@ -126,40 +140,14 @@ class IonicBehaviorParserTest {
         return text.replaceAll("[\\s\\t]+", "");
     }
 
-    private Behavior buildSumFunctionBetweenTwoNumbers() {
-        Expression arg1 = new Identifier("arg1");
-        Expression arg2 = new Identifier("arg2");
-        Instruction functionReturn = buildFunctionReturn(buildSumExpression(arg1, arg2));
-        FunctionDeclaration function = buildFunction(
-            "sum",
-            buildFunctionParameters(arg1, arg2),
-            buildFunctionBody(functionReturn)
-        );
-
-        return buildBehaviorWith(function);
+    private Behavior buildTemplateLiteralWithoutExpression(String text) {
+        List<Expression> quasis = List.of(new TemplateElement(text, false));
+        TemplateLiteral templateLiteral = new TemplateLiteral(new ArrayList<>(), quasis);
+        
+        return buildBehaviorWith(new ExpressionStatement(templateLiteral));
     }
 
-    private AssignmentExpression buildSumExpression(Expression arg1, Expression arg2) {
-        return new AssignmentExpression("+", arg1, arg2);
-    }
-
-    private Instruction buildFunctionReturn(Expression returnExpression) {
-        return new ReturnStatement(returnExpression);
-    }
-
-    private List<Expression> buildFunctionParameters(Expression... params) {
-        return Arrays.asList(params);
-    }
-
-    private Instruction buildFunctionBody(Instruction... instructions) {
-        return new BlockStatement(Arrays.asList(instructions));
-    }
-
-    private FunctionDeclaration buildFunction(
-        String name, 
-        List<Expression> parameters, 
-        Instruction body
-    ) {
-        return new FunctionDeclaration(name, false, parameters, body);
+    private String getGeneratedId(int index) {
+        return parser.getGeneratedIds().get(index);
     }
 }

@@ -72,7 +72,12 @@ class StyleParser {
 
         if (isNumeric(value)) {
             value = value.replaceAll("[\"';]", "");
-            value = "\"" + value + "\";";
+            if (value.contains("`")) {
+                value = "\"" + value.replace("`", "") + "\"`;";
+            }
+            else {
+                value = "\"" + value + "\";";
+            }
         }
 
         parsedLine.append(value);
@@ -81,7 +86,7 @@ class StyleParser {
     }
 
     private boolean isNumeric(String line) {
-        return line.matches("([ \t]+|)['\"]*[0-9.]+['\"]*([^A-z]+|)");
+        return line.matches("([ \t]+|)['`\"]*[0-9.]+['`\"]*([^A-z]+|)");
     }
 
 

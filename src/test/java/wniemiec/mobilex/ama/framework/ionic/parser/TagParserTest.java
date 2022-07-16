@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 abstract class TagParserTest {
@@ -22,13 +23,33 @@ abstract class TagParserTest {
     void setUp() {
         code = new ArrayList<>();
     }
+
+
+    //-------------------------------------------------------------------------
+    //		Tests
+    //-------------------------------------------------------------------------
+    @Test
+    void testParseWithoutCode() {
+        withCode((String[]) null);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            doParsing();
+        });
+    }
+
+    @Test
+    void testParseWithEmptyCode() {
+        withCode("");
+        doParsing();
+        assertCodeEquals("");
+    }
     
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
     protected void withCode(String... lines) {
-        code = Arrays.asList(lines);
+        code = (lines == null) ? null : Arrays.asList(lines);
     }
 
     protected void doParsing() {

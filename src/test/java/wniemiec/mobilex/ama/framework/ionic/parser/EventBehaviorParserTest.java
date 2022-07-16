@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import wniemiec.mobilex.ama.framework.ionic.parser.EventBehaviorParser;
-
 
 class EventBehaviorParserTest {
     
@@ -89,7 +87,7 @@ class EventBehaviorParserTest {
     //		Methods
     //-------------------------------------------------------------------------
     private void withCode(String... lines) {
-        code = Arrays.asList(lines);
+        code = (lines == null) ? null : Arrays.asList(lines);
     }
 
     private void doParsing() {

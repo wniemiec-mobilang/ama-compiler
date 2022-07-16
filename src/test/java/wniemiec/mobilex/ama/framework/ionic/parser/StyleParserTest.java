@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import wniemiec.mobilex.ama.framework.ionic.parser.StyleParser;
-
 
 class StyleParserTest {
     
@@ -51,12 +49,19 @@ class StyleParserTest {
         assertCodeEquals("document.getElementById(\"body\").style.opacity=\"1\";");
     }
 
+    @Test
+    void testInvalidAssignment() {
+        withCode("document.getElementById('body').style.opacity=@;");
+        doParsing();
+        assertCodeEquals("document.getElementById('body').style.opacity=@;");
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
     private void withCode(String... lines) {
-        code = Arrays.asList(lines);
+        code = (lines == null) ? null : Arrays.asList(lines);
     }
 
     private void doParsing() {

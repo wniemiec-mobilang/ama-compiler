@@ -3,6 +3,7 @@ package wniemiec.mobilex.ama.framework.reactnative.app;
 import java.nio.file.Path;
 import wniemiec.io.java.Terminal;
 import wniemiec.mobilex.ama.export.exception.AppGenerationException;
+import wniemiec.mobilex.ama.util.data.Validator;
 import wniemiec.mobilex.ama.util.io.FileManager;
 
 
@@ -30,6 +31,11 @@ public class ReactNativeAppGenerator {
         Terminal terminal, 
         FileManager fileManager
     ) {
+        Validator.validateSource(sourceCode);
+        Validator.validateOutput(output);
+        Validator.validateTerminal(terminal);
+        Validator.validateFileManager(fileManager);
+
         mobileOutput = output.resolve("mobile");
         this.sourceCode = sourceCode;
         this.terminal = terminal;
@@ -42,6 +48,8 @@ public class ReactNativeAppGenerator {
     //-------------------------------------------------------------------------
     public Path generateMobileApplicationFor(String platform) 
     throws AppGenerationException {
+        Validator.validatePlatform(platform);
+
         String normalizedPlatform = platform.toLowerCase();
 
         if (normalizedPlatform.equals("android")) {
@@ -84,10 +92,14 @@ public class ReactNativeAppGenerator {
     //		Setters
     //-------------------------------------------------------------------------
     public void setTerminal(Terminal terminal) {
+        Validator.validateTerminal(terminal);
+
         this.terminal = terminal;
     }
 
     public void setFileManager(FileManager fileManager) {
+        Validator.validateFileManager(fileManager);
+
         this.fileManager = fileManager;
     }
 }

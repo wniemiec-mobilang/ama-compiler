@@ -14,7 +14,7 @@ import wniemiec.io.java.Consolex;
 import wniemiec.io.java.LogLevel;
 import wniemiec.io.java.Terminal;
 import wniemiec.mobilex.ama.export.exception.AppGenerationException;
-import wniemiec.mobilex.ama.framework.reactnative.app.ReactNativeAppGenerator;
+import wniemiec.mobilex.ama.util.io.FileManager;
 
 
 class ReactNativeAppGeneratorTest {
@@ -26,10 +26,10 @@ class ReactNativeAppGeneratorTest {
     private MockInputTerminal mockInputTerminal;
     private MockOutputTerminal mockOutputTerminal;
     private MockFileManager mockFileManager;
+    private FileManager fileManager;
     private Terminal terminal;
     private Path sourceCodePath;
     private Path mobileOutput;
-    private String keystorePassword;
 
 
     //-------------------------------------------------------------------------
@@ -37,10 +37,12 @@ class ReactNativeAppGeneratorTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        mockInputTerminal = new MockInputTerminal();
-        mockOutputTerminal = new MockOutputTerminal();
-        terminal = new Terminal(mockInputTerminal, mockOutputTerminal);
-        mockFileManager = new MockFileManager();
+        mockInputTerminal = null;
+        mockOutputTerminal = null;
+        terminal = null;
+        mockFileManager = null;
+        fileManager = null;
+
         Consolex.setLoggerLevel(LogLevel.OFF);
     }
 
@@ -55,9 +57,10 @@ class ReactNativeAppGeneratorTest {
     //-------------------------------------------------------------------------
     @Test
     void testAndroidGeneration() throws AppGenerationException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
         withSourceCodePath("myapp/foo");
         withMobileOutputPath("myapp/bar");
-        withKeystorePassword("abcdef12");
         runAppGenerator("android");
         assertTerminalHistoryIsEmpty();
         assertTerminalErrorHistoryIsEmpty();
@@ -100,12 +103,111 @@ class ReactNativeAppGeneratorTest {
 
     @Test
     void testUnsupportedPlatform() {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
         withSourceCodePath("myapp/foo");
         withMobileOutputPath("myapp/bar");
-        withKeystorePassword("abcdef12");
 
         Assertions.assertThrows(AppGenerationException.class, () -> {
             runAppGenerator("and2roid");
+        });
+    }
+
+    @Test
+    void testGenerateApplicationWithoutTerminal() {
+        withTerminal(null);
+        withFileManager(buildMockFileManager());
+        withSourceCodePath("myapp/foo");
+        withMobileOutputPath("myapp/bar");
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runAppGenerator("android");
+        });
+    }
+
+    @Test
+    void testGenerateApplicationWithoutFileManager() {
+        withTerminal(buildMockTerminal());
+        withFileManager(null);
+        withSourceCodePath("myapp/foo");
+        withMobileOutputPath("myapp/bar");
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runAppGenerator("android");
+        });
+    }
+
+    @Test
+    void testGenerateApplicationWithoutSourceCode() {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        withSourceCodePath(null);
+        withMobileOutputPath("myapp/bar");
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runAppGenerator("android");
+        });
+    }
+
+    @Test
+    void testGenerateApplicationWithoutOutput() {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        withSourceCodePath("myapp/foo");
+        withMobileOutputPath(null);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runAppGenerator("android");
+        });
+    }
+
+    @Test
+    void testGenerateApplicationWithoutPlatform() {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        withSourceCodePath("myapp/foo");
+        withMobileOutputPath("myapp/bar");
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runAppGenerator(null);
+        });
+    }
+
+    @Test
+    void testGenerateApplicationWithEmptyPlatform() {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        withSourceCodePath("myapp/foo");
+        withMobileOutputPath("myapp/bar");
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runAppGenerator("");
+        });
+    }
+
+    @Test
+    void testSetNullTerminal() throws AppGenerationException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        withSourceCodePath("myapp/foo");
+        withMobileOutputPath("myapp/bar");
+        runAppGenerator("android");
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            appGenerator.setTerminal(null);
+        });
+    }
+
+    @Test
+    void testSetNullFileManager() throws AppGenerationException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        withSourceCodePath("myapp/foo");
+        withMobileOutputPath("myapp/bar");
+        runAppGenerator("android");
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            appGenerator.setFileManager(null);
         });
     }
 
@@ -113,16 +215,33 @@ class ReactNativeAppGeneratorTest {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    private FileManager buildMockFileManager() {
+        mockFileManager = new MockFileManager();
+
+        return mockFileManager;
+    }
+
+    private void withFileManager(FileManager manager) {
+        fileManager = manager;
+    }
+
+    private Terminal buildMockTerminal() {
+        mockInputTerminal = new MockInputTerminal();
+        mockOutputTerminal = new MockOutputTerminal();
+        
+        return new Terminal(mockInputTerminal, mockOutputTerminal);
+    }
+
+    private void withTerminal(Terminal terminal) {
+        this.terminal = terminal;
+    }
+    
     private void withSourceCodePath(String location) {
-        sourceCodePath = Path.of(location);
+        sourceCodePath = (location ==  null) ? null : Path.of(location);
     }
 
     private void withMobileOutputPath(String location) {
-        mobileOutput = Path.of(location);
-    }
-
-    private void withKeystorePassword(String password) {
-        keystorePassword = password;
+        mobileOutput = (location ==  null) ? null : Path.of(location);
     }
 
     private void runAppGenerator(String platform) throws AppGenerationException {
@@ -130,7 +249,7 @@ class ReactNativeAppGeneratorTest {
             sourceCodePath, 
             mobileOutput,
             terminal,
-            mockFileManager
+            fileManager
         );
         
         appGenerator.generateMobileApplicationFor(platform);

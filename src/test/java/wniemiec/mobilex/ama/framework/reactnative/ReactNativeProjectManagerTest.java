@@ -57,6 +57,7 @@ class ReactNativeProjectManagerTest {
         mockFileManager = null;
         fileManager = null;
         projectManager = null;
+        
         Consolex.setLoggerLevel(LogLevel.OFF);
     }
 

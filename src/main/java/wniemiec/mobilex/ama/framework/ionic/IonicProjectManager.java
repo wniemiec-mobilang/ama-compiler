@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.List;
 import wniemiec.io.java.Terminal;
 import wniemiec.mobilex.ama.models.Properties;
+import wniemiec.mobilex.ama.util.data.Validator;
 import wniemiec.mobilex.ama.util.io.FileManager;
 
 
@@ -24,6 +25,9 @@ class IonicProjectManager {
     //		Constructor
     //-------------------------------------------------------------------------
     public IonicProjectManager(Terminal terminal, FileManager fileManager) {
+        Validator.validateTerminal(terminal);
+        Validator.validateFileManager(fileManager);
+        
         this.terminal = terminal;
         this.fileManager = fileManager;
     }
@@ -32,9 +36,12 @@ class IonicProjectManager {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    public void createProject(Properties propertiesData, Path location) 
+    public void createProject(Properties properties, Path location) 
     throws IOException {
-        runIonicInit(propertiesData, location);
+        Validator.validateProperties(properties);
+        Validator.validateLocation(location);
+
+        runIonicInit(properties, location);
         updateGlobalScss(location);
         eraseVariablesScss(location);
         removeHomeFolder(location);
@@ -42,17 +49,17 @@ class IonicProjectManager {
         createPagesFolder(location);
     }
 
-    private void runIonicInit(Properties propertiesData, Path location) 
+    private void runIonicInit(Properties properties, Path location) 
     throws IOException {
-        generateIonicProject(propertiesData);
-        moveProjectFolderTo(propertiesData, location);
+        generateIonicProject(properties);
+        moveProjectFolderTo(properties, location);
     }
 
-    private void generateIonicProject(Properties propertiesData) throws IOException {
+    private void generateIonicProject(Properties properties) throws IOException {
         terminal.exec(
             "ionic", 
             "start", 
-            propertiesData.getApplicationName(),
+            properties.getApplicationName(),
             "blank",
             "--type=angular",
             "--capacitor",
@@ -61,11 +68,11 @@ class IonicProjectManager {
         );
     }
 
-    private void moveProjectFolderTo(Properties propertiesData, Path location) 
+    private void moveProjectFolderTo(Properties properties, Path location) 
     throws IOException {
         terminal.exec(
             "mv", 
-            propertiesData.getApplicationName(), 
+            properties.getApplicationName(), 
             location.getFileName().toString()
         );
 
@@ -152,6 +159,9 @@ class IonicProjectManager {
 
     public void addProjectDependency(String dependency, Path projectLocation) 
     throws IOException {
+        Validator.validateDependency(dependency);
+        Validator.validateLocation(projectLocation);
+        
         for (String dependencyName : dependency.split(" ")) {
             terminal.exec(
                 "npm", 

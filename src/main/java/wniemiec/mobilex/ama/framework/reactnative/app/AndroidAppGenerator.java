@@ -8,6 +8,7 @@ import java.util.List;
 import wniemiec.io.java.Consolex;
 import wniemiec.io.java.Terminal;
 import wniemiec.mobilex.ama.export.exception.AppGenerationException;
+import wniemiec.mobilex.ama.util.data.Validator;
 import wniemiec.mobilex.ama.util.io.FileManager;
 
 
@@ -36,14 +37,19 @@ class AndroidAppGenerator {
     //		Constructor
     //-------------------------------------------------------------------------
     public AndroidAppGenerator(
-        Path sourceCodePath, 
-        Path mobileOutput, 
+        Path sourceCode, 
+        Path output, 
         Terminal terminal,
         FileManager fileManager
     ) {
-        androidProjectPath = sourceCodePath.resolve("android").normalize();
-        androidOutput = mobileOutput.resolve("android");
-        appName =  extractAppName(sourceCodePath);
+        Validator.validateSource(sourceCode);
+        Validator.validateOutput(output);
+        Validator.validateTerminal(terminal);
+        Validator.validateFileManager(fileManager);
+        
+        androidProjectPath = sourceCode.resolve("android").normalize();
+        androidOutput = output.resolve("android");
+        appName =  extractAppName(sourceCode);
         this.terminal = terminal;
         this.fileManager = fileManager;
     }

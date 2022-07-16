@@ -6,9 +6,7 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import wniemiec.mobilex.ama.coder.exception.CoderException;
-import wniemiec.mobilex.ama.framework.reactnative.coder.ReactNativeScreensCoder;
 import wniemiec.mobilex.ama.models.CodeFile;
 import wniemiec.mobilex.ama.models.Screen;
 import wniemiec.mobilex.ama.models.Style;
@@ -22,11 +20,10 @@ import wniemiec.mobilex.ama.models.tag.Tag;
 
 
 class ReactNativeScreensCoderTest {
+
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private static final int INDEX_ANDROID;
-    private static final int INDEX_IOS;
     private static final String TAG_ID;
     private ReactNativeScreensCoder coder;
     private List<Screen> screens;
@@ -37,8 +34,6 @@ class ReactNativeScreensCoderTest {
     //		Initialization block
     //-------------------------------------------------------------------------
     static {
-        INDEX_ANDROID = 0;
-        INDEX_IOS = 1;
         TAG_ID = "tagid";
     }
 
@@ -70,7 +65,8 @@ class ReactNativeScreensCoderTest {
             "android/app/src/main/assets/about.html",
             "ios/assets/about.html"
         );
-        assertAndroidCodeEquals(
+        assertCodeEquals(
+            0,
             "<!DOCTYPE html>",
             "<html>",
             "    <head>",
@@ -112,7 +108,8 @@ class ReactNativeScreensCoderTest {
             "android/app/src/main/assets/about.html",
             "ios/assets/about.html"
         );
-        assertIosCodeEquals(
+        assertCodeEquals(
+            1,
             "<!DOCTYPE html>",
             "<html>",
             "    <head>",
@@ -139,12 +136,95 @@ class ReactNativeScreensCoderTest {
         );
     }
 
+    @Test
+    void testCodeGenerationWithMultipleScreens() throws CoderException {
+        withScreen(new Screen.Builder()
+            .name("about")
+            .structure(buildButtonWithOnClickAndValue("click me"))
+            .style(buildButtonStyleUsingBlueAndWhite())
+            .behavior(buildDeclarationWithIdAndAssignment("hello", "world"))
+            .build()
+        );
+        withScreen(new Screen.Builder()
+            .name("contact")
+            .structure(buildButtonWithOnClickAndValue("send an email"))
+            .build()
+        );
+        runCoder();
+        assertCodeFileHasName(
+            "android/app/src/main/assets/about.html",
+            "ios/assets/about.html",
+            "android/app/src/main/assets/contact.html",
+            "ios/assets/contact.html"
+        );
+        assertCodeEquals(
+            0,
+            "<!DOCTYPE html>",
+            "<html>",
+            "    <head>",
+            "        <title>about</title>",
+            "            <style>",
+            "                button { padding: 0; }",
+            "                button {",
+            "                    background-color: blue;",
+            "                    color: white;",
+            "                }",
+            "            </style>",
+            "    </head>",
+            "    <body>",
+            "        <button onclick=\"alert('hey!! you pressed the button!')\" id=\"" + TAG_ID + "\">",
+            "            click me", 
+            "        </button>",
+            "    </body>",
+            "    <script>",
+            "\"use strict\";",
+            "",
+            "        var hello = \"world\";",
+            "    </script>",
+            "</html>"
+        );
+        assertCodeEquals(
+            2,
+            "<!DOCTYPE html>",
+            "<html>",
+            "    <head>",
+            "        <title>contact</title>",
+            "        <style>",
+            "            button { padding: 0; }",
+            "        </style>",
+            "    </head>",
+            "    <body>",
+            "        <button onclick=\"alert('hey!! you pressed the button!')\" id=\"" + TAG_ID + "\">",
+            "            send an email", 
+            "        </button>",
+            "    </body>",
+            "    <script>",
+            "\"use strict\";",
+            "    </script>",
+            "</html>"
+        );
+    }
+
+    @Test
+    void testCodeGenerationWithoutScreen() throws CoderException {
+        withScreen(null);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runCoder();
+        });
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
     private void withScreen(Screen screen) {
-        screens.add(screen);
+        if (screen == null) {
+            screens = null;
+        }
+        else {
+            screens.add(screen);
+        }
     }
 
     private Tag buildButtonWithOnClickAndValue(String value) {
@@ -205,10 +285,6 @@ class ReactNativeScreensCoderTest {
         }
     }
 
-    private void assertAndroidCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_ANDROID, lines);
-    }
-
     private void assertCodeEquals(int index, String... lines) {
         List<String> expectedCode = Arrays.asList(lines);
 
@@ -235,9 +311,5 @@ class ReactNativeScreensCoderTest {
 
     private String removeWhiteSpaces(String text) {
         return text.replaceAll("[\\s\\t]+", "");
-    }
-
-    private void assertIosCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_IOS, lines);
     }
 }

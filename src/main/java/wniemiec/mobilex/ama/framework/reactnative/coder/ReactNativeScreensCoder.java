@@ -10,6 +10,7 @@ import wniemiec.mobilex.ama.framework.reactnative.parser.ReactNativeMobilangDire
 import wniemiec.mobilex.ama.models.CodeFile;
 import wniemiec.mobilex.ama.models.Screen;
 import wniemiec.mobilex.ama.models.behavior.Behavior;
+import wniemiec.mobilex.ama.util.data.Validator;
 
 
 /**
@@ -43,6 +44,8 @@ public class ReactNativeScreensCoder {
     //		Constructor
     //-------------------------------------------------------------------------
     public ReactNativeScreensCoder(List<Screen> screens) {
+        Validator.validateScreens(screens);
+
         this.screens = screens;
         babelErrorLog = new ArrayList<>();
         directiveParser = new ReactNativeMobilangDirectiveParser();

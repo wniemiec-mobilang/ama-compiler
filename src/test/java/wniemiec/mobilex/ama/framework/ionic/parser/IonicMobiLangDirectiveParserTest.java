@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import wniemiec.mobilex.ama.framework.ionic.parser.IonicMobilangDirectiveParser;
-
 
 class IonicMobiLangDirectiveParserTest {
 
@@ -140,12 +138,39 @@ class IonicMobiLangDirectiveParserTest {
         );
     }
 
+    @Test
+    void testParseWithoutDirective() {
+        withCode(
+            "const id = 'abc';"
+        );
+        doParsing();
+        assertCodeEquals(
+            "const id = 'abc';"
+        );
+    }
+
+    @Test
+    void testParseWithoutCode() {
+        withCode((String[]) null);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            doParsing();
+        });
+    }
+
+    @Test
+    void testParseWithEmptyCode() {
+        withCode("");
+        doParsing();
+        assertCodeEquals("");
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
     private void withCode(String... lines) {
-        code = Arrays.asList(lines);
+        code = (lines == null) ? null : Arrays.asList(lines);
     }
 
     private void doParsing() {

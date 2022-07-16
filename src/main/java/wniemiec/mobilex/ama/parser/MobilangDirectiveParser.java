@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import wniemiec.mobilex.ama.util.data.Validator;
+
 
 /**
  * Responsible for parsing MobiLang directives in screen behavior.
@@ -33,12 +35,16 @@ public abstract class MobilangDirectiveParser {
     //      Methods
     //-------------------------------------------------------------------------
     public final String parse(String line) {
+        Validator.validateLine(line);
+
         parse(List.of(line));
 
         return parsedLines.get(0);
     }
 
     public final void parse(List<String> lines) {
+        Validator.validateLines(lines);
+
         parsedLines = new ArrayList<>();
         screenParameters = new ArrayList<>();
 
@@ -90,7 +96,7 @@ public abstract class MobilangDirectiveParser {
     }
 
     private String parseScreenDirectiveWithParameters(String line) {
-        Pattern pattern = Pattern.compile(".*mobilang::screen::([A-z0-9\\-_]+)\\?([^?\\/\\\\]+)([\"']+|$).*");
+        Pattern pattern = Pattern.compile(".*mobilang::screen::([A-z0-9\\-_]+)\\?([^?\"'\\/\\\\]+)([\"']+|$).*");
         Matcher matcher = pattern.matcher(line);
 
         if (!matcher.matches()) {

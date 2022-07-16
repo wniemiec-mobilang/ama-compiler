@@ -86,4 +86,16 @@ public class Validator {
             throw new IllegalArgumentException("Framework cannot be null");
         }
     }
+
+    public static void validateLines(List<String> lines) {
+        if (lines == null) {
+            throw new IllegalArgumentException("Lines cannot be null");
+        }
+    }
+
+    public static void validateLine(String line) {
+        if (line == null) {
+            throw new IllegalArgumentException("Line cannot be null");
+        }
+    }
 }

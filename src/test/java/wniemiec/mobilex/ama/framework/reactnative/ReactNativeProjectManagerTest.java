@@ -157,6 +157,28 @@ class ReactNativeProjectManagerTest {
     }
 
     @Test
+    void testProjectCreatorWithoutProperties() throws IOException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildProjectManager();
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runProjectCreator(null, PRE_BUILT_LOCATION);
+        });
+    }
+
+    @Test
+    void testProjectCreatorWithoutLocation() throws IOException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildProjectManager();
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runProjectCreator(PRE_BUILT_PROPERTIES, null);
+        });
+    }
+
+    @Test
     void testProjectDependenciesWithoutProjectLocation() throws IOException {
         withTerminal(buildMockTerminal());
         withFileManager(buildMockFileManager());

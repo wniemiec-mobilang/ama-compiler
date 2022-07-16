@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import wniemiec.io.java.Terminal;
 import wniemiec.mobilex.ama.models.Properties;
+import wniemiec.mobilex.ama.util.data.Validator;
 import wniemiec.mobilex.ama.util.io.FileManager;
 
 
@@ -23,8 +24,8 @@ class ReactNativeProjectManager {
     //		Constructor
     //-------------------------------------------------------------------------
     public ReactNativeProjectManager(Terminal terminal, FileManager fileManager) {
-        validateTerminal(terminal);
-        validateFileManager(fileManager);
+        Validator.validateTerminal(terminal);
+        Validator.validateFileManager(fileManager);
         
         this.terminal = terminal;
         this.fileManager = fileManager;
@@ -34,37 +35,15 @@ class ReactNativeProjectManager {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void validateTerminal(Terminal instance) {
-        if (instance == null) {
-            throw new IllegalArgumentException("Terminal cannot be null");
-        }
-    }
-
-    private void validateFileManager(FileManager instance) {
-        if (instance == null) {
-            throw new IllegalArgumentException("File manager cannot be null");
-        }
-    }
+    
 
     public void createProject(Properties properties, Path location) 
     throws IOException {
-        validateProperties(properties);
-        validateLocation(location);
+        Validator.validateProperties(properties);
+        Validator.validateLocation(location);
 
         runReactNativeInit(properties, location);
         removeOldAppFile(location);
-    }
-
-    private void validateProperties(Properties instance) {
-        if (instance == null) {
-            throw new IllegalArgumentException("Properties cannot be null");
-        }
-    }
-
-    private void validateLocation(Path path) {
-        if (path == null) {
-            throw new IllegalArgumentException("Location cannot be null");
-        }
     }
 
     private void runReactNativeInit(Properties properties, Path location) 
@@ -111,8 +90,8 @@ class ReactNativeProjectManager {
 
     public void addProjectDependency(String dependency, Path projectLocation)
     throws IOException {
-        validateDependency(dependency);
-        validateLocation(projectLocation);
+        Validator.validateDependency(dependency);
+        Validator.validateLocation(projectLocation);
 
         for (String dependencyName : dependency.split(" ")) {
             terminal.exec(
@@ -123,12 +102,6 @@ class ReactNativeProjectManager {
                 "--save", 
                 dependencyName
             );
-        }
-    }
-
-    private void validateDependency(String dependency) {
-        if (dependency == null) {
-            throw new IllegalArgumentException("Dependency cannot be null");
         }
     }
 }

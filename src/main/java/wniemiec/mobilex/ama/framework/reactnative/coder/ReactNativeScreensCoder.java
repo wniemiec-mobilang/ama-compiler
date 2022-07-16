@@ -23,7 +23,7 @@ public class ReactNativeScreensCoder {
     private static final String ANDROID_SCREEN_NAME_PREFIX;
     private static final String IOS_SCREEN_NAME_PREFIX;
     private static final String SCREEN_NAME_SUFFIX;
-    private final List<Screen> screensData;
+    private final List<Screen> screens;
     private final ReactNativeMobilangDirectiveParser directiveParser;
     private final BabelTranspiler babelTranspiler;
     private List<String> babelErrorLog;
@@ -42,8 +42,8 @@ public class ReactNativeScreensCoder {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    public ReactNativeScreensCoder(List<Screen> screensData) {
-        this.screensData = screensData;
+    public ReactNativeScreensCoder(List<Screen> screens) {
+        this.screens = screens;
         babelErrorLog = new ArrayList<>();
         directiveParser = new ReactNativeMobilangDirectiveParser();
         babelTranspiler = new BabelTranspiler(babelErrorLog::add);
@@ -56,24 +56,24 @@ public class ReactNativeScreensCoder {
     public List<CodeFile> generateCode() throws CoderException {
         List<CodeFile> screensCode = new ArrayList<>();
 
-        for (Screen screenData : screensData) {
-            screensCode.addAll(generateCodeForScreen(screenData));
+        for (Screen screen : screens) {
+            screensCode.addAll(generateCodeForScreen(screen));
         }
 
         return screensCode;
     }
     
-    private List<CodeFile> generateCodeForScreen(Screen screenData) throws CoderException {
+    private List<CodeFile> generateCodeForScreen(Screen screen) throws CoderException {
         List<String> code = new ArrayList<>();
 
         putDoctype(code);
         putHtmlOpenTag(code);
-        putHead(code, screenData);
-        putBody(code, screenData);
-        putScript(code, screenData);
+        putHead(code, screen);
+        putBody(code, screen);
+        putScript(code, screen);
         putHtmlCloseTag(code);
         
-        return buildFileCode(code, screenData);
+        return buildFileCode(code, screen);
     }
 
     private void putDoctype(List<String> code) {
@@ -84,10 +84,10 @@ public class ReactNativeScreensCoder {
         code.add("<html>");
     }
 
-    private void putHead(List<String> code, Screen screenData) {
+    private void putHead(List<String> code, Screen screen) {
         code.add("    <head>");
-        code.add("    <title>" + screenData.getRawName() + "</title>");
-        putStyle(code, screenData);
+        code.add("    <title>" + screen.getRawName() + "</title>");
+        putStyle(code, screen);
         code.add("    </head>");
     }
 

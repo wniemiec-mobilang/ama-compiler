@@ -39,8 +39,6 @@ class ReactNativeFrameworkTest {
     private static final Properties PRE_BUILT_PROPERTIES;
     private static final Path PRE_BUILT_LOCATION;
     private static final Path PRE_BUILT_PROJECT_LOCATION;
-    private static final int INDEX_ANDROID;
-    private static final int INDEX_IOS;
     private static final String TAG_ID;
     private ReactNativeFramework reactNativeFramework;
     private MockInputTerminal mockInputTerminal;
@@ -63,8 +61,6 @@ class ReactNativeFrameworkTest {
         PRE_BUILT_PROJECT_LOCATION = PRE_BUILT_LOCATION.resolve(
             PRE_BUILT_PROPERTIES.getApplicationName()
         );
-        INDEX_ANDROID = 0;
-        INDEX_IOS = 1;
         TAG_ID = "tagid";
     }
 
@@ -163,7 +159,7 @@ class ReactNativeFrameworkTest {
     }
 
     @Test
-    void testSingleScreen() throws CoderException {
+    void testCodeGenerationWithSingleScreen() throws CoderException {
         withTerminal(buildMockTerminal());
         withFileManager(buildMockFileManager());
         withScreen(new Screen.Builder()
@@ -179,7 +175,8 @@ class ReactNativeFrameworkTest {
             "android/app/src/main/assets/about.html",
             "ios/assets/about.html"
         );
-        assertAndroidCodeEquals(
+        assertCodeEquals(
+            0,
             "<!DOCTYPE html>",
             "<html>",
             "    <head>",
@@ -251,6 +248,215 @@ class ReactNativeFrameworkTest {
             "WRITE: myapp/foo/android/app/build.gradle:// Modified by SCMA",
             "COPY: myapp/foo/android/app/build/outputs/bundle/release/app-release.aab -> myapp/bar/mobile/android/myapp.aab"
         );
+    }
+
+    @Test
+    void testBuildFrameworkWithoutTerminal() throws IOException {
+        withTerminal(null);
+        withFileManager(buildMockFileManager());
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            buildReactNativeFramework();
+        });
+    }
+
+    @Test
+    void testBuildFrameworkWithoutFileManager() throws IOException {
+        withTerminal(buildMockTerminal());
+        withFileManager(null);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            buildReactNativeFramework();
+        });
+    }
+
+    @Test
+    void testProjectCreatorWithoutProperties() throws IOException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildReactNativeFramework();
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runProjectCreator(null, PRE_BUILT_LOCATION);
+        });
+    }
+
+    @Test
+    void testProjectCreatorWithoutLocation() throws IOException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildReactNativeFramework();
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runProjectCreator(PRE_BUILT_PROPERTIES, null);
+        });
+    }
+
+    @Test
+    void testProjectDependenciesWithoutProjectLocation() throws IOException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildReactNativeFramework();
+        runProjectCreator(PRE_BUILT_PROPERTIES, PRE_BUILT_LOCATION);
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            addProjectDependencies(
+                null,
+                "dependency1/somelib",
+                "@somecompany/foo"
+            );
+        });
+    }
+
+    @Test
+    void testProjectDependenciesWithoutProjectDependencies() throws IOException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildReactNativeFramework();
+        runProjectCreator(PRE_BUILT_PROPERTIES, PRE_BUILT_LOCATION);
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            addProjectDependencies(
+                PRE_BUILT_PROJECT_LOCATION,
+                (String) null
+            );
+        });
+    }
+
+    @Test
+    void testCodeGenerationWithoutScreen() throws CoderException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        withScreen(null);
+        buildReactNativeFramework();
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runCodeGeneration();
+        });
+    }
+
+    @Test
+    void testCodeGenerationWithMultipleScreens() throws CoderException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        withScreen(new Screen.Builder()
+            .name("about")
+            .structure(buildButtonWithOnClickAndValue("click me"))
+            .style(buildButtonStyleUsingBlueAndWhite())
+            .behavior(buildDeclarationWithIdAndAssignment("hello", "world"))
+            .build()
+        );
+        withScreen(new Screen.Builder()
+            .name("contact")
+            .structure(buildButtonWithOnClickAndValue("send an email"))
+            .build()
+        );
+        buildReactNativeFramework();
+        runCodeGeneration();
+        assertCodeFileHasName(
+            "android/app/src/main/assets/about.html",
+            "ios/assets/about.html",
+            "android/app/src/main/assets/contact.html",
+            "ios/assets/contact.html"
+        );
+        assertCodeEquals(
+            0,
+            "<!DOCTYPE html>",
+            "<html>",
+            "    <head>",
+            "        <title>about</title>",
+            "            <style>",
+            "                button { padding: 0; }",
+            "                button {",
+            "                    background-color: blue;",
+            "                    color: white;",
+            "                }",
+            "            </style>",
+            "    </head>",
+            "    <body>",
+            "        <button onclick=\"alert('hey!! you pressed the button!')\" id=\"" + TAG_ID + "\">",
+            "            click me", 
+            "        </button>",
+            "    </body>",
+            "    <script>",
+            "\"use strict\";",
+            "",
+            "        var hello = \"world\";",
+            "    </script>",
+            "</html>"
+        );
+        assertCodeEquals(
+            2,
+            "<!DOCTYPE html>",
+            "<html>",
+            "    <head>",
+            "        <title>contact</title>",
+            "        <style>",
+            "            button { padding: 0; }",
+            "        </style>",
+            "    </head>",
+            "    <body>",
+            "        <button onclick=\"alert('hey!! you pressed the button!')\" id=\"" + TAG_ID + "\">",
+            "            send an email", 
+            "        </button>",
+            "    </body>",
+            "    <script>",
+            "\"use strict\";",
+            "    </script>",
+            "</html>"
+        );
+    }
+
+    @Test
+    void testAndroidGenerationWithoutPlatform() throws AppGenerationException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        withSourceCodePath("myapp/foo");
+        withMobileOutputPath("myapp/bar");
+        buildReactNativeFramework();
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runAppGenerator(null);
+        });
+    }
+
+    @Test
+    void testAndroidGenerationWithEmptyPlatform() throws AppGenerationException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        withSourceCodePath("myapp/foo");
+        withMobileOutputPath("myapp/bar");
+        buildReactNativeFramework();
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runAppGenerator("");
+        });
+    }
+
+    @Test
+    void testAndroidGenerationWithoutSourceCode() throws AppGenerationException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        withSourceCodePath(null);
+        withMobileOutputPath("myapp/bar");
+        buildReactNativeFramework();
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runAppGenerator("android");
+        });
+    }
+
+    @Test
+    void testAndroidGenerationWithoutOutput() throws AppGenerationException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        withSourceCodePath("myapp/foo");
+        withMobileOutputPath(null);
+        buildReactNativeFramework();
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            runAppGenerator("android");
+        });
     }
     
 
@@ -339,7 +545,12 @@ class ReactNativeFrameworkTest {
     }
 
     private void withScreen(Screen screen) {
-        screens.add(screen);
+        if (screen == null) {
+            screens = null;
+        }
+        else {
+            screens.add(screen);
+        }
     }
 
     private Tag buildButtonWithOnClickAndValue(String value) {
@@ -395,10 +606,6 @@ class ReactNativeFrameworkTest {
         }
     }
 
-    private void assertAndroidCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_ANDROID, lines);
-    }
-
     private void assertCodeEquals(int index, String... lines) {
         List<String> expectedCode = Arrays.asList(lines);
 
@@ -406,16 +613,12 @@ class ReactNativeFrameworkTest {
         assertHasSameLines(expectedCode, obtainedCode.get(index).getCode());
     }
 
-    private void assertIosCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_IOS, lines);
-    }
-
     private void withSourceCodePath(String location) {
-        sourceCodePath = Path.of(location);
+        sourceCodePath = (location == null) ? null : Path.of(location);
     }
 
     private void withMobileOutputPath(String location) {
-        mobileOutput = Path.of(location);
+        mobileOutput = (location == null) ? null : Path.of(location);
     }
 
     private void runAppGenerator(String platform) throws AppGenerationException {

@@ -9,6 +9,7 @@ import wniemiec.mobilex.ama.framework.Framework;
 import wniemiec.mobilex.ama.models.CodeFile;
 import wniemiec.mobilex.ama.models.Project;
 import wniemiec.mobilex.ama.models.Screen;
+import wniemiec.mobilex.ama.util.data.Validator;
 
 
 /**
@@ -37,8 +38,8 @@ public class MobilangCoder {
      * @throws      IllegalArgumentException If screens or framework are null
      */
     public MobilangCoder(List<Screen> screens, Framework framework) {
-        validateScreens(screens);
-        validateFramework(framework);
+        Validator.validateScreens(screens);
+        Validator.validateFramework(framework);
 
         this.screens = screens;
         this.framework = framework;
@@ -49,19 +50,7 @@ public class MobilangCoder {
 
     //-------------------------------------------------------------------------
     //		Methods
-    //-------------------------------------------------------------------------
-    private void validateScreens(List<Screen> screens) {
-        if (screens == null) {
-            throw new IllegalArgumentException("Screens cannot be null");
-        }
-    }
-
-    private void validateFramework(Framework framework) {
-        if (framework == null) {
-            throw new IllegalArgumentException("Framework cannot be null");
-        }
-    }
-    
+    //-------------------------------------------------------------------------    
     public void generateCode() throws CoderException {
         Project codes = framework.generateCode(screens);
 

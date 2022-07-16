@@ -19,6 +19,7 @@ import wniemiec.mobilex.ama.models.CodeFile;
 import wniemiec.mobilex.ama.models.Project;
 import wniemiec.mobilex.ama.models.Properties;
 import wniemiec.mobilex.ama.models.Screen;
+import wniemiec.mobilex.ama.util.data.Validator;
 import wniemiec.mobilex.ama.util.io.FileManager;
 import wniemiec.mobilex.ama.util.io.StandardFileManager;
 
@@ -48,6 +49,9 @@ public class ReactNativeFramework implements Framework {
     }
 
     public ReactNativeFramework(Terminal terminal, FileManager fileManager) {
+        Validator.validateTerminal(terminal);
+        Validator.validateFileManager(fileManager);
+
         projectManager = new ReactNativeProjectManager(terminal, fileManager);
         this.terminal = terminal;
         this.fileManager = fileManager;
@@ -66,32 +70,39 @@ public class ReactNativeFramework implements Framework {
     }
     
     @Override
-    public void createProject(Properties propertiesData, Path location) 
+    public void createProject(Properties properties, Path location) 
     throws IOException {
-        projectManager.createProject(propertiesData, location);
+        Validator.validateProperties(properties);
+        Validator.validateLocation(location);
+
+        projectManager.createProject(properties, location);
     }
 
     @Override
     public void addProjectDependency(String dependency, Path location) 
     throws IOException {
+        Validator.validateDependency(dependency);
+        Validator.validateLocation(location);
+
         projectManager.addProjectDependency(dependency, location);
     }
 
     @Override
-    public Project generateCode(List<Screen> screensData) 
-    throws CoderException {
+    public Project generateCode(List<Screen> screens) throws CoderException {
+        Validator.validateScreens(screens);
+
         List<CodeFile> code = new ArrayList<>();
         Set<String> dependencies = new HashSet<>();
         
-        generateScreensCode(code, screensData);
+        generateScreensCode(code, screens);
         generateCoreCode(code, dependencies);
 
         return new Project(code, dependencies);
     }
     
-    private void generateScreensCode(List<CodeFile> code, List<Screen> screensData) 
+    private void generateScreensCode(List<CodeFile> code, List<Screen> screens) 
     throws CoderException {
-        ReactNativeScreensCoder screensCoder = new ReactNativeScreensCoder(screensData);
+        ReactNativeScreensCoder screensCoder = new ReactNativeScreensCoder(screens);
 
         code.addAll(screensCoder.generateCode());
     }
@@ -106,6 +117,10 @@ public class ReactNativeFramework implements Framework {
     @Override
     public void generateMobileApplicationFor(String platform, Path source, Path output) 
     throws AppGenerationException {
+        Validator.validatePlatform(platform);
+        Validator.validateSource(source);
+        Validator.validateOutput(output);
+
         ReactNativeAppGenerator appGenerator = new ReactNativeAppGenerator(
             source, 
             output, 

@@ -106,7 +106,7 @@ public class Screen {
     //-------------------------------------------------------------------------
     private String normalize(String name) {
         if (!name.contains("-")) {
-            return name;
+            return StringUtils.capitalizeOnlyFirstLetter(name);
         }
         
         StringBuilder normalizedName = new StringBuilder();

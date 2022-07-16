@@ -17,7 +17,6 @@ import wniemiec.io.java.LogLevel;
 import wniemiec.io.java.Terminal;
 import wniemiec.mobilex.ama.coder.exception.CoderException;
 import wniemiec.mobilex.ama.export.exception.AppGenerationException;
-import wniemiec.mobilex.ama.framework.ionic.IonicFramework;
 import wniemiec.mobilex.ama.models.CodeFile;
 import wniemiec.mobilex.ama.models.Properties;
 import wniemiec.mobilex.ama.models.Screen;
@@ -29,6 +28,7 @@ import wniemiec.mobilex.ama.models.behavior.Declarator;
 import wniemiec.mobilex.ama.models.behavior.Instruction;
 import wniemiec.mobilex.ama.models.behavior.Literal;
 import wniemiec.mobilex.ama.models.tag.Tag;
+import wniemiec.mobilex.ama.util.io.FileManager;
 
 
 class IonicFrameworkTest {
@@ -36,35 +36,31 @@ class IonicFrameworkTest {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private static final int INDEX_MODULE;
-    private static final int INDEX_HTML;
-    private static final int INDEX_SCSS;
-    private static final int INDEX_PAGE;
-    private static final int INDEX_ROUTING;
+    private static final Properties PRE_BUILT_PROPERTIES;
+    private static final Path PRE_BUILT_LOCATION;
+    private static final Path PRE_BUILT_PROJECT_LOCATION;
     private static final String TAG_ID;
     private IonicFramework ionicFramework;
     private MockInputTerminal mockInputTerminal;
     private MockOutputTerminal mockOutputTerminal;
     private MockFileManager mockFileManager;
+    private FileManager fileManager;
     private Terminal terminal;
-    private Properties properties;
-    private Path projectLocation;
     private List<Screen> screens;
     private List<CodeFile> obtainedCode;
     private Path sourceCodePath;
     private Path mobileOutput;
-    private String keystorePassword;
 
 
     //-------------------------------------------------------------------------
     //		Initialization block
     //-------------------------------------------------------------------------
     static {
-        INDEX_MODULE = 0;
-        INDEX_HTML = 1;
-        INDEX_SCSS = 2;
-        INDEX_PAGE = 3;
-        INDEX_ROUTING = 4;
+        PRE_BUILT_PROPERTIES = new Properties();
+        PRE_BUILT_LOCATION = Path.of("foo", "bar");
+        PRE_BUILT_PROJECT_LOCATION = PRE_BUILT_LOCATION.resolve(
+            PRE_BUILT_PROPERTIES.getApplicationName()
+        );
         TAG_ID = "tagid";
     }
 
@@ -74,14 +70,15 @@ class IonicFrameworkTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        mockInputTerminal = new MockInputTerminal();
-        mockOutputTerminal = new MockOutputTerminal();
-        terminal = new Terminal(mockInputTerminal, mockOutputTerminal);
-        properties = new Properties();
-        mockFileManager = new MockFileManager();
-        ionicFramework = new IonicFramework(terminal, mockFileManager);
+        mockInputTerminal = null;
+        mockOutputTerminal = null;
+        terminal = null;
+        mockFileManager = null;
+        fileManager = null;
+        ionicFramework = null;
         screens = new ArrayList<>();
         obtainedCode = new ArrayList<>();
+
         Consolex.setLoggerLevel(LogLevel.OFF);
     }
 
@@ -96,47 +93,46 @@ class IonicFrameworkTest {
     //-------------------------------------------------------------------------
     @Test
     void testProjectCreator() throws IOException {
-        withAppName("myapp");
-        withTargetPlatforms("android");
-        withLocation("myapp/bar");
-        withKeystorePassword("abcdef12");
-        runProjectCreator();
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildIonicFramework();
+        runProjectCreator(PRE_BUILT_PROPERTIES, PRE_BUILT_LOCATION);
         assertTerminalHistoryIsEmpty();
         assertTerminalErrorHistoryIsEmpty();
         assertInputTerminalWas(
             "ionic", 
             "start", 
-            "myapp",
+            PRE_BUILT_PROPERTIES.getApplicationName(),
             "blank",
             "--type=angular",
             "--capacitor",
             "--confirm",
             "--no-interactive",
             "mv", 
-            "myapp", 
-            "bar",
+            PRE_BUILT_PROPERTIES.getApplicationName(),
+            PRE_BUILT_LOCATION.getFileName().toString(),
             "mv",
-            "bar",
-            "myapp"
+            PRE_BUILT_LOCATION.getFileName().toString(),
+            PRE_BUILT_LOCATION.getParent().toString()
         );
         assertFileManagerExecuted(
-            "APPEND: myapp/bar/src/global.scss:global.scss\n.ion-page {\n  justify-content: flex-start;\n}",
-            "REMOVE FILE: myapp/bar/src/theme/variables.scss",
-            "CREATE FILE: myapp/bar/src/theme/variables.scss",
-            "REMOVE DIRECTORY: myapp/bar/src/app/home",
-            "REMOVE FILE: myapp/bar/src/app/app-routing.module.ts",
-            "CREATE DIRECTORY: myapp/bar/src/app/pages"
+            "APPEND: " + PRE_BUILT_LOCATION.toString() + "/src/global.scss:global.scss\n.ion-page {\n  justify-content: flex-start;\n}",
+            "REMOVE FILE: " + PRE_BUILT_LOCATION.toString() + "/src/theme/variables.scss",
+            "CREATE FILE: " + PRE_BUILT_LOCATION.toString() + "/src/theme/variables.scss",
+            "REMOVE DIRECTORY: " + PRE_BUILT_LOCATION.toString() + "/src/app/home",
+            "REMOVE FILE: " + PRE_BUILT_LOCATION.toString() + "/src/app/app-routing.module.ts",
+            "CREATE DIRECTORY: " + PRE_BUILT_LOCATION.toString() + "/src/app/pages"
         );
     }
 
     @Test
     void testProjectDependencies() throws IOException {
-        withAppName("myapp");
-        withTargetPlatforms("android");
-        withLocation("myapp/bar");
-        withKeystorePassword("abcdef12");
-        runProjectCreator();
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
+        buildIonicFramework();
+        runProjectCreator(PRE_BUILT_PROPERTIES, PRE_BUILT_LOCATION);
         addProjectDependencies(
+            PRE_BUILT_PROJECT_LOCATION,
             "dependency1/somelib",
             "@somecompany/foo"
         );
@@ -145,43 +141,45 @@ class IonicFrameworkTest {
         assertInputTerminalWas(
             "ionic", 
             "start", 
-            "myapp",
+            PRE_BUILT_PROPERTIES.getApplicationName(),
             "blank",
             "--type=angular",
             "--capacitor",
             "--confirm",
             "--no-interactive",
             "mv", 
-            "myapp", 
-            "bar",
+            PRE_BUILT_PROPERTIES.getApplicationName(), 
+            PRE_BUILT_LOCATION.getFileName().toString(),
             "mv",
-            "bar",
-            "myapp",
+            PRE_BUILT_LOCATION.getFileName().toString(),
+            PRE_BUILT_LOCATION.getParent().toString(),
             "npm", 
             "install", 
             "--prefix",
-            "myapp/bar",
+            PRE_BUILT_PROJECT_LOCATION.toString(),
             "--save", 
             "dependency1/somelib",
             "npm", 
             "install", 
             "--prefix",
-            "myapp/bar",
+            PRE_BUILT_PROJECT_LOCATION.toString(),
             "--save", 
             "@somecompany/foo"
         );
         assertFileManagerExecuted(
-            "APPEND: myapp/bar/src/global.scss:global.scss\n.ion-page {\n  justify-content: flex-start;\n}",
-            "REMOVE FILE: myapp/bar/src/theme/variables.scss",
-            "CREATE FILE: myapp/bar/src/theme/variables.scss",
-            "REMOVE DIRECTORY: myapp/bar/src/app/home",
-            "REMOVE FILE: myapp/bar/src/app/app-routing.module.ts",
-            "CREATE DIRECTORY: myapp/bar/src/app/pages"
+            "APPEND: " + PRE_BUILT_LOCATION.toString() + "/src/global.scss:global.scss\n.ion-page {\n  justify-content: flex-start;\n}",
+            "REMOVE FILE: " + PRE_BUILT_LOCATION.toString() + "/src/theme/variables.scss",
+            "CREATE FILE: " + PRE_BUILT_LOCATION.toString() + "/src/theme/variables.scss",
+            "REMOVE DIRECTORY: " + PRE_BUILT_LOCATION.toString() + "/src/app/home",
+            "REMOVE FILE: " + PRE_BUILT_LOCATION.toString() + "/src/app/app-routing.module.ts",
+            "CREATE DIRECTORY: " + PRE_BUILT_LOCATION.toString() + "/src/app/pages"
         );
     }
 
     @Test
     void testSingleScreen() throws CoderException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
         withScreen(new Screen.Builder()
             .name("about")
             .structure(buildButtonWithOnClickAndValue("click me"))
@@ -189,6 +187,7 @@ class IonicFrameworkTest {
             .behavior(buildDeclarationWithIdAndAssignment("hello", "world"))
             .build()
         );
+        buildIonicFramework();
         runCodeGeneration();
         assertCodeFileHasName(
             "src/app/pages/about/about.module.ts",
@@ -197,7 +196,8 @@ class IonicFrameworkTest {
             "src/app/pages/about/about.page.ts",
             "src/app/pages/about/about-routing.module.ts"
         );
-        assertModuleCodeEquals(
+        assertCodeEquals(
+            0,
             "import { NgModule } from '@angular/core';",
             "import { CommonModule } from '@angular/common';",
             "import { FormsModule } from '@angular/forms';",
@@ -216,20 +216,23 @@ class IonicFrameworkTest {
             "})",
             "export class AboutPageModule {}"
         );
-        assertHtmlCodeEquals(
+        assertCodeEquals(
+            1,
             "<ion-content>",
             "    <button id=\"" + TAG_ID + "\">",
             "        click me", 
             "    </button>",
             "</ion-content>"
         );
-        assertScssCodeEquals(
+        assertCodeEquals(
+            2,
             "button {",
             "    background-color: blue;",
             "    color: white;",
             "}"
         );
-        assertPageCodeEquals(
+        assertCodeEquals(
+            3,
             "import { Component, OnInit, ViewEncapsulation } from '@angular/core';",
             "import { ActivatedRoute } from '@angular/router';",
             "@Component({",
@@ -250,7 +253,8 @@ class IonicFrameworkTest {
             "  }",
             "}"
         );
-        assertRoutingCodeEquals(
+        assertCodeEquals(
+            4,
             "import { AboutPage } from './about.page';",
             "import { NgModule } from '@angular/core';",
             "import { PreloadAllModules, RouterModule, Routes } from '@angular/router';",
@@ -272,9 +276,11 @@ class IonicFrameworkTest {
 
     @Test
     void testAndroidGeneration() throws AppGenerationException {
+        withTerminal(buildMockTerminal());
+        withFileManager(buildMockFileManager());
         withSourceCodePath("myapp/foo");
         withMobileOutputPath("myapp/bar");
-        withKeystorePassword("abcdef12");
+        buildIonicFramework();
         runAppGenerator("android");
         assertTerminalHistoryIsEmpty();
         assertTerminalErrorHistoryIsEmpty();
@@ -319,31 +325,39 @@ class IonicFrameworkTest {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void withAppName(String name) {
-        properties.setApplicationName(name);
+    private FileManager buildMockFileManager() {
+        mockFileManager = new MockFileManager();
+
+        return mockFileManager;
     }
 
-    private void withTargetPlatforms(String... platforms) {
-        for (String platform : platforms) {
-            properties.addPlatform(platform);
-        }
+    private void withFileManager(FileManager manager) {
+        fileManager = manager;
     }
 
-    private void withLocation(String location) {
-        projectLocation = Path.of(location);
+    private Terminal buildMockTerminal() {
+        mockInputTerminal = new MockInputTerminal();
+        mockOutputTerminal = new MockOutputTerminal();
+        
+        return new Terminal(mockInputTerminal, mockOutputTerminal);
+    }
+    
+    private void withTerminal(Terminal terminal) {
+        this.terminal = terminal;
     }
 
-    private void withKeystorePassword(String password) {
-        keystorePassword = password;
+    private void buildIonicFramework() {
+        ionicFramework = new IonicFramework(terminal, fileManager);
     }
 
-    private void runProjectCreator() throws IOException  {
+    private void runProjectCreator(Properties properties, Path projectLocation)
+    throws IOException  {
         ionicFramework.createProject(properties, projectLocation);
     }
 
-    private void addProjectDependencies(String... dependencies) throws IOException {
+    private void addProjectDependencies(Path location, String... dependencies) throws IOException {
         for (String dependency : dependencies) {
-            ionicFramework.addProjectDependency(dependency, projectLocation);
+            ionicFramework.addProjectDependency(dependency, location);
         }
     }
 
@@ -448,31 +462,11 @@ class IonicFrameworkTest {
         }
     }
 
-    private void assertModuleCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_MODULE, lines);
-    }
-
     private void assertCodeEquals(int index, String... lines) {
         List<String> expectedCode = Arrays.asList(lines);
 
         assertHasSameSize(expectedCode, obtainedCode.get(index).getCode());
         assertHasSameLines(expectedCode, obtainedCode.get(index).getCode());
-    }
-
-    private void assertHtmlCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_HTML, lines);
-    }
-
-    private void assertScssCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_SCSS, lines);
-    }
-
-    private void assertPageCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_PAGE, lines);
-    }
-
-    private void assertRoutingCodeEquals(String... lines) {
-        assertCodeEquals(INDEX_ROUTING, lines);
     }
 
     private void withSourceCodePath(String location) {

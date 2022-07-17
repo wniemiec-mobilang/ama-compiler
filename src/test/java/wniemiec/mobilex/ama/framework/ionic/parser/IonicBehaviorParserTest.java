@@ -40,14 +40,14 @@ class IonicBehaviorParserTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testParamDirective() throws CoderException {
+    void testBehaviorWithParamDirective() throws CoderException {
         withBehavior(buildDeclarationWithIdAndAssignment("id", "mobilang::param::id"));
         doParsing();
         assertCodeEquals("let id = this.routeParams.snapshot.params.q.split('id__eq__')[1].split('&')[0];");
     }
 
     @Test
-    void testInputDirective() throws CoderException {
+    void testBehaviorWithInputDirective() throws CoderException {
         withBehavior(buildDeclarationWithIdAndAssignment("foo", "mobilang::input::foo"));
         doParsing();
         assertCodeEquals("let foo = this.__input_foo;");
@@ -63,7 +63,7 @@ class IonicBehaviorParserTest {
     }
 
     @Test
-    void testEventBehavior() throws CoderException {
+    void testBehaviorWithEvent() throws CoderException {
         withBehavior(buildTemplateLiteralWithoutExpression("<button onclick=\"alert('hi!')\">"));
         doParsing();
         assertCodeEquals(
@@ -73,7 +73,7 @@ class IonicBehaviorParserTest {
     }
 
     @Test
-    void testStyleBehavior() throws CoderException {
+    void testBehaviorWithStyle() throws CoderException {
         withBehavior(buildTemplateLiteralWithoutExpression("document.getElementById('body').style.opacity=0"));
         doParsing();
         assertCodeEquals("`document.getElementById('body').style.opacity=\"0\"`;");

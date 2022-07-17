@@ -91,7 +91,7 @@ public class Tag implements Cloneable {
     }
 
     public void addAttribute(String name, String value) {
-        if (name.matches(".*[\\[\\]\\(\\)]+.*")) {
+        if (isDirective(name)) {
             attributes.put(name, value);
         }
         else {
@@ -99,7 +99,15 @@ public class Tag implements Cloneable {
         }
     }
 
+    private boolean isDirective(String name) {
+        return name.matches(".*[\\[\\]\\(\\)]+.*");
+    }
+
     public boolean hasAttribute(String name) {
+        if (isDirective(name)) {
+            return attributes.containsKey(name);
+        }
+
         return attributes.containsKey(name.toLowerCase());
     }
 

@@ -45,6 +45,20 @@ class InputTagParserTest {
         });
     }
 
+    @Test
+    void testInputAttribute() {
+        withRootTag(buildInputWithId("foo"));
+        doParsing();
+        assertContainsAttribute("[(ngModel)]");
+    }
+
+    @Test
+    void testInputName() {
+        withRootTag(buildInputWithId("foo"));
+        doParsing();
+        assertName("ion-input");
+    }
+
 
     //-------------------------------------------------------------------------
     //		Methods
@@ -75,5 +89,13 @@ class InputTagParserTest {
 
     private Tag buildInputWithoutId() {
         return Tag.getVoidInstance("input");
+    }
+
+    private void assertContainsAttribute(String name) {
+        Assertions.assertTrue(parser.getParsedTag().hasAttribute(name));
+    }
+
+    private void assertName(String name) {
+        Assertions.assertEquals(name, parser.getParsedTag().getName());
     }
 }

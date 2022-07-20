@@ -1,7 +1,9 @@
 package wniemiec.mobilex.ama.parser.screens.behavior.instruction;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -11,14 +13,14 @@ import wniemiec.mobilex.ama.models.behavior.Instruction;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
 
 
-class MethodDefinitionInstructionJsonParserTest {
+class ClassBodyInstructionJsonParserTest {
     
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private MethodDefinitionInstructionJsonParser parser;
+    private ClassBodyInstructionJsonParser parser;
     private Instruction parsedInstruction;
-    private JSONObject methodDefinition;
+    private List<JSONObject> body;
 
 
     //-------------------------------------------------------------------------
@@ -26,9 +28,9 @@ class MethodDefinitionInstructionJsonParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        parser = MethodDefinitionInstructionJsonParser.getInstance();
+        parser = ClassBodyInstructionJsonParser.getInstance();
         parsedInstruction = null;
-        methodDefinition = buildMethodDefinition();
+        body = new ArrayList<>();
     }
 
 
@@ -36,45 +38,47 @@ class MethodDefinitionInstructionJsonParserTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testParseWithKeyAndValueAndStaticAndComputed() 
+    void testParseWithOneMethodDefinition() 
     throws ParseException, IOException {
-        withKey(buildIdentifier("getFirst"));
-        withComputed(true);
-        withStatic(true);
-        withKind("method");
-        withValue(
-            buildFunctionExpression(
-                buildBlockStatement(buildReturnInstruction(buildIdentifier("a"))), 
-                buildIdentifier("a"), 
-                buildIdentifier("b")
+        withDefinition(
+            buildStaticMethodDefinition(
+                true,
+                buildIdentifier("getFirst"),
+                buildFunctionExpression(
+                    buildBlockStatement(buildReturnInstruction(buildIdentifier("a"))), 
+                    buildIdentifier("a"), 
+                    buildIdentifier("b")
+                )
             )
+
         );
         doParsing();
-        assertParsedCodeIs("static getFirst(a, b) { return a }");
+        assertParsedCodeIs("{ static getFirst(a, b) { return a } }");
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private JSONObject buildMethodDefinition() {
-        JSONObject definition = new JSONObject();
-
-        definition.put("type", "MethodDefinition");
-
-        return definition;
+    private void withDefinition(JSONObject statement) {
+        body.add(statement);
     }
 
-    private void withComputed(boolean value) {
-        methodDefinition.put("computed", value);
-    }
+    private JSONObject buildStaticMethodDefinition(
+        boolean computed, 
+        JSONObject key, 
+        JSONObject value
+    ) {
+        JSONObject methodDefinition = new JSONObject();
 
-    private void withStatic(boolean value) {
-        methodDefinition.put("static", value);
-    }
+        methodDefinition.put("type", "MethodDefinition");
+        methodDefinition.put("static", true);
+        methodDefinition.put("computed", computed);
+        methodDefinition.put("kind", "method");
+        methodDefinition.put("key", key);
+        methodDefinition.put("value", value);
 
-    private void withKind(String kind) {
-        methodDefinition.put("kind", kind);
+        return methodDefinition;
     }
 
     private JSONObject buildIdentifier(String name) {
@@ -84,10 +88,6 @@ class MethodDefinitionInstructionJsonParserTest {
         expression.put("name", name);
 
         return expression;
-    }
-
-    private void withKey(JSONObject expression) {
-        methodDefinition.put("key", expression);
     }
 
     private JSONObject buildBlockStatement(JSONObject... statements) {
@@ -123,13 +123,19 @@ class MethodDefinitionInstructionJsonParserTest {
         return expression;
     }
 
-
-    private void withValue(JSONObject expression) {
-        methodDefinition.put("value", expression);
+    private void doParsing() throws ParseException, IOException {
+        parsedInstruction = parser.parse(buildClassBody());
     }
 
-    private void doParsing() throws ParseException, IOException {
-        parsedInstruction = parser.parse(methodDefinition);
+    private JSONObject buildClassBody() {
+        JSONObject expression = new JSONObject();
+        JSONArray jsonBody = new JSONArray();
+
+        body.forEach(jsonBody::put);
+        expression.put("type", "ClassBody");
+        expression.put("body", jsonBody);
+
+        return expression;
     }
 
     private void assertParsedCodeIs(String code) {

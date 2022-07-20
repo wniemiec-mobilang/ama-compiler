@@ -42,9 +42,8 @@ public class FunctionExpression implements Expression {
         code.append(async ? "async " : "");
         code.append('(');
         code.append(paramsToCode());
-        code.append(") { " );
+        code.append(") " );
         code.append(bodyCode);
-        code.append(" }");
 
         return code.toString();
     }        

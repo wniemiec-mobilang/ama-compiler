@@ -83,7 +83,7 @@ class FunctionExpressionJsonParserTest {
     private JSONObject buildFunctionExpression() {
         JSONObject expression = new JSONObject();
 
-        expression.put("type", "FunctionDeclaration");
+        expression.put("type", "FunctionExpression");
         expression.put("async", async);
         expression.put("params", params);
         expression.put("body", body);

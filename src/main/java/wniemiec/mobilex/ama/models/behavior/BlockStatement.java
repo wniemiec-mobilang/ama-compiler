@@ -1,5 +1,6 @@
 package wniemiec.mobilex.ama.models.behavior;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -17,6 +18,10 @@ public class BlockStatement implements Instruction {
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
+    public BlockStatement(Instruction... body) {
+        this(Arrays.asList(body));
+    }
+
     public BlockStatement(List<Instruction> body) {
         this.body = body;
     }

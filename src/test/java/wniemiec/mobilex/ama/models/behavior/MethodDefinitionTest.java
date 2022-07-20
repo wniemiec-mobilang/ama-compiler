@@ -44,7 +44,7 @@ class MethodDefinitionTest {
         withKind("method");
         withValue(
             buildSyncFunction(
-                new ReturnStatement(new Identifier("a")), 
+                new BlockStatement(new ReturnStatement(new Identifier("a"))), 
                 new Identifier("a"), 
                 new Identifier("b")
             )

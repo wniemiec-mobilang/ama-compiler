@@ -18,7 +18,6 @@ class MethodDefinitionInstructionJsonParser implements InstructionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static MethodDefinitionInstructionJsonParser instance;
-    private final InstructionParser instructionParser;
     private final ExpressionParser expressionParser;
 
 
@@ -26,7 +25,6 @@ class MethodDefinitionInstructionJsonParser implements InstructionJsonParser {
     //		Constructor
     //-------------------------------------------------------------------------
     private MethodDefinitionInstructionJsonParser() {
-        instructionParser = InstructionParser.getInstance();
         expressionParser = ExpressionParser.getInstance();
     }
 

@@ -54,7 +54,7 @@ class MethodDefinitionInstructionJsonParser implements InstructionJsonParser {
             jsonObject.getBoolean("static"),
             jsonObject.getString("kind"),
             expressionParser.parse(jsonObject.getJSONObject("key")),
-            instructionParser.parse(jsonObject.getJSONObject("body"))
+            expressionParser.parse(jsonObject.getJSONObject("value"))
         );
     }
 }

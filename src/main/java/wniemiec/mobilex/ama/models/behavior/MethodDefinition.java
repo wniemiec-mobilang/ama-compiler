@@ -14,7 +14,7 @@ public class MethodDefinition implements Instruction {
     private final boolean isStatic;
     private final String kind;
     private final Expression key;
-    private final Instruction value;
+    private final Expression value;
 
 
     //-------------------------------------------------------------------------
@@ -25,13 +25,13 @@ public class MethodDefinition implements Instruction {
         boolean isStatic, 
         String kind, 
         Expression key, 
-        Instruction body
+        Expression value
     ) {
         this.computed = computed;
         this.isStatic = isStatic;
         this.kind = kind;
         this.key = key;
-        this.value = body;
+        this.value = value;
     }
     
 
@@ -61,5 +61,13 @@ public class MethodDefinition implements Instruction {
             + ", key=" + key 
             + ", value=" + value 
         + "]";
+    }
+
+
+    //-------------------------------------------------------------------------
+    //		Getters
+    //-------------------------------------------------------------------------
+    public boolean isComputed() {
+        return computed;
     }
 }

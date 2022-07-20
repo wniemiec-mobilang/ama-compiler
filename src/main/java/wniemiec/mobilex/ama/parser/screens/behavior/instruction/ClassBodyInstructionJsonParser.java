@@ -3,7 +3,9 @@ package wniemiec.mobilex.ama.parser.screens.behavior.instruction;
 import org.json.JSONException;
 import org.json.JSONObject;
 import wniemiec.mobilex.ama.models.behavior.Instruction;
+import wniemiec.mobilex.ama.models.behavior.ClassBody;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
+import wniemiec.mobilex.ama.parser.screens.behavior.BlockCodeParser;
 
 
 class ClassBodyInstructionJsonParser implements InstructionJsonParser {
@@ -12,12 +14,14 @@ class ClassBodyInstructionJsonParser implements InstructionJsonParser {
     //		Attributes
     //-------------------------------------------------------------------------
     private static ClassBodyInstructionJsonParser instance;
+    private final BlockCodeParser blockCodeParser;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
     private ClassBodyInstructionJsonParser() {
+        blockCodeParser = BlockCodeParser.getInstance();
     }
 
 
@@ -40,7 +44,7 @@ class ClassBodyInstructionJsonParser implements InstructionJsonParser {
     public Instruction parse(JSONObject jsonObject) 
     throws JSONException, ParseException {
         return new ClassBody(
-            instructionParser.parse(jsonObject.getJSONArray("body"))
+            blockCodeParser.parse(jsonObject.getJSONArray("body"))
         );
     }
 }

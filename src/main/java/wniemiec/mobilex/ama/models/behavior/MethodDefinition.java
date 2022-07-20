@@ -10,11 +10,11 @@ public class MethodDefinition implements Instruction {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private boolean computed;
-    private boolean isStatic;
-    private String kind;
-    private Expression key;
-    private Instruction value;
+    private final boolean computed;
+    private final boolean isStatic;
+    private final String kind;
+    private final Expression key;
+    private final Instruction value;
 
 
     //-------------------------------------------------------------------------

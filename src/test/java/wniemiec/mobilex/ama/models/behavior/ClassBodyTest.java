@@ -1,22 +1,20 @@
 package wniemiec.mobilex.ama.models.behavior;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-class MethodDefinitionTest {
+class ClassBodyTest {
     
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private MethodDefinition methodDefinition;
-    private boolean computed;
-    private boolean isStatic;
-    private String kind;
-    private Expression key;
-    private Expression value;
+    private ClassBody classBody;
+    private List<Instruction> declarations;
 
 
     //-------------------------------------------------------------------------
@@ -24,12 +22,8 @@ class MethodDefinitionTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        methodDefinition = null;
-        computed = false;
-        isStatic = false;
-        kind = null;
-        key = null;
-        value = null;
+        classBody = null;
+        declarations = new ArrayList<>();
     }
 
 
@@ -37,63 +31,51 @@ class MethodDefinitionTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testToCodeWithKeyAndValueAndStaticAndComputed() {
-        withKey(new Identifier("getFirst"));
-        withComputed(true);
-        withStatic(true);
-        withKind("method");
-        withValue(
-            buildSyncFunction(
+    void testToCodeWithOneDeclaration() {
+        withDeclaration(
+            buildSyncMethodDefinition(
+                "getFirst",
                 new ReturnStatement(new Identifier("a")), 
                 new Identifier("a"), 
                 new Identifier("b")
             )
         );
-        buildMethodDefinition();
-        assertToCodeIs("static getFirst(a, b) { return a }");
-        assertIsComputed();
+        buildClassBody();
+        assertToCodeIs("{ getFirst(a, b) { return a } }");
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void withComputed(boolean value) {
-        computed = value;
+    private void withDeclaration(Instruction declaration) {
+        declarations.add(declaration);
     }
 
-    private void withStatic(boolean value) {
-        isStatic = value;
-    }
-
-    private void withKind(String kind) {
-        this.kind = kind;
-    }
-
-    private void withKey(Expression expression) {
-        key = expression;
-    }
-
-    private void withValue(Expression value) {
-        this.value = value;
+    private Instruction buildSyncMethodDefinition(
+        String name, 
+        Instruction body, 
+        Expression... params
+    ) {
+        return new MethodDefinition(
+            false, 
+            false, 
+            "method", 
+            new Identifier(name), 
+            buildSyncFunction(body, params)
+        );
     }
 
     private Expression buildSyncFunction(Instruction body, Expression... params) {
         return new FunctionExpression(false, Arrays.asList(params), body);
     }
 
-    private void buildMethodDefinition() {
-        methodDefinition = new MethodDefinition(
-            computed, 
-            isStatic, 
-            kind, 
-            key, 
-            value
-        );
+    private void buildClassBody() {
+        classBody = new ClassBody(declarations);
     }
 
     private void assertToCodeIs(String expectedCode) {
-        assertHasSameLine(expectedCode, methodDefinition.toCode());
+        assertHasSameLine(expectedCode, classBody.toCode());
     }
 
     private void assertHasSameLine(String expected, String obtained) {
@@ -105,13 +87,5 @@ class MethodDefinitionTest {
 
     private String removeWhiteSpaces(String text) {
         return text.replaceAll("[\\s\\t]+", "");
-    }
-
-    private void assertIsComputed() {
-        Assertions.assertTrue(methodDefinition.isComputed());
-    }
-
-    private void assertIsNotComputed() {
-        Assertions.assertFalse(methodDefinition.isComputed());
     }
 }

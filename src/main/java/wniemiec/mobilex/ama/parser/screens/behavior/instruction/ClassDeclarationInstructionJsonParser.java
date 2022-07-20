@@ -43,6 +43,10 @@ class ClassDeclarationInstructionJsonParser implements InstructionJsonParser {
     @Override
     public Instruction parse(JSONObject jsonObject) 
     throws JSONException, ParseException {
-        throw new UnsupportedOperationException("Class declaration parser not implemented yet");
+        return new ClassDeclaration(
+            expressionParser.parse(jsonObject.getJSONObject("superClass")), 
+            expressionParser.parse(jsonObject.getJSONObject("id")), 
+            instructionParser.parse(jsonObject.getJSONObject("body"))
+        );
     }
 }

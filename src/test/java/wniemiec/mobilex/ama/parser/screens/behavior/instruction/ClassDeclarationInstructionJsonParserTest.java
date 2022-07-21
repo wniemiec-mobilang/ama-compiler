@@ -2,7 +2,6 @@ package wniemiec.mobilex.ama.parser.screens.behavior.instruction;
 
 import java.io.IOException;
 import java.util.Arrays;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -19,9 +18,9 @@ class ClassDeclarationInstructionJsonParserTest {
     //-------------------------------------------------------------------------
     private ClassDeclarationInstructionJsonParser parser;
     private Instruction parsedInstruction;
-    private String name;
+    private JSONObject id;
     private JSONObject superClass;
-    private JSONArray body;
+    private JSONObject body;
 
 
     //-------------------------------------------------------------------------
@@ -31,9 +30,9 @@ class ClassDeclarationInstructionJsonParserTest {
     void setUp() {
         parser = ClassDeclarationInstructionJsonParser.getInstance();
         parsedInstruction = null;
-        name = null;
+        id = null;
         superClass = null;
-        body = new JSONArray();
+        body = new JSONObject();
     }
 
 
@@ -41,28 +40,101 @@ class ClassDeclarationInstructionJsonParserTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testParseWithName() throws ParseException, IOException {
-        withName("StringUtils");
-        
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> {
-            doParsing();
-        });
+    void testParseWithNameAndSuperClassAndBody() throws ParseException, IOException {
+        withId(buildIdentifier("StringUtils"));
+        withSuperClass(buildIdentifier("Utilities"));
+        withBody(
+            buildStaticMethodDefinition(
+                true,
+                buildIdentifier("getFirst"),
+                buildFunctionExpression(
+                    buildBlockStatement(buildReturnInstruction(buildIdentifier("a"))), 
+                    buildIdentifier("a"), 
+                    buildIdentifier("b")
+                )
+            )
+        );
+        doParsing();
+        assertParsedCodeIs("class StringUtils extends Utilities { static getFirst(a, b) { return a } }");
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    private void withName(String name) {
-        this.name = name;
+    private JSONObject buildIdentifier(String name) {
+        JSONObject expression = new JSONObject();
+
+        expression.put("type", "Identifier");
+        expression.put("name", name);
+
+        return expression;
+    }
+
+    private void withId(JSONObject name) {
+        this.id = name;
     }
 
     private void withSuperClass(JSONObject superClass) {
         this.superClass = superClass;
     }
 
+    private JSONObject buildStaticMethodDefinition(
+        boolean computed, 
+        JSONObject key, 
+        JSONObject value
+    ) {
+        JSONObject methodDefinition = new JSONObject();
+
+        methodDefinition.put("type", "MethodDefinition");
+        methodDefinition.put("static", true);
+        methodDefinition.put("computed", computed);
+        methodDefinition.put("kind", "method");
+        methodDefinition.put("key", key);
+        methodDefinition.put("value", value);
+
+        return methodDefinition;
+    }
+
+    private JSONObject buildBlockStatement(JSONObject... statements) {
+        JSONObject instruction = new JSONObject();
+        JSONArray jsonStatements = new JSONArray();
+
+        Arrays.stream(statements).forEach(jsonStatements::put);
+        instruction.put("type", "BlockStatement");
+        instruction.put("body", jsonStatements);
+
+        return instruction;
+    }
+
+    private JSONObject buildReturnInstruction(JSONObject argument) {
+        JSONObject expression = new JSONObject();
+
+        expression.put("type", "ReturnStatement");
+        expression.put("argument", argument);
+
+        return expression;
+    }
+
+    private JSONObject buildFunctionExpression(JSONObject body, JSONObject... params) {
+        JSONObject expression = new JSONObject();
+        JSONArray jsonParameters = new JSONArray();
+
+        Arrays.stream(params).forEach(jsonParameters::put);
+        expression.put("type", "FunctionExpression");
+        expression.put("async", false);
+        expression.put("params", jsonParameters);
+        expression.put("body", body);
+
+        return expression;
+    }
+
     private void withBody(JSONObject... instructions) {
-        Arrays.stream(instructions).forEach(body::put);
+        JSONArray jsonInstructions = new JSONArray();
+
+        Arrays.stream(instructions).forEach(jsonInstructions::put);
+        body.put("type", "ClassBody");
+        body.put("body", jsonInstructions);
     }
 
     private void doParsing() throws ParseException, IOException {
@@ -71,9 +143,7 @@ class ClassDeclarationInstructionJsonParserTest {
 
     private JSONObject buildClassDeclaration() {
         JSONObject instruction = new JSONObject();
-        JSONObject id = new JSONObject();
 
-        id.put("name", name);
         instruction.put("type", "ClassDeclaration");
         instruction.put("id", id);
         instruction.put("superClass", superClass);

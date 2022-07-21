@@ -50,8 +50,8 @@ class ClassDeclarationInstructionJsonParser implements InstructionJsonParser {
     public Instruction parse(JSONObject jsonObject) 
     throws JSONException, ParseException {
         return new ClassDeclaration(
-            expressionParser.parse(jsonObject.getJSONObject("superClass")), 
             expressionParser.parse(jsonObject.getJSONObject("id")), 
+            expressionParser.parse(jsonObject.getJSONObject("superClass")), 
             instructionParser.parse(jsonObject.getJSONObject("body"))
         );
     }

@@ -33,7 +33,9 @@ public class BehaviorParser  {
      * @param       behaviorNode Behavior node
      */
     public BehaviorParser(SortedMap<String, List<Node>> ast, Node behaviorNode) {
-        contentNode = ast.get(behaviorNode.getId()).get(0).getLabel();
+        contentNode = ast.containsKey(behaviorNode.getId()) 
+            ? ast.get(behaviorNode.getId()).get(0).getLabel() 
+            : "";
         blockCodeParser = BlockCodeParser.getInstance();
     }
 
@@ -42,6 +44,10 @@ public class BehaviorParser  {
     //		Methods
     //-------------------------------------------------------------------------
     public Behavior parse() throws ParseException {
+        if (contentNode.isBlank()) {
+            return new Behavior();
+        }
+
         List<Instruction> code = parseJson(new JSONObject(contentNode));
 
         return new Behavior(code);

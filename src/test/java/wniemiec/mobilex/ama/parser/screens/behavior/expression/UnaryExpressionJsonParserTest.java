@@ -1,22 +1,24 @@
-package wniemiec.mobilex.ama.parser.screens.behavior.instruction;
+package wniemiec.mobilex.ama.parser.screens.behavior.expression;
 
 import java.io.IOException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import wniemiec.mobilex.ama.models.behavior.Instruction;
+import wniemiec.mobilex.ama.models.behavior.Expression;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
 
 
-class BreakInstructionJsonParserTest {
-    
+class UnaryExpressionJsonParserTest {
+
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private BreakStatementInstructionJsonParser parser;
-    private Instruction parsedInstruction;
-    private JSONObject label;
+    private UnaryExpressionJsonParser parser;
+    private Expression parsedExpression;
+    private String operator;
+    private boolean prefix;
+    private JSONObject argument;
 
 
     //-------------------------------------------------------------------------
@@ -24,9 +26,11 @@ class BreakInstructionJsonParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        parser = BreakStatementInstructionJsonParser.getInstance();
-        parsedInstruction = null;
-        label = null;
+        parser = UnaryExpressionJsonParser.getInstance();
+        parsedExpression = null;
+        operator = null;
+        prefix = false;
+        argument = null;
     }
 
 
@@ -34,16 +38,26 @@ class BreakInstructionJsonParserTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testParseWithLabel() throws ParseException, IOException {
-        withLabel(buildIdentifier("foo"));
+    void testToCodeWithOperatorAndPrefixAndArgument() throws ParseException, IOException {
+        withOperator("!");
+        withPrefix(true);
+        withArgument(buildIdentifier("isEmpty"));
         doParsing();
-        assertParsedCodeIs("break foo");
+        assertParsedCodeIs("!isEmpty");
     }
 
 
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
+    private void withOperator(String operator) {
+        this.operator = operator;
+    }
+
+    private void withPrefix(boolean value) {
+        prefix = value;
+    }
+
     private JSONObject buildIdentifier(String name) {
         JSONObject expression = new JSONObject();
 
@@ -53,25 +67,27 @@ class BreakInstructionJsonParserTest {
         return expression;
     }
 
-    private void withLabel(JSONObject label) {
-        this.label = label;
+    private void withArgument(JSONObject expression) {
+        argument = expression;
     }
 
     private void doParsing() throws ParseException, IOException {
-        parsedInstruction = parser.parse(buildContinueStatement());
+        parsedExpression = parser.parse(buildPostIncrementExpression());
     }
 
-    private JSONObject buildContinueStatement() {
+    private JSONObject buildPostIncrementExpression() {
         JSONObject instruction = new JSONObject();
 
-        instruction.put("type", "BreakStatement");
-        instruction.put("label", label);
+        instruction.put("type", "UpdateExpression");
+        instruction.put("operator", operator);
+        instruction.put("prefix", prefix);
+        instruction.put("argument", argument);
 
         return instruction;
     }
 
     private void assertParsedCodeIs(String code) {
-        assertHasSameLine(code, parsedInstruction.toCode());
+        assertHasSameLine(code, parsedExpression.toCode());
     }
 
     private void assertHasSameLine(String expected, String obtained) {

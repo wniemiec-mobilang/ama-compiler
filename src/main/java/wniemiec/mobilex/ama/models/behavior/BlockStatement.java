@@ -36,15 +36,16 @@ public class BlockStatement implements Instruction {
     }
 
     private String bodyToCode() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder code = new StringBuilder();
 
-        sb.append('\n');
+        code.append('\n');
 
         for (Instruction line : body) {
-            sb.append(line.toCode());
-            sb.append('\n');
+            code.append(line.toCode());
+            code.append(';');
+            code.append('\n');
         }
 
-        return sb.toString();
+        return code.toString();
     }
 }

@@ -1,29 +1,30 @@
 package wniemiec.mobilex.ama.parser.screens.behavior.expression;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import wniemiec.mobilex.ama.models.behavior.Expression;
-import wniemiec.mobilex.ama.models.behavior.UpdateExpression;
+import wniemiec.mobilex.ama.models.behavior.UnaryExpression;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
 
 
 /**
- * Responsible for parsing update expressions from behavior node from MobiLang 
+ * Responsible for parsing unary expressions from behavior node from Mobilang 
  * AST.
  */
-class UpdateExpressionJsonParser implements ExpressionJsonParser {
-
+public class UnaryExpressionJsonParser implements ExpressionJsonParser {
+    
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private static UpdateExpressionJsonParser instance;
+    private static UnaryExpressionJsonParser instance;
     private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    private UpdateExpressionJsonParser() {
+    private UnaryExpressionJsonParser() {
         expressionParser = ExpressionParser.getInstance();
     }
 
@@ -31,9 +32,9 @@ class UpdateExpressionJsonParser implements ExpressionJsonParser {
     //-------------------------------------------------------------------------
     //		Factory
     //-------------------------------------------------------------------------
-    public static UpdateExpressionJsonParser getInstance() {
+    public static UnaryExpressionJsonParser getInstance() {
         if (instance == null) {
-            instance = new UpdateExpressionJsonParser();
+            instance = new UnaryExpressionJsonParser();
         }
 
         return instance;
@@ -45,7 +46,7 @@ class UpdateExpressionJsonParser implements ExpressionJsonParser {
     //-------------------------------------------------------------------------
     @Override
     public Expression parse(JSONObject jsonObject) throws JSONException, ParseException {
-        return new UpdateExpression(
+        return new UnaryExpression(
             jsonObject.getString("operator"),
             jsonObject.getBoolean("prefix"),
             expressionParser.parse(jsonObject.getJSONObject("argument"))

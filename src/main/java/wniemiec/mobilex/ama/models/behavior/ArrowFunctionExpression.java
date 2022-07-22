@@ -6,9 +6,10 @@ import java.util.stream.Collectors;
 
 
 /**
- * Responsible for representing a function expression from behavior code.
+ * Responsible for representing an arrow function expression from behavior 
+ * code.
  */
-public class FunctionExpression implements Expression {
+public class ArrowFunctionExpression implements Expression {
 
     //-------------------------------------------------------------------------
     //		Attributes
@@ -21,7 +22,7 @@ public class FunctionExpression implements Expression {
     //-------------------------------------------------------------------------
     //		Constructors
     //-------------------------------------------------------------------------
-    public FunctionExpression(
+    public ArrowFunctionExpression(
         boolean async, 
         List<Expression> params, 
         Instruction body
@@ -29,7 +30,7 @@ public class FunctionExpression implements Expression {
         this(async, params, body.toCode());
     }
 
-    private FunctionExpression(
+    private ArrowFunctionExpression(
         boolean async, 
         List<Expression> params, 
         String bodyCode
@@ -50,7 +51,7 @@ public class FunctionExpression implements Expression {
         code.append(async ? "async " : "");
         code.append('(');
         code.append(paramsToCode());
-        code.append(") " );
+        code.append(") => ");
         code.append(bodyCode);
 
         return code.toString();
@@ -80,10 +81,11 @@ public class FunctionExpression implements Expression {
 
     @Override
     public String toString() {
-        return  "[FunctionExpression] {" 
+        return  "[ArrowFunctionExpression] {" 
             + bodyCode 
             + "(" + params + ")" 
             + "{async: " + async 
         + "} }";
     }
+    
 }

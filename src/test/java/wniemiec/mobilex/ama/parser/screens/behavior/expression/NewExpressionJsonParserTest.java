@@ -1,22 +1,25 @@
-package wniemiec.mobilex.ama.parser.screens.behavior.instruction;
+package wniemiec.mobilex.ama.parser.screens.behavior.expression;
 
 import java.io.IOException;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import wniemiec.mobilex.ama.models.behavior.Instruction;
+import wniemiec.mobilex.ama.models.behavior.Expression;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
 
 
-class BreakInstructionJsonParserTest {
-    
+class NewExpressionJsonParserTest {
+
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private BreakStatementInstructionJsonParser parser;
-    private Instruction parsedInstruction;
-    private JSONObject label;
+    private NewExpressionJsonParser parser;
+    private Expression parsedExpression;
+    private JSONObject callee;
+    private JSONArray arguments;
 
 
     //-------------------------------------------------------------------------
@@ -24,9 +27,10 @@ class BreakInstructionJsonParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        parser = BreakStatementInstructionJsonParser.getInstance();
-        parsedInstruction = null;
-        label = null;
+        parser = NewExpressionJsonParser.getInstance();
+        parsedExpression = null;
+        callee = null;
+        arguments = new JSONArray();
     }
 
 
@@ -34,10 +38,11 @@ class BreakInstructionJsonParserTest {
     //		Tests
     //-------------------------------------------------------------------------
     @Test
-    void testParseWithLabel() throws ParseException, IOException {
-        withLabel(buildIdentifier("foo"));
+    void testParseWithCalleeAndOneArgument() throws ParseException, IOException {
+        withCallee(buildIdentifier("Integer"));
+        withArgument(buildLiteral(2));
         doParsing();
-        assertParsedCodeIs("break foo");
+        assertParsedCodeIs("new Integer(2)");
     }
 
 
@@ -53,25 +58,44 @@ class BreakInstructionJsonParserTest {
         return expression;
     }
 
-    private void withLabel(JSONObject label) {
-        this.label = label;
+    private void withCallee(JSONObject callee) {
+        this.callee = callee;
+    }
+
+    private JSONObject buildLiteral(Object value) {
+        JSONObject expression = new JSONObject();
+
+        expression.put("type", "Literal");
+        expression.put("value", value);
+
+        return expression;
+    }
+
+    private void withArgument(JSONObject expression) {
+        if (expression == null) {
+            arguments = null;
+        }
+        else {
+            arguments.put(expression);
+        }
     }
 
     private void doParsing() throws ParseException, IOException {
-        parsedInstruction = parser.parse(buildContinueStatement());
+        parsedExpression = parser.parse(buildNewExpression());
     }
 
-    private JSONObject buildContinueStatement() {
+    private JSONObject buildNewExpression() {
         JSONObject instruction = new JSONObject();
 
-        instruction.put("type", "BreakStatement");
-        instruction.put("label", label);
+        instruction.put("type", "NewExpression");
+        instruction.put("callee", callee);
+        instruction.put("arguments", arguments);
 
         return instruction;
     }
 
     private void assertParsedCodeIs(String code) {
-        assertHasSameLine(code, parsedInstruction.toCode());
+        assertHasSameLine(code, parsedExpression.toCode());
     }
 
     private void assertHasSameLine(String expected, String obtained) {

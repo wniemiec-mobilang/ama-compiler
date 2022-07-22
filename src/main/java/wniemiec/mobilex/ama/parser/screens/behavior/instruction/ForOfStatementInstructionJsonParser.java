@@ -2,6 +2,7 @@ package wniemiec.mobilex.ama.parser.screens.behavior.instruction;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import wniemiec.mobilex.ama.models.behavior.ExpressionStatement;
 import wniemiec.mobilex.ama.models.behavior.ForOfDeclaration;
 import wniemiec.mobilex.ama.models.behavior.Instruction;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
@@ -49,6 +50,14 @@ class ForOfStatementInstructionJsonParser implements InstructionJsonParser {
     @Override
     public Instruction parse(JSONObject jsonObject) 
     throws JSONException, ParseException {
+        if (jsonObject.getJSONObject("left").getString("type").equals("Identifier")) {
+            return new ForOfDeclaration(
+                new ExpressionStatement(expressionParser.parse(jsonObject.getJSONObject("left"))), 
+                expressionParser.parse(jsonObject.getJSONObject("right")), 
+                instructionParser.parse(jsonObject.getJSONObject("body"))
+            );
+        }
+
         return new ForOfDeclaration(
             instructionParser.parse(jsonObject.getJSONObject("left")), 
             expressionParser.parse(jsonObject.getJSONObject("right")), 

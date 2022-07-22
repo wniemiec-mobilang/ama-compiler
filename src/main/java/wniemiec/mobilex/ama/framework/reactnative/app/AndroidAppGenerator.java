@@ -77,6 +77,7 @@ class AndroidAppGenerator {
 
     private void generateAndroidApp() throws IOException {
         generateKeyStore();
+        updateBuildGradle();
         updateGradlePropertiesFromAppFolder();
         updateGradleBuildFromAppFolder();
         runGradlew();
@@ -115,6 +116,19 @@ class AndroidAppGenerator {
             "-keypass",
             KEYSTORE_PASSWORD
         );
+	}
+
+    private void updateBuildGradle() throws IOException {
+        Path gradleFile = androidProjectPath.resolve("build.gradle");
+        List<String> gradleFileContent = fileManager.readLines(gradleFile);
+
+        if (gradleFileContent.size() > 0) {
+            Consolex.writeDebug("Updating build gradle...");
+
+            gradleFileContent.add(10, "kotlinVersion = \"1.6.0\"");
+    
+            fileManager.write(gradleFile, gradleFileContent);
+        }
 	}
 
 	private void updateGradlePropertiesFromAppFolder() throws IOException {

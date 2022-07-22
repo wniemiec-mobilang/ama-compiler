@@ -35,8 +35,6 @@ class ReactNativeProjectManager {
     //-------------------------------------------------------------------------
     //		Methods
     //-------------------------------------------------------------------------
-    
-
     public void createProject(Properties properties, Path location) 
     throws IOException {
         Validator.validateProperties(properties);

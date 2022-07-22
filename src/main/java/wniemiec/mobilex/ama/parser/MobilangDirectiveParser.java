@@ -96,11 +96,12 @@ public abstract class MobilangDirectiveParser {
     }
 
     private String parseScreenDirectiveWithParameters(String line) {
+        String normalizedLine = line.replaceAll("[ +\"\']+", "");
         Pattern pattern = Pattern.compile(".*mobilang::screen::([A-z0-9\\-_]+)\\?([^?\"'\\/\\\\]+)([\"']+|$).*");
-        Matcher matcher = pattern.matcher(line);
+        Matcher matcher = pattern.matcher(normalizedLine);
 
         if (!matcher.matches()) {
-            return line;
+            return normalizedLine;
         }
 
         String screenName = matcher.group(1);
@@ -114,11 +115,11 @@ public abstract class MobilangDirectiveParser {
             screenParameters.add(terms[0]);
         }
 
-        String quote = extractDirectiveQuoteFrom(line);
+        String quote = extractDirectiveQuoteFrom(normalizedLine);
         String directive = quote + "mobilang::screen::([A-z0-9\\-_]+\\?)[^\\\\]+" + quote;
         String replacement = quote + swapScreenDirectiveWithParametersFor(screenName, parameters) + quote;
 
-        return line.replaceAll(directive, replacement.replace("$", "\\$"));
+        return normalizedLine.replaceAll(directive, replacement.replace("$", "\\$"));
     }
 
     private String extractDirectiveQuoteFrom(String directive) {

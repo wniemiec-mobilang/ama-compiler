@@ -2,25 +2,25 @@ package wniemiec.mobilex.ama.parser.screens.behavior.instruction;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import wniemiec.mobilex.ama.models.behavior.BreakStatement;
+import wniemiec.mobilex.ama.models.behavior.ContinueStatement;
 import wniemiec.mobilex.ama.models.behavior.Instruction;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
 import wniemiec.mobilex.ama.parser.screens.behavior.expression.ExpressionParser;
 
 
-class BreakInstructionJsonParser implements InstructionJsonParser {
-    
+class ContinueStatementInstructionJsonParser implements InstructionJsonParser {
+ 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private static BreakInstructionJsonParser instance;
+    private static ContinueStatementInstructionJsonParser instance;
     private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    private BreakInstructionJsonParser() {
+    private ContinueStatementInstructionJsonParser() {
         expressionParser = ExpressionParser.getInstance();
     }
 
@@ -28,9 +28,9 @@ class BreakInstructionJsonParser implements InstructionJsonParser {
     //-------------------------------------------------------------------------
     //		Factory
     //-------------------------------------------------------------------------
-    public static BreakInstructionJsonParser getInstance() {
+    public static ContinueStatementInstructionJsonParser getInstance() {
         if (instance == null) {
-            instance = new BreakInstructionJsonParser();
+            instance = new ContinueStatementInstructionJsonParser();
         }
 
         return instance;
@@ -43,8 +43,10 @@ class BreakInstructionJsonParser implements InstructionJsonParser {
     @Override
     public Instruction parse(JSONObject jsonObject) 
     throws JSONException, ParseException {
-        return new BreakStatement(
-            expressionParser.parse(jsonObject.getJSONObject("label"))
+        return new ContinueStatement(
+            jsonObject.isNull("label") 
+                ? null 
+                : expressionParser.parse(jsonObject.getJSONObject("label"))
         );
     }
 }

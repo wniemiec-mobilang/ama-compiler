@@ -29,7 +29,13 @@ public class AssignmentExpression implements Expression {
     //-------------------------------------------------------------------------
     @Override
     public String toCode() {
-        return left.toCode() + operator + right.toCode();
+        StringBuilder code = new StringBuilder();
+
+        code.append(left == null ? "null" : left.toCode());
+        code.append(operator);
+        code.append(right == null ? "null" : right.toCode());
+
+        return code.toString();
     }
     
     @Override

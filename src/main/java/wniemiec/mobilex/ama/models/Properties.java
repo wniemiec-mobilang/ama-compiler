@@ -2,6 +2,7 @@ package wniemiec.mobilex.ama.models;
 
 import java.util.HashSet;
 import java.util.Set;
+import wniemiec.util.java.StringUtils;
 
 
 /**
@@ -20,7 +21,7 @@ public class Properties {
     //		Constructor
     //-------------------------------------------------------------------------
     public Properties() {
-        name = "mobilang-application";
+        name = "MobilexApp";
         platforms = new HashSet<>();
     }
 
@@ -37,7 +38,17 @@ public class Properties {
             throw new IllegalArgumentException("Application name cannot be empty");
         }
 
-        this.name = name;
+        this.name = normalizeApplicationName(name);
+    }
+
+    private String normalizeApplicationName(String name) {
+        StringBuilder normalizedName = new StringBuilder();
+
+        for (String term : name.split("-")) {
+            normalizedName.append(StringUtils.capitalizeOnlyFirstLetter(term));
+        }
+
+        return normalizedName.toString();
     }
 
     private boolean isEmpty(String text) {

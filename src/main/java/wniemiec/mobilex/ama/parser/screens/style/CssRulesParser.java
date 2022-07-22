@@ -65,11 +65,19 @@ class CssRulesParser {
         JSONArray declarations = cssRule.getJSONArray("declarations");
 
         for (int i = 0; i < declarations.length(); i++) {
+            if (!hasProperty(declarations.getJSONObject(i))) {
+                continue;
+            }
+
             String property = getDeclarationProperty(declarations.getJSONObject(i));
             String value = getDeclarationValue(declarations.getJSONObject(i));
 
             rule.addDeclaration(property, value);
         }
+    }
+
+    private boolean hasProperty(JSONObject declaration) {
+        return declaration.has("property");
     }
 
     private String getDeclarationProperty(JSONObject declaration) {

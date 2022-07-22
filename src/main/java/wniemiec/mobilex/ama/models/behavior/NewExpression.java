@@ -1,42 +1,28 @@
 package wniemiec.mobilex.ama.models.behavior;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 /**
- * Responsible for representing a function expression from behavior code.
+ * Responsible for representing constructor calls from behavior code. A 
+ * constructor call is composed of a callee and may have some arguments.
  */
-public class FunctionExpression implements Expression {
+public class NewExpression implements Expression {
 
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final boolean async;
-    private final List<Expression> params;
-    private final String bodyCode;
+    private final Expression callee;
+    private final List<Expression> arguments;
 
 
     //-------------------------------------------------------------------------
     //		Constructors
     //-------------------------------------------------------------------------
-    public FunctionExpression(
-        boolean async, 
-        List<Expression> params, 
-        Instruction body
-    ) {
-        this(async, params, body.toCode());
-    }
-
-    private FunctionExpression(
-        boolean async, 
-        List<Expression> params, 
-        String bodyCode
-    ) {
-        this.async = async;
-        this.params = (params == null) ? new ArrayList<>() : params;
-        this.bodyCode = bodyCode;
+    public NewExpression(Expression callee, List<Expression> arguments) {
+        this.callee = callee;
+        this.arguments = arguments;
     }
 
 
@@ -47,18 +33,22 @@ public class FunctionExpression implements Expression {
     public String toCode() {
         StringBuilder code = new StringBuilder();
 
-        code.append(async ? "async " : "");
+        code.append("new ");
+        code.append(callee.toCode());
         code.append('(');
-        code.append(paramsToCode());
+
+        if (arguments != null && !arguments.isEmpty()) {
+            code.append(argumentsToCode());
+        }
+        
         code.append(") " );
-        code.append(bodyCode);
 
         return code.toString();
     }        
 
-    private String paramsToCode() {
+    private String argumentsToCode() {
         StringBuilder code = new StringBuilder();
-        List<String> paramsAsCode = getParamsAsCode();
+        List<String> paramsAsCode = getArgumentsAsCode();
 
         for (int i = 0; i < paramsAsCode.size(); i++) {
             code.append(paramsAsCode.get(i));
@@ -72,18 +62,17 @@ public class FunctionExpression implements Expression {
         return code.toString();
     }
 
-    private List<String> getParamsAsCode() {
-        return params
+    private List<String> getArgumentsAsCode() {
+        return arguments
             .stream().map(Expression::toCode)
             .collect(Collectors.toList());
     }
 
     @Override
     public String toString() {
-        return  "[FunctionExpression] {" 
-            + bodyCode 
-            + "(" + params + ")" 
-            + "{async: " + async 
+        return  "[NewExpression] {" 
+            + callee 
+            + "(" + arguments + ")" 
         + "} }";
     }
 }

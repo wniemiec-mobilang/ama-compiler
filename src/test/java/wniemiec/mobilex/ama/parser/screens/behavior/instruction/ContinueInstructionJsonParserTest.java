@@ -14,7 +14,7 @@ class ContinueInstructionJsonParserTest {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private ContinueInstructionJsonParser parser;
+    private ContinueStatementInstructionJsonParser parser;
     private Instruction parsedInstruction;
     private JSONObject label;
 
@@ -24,7 +24,7 @@ class ContinueInstructionJsonParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        parser = ContinueInstructionJsonParser.getInstance();
+        parser = ContinueStatementInstructionJsonParser.getInstance();
         parsedInstruction = null;
         label = null;
     }

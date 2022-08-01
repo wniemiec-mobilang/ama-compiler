@@ -12,13 +12,13 @@ public abstract class Pattern implements Instruction {
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private final List<Expression> elements;
+    private final List<? extends Expression> elements;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    protected Pattern(List<Expression> elements) {
+    protected Pattern(List<? extends Expression> elements) {
         this.elements = elements;
     }
 

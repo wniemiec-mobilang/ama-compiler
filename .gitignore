@@ -13,3 +13,4 @@ buildNumber.properties
 .attached_*
 .apt_generated
 examples/
+*.dot

@@ -40,7 +40,7 @@ class ForDeclarationTest {
         withUpdate(buildPostIncrementExpression("i"));
         withBody(buildStatement(buildPostIncrementExpression("total")));
         buildForDeclaration();
-        assertToCodeIs("for (let i = 0; hasItems(); i++) total++");
+        assertToCodeIs("for (let i = 0; hasItems(); i++) total++;");
     }
 
     

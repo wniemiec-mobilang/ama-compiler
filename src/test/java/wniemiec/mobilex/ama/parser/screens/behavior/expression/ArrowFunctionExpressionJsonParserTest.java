@@ -48,7 +48,7 @@ class ArrowFunctionExpressionJsonParserTest {
         );
         withBody(buildIdentifier("n1"));
         doParsing();
-        assertParsedCodeIs("async (n1, n2) => n1");
+        assertParsedCodeIs("async (n1, n2) => n1;");
     }
 
 

@@ -44,7 +44,7 @@ class ForInStatementInstructionJsonParserTest {
         withRight(buildIdentifier("items"));
         withBody(buildExpressionStatement(buildPostIncrementExpression("total")));
         doParsing();
-        assertParsedCodeIs("for (let item of items) total++");
+        assertParsedCodeIs("for (let item in items) total++;");
     }
 
 

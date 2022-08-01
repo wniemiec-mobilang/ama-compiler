@@ -42,7 +42,6 @@ public class BlockStatement implements Instruction {
 
         for (Instruction line : body) {
             code.append(line.toCode());
-            code.append(';');
             code.append('\n');
         }
 

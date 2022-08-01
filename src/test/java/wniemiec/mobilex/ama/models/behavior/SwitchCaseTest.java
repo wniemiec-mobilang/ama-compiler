@@ -36,7 +36,7 @@ class SwitchCaseTest {
         withTest(Literal.ofNumber("2"));
         withConsequent(buildExpressionStatement(buildPostIncrementExpression("total")));
         buildSwitchCase();
-        assertToCodeIs("case 2: \n total++");
+        assertToCodeIs("case 2: \n total++;");
     }
 
     @Test
@@ -44,7 +44,7 @@ class SwitchCaseTest {
         withTest(null);
         withConsequent(buildExpressionStatement(buildPostIncrementExpression("total")));
         buildSwitchCase();
-        assertToCodeIs("default: \n total++");
+        assertToCodeIs("default: \n total++;");
     }
 
 

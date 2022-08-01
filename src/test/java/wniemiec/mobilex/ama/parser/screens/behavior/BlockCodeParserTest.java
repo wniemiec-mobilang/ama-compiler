@@ -115,7 +115,7 @@ class BlockCodeParserTest {
         List<String> code = new ArrayList<>();
 
         for (String rawCode : instruction.toCode().split("\n")) {
-            code.add(rawCode + ";");
+            code.add(rawCode);
         }
 
         return code;

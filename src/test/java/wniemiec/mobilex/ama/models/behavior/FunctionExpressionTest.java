@@ -40,7 +40,7 @@ class FunctionExpressionTest {
         withParameters(new Identifier("a"), new Identifier("b"));
         withBody(new ReturnStatement(new Identifier("a")));
         buildFunctionExpression();
-        assertToCodeIs("async (a, b) => return a");
+        assertToCodeIs("async (a, b) return a");
     }
 
     @Test
@@ -49,7 +49,7 @@ class FunctionExpressionTest {
         withParameters(new Identifier("a"), new Identifier("b"));
         withBody(new ReturnStatement(new Identifier("a")));
         buildFunctionExpression();
-        assertToCodeIs("(a, b) => return a");
+        assertToCodeIs("(a, b) return a");
     }
 
     

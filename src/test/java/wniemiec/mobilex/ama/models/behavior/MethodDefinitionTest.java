@@ -50,7 +50,7 @@ class MethodDefinitionTest {
             )
         );
         buildMethodDefinition();
-        assertToCodeIs("static getFirst(a, b) { return a }");
+        assertToCodeIs("static getFirst(a, b) { return a; }");
         assertIsComputed();
     }
 

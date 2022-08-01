@@ -68,7 +68,7 @@ class InstructionParserTest {
             )
         );
         doParsing();
-        assertParsedCodeIs("i++");
+        assertParsedCodeIs("i++;");
     }
 
     @Test
@@ -81,7 +81,7 @@ class InstructionParserTest {
             )
         );
         doParsing();
-        assertParsedCodeIs("for (let item in items) total++");
+        assertParsedCodeIs("for (let item in items) total++;");
     }
 
     @Test
@@ -94,7 +94,7 @@ class InstructionParserTest {
             )
         );
         doParsing();
-        assertParsedCodeIs("for (let item of items) total++");
+        assertParsedCodeIs("for (let item of items) total++;");
     }
 
     @Test
@@ -108,7 +108,7 @@ class InstructionParserTest {
             )
         );
         doParsing();
-        assertParsedCodeIs("for (let i = 0; hasItems; i++) total++");
+        assertParsedCodeIs("for (let i = 0; hasItems; i++) total++;");
     }
 
     @Test
@@ -240,6 +240,7 @@ class InstructionParserTest {
         JSONObject id = new JSONObject();
 
         id.put("name", name);
+        id.put("type", "identifier");
         instruction.put("type", "ClassDeclaration");
         instruction.put("id", id);
         instruction.put("superClass", superClass);

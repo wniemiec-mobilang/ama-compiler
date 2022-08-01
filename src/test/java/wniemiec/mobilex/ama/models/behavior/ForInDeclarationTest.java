@@ -37,7 +37,7 @@ class ForInDeclarationTest {
         withBody(buildStatement(buildPostIncrementExpression("total")));
         withRight(new Identifier("items"));
         buildForOfDeclaration();
-        assertToCodeIs("for (let item in items) total++");
+        assertToCodeIs("for (let item in items) total++;");
     }
 
 

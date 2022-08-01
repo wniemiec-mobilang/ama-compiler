@@ -37,7 +37,7 @@ class ExpressionStatementInstructionJsonParserTest {
     void testParseWithExpression() throws ParseException, IOException {
         withExpression(buildPostIncrementExpression("total"));
         doParsing();
-        assertParsedCodeIs("total++");
+        assertParsedCodeIs("total++;");
     }
 
 

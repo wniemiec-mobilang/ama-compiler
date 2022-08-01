@@ -34,7 +34,7 @@ class BehaviorTest {
     void testToCodeWithOneInstruction() {
         withInstruction(buildVariableDeclaration("index", Literal.ofNumber("0")));
         buildBehavior();
-        assertToCodeIs("let index = 0;");
+        assertToCodeIs("let index = 0");
     }
 
 

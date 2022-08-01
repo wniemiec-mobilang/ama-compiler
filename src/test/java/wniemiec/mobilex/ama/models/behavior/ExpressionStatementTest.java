@@ -31,7 +31,7 @@ class ExpressionStatementTest {
     void testToCodeWithExpression() {
         withExpression(buildPostIncrementExpression("i"));
         buildExpressionStatementDeclaration();
-        assertToCodeIs("i++");
+        assertToCodeIs("i++;");
     }
 
     

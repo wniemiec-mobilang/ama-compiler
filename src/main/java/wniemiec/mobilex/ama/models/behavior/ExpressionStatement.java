@@ -26,7 +26,7 @@ public class ExpressionStatement implements Instruction {
     //-------------------------------------------------------------------------
     @Override
     public String toCode() {
-        return expression.toCode();
+        return expression.toCode() + ";";
     }
 
     @Override

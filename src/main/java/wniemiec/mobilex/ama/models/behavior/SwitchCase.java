@@ -2,6 +2,7 @@ package wniemiec.mobilex.ama.models.behavior;
 
 import java.util.List;
 
+
 /**
  * Responsible for representing a switch case from behavior code. A switch case
  * is a single case within a SwitchStatement. If test is null, this is the 

@@ -1,30 +1,28 @@
-package wniemiec.mobilex.ama.parser.screens.behavior.instruction;
+package wniemiec.mobilex.ama.parser.screens.behavior.expression;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import wniemiec.mobilex.ama.models.behavior.ArrayPattern;
-import wniemiec.mobilex.ama.models.behavior.Instruction;
+import wniemiec.mobilex.ama.models.behavior.Expression;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
-import wniemiec.mobilex.ama.parser.screens.behavior.expression.ExpressionParser;
 
 
 /**
- * Responsible for parsing array pattern statements from behavior node from 
- * MobiLang AST.
+ * Responsible for parsing array pattern from behavior node from Mobilang AST.
  */
-class ArrayPatternInstructionJsonParser implements InstructionJsonParser {
+class ArrayPatternExpressionJsonParser implements ExpressionJsonParser {
     
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private static ArrayPatternInstructionJsonParser instance;
+    private static ArrayPatternExpressionJsonParser instance;
     private final ExpressionParser expressionParser;
 
 
     //-------------------------------------------------------------------------
     //		Constructor
     //-------------------------------------------------------------------------
-    private ArrayPatternInstructionJsonParser() {
+    private ArrayPatternExpressionJsonParser() {
         expressionParser = ExpressionParser.getInstance();
     }
     
@@ -33,9 +31,9 @@ class ArrayPatternInstructionJsonParser implements InstructionJsonParser {
     //-------------------------------------------------------------------------
     //		Factory
     //-------------------------------------------------------------------------
-    public static ArrayPatternInstructionJsonParser getInstance() {
+    public static ArrayPatternExpressionJsonParser getInstance() {
         if (instance == null) {
-            instance = new ArrayPatternInstructionJsonParser();
+            instance = new ArrayPatternExpressionJsonParser();
         }
 
         return instance;
@@ -46,7 +44,7 @@ class ArrayPatternInstructionJsonParser implements InstructionJsonParser {
     //		Methods
     //-------------------------------------------------------------------------
     @Override
-    public Instruction parse(JSONObject jsonObject) 
+    public Expression parse(JSONObject jsonObject) 
     throws JSONException, ParseException {
         return new ArrayPattern(
             expressionParser.parse(jsonObject.getJSONArray("elements"))

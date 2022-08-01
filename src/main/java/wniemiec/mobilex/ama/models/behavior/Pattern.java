@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 /**
  * A pattern can go in a parameter list or on the left side of an assignment.
  */
-public abstract class Pattern implements Instruction {
+public abstract class Pattern implements Expression {
 
     //-------------------------------------------------------------------------
     //		Attributes

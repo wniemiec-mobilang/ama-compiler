@@ -1,4 +1,4 @@
-package wniemiec.mobilex.ama.parser.screens.behavior.instruction;
+package wniemiec.mobilex.ama.parser.screens.behavior.expression;
 
 import java.io.IOException;
 import org.json.JSONArray;
@@ -6,17 +6,17 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import wniemiec.mobilex.ama.models.behavior.Instruction;
+import wniemiec.mobilex.ama.models.behavior.Expression;
 import wniemiec.mobilex.ama.parser.exception.ParseException;
 
 
-class ArrayPatternInstructionJsonParserTest {
+class ArrayPatternExpressionJsonParserTest {
     
     //-------------------------------------------------------------------------
     //		Attributes
     //-------------------------------------------------------------------------
-    private ArrayPatternInstructionJsonParser parser;
-    private Instruction parsedInstruction;
+    private ArrayPatternExpressionJsonParser parser;
+    private Expression parsedExpression;
     private JSONArray elements;
 
 
@@ -25,8 +25,8 @@ class ArrayPatternInstructionJsonParserTest {
     //-------------------------------------------------------------------------
     @BeforeEach
     void setUp() {
-        parser = ArrayPatternInstructionJsonParser.getInstance();
-        parsedInstruction = null;
+        parser = ArrayPatternExpressionJsonParser.getInstance();
+        parsedExpression = null;
         elements = new JSONArray();
     }
 
@@ -61,7 +61,7 @@ class ArrayPatternInstructionJsonParserTest {
     }
 
     private void doParsing() throws ParseException, IOException {
-        parsedInstruction = parser.parse(buildArrayPatternStatement());
+        parsedExpression = parser.parse(buildArrayPatternStatement());
     }
 
     private JSONObject buildArrayPatternStatement() {
@@ -73,7 +73,7 @@ class ArrayPatternInstructionJsonParserTest {
     }
 
     private void assertParsedCodeIs(String code) {
-        assertHasSameLine(code, parsedInstruction.toCode());
+        assertHasSameLine(code, parsedExpression.toCode());
     }
 
     private void assertHasSameLine(String expected, String obtained) {

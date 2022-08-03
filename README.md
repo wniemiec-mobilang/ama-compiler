@@ -1,4 +1,6 @@
-![logo](https://raw.githubusercontent.com/wniemiec-mobilex/ama-compiler/master/docs/images/logo/logo.png?raw=true)
+<p align="center">
+    <img src="https://raw.githubusercontent.com/wniemiec-mobilex/ama-compiler/master/docs/images/logo/logo.png?raw=true" alt="Logo">
+</p>
 
 <h1 align='center'>AMA compiler</h1>
 <p align='center'>Mobilang AST to Mobile Application Compiler</p>
@@ -8,7 +10,8 @@
 	<a href="http://java.oracle.com"><img src="https://img.shields.io/badge/java-11+-D0008F.svg" alt="Java compatibility"></a>
 	<a href="https://github.com/wniemiec-mobilex/ama-compiler/releases"><img src="https://img.shields.io/github/v/release/wniemiec-mobilex/ama-compiler" alt="Release"></a>
 	<a href="https://github.com/wniemiec-mobilex/ama-compiler/blob/master/LICENSE"><img src="https://img.shields.io/github/license/wniemiec-mobilex/ama-compiler" alt="License"></a>
-	
+</p>	
+
 <hr>
 
 ## ❇ Introduction
